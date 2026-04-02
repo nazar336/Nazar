@@ -1,0 +1,22 @@
+<svg width="240" height="80" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="240" y2="80" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#B8FF43"/>
+      <stop offset="1" stop-color="#89FF92"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-40%" width="140%" height="180%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#B8FF43" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect x="1" y="1" width="238" height="78" rx="14" fill="#070B08" stroke="#223126" stroke-width="2"/>
+  <rect x="10" y="10" width="60" height="60" rx="10" fill="#101813"/>
+  <path d="M22 48V24H30V41H42V48H22Z" fill="url(#g1)"/>
+  <path d="M45 48V24H53V48H45Z" fill="url(#g1)"/>
+  <path d="M57 48V24H65V48H57Z" fill="url(#g1)"/>
+
+  <g filter="url(#glow)">
+    <text x="82" y="51" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="900" letter-spacing="-1" fill="#EAF7ED">LOL</text>
+    <text x="142" y="51" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="900" letter-spacing="-1" fill="url(#g1)">ance</text>
+  </g>
+</svg>

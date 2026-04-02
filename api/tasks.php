@@ -36,9 +36,12 @@ try {
             JOIN users u ON u.id=t.creator_id
             WHERE 1=1 $where
             ORDER BY t.created_at DESC
-            LIMIT $limit OFFSET $offset
+            LIMIT :lim OFFSET :off
         ");
-        $stmt->execute([':uid' => $userId]);
+        $stmt->bindValue(':uid', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':lim', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':off', $offset, PDO::PARAM_INT);
+        $stmt->execute();
         json_response(['success' => true, 'tasks' => $stmt->fetchAll(), 'page' => $page]);
 
     } elseif ($method === 'POST') {

@@ -26,8 +26,11 @@ try {
             $limit  = 50;
             $offset = ($page - 1) * $limit;
 
-            $stmt = $pdo->prepare('SELECT id,sender_id,content,read_at,created_at FROM messages WHERE thread_id=:tid ORDER BY created_at ASC LIMIT ' . $limit . ' OFFSET ' . $offset);
-            $stmt->execute([':tid' => $threadId]);
+            $stmt = $pdo->prepare('SELECT id,sender_id,content,read_at,created_at FROM messages WHERE thread_id=:tid ORDER BY created_at ASC LIMIT :lim OFFSET :off');
+            $stmt->bindValue(':tid', $threadId, PDO::PARAM_INT);
+            $stmt->bindValue(':lim', $limit, PDO::PARAM_INT);
+            $stmt->bindValue(':off', $offset, PDO::PARAM_INT);
+            $stmt->execute();
             $messages = $stmt->fetchAll();
 
             // ✅ Mark unread messages as read

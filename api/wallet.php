@@ -60,9 +60,12 @@ try{
       FROM transactions
       WHERE user_id=:uid
       ORDER BY created_at DESC
-      LIMIT '.$limit.' OFFSET '.$offset.'
+      LIMIT :lim OFFSET :off
     ');
-    $historyStmt->execute([':uid'=>$userId]);
+    $historyStmt->bindValue(':uid', $userId, PDO::PARAM_INT);
+    $historyStmt->bindValue(':lim', $limit, PDO::PARAM_INT);
+    $historyStmt->bindValue(':off', $offset, PDO::PARAM_INT);
+    $historyStmt->execute();
     $history=$historyStmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Coin balance

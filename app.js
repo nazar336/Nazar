@@ -16,7 +16,8 @@ const API = {
   messages:'api/messages.php', leaderboard:'api/leaderboard.php', takeTask:'api/take-task.php',
   completeTask:'api/complete-task.php',
   cryptoDeposit:'api/crypto-deposit.php', cryptoWithdraw:'api/crypto-withdraw.php', coins:'api/coins.php',
-  xp:'api/xp.php', chatRooms:'api/chat-rooms.php', support:'api/support.php'
+  xp:'api/xp.php', chatRooms:'api/chat-rooms.php', support:'api/support.php',
+  feed:'api/feed.php'
 };
 const CATEGORIES = ['Design','Video','Copy','Social','Community','QA','Localization','Product','Development','Marketing'];
 
@@ -125,6 +126,12 @@ const i18n = {
     lvlWarrior:'Warrior', lvlChampion:'Champion', lvlExpert:'Expert', lvlElite:'Elite',
     lvlMaster:'Master', lvlGrandmaster:'Grandmaster', lvlTitan:'Titan', lvlLegend:'Legend',
     lvlUnlocksAt:'Unlocks at Lv',
+    // Feed Rewards
+    feedRewards:'Feed Rewards', feedPostXp:'+5 XP per post', feedLikeXp:'+1 XP per 10 likes',
+    feedDailyLimit:'posts today', feedPostsLeft:'posts left today',
+    feedCreatePost:'Create Post', feedWriteSomething:'Share something with the community…',
+    feedPostSuccess:'Post published!', feedMaxReached:'Daily XP limit reached, but you can still post.',
+    feedAddMedia:'Add media', feedSelectType:'Post type',
   },
   UA:{
     appName:'LOLance', appTag:'Преміум платформа мікрозадач',
@@ -214,6 +221,11 @@ const i18n = {
     lvlWarrior:'Воїн', lvlChampion:'Чемпіон', lvlExpert:'Експерт', lvlElite:'Еліта',
     lvlMaster:'Майстер', lvlGrandmaster:'Грандмайстер', lvlTitan:'Титан', lvlLegend:'Легенда',
     lvlUnlocksAt:'Відкривається з Lv',
+    feedRewards:'Нагороди стрічки', feedPostXp:'+5 XP за пост', feedLikeXp:'+1 XP за 10 лайків',
+    feedDailyLimit:'постів сьогодні', feedPostsLeft:'постів залишилось',
+    feedCreatePost:'Створити пост', feedWriteSomething:'Поділіться чимось з спільнотою…',
+    feedPostSuccess:'Пост опубліковано!', feedMaxReached:'Денний ліміт XP досягнуто, але ви ще можете публікувати.',
+    feedAddMedia:'Додати медіа', feedSelectType:'Тип посту',
   },
   DE:{
     appName:'LOLance', appTag:'Premium Micro-Task Plattform',
@@ -298,6 +310,11 @@ const i18n = {
     lvlWarrior:'Krieger', lvlChampion:'Champion', lvlExpert:'Experte', lvlElite:'Elite',
     lvlMaster:'Meister', lvlGrandmaster:'Großmeister', lvlTitan:'Titan', lvlLegend:'Legende',
     lvlUnlocksAt:'Freigeschaltet ab Lv',
+    feedRewards:'Feed-Belohnungen', feedPostXp:'+5 XP pro Beitrag', feedLikeXp:'+1 XP pro 10 Likes',
+    feedDailyLimit:'Beiträge heute', feedPostsLeft:'Beiträge übrig',
+    feedCreatePost:'Beitrag erstellen', feedWriteSomething:'Teile etwas mit der Community…',
+    feedPostSuccess:'Beitrag veröffentlicht!', feedMaxReached:'Tägliches XP-Limit erreicht.',
+    feedAddMedia:'Medien hinzufügen', feedSelectType:'Beitragstyp',
   },
   FR:{
     appName:'LOLance', appTag:'Plateforme Premium de Micro-Tâches',
@@ -382,6 +399,11 @@ const i18n = {
     lvlWarrior:'Guerrier', lvlChampion:'Champion', lvlExpert:'Expert', lvlElite:'Élite',
     lvlMaster:'Maître', lvlGrandmaster:'Grand Maître', lvlTitan:'Titan', lvlLegend:'Légende',
     lvlUnlocksAt:'Débloqué au Nv',
+    feedRewards:'Récompenses du flux', feedPostXp:'+5 XP par post', feedLikeXp:'+1 XP pour 10 likes',
+    feedDailyLimit:'posts aujourd\'hui', feedPostsLeft:'posts restants',
+    feedCreatePost:'Créer un post', feedWriteSomething:'Partagez quelque chose avec la communauté…',
+    feedPostSuccess:'Post publié !', feedMaxReached:'Limite quotidienne d\'XP atteinte.',
+    feedAddMedia:'Ajouter un média', feedSelectType:'Type de post',
   },
   ES:{
     appName:'LOLance', appTag:'Plataforma Premium de Micro-Tareas',
@@ -466,6 +488,11 @@ const i18n = {
     lvlWarrior:'Guerrero', lvlChampion:'Campeón', lvlExpert:'Experto', lvlElite:'Élite',
     lvlMaster:'Maestro', lvlGrandmaster:'Gran Maestro', lvlTitan:'Titán', lvlLegend:'Leyenda',
     lvlUnlocksAt:'Se desbloquea en Nv',
+    feedRewards:'Recompensas del feed', feedPostXp:'+5 XP por post', feedLikeXp:'+1 XP por 10 likes',
+    feedDailyLimit:'posts hoy', feedPostsLeft:'posts restantes',
+    feedCreatePost:'Crear post', feedWriteSomething:'Comparte algo con la comunidad…',
+    feedPostSuccess:'¡Post publicado!', feedMaxReached:'Límite diario de XP alcanzado.',
+    feedAddMedia:'Agregar media', feedSelectType:'Tipo de post',
   },
   PL:{
     appName:'LOLance', appTag:'Platforma Premium Mikro-Zadań',
@@ -550,6 +577,11 @@ const i18n = {
     lvlWarrior:'Wojownik', lvlChampion:'Mistrz', lvlExpert:'Ekspert', lvlElite:'Elita',
     lvlMaster:'Mistrz', lvlGrandmaster:'Arcymistrz', lvlTitan:'Tytan', lvlLegend:'Legenda',
     lvlUnlocksAt:'Odblokowane od Poz',
+    feedRewards:'Nagrody kanału', feedPostXp:'+5 XP za post', feedLikeXp:'+1 XP za 10 polubień',
+    feedDailyLimit:'postów dziś', feedPostsLeft:'postów pozostało',
+    feedCreatePost:'Utwórz post', feedWriteSomething:'Podziel się czymś ze społecznością…',
+    feedPostSuccess:'Post opublikowany!', feedMaxReached:'Dzienny limit XP osiągnięty.',
+    feedAddMedia:'Dodaj media', feedSelectType:'Typ posta',
   },
 };
 function t(k){ return (i18n[S.lang]||i18n.UA)[k] || k; }
@@ -605,6 +637,7 @@ function defaultState(){
     cryptoDeposits:[], pendingCryptoCount:0, coinHistory:[],
     checkinStreak:0, doneCheckinToday:false, checkins:[],
     chatRooms:[], activeRoomTier:1, chatRoomMessages:[],
+    feedTodayPosts:0, feedMaxPostsDay:3, feedXpPerPost:5,
   };
 }
 function loadState(){
@@ -858,6 +891,25 @@ async function loadLeaderboard(){
     }
   }catch(e){}
 }
+
+async function loadFeedPosts(){
+  try{
+    const {ok, data} = await apiFetch(API.feed);
+    if(ok && data.posts){
+      S.feed = data.posts.map(p=>({
+        id:String(p.id), author:p.name||p.username, av:(p.name||p.username||'?').charAt(0).toUpperCase(),
+        text:p.text, timestamp:p.created_at, type:p.post_type||'text',
+        hasMedia:!!p.media_url, mediaUrl:p.media_url, mediaType:p.media_type,
+        liked:!!p.liked_by_me, likes:p.likes_count||0, bookmarked:false, expanded:false,
+        isOwn:!!p.is_own, userId:p.user_id, username:p.username, level:p.level
+      }));
+      S.feedTodayPosts = data.today_posts||0;
+      S.feedMaxPostsDay = data.max_posts_day||3;
+      S.feedXpPerPost = data.xp_per_post||5;
+      saveState();
+    }
+  }catch(e){}
+}
 function saveState(){ try{ localStorage.setItem(STORAGE_KEY,JSON.stringify(S)); }catch(e){} }
 function calcScore(u){
   return Math.round((u.earnings||0)*1.02+(u.completedTasks||0)*65+(u.streak||0)*20+(u.level||1)*110+(u.xp||0));
@@ -964,6 +1016,7 @@ function renderPage(page,el){
   }
   if(page==='wallet' && !isGuest) loadWallet();
   if(page==='chat' && !isGuest){ loadChatRooms(); loadPoints(); }
+  if(page==='feed') loadFeedPosts();
   if(page==='support' && !isGuest) loadSupport();
   if(page==='profile' && !isGuest) loadPoints();
   if(page==='leaderboard') loadLeaderboard();
@@ -1854,6 +1907,10 @@ function renderCreateTask(el){
 /* ── 18. FEED ────────────────────────────────────────────────── */
 function renderFeed(el){
   let filter='all';
+  const todayPosts = S.feedTodayPosts||0;
+  const maxPosts = S.feedMaxPostsDay||3;
+  const postsLeft = Math.max(0, maxPosts - todayPosts);
+
   function filtered(){return filter==='all'?S.feed:S.feed.filter(p=>p.type===filter);}
   function renderCards(){
     const list=filtered();
@@ -1864,20 +1921,44 @@ function renderFeed(el){
       <div class="feed-card">
         <div class="feed-header">
           <div class="feed-av">${esc(p.av||p.author.charAt(0))}</div>
-          <div style="flex:1"><div class="feed-author">${esc(p.author)}</div><div class="feed-time">${fmtAgo(p.timestamp)}</div></div>
-          <span class="badge badge-${p.type==='task'?'open':p.type==='wallet'?'in_progress':'completed'}">${p.type==='task'?t('tasks'):p.type==='achievement'?t('achievements'):t('wallet')}</span>
+          <div style="flex:1">
+            <div class="feed-author">${esc(p.author)} ${p.level?`<span style="font-size:11px;color:var(--muted);">Lv${p.level}</span>`:''}</div>
+            <div class="feed-time">${fmtAgo(p.timestamp)}</div>
+          </div>
+          <span class="badge badge-${p.type==='task'?'open':p.type==='wallet'?'in_progress':'completed'}">${p.type==='task'?t('tasks'):p.type==='achievement'?t('achievements'):p.type==='wallet'?t('wallet'):t('feed')}</span>
         </div>
-        ${p.hasMedia?`<div class="feed-media" style="background:linear-gradient(135deg,rgba(184,255,92,.05),rgba(125,215,255,.04));display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;">📷 ${t('mediaPreview')}</div>`:''}
-        <div class="feed-text${p.expanded?'':''}" style="${!p.expanded&&p.text.length>160?'display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text)}</div>
+        ${p.hasMedia&&p.mediaUrl?`<div class="feed-media" style="background:linear-gradient(135deg,rgba(184,255,92,.05),rgba(125,215,255,.04));display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:10px;max-height:300px;margin-bottom:8px;">
+          ${p.mediaType==='video'?`<video src="${esc(p.mediaUrl)}" controls style="max-width:100%;max-height:300px;"></video>`:`<img src="${esc(p.mediaUrl)}" alt="" style="max-width:100%;max-height:300px;object-fit:contain;" onerror="this.parentElement.innerHTML='📷 ${t('mediaPreview')}';">`}
+        </div>`:p.hasMedia?`<div class="feed-media" style="background:linear-gradient(135deg,rgba(184,255,92,.05),rgba(125,215,255,.04));display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;">📷 ${t('mediaPreview')}</div>`:''}
+        <div class="feed-text" style="${!p.expanded&&p.text.length>160?'display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text)}</div>
         ${p.text.length>160?`<button class="action-btn" data-expand="${p.id}">${p.expanded?t('showLess'):t('readMore')}</button>`:''}
         <div class="feed-actions">
-          <button class="action-btn${p.liked?' liked':''}" data-like="${p.id}">❤ ${p.likes}</button>
+          <button class="action-btn${p.liked?' liked':''}" data-like="${p.id}" data-liked="${p.liked?1:0}">❤ ${p.likes}</button>
           <button class="action-btn${p.bookmarked?' bookmarked':''}" data-bm="${p.id}">🔖 ${p.bookmarked?t('saved'):t('save')}</button>
+          ${p.isOwn?`<button class="action-btn" data-del="${p.id}" style="color:var(--danger);">🗑</button>`:''}
         </div>
       </div>`).join('');
-    c.querySelectorAll('[data-like]').forEach(b=>b.addEventListener('click',()=>{
+
+    // Like via API
+    c.querySelectorAll('[data-like]').forEach(b=>b.addEventListener('click',async()=>{
+      if(isGuest){toast(t('guestRegTask'),'warning');return;}
       const f=S.feed.find(x=>x.id===b.dataset.like);if(!f)return;
-      f.liked=!f.liked;f.likes+=f.liked?1:-1;saveState();renderCards();
+      const wasLiked=f.liked;
+      try{
+        const action=wasLiked?'unlike':'like';
+        const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({action,post_id:Number(f.id)})});
+        if(ok){
+          f.liked=!wasLiked;
+          f.likes=data.likes_count??((wasLiked?f.likes-1:f.likes+1));
+          saveState();renderCards();
+        }else{
+          // Fallback for own-post like or already liked
+          if(data.message) toast(data.message,'warning');
+        }
+      }catch(e){
+        // Offline fallback
+        f.liked=!wasLiked;f.likes+=wasLiked?-1:1;saveState();renderCards();
+      }
     }));
     c.querySelectorAll('[data-bm]').forEach(b=>b.addEventListener('click',()=>{
       const f=S.feed.find(x=>x.id===b.dataset.bm);if(!f)return;
@@ -1887,19 +1968,59 @@ function renderFeed(el){
       const f=S.feed.find(x=>x.id===b.dataset.expand);if(!f)return;
       f.expanded=!f.expanded;saveState();renderCards();
     }));
+    // Delete own post
+    c.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',async()=>{
+      const pid=b.dataset.del;
+      try{
+        const {ok}=await apiFetch(API.feed+'?id='+pid,{method:'DELETE'});
+        if(ok){
+          S.feed=S.feed.filter(x=>x.id!==pid);saveState();renderCards();
+          toast('Deleted','success');
+        }
+      }catch(e){}
+    }));
   }
 
   const feedPriv=getLvlPriv(S.level);
   el.innerHTML=`
     <div class="fade-up" style="max-width:680px;">
       ${!isGuest?`
-      <div class="card-flat" style="padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:12px;">
-        <span style="color:var(--muted);">${feedPriv.badge} Lv ${S.level} · ${t('lvlFeedMedia')}: <b style="color:var(--primary);">${feedMediaLabel(feedPriv.feedMedia)}</b></span>
-        ${feedPriv.feedMedia!=='all'?`<span style="color:var(--warning);">${feedPriv.feedMedia==='none'?'📸 '+t('lvlImage')+' '+t('lvlUnlocksAt')+' 2 · 🎬 '+t('lvlVideo')+' '+t('lvlUnlocksAt')+' 4':feedPriv.feedMedia==='image'?'🎬 '+t('lvlVideo')+' '+t('lvlUnlocksAt')+' 4':''}</span>`:''}
+      <!-- Rewards info bar -->
+      <div class="card" style="margin-bottom:14px;padding:14px;border-color:rgba(184,255,92,.15);">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+          <div class="section-title" style="margin-bottom:0;">🎁 ${t('feedRewards')}</div>
+          <div style="font-size:12px;color:var(--muted);">${feedPriv.badge} Lv ${S.level} · ${t('lvlFeedMedia')}: <b style="color:var(--primary);">${feedMediaLabel(feedPriv.feedMedia)}</b></div>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px;">
+          <span style="color:var(--success);font-weight:700;">📝 ${t('feedPostXp')}</span>
+          <span style="color:var(--info);font-weight:700;">❤️ ${t('feedLikeXp')}</span>
+          <span style="color:var(--muted);">📊 ${todayPosts}/${maxPosts} ${t('feedDailyLimit')} · ${postsLeft} ${t('feedPostsLeft')}</span>
+        </div>
+        ${feedPriv.feedMedia!=='all'?`<div style="font-size:11px;color:var(--warning);margin-top:6px;">${feedPriv.feedMedia==='none'?'📸 '+t('lvlImage')+' '+t('lvlUnlocksAt')+' 2 · 🎬 '+t('lvlVideo')+' '+t('lvlUnlocksAt')+' 4':feedPriv.feedMedia==='image'?'🎬 '+t('lvlVideo')+' '+t('lvlUnlocksAt')+' 4':''}</div>`:''}
+      </div>
+
+      <!-- Post creation form -->
+      <div class="card" style="margin-bottom:14px;padding:14px;">
+        <form id="feedPostForm" style="display:flex;flex-direction:column;gap:10px;">
+          <textarea id="feedPostText" class="form-textarea" rows="3" placeholder="${t('feedWriteSomething')}" maxlength="2000" style="resize:vertical;"></textarea>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            ${feedPriv.feedMedia!=='none'?`
+              <input type="url" id="feedMediaUrl" class="form-input" placeholder="${t('feedAddMedia')} (https://...)" style="flex:1;min-width:200px;">
+              <select id="feedMediaType" class="form-select form-input" style="width:auto;min-width:100px;">
+                <option value="">—</option>
+                <option value="image">📸 ${t('lvlImage')}</option>
+                ${['video','all'].includes(feedPriv.feedMedia)?`<option value="video">🎬 ${t('lvlVideo')}</option>`:''}
+              </select>
+            `:''}
+            <button type="submit" class="btn btn-primary btn-sm"${postsLeft<=0?' style="opacity:.6;"':''}>${postsLeft>0?`🚀 ${t('feedCreatePost')} (+${S.feedXpPerPost||5} XP)`:`📝 ${t('feedCreatePost')}`}</button>
+          </div>
+        </form>
       </div>
       `:''}
+
       <div style="display:flex;gap:8px;margin-bottom:18px;" id="feedFilters">
         <button class="chip active" data-ft="all">${t('all')}</button>
+        <button class="chip" data-ft="text">${t('feed')}</button>
         <button class="chip" data-ft="task">${t('tasks')}</button>
         <button class="chip" data-ft="achievement">${t('achievements')}</button>
         <button class="chip" data-ft="wallet">${t('wallet')}</button>
@@ -1908,6 +2029,41 @@ function renderFeed(el){
     </div>`;
 
   renderCards();
+
+  // Post creation
+  document.getElementById('feedPostForm')?.addEventListener('submit',async e=>{
+    e.preventDefault();
+    if(isGuest){toast(t('guestRegCreate'),'warning');return;}
+    const text=document.getElementById('feedPostText')?.value?.trim();
+    if(!text||text.length<3){toast(t('required'),'warning');return;}
+    const mediaUrl=document.getElementById('feedMediaUrl')?.value?.trim()||'';
+    const mediaType=document.getElementById('feedMediaType')?.value||'';
+    const btn=e.target.querySelector('button[type="submit"]');
+    if(btn)btn.disabled=true;
+    try{
+      const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({
+        action:'create', text, media_url:mediaUrl, media_type:mediaType, post_type:'text'
+      })});
+      if(ok){
+        toast(data.message||t('feedPostSuccess'),'success');
+        if(data.xp_earned>0){
+          S.xp=data.xp||S.xp; S.level=data.level||S.level;
+        }
+        S.feedTodayPosts=data.posts_today||((S.feedTodayPosts||0)+1);
+        document.getElementById('feedPostText').value='';
+        if(document.getElementById('feedMediaUrl'))document.getElementById('feedMediaUrl').value='';
+        await loadFeedPosts();
+        navigate('feed');
+      }else{
+        toast(data.message||'Error','error');
+      }
+    }catch(err){
+      toast('Network error','error');
+    }finally{
+      if(btn)btn.disabled=false;
+    }
+  });
+
   document.getElementById('feedFilters')?.addEventListener('click',e=>{
     const btn=e.target.closest('[data-ft]');if(!btn)return;
     document.querySelectorAll('#feedFilters .chip').forEach(c=>c.classList.remove('active'));

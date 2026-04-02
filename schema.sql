@@ -326,3 +326,29 @@ CREATE TABLE IF NOT EXISTS crypto_withdrawals (
     KEY idx_user_id (user_id),
     KEY idx_status (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ── СТРІЧКА / FEED POSTS ──
+CREATE TABLE IF NOT EXISTS feed_posts (
+    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id       INT UNSIGNED NOT NULL,
+    text          TEXT NOT NULL,
+    media_url     VARCHAR(500),
+    media_type    ENUM('image','video') DEFAULT NULL,
+    likes_count   INT UNSIGNED DEFAULT 0,
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    KEY idx_user_id (user_id),
+    KEY idx_created_at (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ── ЛАЙКИ СТРІЧКИ ──
+CREATE TABLE IF NOT EXISTS feed_likes (
+    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    post_id       INT UNSIGNED NOT NULL,
+    user_id       INT UNSIGNED NOT NULL,
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES feed_posts(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY uniq_post_user (post_id, user_id),
+    KEY idx_post_id (post_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

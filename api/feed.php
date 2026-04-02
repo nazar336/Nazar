@@ -91,11 +91,12 @@ try {
             if ($text === '') {
                 json_response(['success' => false, 'message' => 'Text is required'], 422);
             }
+
+            $text = htmlspecialchars($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
             if (mb_strlen($text) > 2000) {
                 json_response(['success' => false, 'message' => 'Text is too long (max 2000 characters)'], 422);
             }
-
-            $text = htmlspecialchars($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
             // Validate media
             $safeMediaUrl  = null;

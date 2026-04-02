@@ -46,7 +46,7 @@ const i18n = {
     depositDone:'Crypto purchase successful.', withdrawDone:'Coins spent successfully.',
     transferDone:'Tip sent.', ticketDone:'Ticket created!',
     txDeposit:'Crypto purchase', txWithdraw:'Coin spending', txTransfer:'Tip to',
-    invalidAmount:'Enter a valid amount greater than zero.',
+    invalidAmount:'Enter a valid amount greater than zero.', invalidEmail:'Invalid email format.',
     insufficient:'Insufficient balance.',
     noMessage:'Write something first.',
     yourPosition:'Your position', score:'Score', badges:'Badges',
@@ -138,7 +138,7 @@ const i18n = {
     depositDone:'Крипто-обмін успішний.', withdrawDone:'Списання монет успішне.',
     transferDone:'Чайові надіслано.', ticketDone:'Тікет створено!',
     txDeposit:'Крипто-обмін', txWithdraw:'Списання монет', txTransfer:'Чайові для',
-    invalidAmount:'Введи суму більше нуля.',
+    invalidAmount:'Введи суму більше нуля.', invalidEmail:'Email некоректний.',
     insufficient:'Недостатньо коштів.',
     noMessage:'Спочатку напиши щось.',
     yourPosition:'Твоя позиція', score:'Рахунок', badges:'Значки',
@@ -216,7 +216,7 @@ const i18n = {
     depositDone:'Krypto-Kauf erfolgreich.', withdrawDone:'Coins erfolgreich ausgegeben.',
     transferDone:'Coin-Tipp gesendet.', ticketDone:'Ticket erstellt!',
     txDeposit:'Krypto-Kauf', txWithdraw:'Coin-Ausgabe', txTransfer:'Coin-Tipp an',
-    invalidAmount:'Bitte geben Sie einen Betrag größer als Null ein.',
+    invalidAmount:'Bitte geben Sie einen Betrag größer als Null ein.', invalidEmail:'Ungültiges E-Mail-Format.',
     insufficient:'Unzureichendes Guthaben.',
     noMessage:'Schreiben Sie zuerst etwas.',
     yourPosition:'Ihre Position', score:'Punktzahl', badges:'Abzeichen',
@@ -289,7 +289,7 @@ const i18n = {
     depositDone:'Achat crypto réussi.', withdrawDone:'Coins dépensés avec succès.',
     transferDone:'Pourboire en coins envoyé.', ticketDone:'Ticket créé!',
     txDeposit:'Achat crypto', txWithdraw:'Dépense de coins', txTransfer:'Pourboire à',
-    invalidAmount:'Veuillez entrer un montant supérieur à zéro.',
+    invalidAmount:'Veuillez entrer un montant supérieur à zéro.', invalidEmail:'Format d\'email invalide.',
     insufficient:'Solde insuffisant.',
     noMessage:'Écrivez quelque chose d\'abord.',
     yourPosition:'Votre position', score:'Score', badges:'Badges',
@@ -362,7 +362,7 @@ const i18n = {
     depositDone:'Compra cripto exitosa.', withdrawDone:'Coins gastadas correctamente.',
     transferDone:'Propina en coins enviada.', ticketDone:'¡Ticket creado!',
     txDeposit:'Compra cripto', txWithdraw:'Gasto de coins', txTransfer:'Propina a',
-    invalidAmount:'Ingresa un monto mayor que cero.',
+    invalidAmount:'Ingresa un monto mayor que cero.', invalidEmail:'Formato de email inválido.',
     insufficient:'Saldo insuficiente.',
     noMessage:'Escribe algo primero.',
     yourPosition:'Tu posición', score:'Puntuación', badges:'Insignias',
@@ -435,7 +435,7 @@ const i18n = {
     depositDone:'Zakup crypto zakończony.', withdrawDone:'Wydanie coinów zakończone.',
     transferDone:'Napiwek w coinach wysłany.', ticketDone:'Zgłoszenie utworzone!',
     txDeposit:'Zakup crypto', txWithdraw:'Wydanie coinów', txTransfer:'Napiwek dla',
-    invalidAmount:'Wpisz kwotę większą niż zero.',
+    invalidAmount:'Wpisz kwotę większą niż zero.', invalidEmail:'Nieprawidłowy format e-mail.',
     insufficient:'Niewystarczające saldo.',
     noMessage:'Najpierw napisz coś.',
     yourPosition:'Twoja pozycja', score:'Wynik', badges:'Odznaki',
@@ -1198,7 +1198,7 @@ async function handleRegister(e){
   const acceptTerms=!!document.getElementById('regAcceptTerms')?.checked;
   const acceptPrivacy=acceptTerms;
   if(!name||!username||!email||!password){showAlert('authAlert',t('required'));return;}
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showAlert('authAlert','Email некоректний.');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showAlert('authAlert',t('invalidEmail')||'Email некоректний.');return;}
   if(!acceptTerms){showAlert('authAlert','Потрібно погодитись з Правилами платформи та Політикою приватності.');return;}
   hideAlert('authAlert');setLoading(btn,true);
   const {ok,data}=await apiFetch(API.register,{method:'POST',body:JSON.stringify({name,username,email,password,accept_terms:acceptTerms,accept_privacy:acceptPrivacy})});
@@ -2600,7 +2600,7 @@ function renderProfile(el){
         const res=await apiFetch(API.cryptoDeposit,{method:'POST',body:JSON.stringify({action:'confirm',deposit_id:data.deposit_id,tx_hash:txHash})});
         if(!res.ok){toast(res.data.message||t('exchangerConfirmError'),'error');return;}
         await loadWallet();
-        toast(res.data.message||'Депозит підтверджено','success');
+        toast(res.data.message||t('depositDone'),'success');
         navigate('profile');
       });
     }

@@ -10,13 +10,13 @@ if ($secret === '' || $secret !== ADMIN_SECRET || ADMIN_SECRET === 'change-this-
     $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
     $identifier = 'admin:' . $ip;
 
-    // Check recent failures
-    $cutoff = date('Y-m-d H:i:s', strtotime('-15 minutes'));
+    // Check recent failures (uses config constants)
+    $cutoff = date('Y-m-d H:i:s', strtotime('-' . LOGIN_LOCKOUT_MINUTES . ' minutes'));
     $failStmt = $pdo->prepare('SELECT COUNT(*) FROM login_attempts WHERE identifier=:id AND attempted_at > :cutoff');
     $failStmt->execute([':id' => $identifier, ':cutoff' => $cutoff]);
     $failCount = (int)$failStmt->fetchColumn();
 
-    if ($failCount >= 5) {
+    if ($failCount >= LOGIN_MAX_ATTEMPTS) {
         json_response(['success' => false, 'message' => 'Too many failed attempts. Try again later.'], 429);
     }
 

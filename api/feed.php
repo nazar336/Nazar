@@ -79,6 +79,8 @@ function handleList(PDO $pdo, int $userId): never
         $p['level']       = (int)$p['level'];
         $p['liked_by_me'] = (bool)$p['liked_by_me'];
         $p['is_own']      = $userId > 0 && (int)$p['user_id'] === $userId;
+        // Sanitize text for safe HTML display
+        $p['text']        = htmlspecialchars((string)$p['text'], ENT_QUOTES, 'UTF-8');
     }
     unset($p);
 
@@ -176,9 +178,7 @@ function handleCreate(PDO $pdo, int $userId, array $input): never
     // Allow posting beyond limit, but no XP reward
     $earnXp = $todayCount < FEED_MAX_POSTS_PER_DAY;
 
-    // ── Insert post ──
-    $sanitizedText = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
-
+    // ── Insert post (store raw text; sanitize only on output/display) ──
     $pdo->beginTransaction();
     try {
         $insertStmt = $pdo->prepare("
@@ -187,7 +187,7 @@ function handleCreate(PDO $pdo, int $userId, array $input): never
         ");
         $insertStmt->execute([
             ':uid'   => $userId,
-            ':text'  => $sanitizedText,
+            ':text'  => $text,
             ':media' => $mediaUrl !== '' ? $mediaUrl : null,
             ':mtype' => $mediaType !== '' ? $mediaType : null,
             ':ptype' => $postType,

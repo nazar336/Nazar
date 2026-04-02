@@ -1901,7 +1901,7 @@ function renderCreateTask(el){
     loadTasks('my');
     navigate('tasks');
   });
-  document.getElementById('goToDashForLvl')?.addEventListener('click',()=>navigate('chat'));
+  document.getElementById('goToDashForLvl')?.addEventListener('click',()=>navigate('dashboard'));
 }
 
 /* ── 18. FEED ────────────────────────────────────────────────── */
@@ -1925,10 +1925,10 @@ function renderFeed(el){
             <div class="feed-author">${esc(p.author)} ${p.level?`<span style="font-size:11px;color:var(--muted);">Lv${p.level}</span>`:''}</div>
             <div class="feed-time">${fmtAgo(p.timestamp)}</div>
           </div>
-          <span class="badge badge-${p.type==='task'?'open':p.type==='wallet'?'in_progress':'completed'}">${p.type==='task'?t('tasks'):p.type==='achievement'?t('achievements'):p.type==='wallet'?t('wallet'):t('feed')}</span>
+          <span class="badge badge-${({task:'open',wallet:'in_progress',achievement:'completed'})[p.type]||'open'}">${({task:t('tasks'),wallet:t('wallet'),achievement:t('achievements')})[p.type]||t('feed')}</span>
         </div>
         ${p.hasMedia&&p.mediaUrl?`<div class="feed-media" style="background:linear-gradient(135deg,rgba(184,255,92,.05),rgba(125,215,255,.04));display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:10px;max-height:300px;margin-bottom:8px;">
-          ${p.mediaType==='video'?`<video src="${esc(p.mediaUrl)}" controls style="max-width:100%;max-height:300px;"></video>`:`<img src="${esc(p.mediaUrl)}" alt="" style="max-width:100%;max-height:300px;object-fit:contain;" onerror="this.parentElement.innerHTML='📷 ${t('mediaPreview')}';">`}
+          ${p.mediaType==='video'?`<video src="${esc(p.mediaUrl)}" controls style="max-width:100%;max-height:300px;"></video>`:`<img src="${esc(p.mediaUrl)}" alt="" style="max-width:100%;max-height:300px;object-fit:contain;" onerror="this.parentElement.textContent='📷 Media';">`}
         </div>`:p.hasMedia?`<div class="feed-media" style="background:linear-gradient(135deg,rgba(184,255,92,.05),rgba(125,215,255,.04));display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;">📷 ${t('mediaPreview')}</div>`:''}
         <div class="feed-text" style="${!p.expanded&&p.text.length>160?'display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text)}</div>
         ${p.text.length>160?`<button class="action-btn" data-expand="${p.id}">${p.expanded?t('showLess'):t('readMore')}</button>`:''}

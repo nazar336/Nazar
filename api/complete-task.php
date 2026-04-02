@@ -119,16 +119,16 @@ try {
     $bonusXp = $diffXp[$task['difficulty'] ?? 'medium'] ?? 35;
     $totalXp = 100 + $bonusXp; // 100 base + difficulty bonus in ONE query
 
-    // ✅ Single UPDATE — fixes double XP level miscalculation
+    // ✅ Single UPDATE — level uses new xp value (MySQL evaluates SET left-to-right)
     $pdo->prepare('
         UPDATE users SET
             completed_tasks = completed_tasks + 1,
             earnings        = earnings + :reward,
             xp              = xp + :xp,
             streak          = streak + 1,
-            level           = LEAST(12, FLOOR((xp + :xp2) / 1000) + 1)
+            level           = LEAST(12, FLOOR(xp / 1000) + 1)
         WHERE id = :uid
-    ')->execute([':reward' => $reward, ':xp' => $totalXp, ':xp2' => $totalXp, ':uid' => $workerId]);
+    ')->execute([':reward' => $reward, ':xp' => $totalXp, ':uid' => $workerId]);
 
     // Notify worker
     $pdo->prepare("INSERT INTO notifications(user_id,type,title,content,related_id) VALUES(:uid,'payment','Задачу схвалено! 🎉',:content,:rid)")

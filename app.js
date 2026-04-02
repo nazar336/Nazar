@@ -493,10 +493,10 @@ let notifOpen = false;
 function defaultState(){
   return {
     lang:'UA', animationsOn:true,
-    balance:0, earnings:0, spent:0, pending:0,
+    balance:0, earnings:0, spent:0, pending:0, pendingBalance:0,
     level:1, xp:0, streak:0, completedTasks:0, activeTasks:0,
     achievements:[],
-    bio:'', role:'', skills:'',
+    bio:'', role:'', skills:'', name:'', username:'',
     tasks:[],
     feed:[],
     notifications:[],
@@ -505,8 +505,10 @@ function defaultState(){
     tickets:[],
     coinBalance:0, coinsPurchased:0, coinsSpent:0,
     cryptoDeposits:[], pendingCryptoCount:0, coinHistory:[],
+    cryptoWithdrawals:[],
     checkinStreak:0, doneCheckinToday:false, checkins:[],
     chatRooms:[], activeRoomTier:1, chatRoomMessages:[],
+    leaderboard:[], userPosition:0,
   };
 }
 function loadState(){
@@ -514,7 +516,10 @@ function loadState(){
     const raw=localStorage.getItem(STORAGE_KEY);
     if(raw){ S=JSON.parse(raw); }
   }catch(e){}
-  if(!S) S=defaultState();
+  // Merge with defaults to ensure all keys exist
+  const defaults=defaultState();
+  if(!S) S=defaults;
+  else S={...defaults,...S};
 }
 
 async function syncProfile(){
@@ -859,6 +864,10 @@ function renderPage(page,el){
   const pages={dashboard:renderDashboard,tasks:renderTasks,createTask:renderCreateTask,feed:renderFeed,wallet:renderWallet,chat:renderChat,support:renderSupport,profile:renderProfile,leaderboard:renderLeaderboard};
   
   // Load data before rendering each page
+  if(page==='dashboard' && !isGuest){
+    loadTasks('open');
+    loadLeaderboard();
+  }
   if(page==='tasks' && !isGuest){
     loadTasks('open');
     loadTasks('my');
@@ -1062,6 +1071,8 @@ function renderAuth(mode='login'){
               <option value="UA" ${S.lang==='UA'?'selected':''}>🇺🇦 Українська</option>
               <option value="EN" ${S.lang==='EN'?'selected':''}>🇬🇧 English</option>
               <option value="DE" ${S.lang==='DE'?'selected':''}>🇩🇪 Deutsch</option>
+              <option value="FR" ${S.lang==='FR'?'selected':''}>🇫🇷 Français</option>
+              <option value="ES" ${S.lang==='ES'?'selected':''}>🇪🇸 Español</option>
               <option value="PL" ${S.lang==='PL'?'selected':''}>🇵🇱 Polski</option>
             </select>
           </div>
@@ -1257,10 +1268,10 @@ function renderVerification(userId, email){
       </div>
     </div>`;
 
-  // Store data
-  window.__verifyUserId = userId;
-  window.__verifyEmail = email;
-  window.__correctAnswer = correctAnswer;
+  // Store data in closure-safe variables
+  const _verifyUserId = userId;
+  const _verifyEmail = email;
+  let _captchaSolved = false;
 
   // Captcha solver
   const solveCaptchaBtn = document.getElementById('solveCaptchaBtn');
@@ -1330,9 +1341,13 @@ async function handleVerify(e, userId){
 /* ── 15. DASHBOARD ───────────────────────────────────────────── */
 function renderDashboard(el){
   const myScore=calcScore({earnings:S.earnings,completedTasks:S.completedTasks,streak:S.streak,level:S.level,xp:S.xp});
-  const xpPct=Math.min(100,Math.round((S.xp%1000)/10));
-  const trending=S.tasks.filter(t=>t.status==='open').slice(0,3);
-  const mini=[];
+  const xpPct=Math.min(100,Math.round(((S.xp||0)%1000)/10));
+  const trending=(S.tasks||[]).filter(task=>task.status==='open').slice(0,3);
+  const mini=(S.leaderboard||[]).slice(0,3).map(u=>({
+    name:u.name||u.username||'User',
+    av:(u.name||u.username||'?').charAt(0).toUpperCase(),
+    score:Number(u.score||0)
+  }));
   el.innerHTML=`
     <div class="fade-up">
       <!-- Hero welcome -->
@@ -1344,25 +1359,25 @@ function renderDashboard(el){
             <p style="font-size:14px;color:var(--text-soft);">${isGuest?t('welcomeGuestDesc'):t('dashMotivationDesc')}</p>
           </div>
           <div style="text-align:right;flex-shrink:0;">
-            <div class="streak-badge"><span class="streak-fire">🔥</span>${S.streak} day streak</div>
-            <div style="font-size:12px;color:var(--muted);margin-top:4px;">Level ${S.level} · ${S.xp} XP</div>
+            <div class="streak-badge"><span class="streak-fire">🔥</span>${S.streak||0} ${t('dayStreak')}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px;">${t('level')} ${S.level||1} · ${S.xp||0} XP</div>
           </div>
         </div>
       </div>
 
       <!-- Stats -->
       <div class="stats-grid" style="margin-bottom:20px;">
-        <div class="stat-card"><div class="stat-glow stat-glow-green"></div><div class="stat-label">${t('balance')}</div><div class="stat-value" style="color:var(--primary)">${S.balance.toLocaleString()} <span style="font-size:12px;">coins</span></div><div class="stat-sub">${t('available')}</div></div>
-        <div class="stat-card"><div class="stat-glow stat-glow-blue"></div><div class="stat-label">${t('earnings')}</div><div class="stat-value">${S.earnings.toLocaleString()} <span style="font-size:12px;">coins</span></div><div class="stat-sub">${t('totalEarned')}</div></div>
-        <div class="stat-card"><div class="stat-glow stat-glow-purple"></div><div class="stat-label">${t('completed')}</div><div class="stat-value">${S.completedTasks}</div><div class="stat-sub">${t('tasksDone')}</div></div>
-        <div class="stat-card"><div class="stat-glow stat-glow-orange"></div><div class="stat-label">${t('level')} / ${t('score')}</div><div class="stat-value">${S.level}</div><div class="stat-sub">${myScore.toLocaleString()} ${t('pts')}</div></div>
+        <div class="stat-card"><div class="stat-glow stat-glow-green"></div><div class="stat-label">${t('balance')}</div><div class="stat-value" style="color:var(--primary)">${Number(S.balance||0).toLocaleString()} <span style="font-size:12px;">coins</span></div><div class="stat-sub">${t('available')}</div></div>
+        <div class="stat-card"><div class="stat-glow stat-glow-blue"></div><div class="stat-label">${t('earnings')}</div><div class="stat-value">${Number(S.earnings||0).toLocaleString()} <span style="font-size:12px;">coins</span></div><div class="stat-sub">${t('totalEarned')}</div></div>
+        <div class="stat-card"><div class="stat-glow stat-glow-purple"></div><div class="stat-label">${t('completed')}</div><div class="stat-value">${S.completedTasks||0}</div><div class="stat-sub">${t('tasksDone')}</div></div>
+        <div class="stat-card"><div class="stat-glow stat-glow-orange"></div><div class="stat-label">${t('level')} / ${t('score')}</div><div class="stat-value">${S.level||1}</div><div class="stat-sub">${myScore.toLocaleString()} ${t('pts')}</div></div>
       </div>
 
       <!-- XP bar -->
       <div class="card card-sm" style="margin-bottom:20px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
           <span style="font-size:13px;font-weight:700;">${t('xpProgress')}</span>
-          <span style="font-size:12px;color:var(--muted);">${S.xp%1000}/1000 XP → Lvl ${S.level+1}</span>
+          <span style="font-size:12px;color:var(--muted);">${(S.xp||0)%1000}/1000 XP → Lvl ${(S.level||1)+1}</span>
         </div>
         <div class="xp-bar-wrap"><div class="xp-bar" style="width:${xpPct}%"></div></div>
       </div>
@@ -1448,10 +1463,10 @@ function renderDashboard(el){
 function renderTasks(el){
   let filterStatus='all', filterCat='all', searchQ='';
   function filtered(){
-    return S.tasks.filter(t=>{
-      if(filterStatus!=='all'&&t.status!==filterStatus)return false;
-      if(filterCat!=='all'&&t.category!==filterCat)return false;
-      if(searchQ&&!t.title.toLowerCase().includes(searchQ.toLowerCase()))return false;
+    return (S.tasks||[]).filter(task=>{
+      if(filterStatus!=='all'&&task.status!==filterStatus)return false;
+      if(filterCat!=='all'&&task.category!==filterCat)return false;
+      if(searchQ&&!task.title.toLowerCase().includes(searchQ.toLowerCase()))return false;
       return true;
     });
   }
@@ -1549,7 +1564,7 @@ function renderTasks(el){
 
 async function takeTask(tid){
   if(isGuest){toast(t('guestRegTask'),'warning');return;}
-  const task=S.tasks.find(t=>String(t.id)===String(tid));
+  const task=(S.tasks||[]).find(task=>String(task.id)===String(tid));
   const serverTaskId=Number(tid);
 
   if(!Number.isInteger(serverTaskId) || serverTaskId<=0){
@@ -1568,7 +1583,7 @@ async function takeTask(tid){
 }
 
 async function completeTask(tid,action='submit'){
-  const task=S.tasks.find(t=>String(t.id)===String(tid));
+  const task=(S.tasks||[]).find(task=>String(task.id)===String(tid));
   const serverTaskId=Number(tid);
 
   if(!Number.isInteger(serverTaskId) || serverTaskId<=0){
@@ -1678,7 +1693,7 @@ function renderCreateTask(el){
 /* ── 18. FEED ────────────────────────────────────────────────── */
 function renderFeed(el){
   let filter='all';
-  function filtered(){return filter==='all'?S.feed:S.feed.filter(p=>p.type===filter);}
+  function filtered(){return filter==='all'?(S.feed||[]):(S.feed||[]).filter(p=>p.type===filter);}
   function renderCards(){
     const list=filtered();
     const c=document.getElementById('feedCards');
@@ -1849,9 +1864,9 @@ function renderWallet(el){
           <div class="wallet-balance-label">${t('balance')}</div>
           <div class="wallet-balance"><sup>🪙</sup>${Number(S.balance||0).toLocaleString()}</div>
           <div style="display:flex;gap:20px;margin-top:14px;flex-wrap:wrap;">
-          <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">${t('earnings')}</div><div style="font-size:18px;font-weight:800;color:var(--success);">${S.earnings.toLocaleString()} 🪙</div></div>
-          <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">${t('spent')}</div><div style="font-size:18px;font-weight:800;color:var(--danger);">${S.spent.toLocaleString()} 🪙</div></div>
-          <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">${t('pending')}</div><div style="font-size:18px;font-weight:800;color:var(--warning);">${S.pending.toLocaleString()} 🪙</div></div>
+          <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">${t('earnings')}</div><div style="font-size:18px;font-weight:800;color:var(--success);">${Number(S.earnings||0).toLocaleString()} 🪙</div></div>
+          <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">${t('spent')}</div><div style="font-size:18px;font-weight:800;color:var(--danger);">${Number(S.spent||0).toLocaleString()} 🪙</div></div>
+          <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">${t('pending')}</div><div style="font-size:18px;font-weight:800;color:var(--warning);">${Number(S.pending||0).toLocaleString()} 🪙</div></div>
           </div>
           <div class="wallet-actions">
             <button class="btn btn-primary btn-sm" id="buyCoinsBtn">₮ Buy with USDT</button>
@@ -2307,7 +2322,7 @@ function renderSupport(el){
 /* ── 22. PROFILE ─────────────────────────────────────────────── */
 function renderProfile(el){
   const myScore=calcScore({earnings:S.earnings,completedTasks:S.completedTasks,streak:S.streak,level:S.level,xp:S.xp});
-  const xpPct=Math.min(100,Math.round((S.xp%1000)/10));
+  const xpPct=Math.min(100,Math.round(((S.xp||0)%1000)/10));
   const todayStr=new Date().toISOString().slice(0,10);
   const checkinSet=new Set((S.checkins||[]).map(ci=>ci.checkin_date));
   const last30=Array.from({length:30},(_,idx)=>{
@@ -2370,7 +2385,7 @@ function renderProfile(el){
         </div>
         <div style="margin-top:16px;">
           <div style="display:flex;justify-content:space-between;margin-bottom:7px;font-size:12px;color:var(--muted);">
-            <span>${t('xpProgress')}</span><span>${S.xp%1000}/1000 XP</span>
+            <span>${t('xpProgress')}</span><span>${(S.xp||0)%1000}/1000 XP</span>
           </div>
           <div class="xp-bar-wrap"><div class="xp-bar" style="width:${xpPct}%"></div></div>
         </div>
@@ -2379,8 +2394,8 @@ function renderProfile(el){
       <div class="two-col">
         <div>
           <div class="stats-grid" style="margin-bottom:16px;">
-            <div class="stat-card"><div class="stat-glow stat-glow-green"></div><div class="stat-label">${t('earnings')}</div><div class="stat-value" style="font-size:22px;">${S.earnings.toLocaleString()} 🪙</div></div>
-            <div class="stat-card"><div class="stat-glow stat-glow-blue"></div><div class="stat-label">${t('completed')}</div><div class="stat-value" style="font-size:22px;">${S.completedTasks}</div></div>
+            <div class="stat-card"><div class="stat-glow stat-glow-green"></div><div class="stat-label">${t('earnings')}</div><div class="stat-value" style="font-size:22px;">${Number(S.earnings||0).toLocaleString()} 🪙</div></div>
+            <div class="stat-card"><div class="stat-glow stat-glow-blue"></div><div class="stat-label">${t('completed')}</div><div class="stat-value" style="font-size:22px;">${S.completedTasks||0}</div></div>
           </div>
           ${pointsCard}
           <div class="card card-sm">
@@ -2559,6 +2574,8 @@ function renderLanding(){
             <option value="UA" ${S.lang==='UA'?'selected':''}>🇺🇦 UA</option>
             <option value="EN" ${S.lang==='EN'?'selected':''}>🇬🇧 EN</option>
             <option value="DE" ${S.lang==='DE'?'selected':''}>🇩🇪 DE</option>
+            <option value="FR" ${S.lang==='FR'?'selected':''}>🇫🇷 FR</option>
+            <option value="ES" ${S.lang==='ES'?'selected':''}>🇪🇸 ES</option>
             <option value="PL" ${S.lang==='PL'?'selected':''}>🇵🇱 PL</option>
           </select>
         </div>

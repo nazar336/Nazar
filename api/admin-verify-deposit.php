@@ -2,10 +2,31 @@
 declare(strict_types=1);
 require_once __DIR__ . '/bootstrap.php';
 
-// ── Admin auth via secret header or query param ───────────────────
-$secret = $_SERVER['HTTP_X_ADMIN_SECRET'] ?? ($_GET['secret'] ?? '');
-if ($secret !== ADMIN_SECRET || ADMIN_SECRET === 'change-this-to-a-random-secret-key')
+// ── Admin auth via secret header ONLY (not query params) ──────────
+$secret = $_SERVER['HTTP_X_ADMIN_SECRET'] ?? '';
+if ($secret === '' || $secret !== ADMIN_SECRET || ADMIN_SECRET === 'change-this-to-a-random-secret-key') {
+    // Rate-limit failed attempts using login_attempts table
+    $pdo = db();
+    $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+    $identifier = 'admin:' . $ip;
+
+    // Check recent failures
+    $cutoff = date('Y-m-d H:i:s', strtotime('-15 minutes'));
+    $failStmt = $pdo->prepare('SELECT COUNT(*) FROM login_attempts WHERE identifier=:id AND attempted_at > :cutoff');
+    $failStmt->execute([':id' => $identifier, ':cutoff' => $cutoff]);
+    $failCount = (int)$failStmt->fetchColumn();
+
+    if ($failCount >= 5) {
+        json_response(['success' => false, 'message' => 'Too many failed attempts. Try again later.'], 429);
+    }
+
+    // Log failed attempt
+    $pdo->prepare('INSERT INTO login_attempts (identifier, attempted_at) VALUES (:id, NOW())')
+        ->execute([':id' => $identifier]);
+
+    error_log('Admin auth failed from IP: ' . $ip);
     json_response(['success' => false, 'message' => 'Unauthorized'], 401);
+}
 
 $pdo    = db();
 $method = $_SERVER['REQUEST_METHOD'];

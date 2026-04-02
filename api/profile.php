@@ -104,6 +104,19 @@ try{
       }
     }
 
+    // Validate avatar URL to prevent XSS
+    if(isset($input['avatar'])){
+      $avatarUrl=trim((string)$input['avatar']);
+      if($avatarUrl !== ''){
+        if(!filter_var($avatarUrl, FILTER_VALIDATE_URL) || !preg_match('#^https?://#i', $avatarUrl)){
+          json_response(['success'=>false,'message'=>'Invalid avatar URL. Must be a valid http(s) URL.'],422);
+          exit;
+        }
+      }
+      $params[':avatar']=$avatarUrl;
+      foreach($updates as $i=>$u){ if(str_starts_with($u,'avatar=')) $updates[$i]='avatar=:avatar'; }
+    }
+
     if(isset($input['name'])){
       $newName=trim((string)$input['name']);
       if(mb_strlen($newName)<2 || mb_strlen($newName)>80){

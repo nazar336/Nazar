@@ -51,7 +51,8 @@ try {
 
 function addXp(PDO $pdo, int $userId, int $amount): array
 {
-    $pdo->prepare('UPDATE users SET xp=xp+:xp, level=LEAST(12, FLOOR((xp+:xp)/1000)+1) WHERE id=:uid')
+    // xp is updated first (left-to-right in SET), so level calculation uses already-updated xp
+    $pdo->prepare('UPDATE users SET xp=xp+:xp, level=LEAST(12, FLOOR(xp/1000)+1) WHERE id=:uid')
         ->execute([':xp' => $amount, ':uid' => $userId]);
     $stmt = $pdo->prepare('SELECT xp, level FROM users WHERE id=:uid');
     $stmt->execute([':uid' => $userId]);

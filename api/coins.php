@@ -199,12 +199,12 @@ function handleTip(PDO $pdo, int $userId, array $input): never
             WHERE user_id=:uid
         ')->execute([':amt' => $amount, ':amt2' => $amount, ':uid' => $userId]);
 
-        // Нараховуємо отримувачу
+        // Нараховуємо отримувачу (tips are NOT purchases, don't update total_purchased)
         $pdo->prepare('
-            INSERT INTO user_coins (user_id, coin_balance, total_purchased)
-            VALUES (:uid, :amt, :amt2)
-            ON DUPLICATE KEY UPDATE coin_balance=coin_balance+:amt3, updated_at=NOW()
-        ')->execute([':uid' => $targetUser, ':amt' => $amount, ':amt2' => $amount, ':amt3' => $amount]);
+            INSERT INTO user_coins (user_id, coin_balance)
+            VALUES (:uid, :amt)
+            ON DUPLICATE KEY UPDATE coin_balance=coin_balance+:amt2, updated_at=NOW()
+        ')->execute([':uid' => $targetUser, ':amt' => $amount, ':amt2' => $amount]);
 
         // Лог витрати відправника
         $pdo->prepare('

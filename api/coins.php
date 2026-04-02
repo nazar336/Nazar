@@ -167,14 +167,11 @@ function handleTip(PDO $pdo, int $userId, array $input): never
     $amount     = round((float)($input['amount'] ?? 0), 2);
     $targetUser = (int)($input['target_user_id'] ?? 0);
 
-    if ($amount <= 0) {
-        json_response(['success' => false, 'message' => 'Amount must be positive'], 400);
+    if ($amount < 1) {
+        json_response(['success' => false, 'message' => 'Amount must be at least 1 coin'], 400);
     }
     if ($amount > 10000) {
         json_response(['success' => false, 'message' => 'Max tip amount is 10000 coins'], 400);
-    }
-    if ($amount < 1) {
-        json_response(['success' => false, 'message' => 'Minimum tip is 1 coin'], 400);
     }
     if ($targetUser <= 0 || $targetUser === $userId) {
         json_response(['success' => false, 'message' => 'Invalid target user'], 400);

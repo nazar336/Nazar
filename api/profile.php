@@ -113,6 +113,87 @@ try{
       $params[':name']=$newName;
       foreach($updates as $i=>$u){ if(str_starts_with($u,'name=')) $updates[$i]='name=:name'; }
     }
+
+    // ── Validate bio (max 2000 chars) ──
+    if(isset($input['bio'])){
+      $bio=trim((string)$input['bio']);
+      if(mb_strlen($bio)>2000){
+        json_response(['success'=>false,'message'=>'Bio is too long (max 2000 characters)'],422);
+        exit;
+      }
+      $params[':bio']=$bio;
+      foreach($updates as $i=>$u){ if(str_starts_with($u,'bio=')) $updates[$i]='bio=:bio'; }
+    }
+
+    // ── Validate website (max 255, must be valid URL if non-empty) ──
+    if(isset($input['website'])){
+      $website=trim((string)$input['website']);
+      if($website!==''){
+        if(mb_strlen($website)>255){
+          json_response(['success'=>false,'message'=>'Website URL is too long (max 255)'],422);
+          exit;
+        }
+        // Block javascript: and data: schemes
+        $scheme=strtolower(parse_url($website, PHP_URL_SCHEME) ?? '');
+        if($scheme!=='' && !in_array($scheme,['http','https'],true)){
+          json_response(['success'=>false,'message'=>'Website must use http:// or https://'],422);
+          exit;
+        }
+      }
+      $params[':website']=$website;
+      foreach($updates as $i=>$u){ if(str_starts_with($u,'website=')) $updates[$i]='website=:website'; }
+    }
+
+    // ── Validate avatar URL (max 500, must be https if non-empty) ──
+    if(isset($input['avatar'])){
+      $avatar=trim((string)$input['avatar']);
+      if($avatar!==''){
+        if(mb_strlen($avatar)>500){
+          json_response(['success'=>false,'message'=>'Avatar URL is too long (max 500)'],422);
+          exit;
+        }
+        $scheme=strtolower(parse_url($avatar, PHP_URL_SCHEME) ?? '');
+        if($scheme!=='' && !in_array($scheme,['http','https'],true)){
+          json_response(['success'=>false,'message'=>'Avatar URL must use http:// or https://'],422);
+          exit;
+        }
+      }
+      $params[':avatar']=$avatar;
+      foreach($updates as $i=>$u){ if(str_starts_with($u,'avatar=')) $updates[$i]='avatar=:avatar'; }
+    }
+
+    // ── Validate role (max 100 chars) ──
+    if(isset($input['role'])){
+      $role=trim((string)$input['role']);
+      if(mb_strlen($role)>100){
+        json_response(['success'=>false,'message'=>'Role is too long (max 100 characters)'],422);
+        exit;
+      }
+      $params[':role']=$role;
+      foreach($updates as $i=>$u){ if(str_starts_with($u,'role=')) $updates[$i]='role=:role'; }
+    }
+
+    // ── Validate skills (max 500 chars) ──
+    if(isset($input['skills'])){
+      $skills=trim((string)$input['skills']);
+      if(mb_strlen($skills)>500){
+        json_response(['success'=>false,'message'=>'Skills is too long (max 500 characters)'],422);
+        exit;
+      }
+      $params[':skills']=$skills;
+      foreach($updates as $i=>$u){ if(str_starts_with($u,'skills=')) $updates[$i]='skills=:skills'; }
+    }
+
+    // ── Validate location (max 150 chars) ──
+    if(isset($input['location'])){
+      $location=trim((string)$input['location']);
+      if(mb_strlen($location)>150){
+        json_response(['success'=>false,'message'=>'Location is too long (max 150 characters)'],422);
+        exit;
+      }
+      $params[':location']=$location;
+      foreach($updates as $i=>$u){ if(str_starts_with($u,'location=')) $updates[$i]='location=:location'; }
+    }
     
     $sql='UPDATE users SET '.implode(',',$updates).' WHERE id=:id';
     $stmt=$pdo->prepare($sql);

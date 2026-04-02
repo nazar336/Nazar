@@ -26,8 +26,11 @@ try {
             $limit  = 50;
             $offset = ($page - 1) * $limit;
 
-            $stmt = $pdo->prepare('SELECT id,sender_id,content,read_at,created_at FROM messages WHERE thread_id=:tid ORDER BY created_at ASC LIMIT ' . $limit . ' OFFSET ' . $offset);
-            $stmt->execute([':tid' => $threadId]);
+            $stmt = $pdo->prepare('SELECT id,sender_id,content,read_at,created_at FROM messages WHERE thread_id=:tid ORDER BY created_at ASC LIMIT :lim OFFSET :off');
+            $stmt->bindValue(':tid', $threadId, PDO::PARAM_INT);
+            $stmt->bindValue(':lim', $limit, PDO::PARAM_INT);
+            $stmt->bindValue(':off', $offset, PDO::PARAM_INT);
+            $stmt->execute();
             $messages = $stmt->fetchAll();
 
             // ✅ Mark unread messages as read
@@ -62,6 +65,10 @@ try {
         if (mb_strlen($content) > 2000)           json_response(['success' => false, 'message' => 'Message too long (max 2000)'], 400);
         if ($recipientId === $userId)             json_response(['success' => false, 'message' => 'Cannot message yourself'], 400);
 
+        // Rate limit: max 30 messages per user per 5 min
+        if (check_rate_limit($pdo, 'msg:' . $userId, 30, 5))
+            json_response(['success' => false, 'message' => 'You are sending messages too fast. Please wait.'], 429);
+
         $recStmt = $pdo->prepare('SELECT id,is_active FROM users WHERE id=:rid LIMIT 1');
         $recStmt->execute([':rid' => $recipientId]);
         $recipient = $recStmt->fetch();
@@ -83,6 +90,7 @@ try {
         $pdo->prepare('INSERT INTO messages(thread_id,sender_id,content) VALUES(:tid,:uid,:content)')
             ->execute([':tid' => $threadId, ':uid' => $userId, ':content' => $content]);
         $messageId = (int)$pdo->lastInsertId();
+        record_rate_limit($pdo, 'msg:' . $userId);
 
         $pdo->prepare('UPDATE message_threads SET last_message_at=NOW() WHERE id=:id')->execute([':id' => $threadId]);
 

@@ -15,6 +15,13 @@ if (!$acceptedTerms || !$acceptedPrivacy)
     json_response(['success' => false, 'message' => 'Для реєстрації потрібно погодитись з Правилами платформи та Політикою приватності.'], 422);
 
 $pdo   = db();
+
+// Rate limit: max 5 registrations per IP per 15 min
+$ip = substr((string)($_SERVER['REMOTE_ADDR'] ?? ''), 0, 45);
+if (check_rate_limit($pdo, 'register:' . $ip, 5, 15))
+    json_response(['success' => false, 'message' => 'Забагато спроб реєстрації. Спробуй через 15 хвилин.'], 429);
+record_rate_limit($pdo, 'register:' . $ip);
+
 $check = $pdo->prepare('SELECT id FROM users WHERE email=:e OR username=:u LIMIT 1');
 $check->execute(['e' => $email, 'u' => $username]);
 if ($check->fetch())
@@ -46,9 +53,10 @@ try {
     $pdo->commit();
 
     $response = ['success' => true, 'message' => 'Реєстрація успішна. Код верифікації надіслано на email.', 'user_id' => $userId];
-    if (!$mailSent && APP_ENV !== 'production') {
+    if (!$mailSent && APP_ENV === 'development') {
         $response['message']           = 'DEV MODE: mail не відправлено, код в response.';
         $response['verification_code'] = $verificationCode;
+        error_log('LOLance DEV: verification code for user ' . $userId . ' returned in response (dev mode only)');
     }
     json_response($response);
 } catch (\Exception $e) {

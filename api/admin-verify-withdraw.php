@@ -5,8 +5,8 @@ cors_headers(['GET', 'POST', 'OPTIONS']);
 
 $pdo = db();
 
-// Admin auth via secret
-$secret = $_SERVER['HTTP_X_ADMIN_SECRET'] ?? ($_GET['secret'] ?? '');
+// Admin auth via secret header ONLY (GET param removed for security)
+$secret = $_SERVER['HTTP_X_ADMIN_SECRET'] ?? '';
 if ($secret !== ADMIN_SECRET || ADMIN_SECRET === 'change-this-to-a-random-secret-key')
     json_response(['success' => false, 'message' => 'Unauthorized'], 401);
 

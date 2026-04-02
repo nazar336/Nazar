@@ -152,9 +152,11 @@ function handleGetMessages(PDO $pdo, int $userId, int $tier): never
         JOIN users u ON u.id = crm.user_id
         WHERE crm.room_tier=:tier
         ORDER BY crm.created_at DESC
-        LIMIT ' . MESSAGES_LIMIT
-    );
-    $stmt->execute([':tier' => $tier]);
+        LIMIT :lim
+    ');
+    $stmt->bindValue(':tier', $tier, PDO::PARAM_INT);
+    $stmt->bindValue(':lim', MESSAGES_LIMIT, PDO::PARAM_INT);
+    $stmt->execute();
     $msgs = array_reverse($stmt->fetchAll(PDO::FETCH_ASSOC));
 
     json_response([

@@ -6,6 +6,7 @@ header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: SAMEORIGIN');
 header('X-XSS-Protection: 1; mode=block');
+header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self'; frame-ancestors 'self'");
 
 // ── Helpers ───────────────────────────────────────────────────────
 
@@ -62,6 +63,23 @@ function db(): PDO {
         exit;
     }
     return $pdo;
+}
+
+/**
+ * Generic IP-based rate limiter using login_attempts table.
+ * $identifier — unique key (e.g. "register:IP", "support:userID")
+ * $maxAttempts — how many allowed within $windowMinutes
+ * Returns true if limit exceeded.
+ */
+function check_rate_limit(PDO $pdo, string $identifier, int $maxAttempts, int $windowMinutes): bool {
+    $window = date('Y-m-d H:i:s', strtotime('-' . $windowMinutes . ' minutes'));
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM login_attempts WHERE identifier = :id AND attempted_at >= :window');
+    $stmt->execute([':id' => $identifier, ':window' => $window]);
+    return (int)$stmt->fetchColumn() >= $maxAttempts;
+}
+
+function record_rate_limit(PDO $pdo, string $identifier): void {
+    $pdo->prepare('INSERT INTO login_attempts (identifier) VALUES (:id)')->execute([':id' => $identifier]);
 }
 
 function read_json(): array {

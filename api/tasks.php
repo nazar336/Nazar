@@ -36,9 +36,12 @@ try {
             JOIN users u ON u.id=t.creator_id
             WHERE 1=1 $where
             ORDER BY t.created_at DESC
-            LIMIT $limit OFFSET $offset
+            LIMIT :lim OFFSET :off
         ");
-        $stmt->execute([':uid' => $userId]);
+        $stmt->bindValue(':uid', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':lim', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':off', $offset, PDO::PARAM_INT);
+        $stmt->execute();
         json_response(['success' => true, 'tasks' => $stmt->fetchAll(), 'page' => $page]);
 
     } elseif ($method === 'POST') {
@@ -57,10 +60,25 @@ try {
         if ($description === '') json_response(['success' => false, 'message' => 'Description is required'], 400);
         if (mb_strlen($description) > 10000) json_response(['success' => false, 'message' => 'Description is too long (max 10000)'], 400);
         if ($category === '')    json_response(['success' => false, 'message' => 'Category is required'], 400);
+        if (mb_strlen($category) > 50) json_response(['success' => false, 'message' => 'Category is too long (max 50)'], 400);
         if ($reward <= 0)        json_response(['success' => false, 'message' => 'Reward must be positive'], 400);
         if ($reward > 999999)    json_response(['success' => false, 'message' => 'Reward is too large'], 400);
         if ($slots < 1)          json_response(['success' => false, 'message' => 'Slots must be at least 1'], 400);
         if ($slots > 1000)       json_response(['success' => false, 'message' => 'Max 1000 slots'], 400);
+
+        // Validate deadline format (YYYY-MM-DD or YYYY-MM-DDTHH:MM or YYYY-MM-DD HH:MM:SS)
+        if ($deadline !== null) {
+            $acceptedFormats = ['Y-m-d', 'Y-m-d H:i:s', 'Y-m-d\TH:i', 'Y-m-d\TH:i:s'];
+            $dt = null;
+            foreach ($acceptedFormats as $fmt) {
+                $dt = \DateTime::createFromFormat($fmt, $deadline);
+                if ($dt !== false) break;
+            }
+            if (!$dt) {
+                json_response(['success' => false, 'message' => 'Invalid deadline format. Accepted: YYYY-MM-DD, YYYY-MM-DDTHH:MM, YYYY-MM-DD HH:MM:SS'], 400);
+            }
+            $deadline = $dt->format('Y-m-d H:i:s');
+        }
 
         $stmt = $pdo->prepare('INSERT INTO tasks(title,description,category,difficulty,reward,slots,deadline,status,creator_id) VALUES(:t,:d,:c,:diff,:r,:s,:dl,"open",:cb)');
         $stmt->execute([':t' => $title, ':d' => $description, ':c' => $category, ':diff' => $difficulty, ':r' => $reward, ':s' => $slots, ':dl' => $deadline, ':cb' => $userId]);

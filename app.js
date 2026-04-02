@@ -67,6 +67,8 @@ const i18n = {
     // Dashboard
     guest:'Guest', welcomeGuestTitle:'Welcome to LOLance premium!', welcomeGuestDesc:'Browse tasks and features without limits. Sign up to start earning.', dashMotivation:'Today you are suspiciously ahead of schedule.', dashMotivationDesc:'Complete one more task to boost your streak, wallet, and rank.',
     dayStreak:'day streak', available:'available', totalEarned:'total earned', tasksDone:'tasks done', pts:'pts',
+    acceptTermsText:'I agree to the <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Platform Terms</a> and <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Privacy Policy</a>.', mustAcceptTerms:'You must accept the Platform Terms and Privacy Policy.',
+    exchangerTitle:'Exchanger: USDT → 🪙', exchangerCoins:'Coins', exchangerRate:'Rate', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'Pending', exchangerGetAddr:'Get Address', exchangerUsdtAmount:'USDT amount',
     quickActions:'Quick Actions', browseOpenTasks:'Browse Open Tasks →', publishNewTask:'+ Publish New Task', walletOverview:'Wallet Overview',
     trendingTasks:'Trending Tasks', miniLeaderboard:'Mini Leaderboard',
     // Tasks
@@ -154,6 +156,8 @@ const i18n = {
     verifyEmail:'Перевір свою пошту', codeSentTo:'Ми надіслали 6-значний код на', solveCaptcha:'Розв\'яжи капчу', enterAnswer:'Введи відповідь', verifyCaptcha:'Перевір', wrongAnswer:'Неправильна відповідь', verificationCode:'Верифікаційний код', showCode:'Показати', hideCode:'Сховати', enterCodeScreen:'Введи код з екрану', sixDigits:'6 цифр', confirmBtn:'Підтвердити', backToLogin:'Повернутися до входу', verifySuccess:'Вражаю! Ви авторизовані 🎉', wrongCode:'Невірний код', invalidCode:'Введіть коректний 6-значний код',
     guest:'Гість', welcomeGuestTitle:'Вітаємо на LOLance преміум!', welcomeGuestDesc:'Переглядайте задачі та функції без обмежень. Зареєструйтеся щоб розпочати заробляти.', dashMotivation:'Сьогодні ви попереду графіку.', dashMotivationDesc:'Виконайте ще одну задачу щоб підвищити серію, баланс і рейтинг.',
     dayStreak:'день серія', available:'доступно', totalEarned:'зароблено', tasksDone:'задач виконано', pts:'балів',
+    acceptTermsText:'Я погоджуюсь з <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Правилами платформи</a> та <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Політикою приватності</a>.', mustAcceptTerms:'Потрібно погодитись з Правилами платформи та Політикою приватності.',
+    exchangerTitle:'Обмінник: USDT → 🪙', exchangerCoins:'Монети', exchangerRate:'Курс', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'Очікує', exchangerGetAddr:'Отримати адресу', exchangerUsdtAmount:'Сума USDT',
     quickActions:'Швидкі дії', browseOpenTasks:'Переглянути задачі →', publishNewTask:'+ Нова задача', walletOverview:'Огляд гаманця',
     trendingTasks:'Популярні задачі', miniLeaderboard:'Міні-рейтинг',
     noTasksFound:'Задач не знайдено', adjustFilters:'Спробуйте змінити фільтри.', cancelled:'Скасовано', byUser:'від',
@@ -226,6 +230,8 @@ const i18n = {
     verifyEmail:'E-Mail bestätigen', codeSentTo:'Wir haben einen 6-stelligen Code gesendet an', solveCaptcha:'Captcha lösen', enterAnswer:'Antwort eingeben', verifyCaptcha:'Prüfen', wrongAnswer:'Falsche Antwort', verificationCode:'Verifizierungscode', showCode:'Anzeigen', hideCode:'Verbergen', enterCodeScreen:'Code vom Bildschirm eingeben', sixDigits:'6 Ziffern', confirmBtn:'Bestätigen', backToLogin:'Zurück zum Login', verifySuccess:'Super! Sie sind eingeloggt 🎉', wrongCode:'Falscher Code', invalidCode:'Gültigen 6-stelligen Code eingeben',
     guest:'Gast', welcomeGuestTitle:'Willkommen bei LOLance Premium!', welcomeGuestDesc:'Aufgaben und Funktionen ohne Einschränkungen durchsuchen.', dashMotivation:'Heute sind Sie dem Zeitplan voraus.', dashMotivationDesc:'Erledigen Sie eine weitere Aufgabe für Ihren Streak.',
     dayStreak:'Tage Serie', available:'verfügbar', totalEarned:'verdient', tasksDone:'erledigt', pts:'Pkt',
+    acceptTermsText:'Ich stimme den <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Plattformbedingungen</a> und der <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Datenschutzrichtlinie</a> zu.', mustAcceptTerms:'Sie müssen die Plattformbedingungen und die Datenschutzrichtlinie akzeptieren.',
+    exchangerTitle:'Tauscher: USDT → 🪙', exchangerCoins:'Coins', exchangerRate:'Kurs', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'Ausstehend', exchangerGetAddr:'Adresse anfordern', exchangerUsdtAmount:'USDT-Betrag',
     quickActions:'Schnellaktionen', browseOpenTasks:'Aufgaben durchsuchen →', publishNewTask:'+ Neue Aufgabe', walletOverview:'Geldübersicht', trendingTasks:'Beliebte Aufgaben', miniLeaderboard:'Mini-Rangliste',
     noTasksFound:'Keine Aufgaben gefunden', adjustFilters:'Versuchen Sie die Filter anzupassen.', cancelled:'Abgebrochen', byUser:'von',
     titleLabel:'Titel', titlePlaceholder:'Klarer Aufgabenname', descPlaceholder:'Was genau muss gemacht werden?', selectOption:'Wählen…', previewTitlePh:'Titel erscheint hier…', previewDescPh:'Beschreibungsvorschau…', noDeadline:'Kein Termin',
@@ -297,6 +303,8 @@ const i18n = {
     verifyEmail:'Vérifiez votre e-mail', codeSentTo:'Nous avons envoyé un code à 6 chiffres à', solveCaptcha:'Résoudre le captcha', enterAnswer:'Entrez la réponse', verifyCaptcha:'Vérifier', wrongAnswer:'Mauvaise réponse', verificationCode:'Code de vérification', showCode:'Afficher', hideCode:'Masquer', enterCodeScreen:'Entrez le code à l\'écran', sixDigits:'6 chiffres', confirmBtn:'Confirmer', backToLogin:'Retour connexion', verifySuccess:'Génial ! Vous êtes connecté 🎉', wrongCode:'Mauvais code', invalidCode:'Entrez un code valide à 6 chiffres',
     guest:'Invité', welcomeGuestTitle:'Bienvenue sur LOLance Premium !', welcomeGuestDesc:'Parcourez les tâches et fonctions sans limites.', dashMotivation:'Aujourd\'hui vous êtes en avance.', dashMotivationDesc:'Complétez une tâche pour booster votre série.',
     dayStreak:'jours de série', available:'disponible', totalEarned:'gagné', tasksDone:'tâches', pts:'pts',
+    acceptTermsText:'J\'accepte les <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Conditions de la plateforme</a> et la <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Politique de confidentialité</a>.', mustAcceptTerms:'Vous devez accepter les Conditions de la plateforme et la Politique de confidentialité.',
+    exchangerTitle:'Échangeur: USDT → 🪙', exchangerCoins:'Coins', exchangerRate:'Taux', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'En attente', exchangerGetAddr:'Obtenir l\'adresse', exchangerUsdtAmount:'Montant USDT',
     quickActions:'Actions rapides', browseOpenTasks:'Parcourir les tâches →', publishNewTask:'+ Nouvelle tâche', walletOverview:'Aperçu portefeuille', trendingTasks:'Tâches tendance', miniLeaderboard:'Mini-classement',
     noTasksFound:'Aucune tâche trouvée', adjustFilters:'Essayez d\'ajuster les filtres.', cancelled:'Annulé', byUser:'par',
     titleLabel:'Titre', titlePlaceholder:'Nom clair de la tâche', descPlaceholder:'Que faut-il faire exactement ?', selectOption:'Sélectionner…', previewTitlePh:'Le titre apparaîtra ici…', previewDescPh:'Aperçu de la description…', noDeadline:'Pas d\'échéance',
@@ -368,6 +376,8 @@ const i18n = {
     verifyEmail:'Verifica tu email', codeSentTo:'Enviamos un código de 6 dígitos a', solveCaptcha:'Resolver captcha', enterAnswer:'Ingresa la respuesta', verifyCaptcha:'Verificar', wrongAnswer:'Respuesta incorrecta', verificationCode:'Código de verificación', showCode:'Mostrar', hideCode:'Ocultar', enterCodeScreen:'Ingresa el código de la pantalla', sixDigits:'6 dígitos', confirmBtn:'Confirmar', backToLogin:'Volver al login', verifySuccess:'¡Genial! Estás conectado 🎉', wrongCode:'Código incorrecto', invalidCode:'Ingresa un código válido de 6 dígitos',
     guest:'Invitado', welcomeGuestTitle:'¡Bienvenido a LOLance Premium!', welcomeGuestDesc:'Explora tareas y funciones sin límites.', dashMotivation:'Hoy vas adelantado.', dashMotivationDesc:'Completa una tarea más para aumentar tu racha.',
     dayStreak:'días de racha', available:'disponible', totalEarned:'ganado', tasksDone:'tareas', pts:'pts',
+    acceptTermsText:'Acepto los <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Términos de la plataforma</a> y la <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Política de privacidad</a>.', mustAcceptTerms:'Debes aceptar los Términos de la plataforma y la Política de privacidad.',
+    exchangerTitle:'Intercambiador: USDT → 🪙', exchangerCoins:'Monedas', exchangerRate:'Tasa', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'Pendiente', exchangerGetAddr:'Obtener dirección', exchangerUsdtAmount:'Monto USDT',
     quickActions:'Acciones rápidas', browseOpenTasks:'Explorar tareas →', publishNewTask:'+ Nueva tarea', walletOverview:'Resumen de billetera', trendingTasks:'Tareas populares', miniLeaderboard:'Mini-clasificación',
     noTasksFound:'No se encontraron tareas', adjustFilters:'Intenta ajustar los filtros.', cancelled:'Cancelado', byUser:'por',
     titleLabel:'Título', titlePlaceholder:'Nombre claro de la tarea', descPlaceholder:'¿Qué hay que hacer exactamente?', selectOption:'Seleccionar…', previewTitlePh:'El título aparecerá aquí…', previewDescPh:'Vista previa de la descripción…', noDeadline:'Sin fecha límite',
@@ -439,6 +449,8 @@ const i18n = {
     verifyEmail:'Zweryfikuj swój email', codeSentTo:'Wysłaliśmy 6-cyfrowy kod na', solveCaptcha:'Rozwiąż captchę', enterAnswer:'Wpisz odpowiedź', verifyCaptcha:'Sprawdź', wrongAnswer:'Zła odpowiedź', verificationCode:'Kod weryfikacyjny', showCode:'Pokaż', hideCode:'Ukryj', enterCodeScreen:'Wpisz kod z ekranu', sixDigits:'6 cyfr', confirmBtn:'Potwierdź', backToLogin:'Powrót do logowania', verifySuccess:'Super! Jesteś zalogowany 🎉', wrongCode:'Zły kod', invalidCode:'Wpisz poprawny 6-cyfrowy kod',
     guest:'Gość', welcomeGuestTitle:'Witaj w LOLance Premium!', welcomeGuestDesc:'Przeglądaj zadania i funkcje bez ograniczeń.', dashMotivation:'Dziś jesteś przed harmonogramem.', dashMotivationDesc:'Wykonaj kolejne zadanie dla serii.',
     dayStreak:'dni serii', available:'dostępne', totalEarned:'zarobione', tasksDone:'zadań', pts:'pkt',
+    acceptTermsText:'Zgadzam się z <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Regulaminem platformy</a> i <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Polityką prywatności</a>.', mustAcceptTerms:'Musisz zaakceptować Regulamin platformy i Politykę prywatności.',
+    exchangerTitle:'Wymiennik: USDT → 🪙', exchangerCoins:'Coiny', exchangerRate:'Kurs', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'Oczekujące', exchangerGetAddr:'Uzyskaj adres', exchangerUsdtAmount:'Kwota USDT',
     quickActions:'Szybkie akcje', browseOpenTasks:'Przeglądaj zadania →', publishNewTask:'+ Nowe zadanie', walletOverview:'Przegląd portfela', trendingTasks:'Popularne zadania', miniLeaderboard:'Mini-ranking',
     noTasksFound:'Nie znaleziono zadań', adjustFilters:'Spróbuj zmienić filtry.', cancelled:'Anulowane', byUser:'od',
     titleLabel:'Tytuł', titlePlaceholder:'Jasna nazwa zadania', descPlaceholder:'Co dokładnie trzeba zrobić?', selectOption:'Wybierz…', previewTitlePh:'Tytuł pojawi się tutaj…', previewDescPh:'Podgląd opisu…', noDeadline:'Bez terminu',
@@ -1116,7 +1128,7 @@ function renderAuth(mode='login'){
               <div class="form-group" style="margin-top:-2px;">
                 <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.45;color:var(--text-soft);">
                   <input type="checkbox" id="regAcceptTerms" style="margin-top:2px;" required>
-                  <span>Я погоджуюсь з <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Правилами платформи</a> та <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Політикою приватності</a>.</span>
+                  <span>${t('acceptTermsText')}</span>
                 </label>
               </div>
               <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top:8px;">
@@ -1166,7 +1178,7 @@ async function handleRegister(e){
   const acceptTerms=!!document.getElementById('regAcceptTerms')?.checked;
   const acceptPrivacy=acceptTerms;
   if(!name||!username||!email||!password){showAlert('authAlert',t('required'));return;}
-  if(!acceptTerms){showAlert('authAlert','Потрібно погодитись з Правилами платформи та Політикою приватності.');return;}
+  if(!acceptTerms){showAlert('authAlert',t('mustAcceptTerms'));return;}
   hideAlert('authAlert');setLoading(btn,true);
   const {ok,data}=await apiFetch(API.register,{method:'POST',body:JSON.stringify({name,username,email,password,accept_terms:acceptTerms,accept_privacy:acceptPrivacy})});
   setLoading(btn,false);
@@ -1176,6 +1188,7 @@ async function handleRegister(e){
 
 async function doLogout(){
   await apiFetch(API.logout,{method:'POST'});
+  S.notifications=[];saveState();
   currentUser=null;toast(t('logoutSuccess'),'info');renderAuth();
 }
 
@@ -1332,7 +1345,7 @@ function renderDashboard(el){
   const myScore=calcScore({earnings:S.earnings,completedTasks:S.completedTasks,streak:S.streak,level:S.level,xp:S.xp});
   const xpPct=Math.min(100,Math.round((S.xp%1000)/10));
   const trending=S.tasks.filter(t=>t.status==='open').slice(0,3);
-  const mini=[];
+  const mini=(S.leaderboard||[]).slice(0,3).map(u=>({av:(u.name||u.username||'?').charAt(0).toUpperCase(),name:u.name||u.username||'User',score:Number(u.score||0)}));
   el.innerHTML=`
     <div class="fade-up">
       <!-- Hero welcome -->
@@ -1344,8 +1357,8 @@ function renderDashboard(el){
             <p style="font-size:14px;color:var(--text-soft);">${isGuest?t('welcomeGuestDesc'):t('dashMotivationDesc')}</p>
           </div>
           <div style="text-align:right;flex-shrink:0;">
-            <div class="streak-badge"><span class="streak-fire">🔥</span>${S.streak} day streak</div>
-            <div style="font-size:12px;color:var(--muted);margin-top:4px;">Level ${S.level} · ${S.xp} XP</div>
+            <div class="streak-badge"><span class="streak-fire">🔥</span>${S.streak} ${t('dayStreak')}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px;">${t('level')} ${S.level} · ${S.xp} XP</div>
           </div>
         </div>
       </div>
@@ -1362,7 +1375,7 @@ function renderDashboard(el){
       <div class="card card-sm" style="margin-bottom:20px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
           <span style="font-size:13px;font-weight:700;">${t('xpProgress')}</span>
-          <span style="font-size:12px;color:var(--muted);">${S.xp%1000}/1000 XP → Lvl ${S.level+1}</span>
+          <span style="font-size:12px;color:var(--muted);">${S.xp%1000}/1000 XP → ${t('level')} ${S.level+1}</span>
         </div>
         <div class="xp-bar-wrap"><div class="xp-bar" style="width:${xpPct}%"></div></div>
       </div>
@@ -2325,7 +2338,7 @@ function renderProfile(el){
         <div class="card-flat" style="padding:10px;"><div class="stat-label">${t('checkinStreak')}</div><div style="font-size:20px;font-weight:900;">${Number(S.checkinStreak||0)} 🔥</div></div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
-        <button id="dailyCheckinBtn" class="btn btn-${S.doneCheckinToday?'ghost':'success'} btn-sm" ${S.doneCheckinToday?'disabled':''}>${S.doneCheckinToday?t('checkinDone'):'Check-in (+10 XP)'}</button>
+        <button id="dailyCheckinBtn" class="btn btn-${S.doneCheckinToday?'ghost':'success'} btn-sm" ${S.doneCheckinToday?'disabled':''}>${S.doneCheckinToday?t('checkinDone'):t('checkinBtn')}</button>
         <input id="buyPointsPacks" type="number" min="1" max="100" value="1" class="form-input" style="width:90px;">
         <button id="buyPointsBtn" class="btn btn-ghost btn-sm">${t('buyPoints')}</button>
       </div>
@@ -2351,7 +2364,7 @@ function renderProfile(el){
     ? `<div class="card"><div class="section-title">👉 ${t('readyToStartQ')}</div><p style="font-size:14px;color:var(--text-soft);margin-bottom:14px;">${t('readyToStartDesc')}</p><button class="btn btn-primary btn-block" id="guestCreateBtn"><span class="btn-txt">${t('register')}</span></button></div>`
     : `<div class="card"><div class="section-title">✏️ ${t('editProfileTitle')}</div><form id="profileForm" style="display:flex;flex-direction:column;gap:14px;"><div class="form-group"><label class="form-label">${t('roleTitle')}</label><input type="text" id="pfRole" class="form-input" value="${esc(S.role||'')}" placeholder="${t('rolePlaceholder')}" maxlength="60"></div><div class="form-group"><label class="form-label">${t('bioLabel')}</label><textarea id="pfBio" class="form-textarea" rows="3" maxlength="500" placeholder="${t('bioPlaceholder')}">${esc(S.bio||'')}</textarea></div><div class="form-group"><label class="form-label">${t('skillsLabel')}</label><input type="text" id="pfSkills" class="form-input" value="${esc(S.skills||'')}" placeholder="${t('skillsPlaceholder')}"></div><button type="submit" class="btn btn-primary btn-block"><span class="btn-txt">${t('saveProfile')}</span></button></form></div>`;
 
-  const exchanger=isGuest?'':`<div class="card" style="margin-top:20px;"><div class="section-title">₮ Обмінник: USDT → 🪙</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;"><div class="card-flat" style="padding:10px;"><div class="stat-label">Coins</div><div style="font-weight:800;">${Number(S.coinBalance||0).toLocaleString()}</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">Rate</div><div style="font-weight:800;">1 USDT = 100 🪙</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">Pending</div><div style="font-weight:800;">${Number(S.pendingCryptoCount||0)}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><input id="exchAmount" class="form-input" type="number" min="1" max="10000" placeholder="USDT amount"><select id="exchNetwork" class="form-select"><option value="TRC20">TRC20</option><option value="BEP20">BEP20</option></select></div><div id="exchangeAlert" class="alert" style="margin-top:10px;"></div><button id="exchInitBtn" class="btn btn-primary btn-block" style="margin-top:10px;"><span class="btn-txt">Отримати адресу</span></button><div id="exchangeStep2" style="margin-top:10px;"></div></div>`;
+  const exchanger=isGuest?'':`<div class="card" style="margin-top:20px;"><div class="section-title">₮ ${t('exchangerTitle')}</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;"><div class="card-flat" style="padding:10px;"><div class="stat-label">${t('exchangerCoins')}</div><div style="font-weight:800;">${Number(S.coinBalance||0).toLocaleString()}</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">${t('exchangerRate')}</div><div style="font-weight:800;">${t('exchangerRateVal')}</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">${t('exchangerPending')}</div><div style="font-weight:800;">${Number(S.pendingCryptoCount||0)}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><input id="exchAmount" class="form-input" type="number" min="1" max="10000" placeholder="${t('exchangerUsdtAmount')}"><select id="exchNetwork" class="form-select"><option value="TRC20">TRC20</option><option value="BEP20">BEP20</option></select></div><div id="exchangeAlert" class="alert" style="margin-top:10px;"></div><button id="exchInitBtn" class="btn btn-primary btn-block" style="margin-top:10px;"><span class="btn-txt">${t('exchangerGetAddr')}</span></button><div id="exchangeStep2" style="margin-top:10px;"></div></div>`;
 
   el.innerHTML=`
     <div class="fade-up" style="max-width:800px;">
@@ -2365,7 +2378,7 @@ function renderProfile(el){
           </div>
           <div style="text-align:right">
             <div class="streak-badge"><span class="streak-fire">🔥</span>${S.streak} ${t('dayStreak')}</div>
-            <div style="font-size:12px;color:var(--muted);margin-top:4px;">Lvl ${S.level} · ${myScore.toLocaleString()} ${t('pts')}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px;">${t('level')} ${S.level} · ${myScore.toLocaleString()} ${t('pts')}</div>
           </div>
         </div>
         <div style="margin-top:16px;">

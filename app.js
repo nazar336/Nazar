@@ -16,7 +16,8 @@ const API = {
   messages:'api/messages.php', leaderboard:'api/leaderboard.php', takeTask:'api/take-task.php',
   completeTask:'api/complete-task.php',
   cryptoDeposit:'api/crypto-deposit.php', cryptoWithdraw:'api/crypto-withdraw.php', coins:'api/coins.php',
-  xp:'api/xp.php', chatRooms:'api/chat-rooms.php', support:'api/support.php'
+  xp:'api/xp.php', chatRooms:'api/chat-rooms.php', support:'api/support.php',
+  feed:'api/feed.php'
 };
 const CATEGORIES = ['Design','Video','Copy','Social','Community','QA','Localization','Product','Development','Marketing'];
 
@@ -77,6 +78,7 @@ const i18n = {
     titleLabel:'Title', titlePlaceholder:'Bold, clear task name', descPlaceholder:'What exactly needs to be done?', selectOption:'Select…', previewTitlePh:'Task title will appear here…', previewDescPh:'Description preview…', noDeadline:'No deadline',
     // Feed
     noPosts:'No posts', mediaPreview:'Media preview', readMore:'Read more ↓', showLess:'Show less ↑', save:'Save', saved:'Saved',
+    feedWritePost:'What\'s on your mind?', feedPostBtn:'Post', feedMyPosts:'My Posts', feedDeletePost:'Delete', feedDeleteConfirm:'Delete this post?', feedGuestMsg:'Sign up to post and like.',
     // Wallet
     txHistory:'Transaction History', type:'Type', amountCol:'Amount', whenCol:'When', recipientUsername:'Recipient username', confirm:'Confirm', guestWallet:'Wallet is available only for registered users.',
     // Chat
@@ -163,6 +165,7 @@ const i18n = {
     noTasksFound:'Задач не знайдено', adjustFilters:'Спробуйте змінити фільтри.', cancelled:'Скасовано', byUser:'від',
     titleLabel:'Заголовок', titlePlaceholder:'Чіткий заголовок задачі', descPlaceholder:'Що саме потрібно зробити?', selectOption:'Обрати…', previewTitlePh:'Заголовок з\'явиться тут…', previewDescPh:'Попередній перегляд…', noDeadline:'Без дедлайну',
     noPosts:'Немає постів', mediaPreview:'Перегляд медіа', readMore:'Читати більше ↓', showLess:'Згорнути ↑', save:'Зберегти', saved:'Збережено',
+    feedWritePost:'Що нового?', feedPostBtn:'Опублікувати', feedMyPosts:'Мої пости', feedDeletePost:'Видалити', feedDeleteConfirm:'Видалити цей пост?', feedGuestMsg:'Зареєструйтеся, щоб публікувати та лайкати.',
     txHistory:'Історія транзакцій', type:'Тип', amountCol:'Сума', whenCol:'Коли', recipientUsername:'Username отримувача', confirm:'Підтвердити', guestWallet:'Гаманець доступний лише для зареєстрованих користувачів.',
     conversations:'Розмови', online:'Онлайн', lastSeen:'Був(-ла) нещодавно', selectConversation:'Оберіть розмову', guestChat:'Чат доступний лише для зареєстрованих користувачів.',
     chatReplyWallet1:'Перевірте вкладку Гаманець для поточного балансу.', chatReplyWallet2:'Кошти оновлюються після завершення задачі.', chatReplyTask1:'Перегляньте сторінку Задач для відкритих слотів.', chatReplyTask2:'Дедлайни вказані на кожній картці задачі.', chatReplyReward1:'Нагороди нараховуються автоматично після завершення.', chatReplyReward2:'Історія заробітку в розділі Гаманець.', chatReplyLevel1:'Рівень і XP показані на дашборді.', chatReplyLevel2:'Підтримуйте серію для бонусних балів.', chatFallback1:'Зрозуміло, я звернусь незабаром.', chatFallback2:'Дякую за повідомлення!', chatFallback3:'Зафіксовано. Перевірю.',
@@ -236,6 +239,7 @@ const i18n = {
     noTasksFound:'Keine Aufgaben gefunden', adjustFilters:'Versuchen Sie die Filter anzupassen.', cancelled:'Abgebrochen', byUser:'von',
     titleLabel:'Titel', titlePlaceholder:'Klarer Aufgabenname', descPlaceholder:'Was genau muss gemacht werden?', selectOption:'Wählen…', previewTitlePh:'Titel erscheint hier…', previewDescPh:'Beschreibungsvorschau…', noDeadline:'Kein Termin',
     noPosts:'Keine Beiträge', mediaPreview:'Medienvorschau', readMore:'Mehr lesen ↓', showLess:'Weniger zeigen ↑', save:'Speichern', saved:'Gespeichert',
+    feedWritePost:'Was gibt es Neues?', feedPostBtn:'Posten', feedMyPosts:'Meine Beiträge', feedDeletePost:'Löschen', feedDeleteConfirm:'Diesen Beitrag löschen?', feedGuestMsg:'Registrieren Sie sich zum Posten und Liken.',
     txHistory:'Transaktionsverlauf', type:'Typ', amountCol:'Betrag', whenCol:'Wann', recipientUsername:'Empfänger-Username', confirm:'Bestätigen', guestWallet:'Geldbörse nur für registrierte Benutzer verfügbar.',
     conversations:'Gespräche', online:'Online', lastSeen:'Zuletzt gesehen', selectConversation:'Gespräch wählen', guestChat:'Chat nur für registrierte Benutzer verfügbar.',
     chatReplyWallet1:'Prüfen Sie den Geldbörse-Tab für Ihren Kontostand.', chatReplyWallet2:'Das Guthaben wird nach Aufgabenabschluss aktualisiert.', chatReplyTask1:'Durchsuchen Sie die Aufgabenseite nach offenen Plätzen.', chatReplyTask2:'Fristen stehen auf jeder Aufgabenkarte.', chatReplyReward1:'Belohnungen werden automatisch nach Abschluss gutgeschrieben.', chatReplyReward2:'Ihre Verdiensthistorie finden Sie im Geldbörse-Bereich.', chatReplyLevel1:'Ihr Level und XP werden auf dem Dashboard angezeigt.', chatReplyLevel2:'Halten Sie Ihre Serie aktiv für Bonuspunkte.', chatFallback1:'Verstanden, ich melde mich bald.', chatFallback2:'Danke für die Nachricht!', chatFallback3:'Notiert. Ich prüfe das.',
@@ -309,6 +313,7 @@ const i18n = {
     noTasksFound:'Aucune tâche trouvée', adjustFilters:'Essayez d\'ajuster les filtres.', cancelled:'Annulé', byUser:'par',
     titleLabel:'Titre', titlePlaceholder:'Nom clair de la tâche', descPlaceholder:'Que faut-il faire exactement ?', selectOption:'Sélectionner…', previewTitlePh:'Le titre apparaîtra ici…', previewDescPh:'Aperçu de la description…', noDeadline:'Pas d\'échéance',
     noPosts:'Aucun post', mediaPreview:'Aperçu média', readMore:'Lire plus ↓', showLess:'Moins ↑', save:'Enregistrer', saved:'Enregistré',
+    feedWritePost:'Quoi de neuf ?', feedPostBtn:'Publier', feedMyPosts:'Mes posts', feedDeletePost:'Supprimer', feedDeleteConfirm:'Supprimer ce post ?', feedGuestMsg:'Inscrivez-vous pour publier et aimer.',
     txHistory:'Historique des transactions', type:'Type', amountCol:'Montant', whenCol:'Quand', recipientUsername:'Nom d\'utilisateur destinataire', confirm:'Confirmer', guestWallet:'Le portefeuille est réservé aux utilisateurs inscrits.',
     conversations:'Conversations', online:'En ligne', lastSeen:'Vu récemment', selectConversation:'Sélectionnez une conversation', guestChat:'Le chat est réservé aux utilisateurs inscrits.',
     chatReplyWallet1:'Consultez l\'onglet Portefeuille pour votre solde.', chatReplyWallet2:'Les fonds sont mis à jour après la complétion de la tâche.', chatReplyTask1:'Parcourez la page Tâches pour les places disponibles.', chatReplyTask2:'Les échéances sont indiquées sur chaque carte.', chatReplyReward1:'Les récompenses sont créditées automatiquement.', chatReplyReward2:'L\'historique des gains est dans la section Portefeuille.', chatReplyLevel1:'Votre niveau et XP sont affichés sur le tableau de bord.', chatReplyLevel2:'Maintenez votre série pour des points bonus.', chatFallback1:'Compris, je reviens bientôt.', chatFallback2:'Merci pour le message !', chatFallback3:'Noté. Je vérifie.',
@@ -382,6 +387,7 @@ const i18n = {
     noTasksFound:'No se encontraron tareas', adjustFilters:'Intenta ajustar los filtros.', cancelled:'Cancelado', byUser:'por',
     titleLabel:'Título', titlePlaceholder:'Nombre claro de la tarea', descPlaceholder:'¿Qué hay que hacer exactamente?', selectOption:'Seleccionar…', previewTitlePh:'El título aparecerá aquí…', previewDescPh:'Vista previa de la descripción…', noDeadline:'Sin fecha límite',
     noPosts:'Sin publicaciones', mediaPreview:'Vista previa de medios', readMore:'Leer más ↓', showLess:'Mostrar menos ↑', save:'Guardar', saved:'Guardado',
+    feedWritePost:'¿Qué hay de nuevo?', feedPostBtn:'Publicar', feedMyPosts:'Mis publicaciones', feedDeletePost:'Eliminar', feedDeleteConfirm:'¿Eliminar esta publicación?', feedGuestMsg:'Regístrate para publicar y dar like.',
     txHistory:'Historial de transacciones', type:'Tipo', amountCol:'Monto', whenCol:'Cuándo', recipientUsername:'Usuario destinatario', confirm:'Confirmar', guestWallet:'La billetera solo está disponible para usuarios registrados.',
     conversations:'Conversaciones', online:'En línea', lastSeen:'Visto recientemente', selectConversation:'Selecciona una conversación', guestChat:'El chat solo está disponible para usuarios registrados.',
     chatReplyWallet1:'Consulta la pestaña Billetera para tu saldo.', chatReplyWallet2:'Los fondos se actualizan tras completar la tarea.', chatReplyTask1:'Explora la página de Tareas para espacios abiertos.', chatReplyTask2:'Los plazos se muestran en cada tarjeta de tarea.', chatReplyReward1:'Las recompensas se acreditan automáticamente.', chatReplyReward2:'Tu historial de ganancias está en la sección Billetera.', chatReplyLevel1:'Tu nivel y XP se muestran en el panel.', chatReplyLevel2:'Mantén tu racha activa para ganar más XP.', chatFallback1:'Entendido, vuelvo pronto.', chatFallback2:'¡Gracias por el mensaje!', chatFallback3:'Anotado. Lo verifico.',
@@ -455,6 +461,7 @@ const i18n = {
     noTasksFound:'Nie znaleziono zadań', adjustFilters:'Spróbuj zmienić filtry.', cancelled:'Anulowane', byUser:'od',
     titleLabel:'Tytuł', titlePlaceholder:'Jasna nazwa zadania', descPlaceholder:'Co dokładnie trzeba zrobić?', selectOption:'Wybierz…', previewTitlePh:'Tytuł pojawi się tutaj…', previewDescPh:'Podgląd opisu…', noDeadline:'Bez terminu',
     noPosts:'Brak postów', mediaPreview:'Podgląd mediów', readMore:'Czytaj więcej ↓', showLess:'Mniej ↑', save:'Zapisz', saved:'Zapisano',
+    feedWritePost:'Co nowego?', feedPostBtn:'Opublikuj', feedMyPosts:'Moje posty', feedDeletePost:'Usuń', feedDeleteConfirm:'Usunąć ten post?', feedGuestMsg:'Zarejestruj się, aby publikować i polubić.',
     txHistory:'Historia transakcji', type:'Typ', amountCol:'Kwota', whenCol:'Kiedy', recipientUsername:'Nazwa użytkownika odbiorcy', confirm:'Potwierdź', guestWallet:'Portfel dostępny tylko dla zarejestrowanych użytkowników.',
     conversations:'Rozmowy', online:'Online', lastSeen:'Widziany niedawno', selectConversation:'Wybierz rozmowę', guestChat:'Chat dostępny tylko dla zarejestrowanych użytkowników.',
     chatReplyWallet1:'Sprawdź zakładkę Portfel, aby zobaczyć saldo.', chatReplyWallet2:'Środki są aktualizowane po zakończeniu zadania.', chatReplyTask1:'Przeglądaj stronę Zadań w poszukiwaniu wolnych miejsc.', chatReplyTask2:'Terminy są pokazane na każdej karcie zadania.', chatReplyReward1:'Nagrody są automatycznie naliczane po zakończeniu.', chatReplyReward2:'Historia zarobków jest w sekcji Portfel.', chatReplyLevel1:'Twój poziom i XP są pokazane na pulpicie.', chatReplyLevel2:'Utrzymuj serię aktywną, aby zdobywać więcej XP.', chatFallback1:'Rozumiem, odezwę się wkrótce.', chatFallback2:'Dzięki za wiadomość!', chatFallback3:'Zanotowano. Sprawdzę.',
@@ -772,9 +779,33 @@ async function loadLeaderboard(){
     }
   }catch(e){}
 }
+async function loadFeed(){
+  try{
+    const {ok, data} = await apiFetch(API.feed);
+    if(ok){
+      S.feed = (data.posts||[]).map(p=>({
+        id:String(p.id),
+        author:p.author_name||p.author_username||'User',
+        av:p.avatar||(p.author_name||'?').charAt(0).toUpperCase(),
+        text:p.content||'',
+        type:p.category||'other',
+        likes:Number(p.likes_count||0),
+        liked:!!p.my_like,
+        hasMedia:!!p.media_url,
+        mediaUrl:p.media_url||'',
+        timestamp:p.created_at,
+        expanded:false,
+        bookmarked:false,
+        userId:Number(p.user_id),
+        username:p.author_username||''
+      }));
+      saveState();
+    }
+  }catch(e){}
+}
 function saveState(){ try{ localStorage.setItem(STORAGE_KEY,JSON.stringify(S)); }catch(e){} }
 function calcScore(u){
-  return Math.round((u.earnings||0)*1.02+(u.completedTasks||0)*65+(u.streak||0)*20+(u.level||1)*110+(u.xp||0));
+  return Math.round((u.level||1)*1000+(u.earnings||0)*0.5+(u.completedTasks||0)*10+(u.streak||0)*5);
 }
 
 /* ── 5. API ──────────────────────────────────────────────────── */
@@ -881,6 +912,8 @@ function renderPage(page,el){
   if(page==='support' && !isGuest) loadSupport();
   if(page==='profile' && !isGuest) loadPoints();
   if(page==='leaderboard') loadLeaderboard();
+  if(page==='dashboard') loadLeaderboard();
+  if(page==='feed' && !isGuest) loadFeed();
   
   (pages[page]||renderDashboard)(el);
 }
@@ -1690,8 +1723,29 @@ function renderCreateTask(el){
 
 /* ── 18. FEED ────────────────────────────────────────────────── */
 function renderFeed(el){
+  if(isGuest){
+    el.innerHTML=`
+      <div class="fade-up">
+        <div class="card" style="background:linear-gradient(135deg,rgba(184,255,92,.08),rgba(125,215,255,.04));border-color:rgba(184,255,92,.15);">
+          <div class="empty">
+            <div class="empty-icon">📡</div>
+            <h3>${t('feed')}</h3>
+            <p>${t('feedGuestMsg')}</p>
+            <button class="btn btn-primary btn-sm" id="guestRegisterFeed">${t('register')}</button>
+          </div>
+        </div>
+      </div>`;
+    document.getElementById('guestRegisterFeed')?.addEventListener('click',()=>renderAuth('register'));
+    return;
+  }
+
   let filter='all';
-  function filtered(){return filter==='all'?S.feed:S.feed.filter(p=>p.type===filter);}
+  const meId=Number(currentUser?.id||0);
+  function filtered(){
+    if(filter==='mine') return S.feed.filter(p=>p.userId===meId);
+    return filter==='all'?S.feed:S.feed.filter(p=>p.type===filter);
+  }
+
   function renderCards(){
     const list=filtered();
     const c=document.getElementById('feedCards');
@@ -1700,44 +1754,104 @@ function renderFeed(el){
     c.innerHTML=list.map(p=>`
       <div class="feed-card">
         <div class="feed-header">
-          <div class="feed-av">${esc(p.av||p.author.charAt(0))}</div>
-          <div style="flex:1"><div class="feed-author">${esc(p.author)}</div><div class="feed-time">${fmtAgo(p.timestamp)}</div></div>
-          <span class="badge badge-${p.type==='task'?'open':p.type==='wallet'?'in_progress':'completed'}">${p.type==='task'?t('tasks'):p.type==='achievement'?t('achievements'):t('wallet')}</span>
+          <div class="feed-av">${esc(p.av||(p.author||'?').charAt(0))}</div>
+          <div style="flex:1"><div class="feed-author">${esc(p.author||'')}</div><div class="feed-time">${fmtAgo(p.timestamp)}</div></div>
+          ${p.userId===meId?`<button class="action-btn" data-del="${p.id}" title="${t('feedDeletePost')}">🗑</button>`:''}
+          <span class="badge badge-${p.type==='task'?'open':p.type==='wallet'?'in_progress':'completed'}">${p.type==='task'?t('tasks'):p.type==='achievement'?t('achievements'):p.type==='wallet'?t('wallet'):t('feed')}</span>
         </div>
         ${p.hasMedia?`<div class="feed-media" style="background:linear-gradient(135deg,rgba(184,255,92,.05),rgba(125,215,255,.04));display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;">📷 ${t('mediaPreview')}</div>`:''}
-        <div class="feed-text${p.expanded?'':''}" style="${!p.expanded&&p.text.length>160?'display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text)}</div>
-        ${p.text.length>160?`<button class="action-btn" data-expand="${p.id}">${p.expanded?t('showLess'):t('readMore')}</button>`:''}
+        <div class="feed-text" style="${!p.expanded&&(p.text||'').length>160?'display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text||'')}</div>
+        ${(p.text||'').length>160?`<button class="action-btn" data-expand="${p.id}">${p.expanded?t('showLess'):t('readMore')}</button>`:''}
         <div class="feed-actions">
           <button class="action-btn${p.liked?' liked':''}" data-like="${p.id}">❤ ${p.likes}</button>
           <button class="action-btn${p.bookmarked?' bookmarked':''}" data-bm="${p.id}">🔖 ${p.bookmarked?t('saved'):t('save')}</button>
         </div>
       </div>`).join('');
-    c.querySelectorAll('[data-like]').forEach(b=>b.addEventListener('click',()=>{
+
+    // Like via API
+    c.querySelectorAll('[data-like]').forEach(b=>b.addEventListener('click',async()=>{
       const f=S.feed.find(x=>x.id===b.dataset.like);if(!f)return;
-      f.liked=!f.liked;f.likes+=f.liked?1:-1;saveState();renderCards();
+      const action=f.liked?'unlike':'like';
+      const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({action,post_id:Number(f.id)})});
+      if(ok){
+        f.liked=!f.liked;
+        f.likes=typeof data.likes_count==='number'?data.likes_count:(f.likes+(f.liked?1:-1));
+        saveState();renderCards();
+      } else {
+        // Fallback local toggle for better UX
+        f.liked=!f.liked;f.likes+=f.liked?1:-1;saveState();renderCards();
+      }
     }));
+    // Bookmark (local only)
     c.querySelectorAll('[data-bm]').forEach(b=>b.addEventListener('click',()=>{
       const f=S.feed.find(x=>x.id===b.dataset.bm);if(!f)return;
       f.bookmarked=!f.bookmarked;saveState();renderCards();
     }));
+    // Expand text
     c.querySelectorAll('[data-expand]').forEach(b=>b.addEventListener('click',()=>{
       const f=S.feed.find(x=>x.id===b.dataset.expand);if(!f)return;
       f.expanded=!f.expanded;saveState();renderCards();
+    }));
+    // Delete own post
+    c.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',async()=>{
+      if(!confirm(t('feedDeleteConfirm')))return;
+      const pid=b.dataset.del;
+      const {ok}=await apiFetch(`${API.feed}?id=${pid}`,{method:'DELETE'});
+      if(ok){
+        S.feed=S.feed.filter(x=>x.id!==pid);
+        saveState();renderCards();
+        toast(t('feedDeletePost'),'info');
+      }
     }));
   }
 
   el.innerHTML=`
     <div class="fade-up" style="max-width:680px;">
-      <div style="display:flex;gap:8px;margin-bottom:18px;" id="feedFilters">
+      <!-- Create post form -->
+      <div class="card" style="margin-bottom:18px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div class="user-av" style="width:36px;height:36px;font-size:14px;flex-shrink:0;">${(currentUser?.name||'?').charAt(0).toUpperCase()}</div>
+          <div style="flex:1">
+            <textarea id="feedPostText" class="form-textarea" rows="2" maxlength="2000" placeholder="${t('feedWritePost')}" style="resize:vertical;"></textarea>
+            <div style="display:flex;justify-content:flex-end;margin-top:8px;">
+              <button id="feedPostBtn" class="btn btn-primary btn-sm"><span class="btn-txt">${t('feedPostBtn')}</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Filters -->
+      <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;" id="feedFilters">
         <button class="chip active" data-ft="all">${t('all')}</button>
         <button class="chip" data-ft="task">${t('tasks')}</button>
         <button class="chip" data-ft="achievement">${t('achievements')}</button>
         <button class="chip" data-ft="wallet">${t('wallet')}</button>
+        <button class="chip" data-ft="mine">${t('feedMyPosts')}</button>
       </div>
+      <!-- Cards -->
       <div style="display:flex;flex-direction:column;gap:14px;" id="feedCards"></div>
     </div>`;
 
   renderCards();
+
+  // Create post handler
+  document.getElementById('feedPostBtn')?.addEventListener('click',async()=>{
+    const text=document.getElementById('feedPostText')?.value?.trim();
+    if(!text){toast(t('required'),'error');return;}
+    const btn=document.getElementById('feedPostBtn');
+    setLoading(btn,true);
+    const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({action:'create',content:text,category:'other'})});
+    setLoading(btn,false);
+    if(ok){
+      document.getElementById('feedPostText').value='';
+      await loadFeed();
+      renderCards();
+      toast(t('feedPostBtn'),'success');
+    } else {
+      toast(data.message||'Error','error');
+    }
+  });
+
+  // Filter handler
   document.getElementById('feedFilters')?.addEventListener('click',e=>{
     const btn=e.target.closest('[data-ft]');if(!btn)return;
     document.querySelectorAll('#feedFilters .chip').forEach(c=>c.classList.remove('active'));

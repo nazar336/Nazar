@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="LOLance — преміум платформа для мікрозадач">
+  <title>LOLance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Skip link for accessibility -->
+  <a href="#main-content" class="skip-link">Перейти до змісту</a>
+
+  <!-- Background layers -->
+  <div class="bg-orbs"  aria-hidden="true"></div>
+  <div class="bg-grid"  aria-hidden="true"></div>
+
+  <!-- App shell -->
+  <div id="app" role="main"></div>
+
+  <!-- Overlays -->
+  <div id="modalRoot"  role="dialog" aria-modal="true" aria-hidden="true"></div>
+  <div id="toastRoot"  class="toast-wrap" aria-live="polite" aria-atomic="true"></div>
+  <div id="notifPanel" class="notif-panel" aria-hidden="true"></div>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" aria-hidden="true"><span id="scrollBar"></span></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

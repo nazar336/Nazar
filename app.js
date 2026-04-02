@@ -111,6 +111,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 coins',
     roomOnline:'online', noMsgsYet:'Be the first to write!', globalRoomDesc:'All users can chat here',
     withdrawCrypto:'Withdraw to Crypto', withdrawTitle:'Withdraw Coins to Crypto', withdrawCoins:'Amount (coins)', withdrawWallet:'Your wallet address', withdrawNetwork:'Network', withdrawFee:'Fee (5%)', withdrawNet:'You receive', withdrawConfirm:'Submit Withdrawal', withdrawSuccess:'Withdrawal request created!', withdrawCancel:'Cancel Withdrawal', withdrawCancelled:'Withdrawal cancelled. Coins refunded.', withdrawHistory:'Withdrawal History', withdrawPending:'You have a pending withdrawal', withdrawMin:'Min withdrawal: 500 coins', withdrawStatus:'Status', noWithdrawals:'No withdrawals yet',
+    exchangerTitle:'Exchange: USDT → 🪙', exchangerGetAddress:'Get Address', exchangerConfirm:'Confirm', exchangerRange:'Amount: 1 to 10,000 USDT', exchangerSendTo:'Send', exchangerToAddress:'to address:', exchangerError:'Error', exchangerConfirmError:'Confirmation error', codeSentDesc:'Code sent to email. Check Inbox / Spam and enter the 6-digit code below.', globalMsgSent:'Message sent to Global chat',
   },
   UA:{
     appName:'LOLance', appTag:'Преміум платформа мікрозадач',
@@ -187,6 +188,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 монет',
     roomOnline:'онлайн', noMsgsYet:'Будь першим хто напише!', globalRoomDesc:'Тут можуть писати всі користувачі',
     withdrawCrypto:'Вивести в крипту', withdrawTitle:'Вивід монет у крипту', withdrawCoins:'Сума (монети)', withdrawWallet:'Адреса вашого гаманця', withdrawNetwork:'Мережа', withdrawFee:'Комісія (5%)', withdrawNet:'Ви отримаєте', withdrawConfirm:'Створити запит', withdrawSuccess:'Запит на вивід створено!', withdrawCancel:'Скасувати вивід', withdrawCancelled:'Вивід скасовано. Монети повернено.', withdrawHistory:'Історія виводів', withdrawPending:'У вас є активний запит на вивід', withdrawMin:'Мін. вивід: 500 монет', withdrawStatus:'Статус', noWithdrawals:'Виводів ще не було',
+    exchangerTitle:'Обмінник: USDT → 🪙', exchangerGetAddress:'Отримати адресу', exchangerConfirm:'Підтвердити', exchangerRange:'Сума: від 1 до 10000 USDT', exchangerSendTo:'Надішли', exchangerToAddress:'на адресу:', exchangerError:'Помилка', exchangerConfirmError:'Помилка підтвердження', codeSentDesc:'Код надіслано на email. Перевір папки Inbox / Spam та введи 6-значний код нижче.', globalMsgSent:'Повідомлення надіслано до Global чату',
   },
   DE:{
     appName:'LOLance', appTag:'Premium Micro-Task Plattform',
@@ -258,6 +260,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 Coins',
     roomOnline:'online', noMsgsYet:'Sei der Erste, der schreibt!', globalRoomDesc:'Hier können alle Nutzer schreiben',
     withdrawCrypto:'Auszahlung in Krypto', withdrawTitle:'Coins in Krypto auszahlen', withdrawCoins:'Betrag (Coins)', withdrawWallet:'Ihre Wallet-Adresse', withdrawNetwork:'Netzwerk', withdrawFee:'Gebühr (5%)', withdrawNet:'Sie erhalten', withdrawConfirm:'Auszahlung beantragen', withdrawSuccess:'Auszahlungsantrag erstellt!', withdrawCancel:'Auszahlung stornieren', withdrawCancelled:'Auszahlung storniert. Coins erstattet.', withdrawHistory:'Auszahlungshistorie', withdrawPending:'Sie haben eine offene Auszahlung', withdrawMin:'Min. Auszahlung: 500 Coins', withdrawStatus:'Status', noWithdrawals:'Noch keine Auszahlungen',
+    exchangerTitle:'Umtausch: USDT → 🪙', exchangerGetAddress:'Adresse erhalten', exchangerConfirm:'Bestätigen', exchangerRange:'Betrag: 1 bis 10.000 USDT', exchangerSendTo:'Senden Sie', exchangerToAddress:'an Adresse:', exchangerError:'Fehler', exchangerConfirmError:'Bestätigungsfehler', codeSentDesc:'Code per E-Mail gesendet. Prüfen Sie Inbox / Spam und geben Sie den 6-stelligen Code unten ein.', globalMsgSent:'Nachricht an Global-Chat gesendet',
   },
   FR:{
     appName:'LOLance', appTag:'Plateforme Premium de Micro-Tâches',
@@ -329,6 +332,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 coins',
     roomOnline:'en ligne', noMsgsYet:'Soyez le premier à écrire !', globalRoomDesc:'Tous les utilisateurs peuvent écrire ici',
     withdrawCrypto:'Retirer en crypto', withdrawTitle:'Retirer des coins en crypto', withdrawCoins:'Montant (coins)', withdrawWallet:'Adresse de votre portefeuille', withdrawNetwork:'Réseau', withdrawFee:'Frais (5%)', withdrawNet:'Vous recevrez', withdrawConfirm:'Soumettre le retrait', withdrawSuccess:'Demande de retrait créée !', withdrawCancel:'Annuler le retrait', withdrawCancelled:'Retrait annulé. Coins remboursés.', withdrawHistory:'Historique des retraits', withdrawPending:'Vous avez un retrait en attente', withdrawMin:'Retrait min. : 500 coins', withdrawStatus:'Statut', noWithdrawals:'Aucun retrait pour le moment',
+    exchangerTitle:'Échange: USDT → 🪙', exchangerGetAddress:'Obtenir l\'adresse', exchangerConfirm:'Confirmer', exchangerRange:'Montant: 1 à 10 000 USDT', exchangerSendTo:'Envoyez', exchangerToAddress:'à l\'adresse:', exchangerError:'Erreur', exchangerConfirmError:'Erreur de confirmation', codeSentDesc:'Code envoyé par e-mail. Vérifiez Boîte de réception / Spam et entrez le code à 6 chiffres ci-dessous.', globalMsgSent:'Message envoyé au chat Global',
   },
   ES:{
     appName:'LOLance', appTag:'Plataforma Premium de Micro-Tareas',
@@ -400,6 +404,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 monedas',
     roomOnline:'en línea', noMsgsYet:'¡Sé el primero en escribir!', globalRoomDesc:'Todos los usuarios pueden escribir aquí',
     withdrawCrypto:'Retirar a crypto', withdrawTitle:'Retirar coins a crypto', withdrawCoins:'Cantidad (coins)', withdrawWallet:'Dirección de tu billetera', withdrawNetwork:'Red', withdrawFee:'Comisión (5%)', withdrawNet:'Recibirás', withdrawConfirm:'Solicitar retiro', withdrawSuccess:'¡Solicitud de retiro creada!', withdrawCancel:'Cancelar retiro', withdrawCancelled:'Retiro cancelado. Coins devueltos.', withdrawHistory:'Historial de retiros', withdrawPending:'Tienes un retiro pendiente', withdrawMin:'Retiro mín.: 500 coins', withdrawStatus:'Estado', noWithdrawals:'Sin retiros aún',
+    exchangerTitle:'Cambio: USDT → 🪙', exchangerGetAddress:'Obtener dirección', exchangerConfirm:'Confirmar', exchangerRange:'Monto: 1 a 10.000 USDT', exchangerSendTo:'Envía', exchangerToAddress:'a la dirección:', exchangerError:'Error', exchangerConfirmError:'Error de confirmación', codeSentDesc:'Código enviado por email. Revisa Bandeja de entrada / Spam e ingresa el código de 6 dígitos abajo.', globalMsgSent:'Mensaje enviado al chat Global',
   },
   PL:{
     appName:'LOLance', appTag:'Platforma Premium Mikro-Zadań',
@@ -471,6 +476,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 coinów',
     roomOnline:'online', noMsgsYet:'Bądź pierwszym, który pisze!', globalRoomDesc:'Tutaj mogą pisać wszyscy użytkownicy',
     withdrawCrypto:'Wypłata na krypto', withdrawTitle:'Wypłata coinów na krypto', withdrawCoins:'Kwota (coiny)', withdrawWallet:'Adres Twojego portfela', withdrawNetwork:'Sieć', withdrawFee:'Opłata (5%)', withdrawNet:'Otrzymasz', withdrawConfirm:'Złóż wniosek', withdrawSuccess:'Wniosek o wypłatę złożony!', withdrawCancel:'Anuluj wypłatę', withdrawCancelled:'Wypłata anulowana. Coiny zwrócone.', withdrawHistory:'Historia wypłat', withdrawPending:'Masz oczekującą wypłatę', withdrawMin:'Min. wypłata: 500 coinów', withdrawStatus:'Status', noWithdrawals:'Brak wypłat',
+    exchangerTitle:'Wymiana: USDT → 🪙', exchangerGetAddress:'Pobierz adres', exchangerConfirm:'Potwierdź', exchangerRange:'Kwota: od 1 do 10 000 USDT', exchangerSendTo:'Wyślij', exchangerToAddress:'na adres:', exchangerError:'Błąd', exchangerConfirmError:'Błąd potwierdzenia', codeSentDesc:'Kod wysłany na email. Sprawdź folder Inbox / Spam i wpisz 6-cyfrowy kod poniżej.', globalMsgSent:'Wiadomość wysłana do czatu Global',
   },
 };
 function t(k){ return (i18n[S.lang]||i18n.UA)[k] || k; }
@@ -513,7 +519,7 @@ function loadState(){
   try{
     const raw=localStorage.getItem(STORAGE_KEY);
     if(raw){ S=JSON.parse(raw); }
-  }catch(e){}
+  }catch(e){ console.error('loadState error:', e); }
   if(!S) S=defaultState();
 }
 
@@ -535,7 +541,7 @@ async function syncProfile(){
       S.skills = data.user.skills || '';
       saveState();
     }
-  }catch(e){}
+  }catch(e){ console.error('syncProfile error:', e); }
 }
 
 async function loadTasks(filter='open'){
@@ -571,6 +577,7 @@ async function loadTasks(filter='open'){
       saveState();
     }
   }catch(e){
+    console.error('loadTasks error:', e);
   }
 }
 
@@ -611,7 +618,7 @@ async function loadWallet(){
     }
 
     saveState();
-  }catch(e){}
+  }catch(e){ console.error('loadWallet error:', e); }
 }
 
 async function loadMessages(){
@@ -622,7 +629,7 @@ async function loadMessages(){
       S.threads = data.threads || [];
       saveState();
     }
-  }catch(e){}
+  }catch(e){ console.error('loadMessages error:', e); }
 }
 
 async function loadSupport(){
@@ -646,7 +653,7 @@ async function loadSupport(){
         if(main) renderSupport(main);
       }
     }
-  }catch(e){}
+  }catch(e){ console.error('loadSupport error:', e); }
 }
 
 async function loadPoints(){
@@ -661,7 +668,7 @@ async function loadPoints(){
       S.checkins=Array.isArray(data.checkins)?data.checkins:[];
       saveState();
     }
-  }catch(e){}
+  }catch(e){ console.error('loadPoints error:', e); }
 }
 
 async function loadChatRooms(tier){
@@ -692,7 +699,7 @@ async function loadChatRooms(tier){
       }
       saveState();
     }
-  }catch(e){}
+  }catch(e){ console.error('loadChatRooms error:', e); }
 }
 
 async function sendRoomMessage(){
@@ -717,7 +724,7 @@ async function sendGlobalMessage(){
   if(!ok){toast(data.message||'Error','error');return;}
   input.value='';
   await loadChatRooms(1);
-  toast('Message sent to Global chat','success');
+  toast(t('globalMsgSent'),'success');
   navigate('chat');
 }
 
@@ -740,7 +747,7 @@ async function dailyCheckin(){
 }
 
 async function buyPointsPack(){
-  const packs=Math.max(1,Number(document.getElementById('buyPointsPacks')?.value||1));
+  const packs=Math.max(1,Number(document.getElementById('buyPointsPacksChat')?.value||document.getElementById('buyPointsPacks')?.value||1));
   const {ok,data}=await apiFetch(API.xp,{method:'POST',body:JSON.stringify({action:'buy_xp',packs})});
   if(!ok){toast(data.message||'Purchase failed','error');return;}
   await loadWallet();
@@ -758,9 +765,9 @@ async function loadLeaderboard(){
       S.userPosition = data.user_position;
       saveState();
     }
-  }catch(e){}
+  }catch(e){ console.error('loadLeaderboard error:', e); }
 }
-function saveState(){ try{ localStorage.setItem(STORAGE_KEY,JSON.stringify(S)); }catch(e){} }
+function saveState(){ try{ localStorage.setItem(STORAGE_KEY,JSON.stringify(S)); }catch(e){ console.error('saveState error:', e); } }
 function calcScore(u){
   return Math.round((u.earnings||0)*1.02+(u.completedTasks||0)*65+(u.streak||0)*20+(u.level||1)*110+(u.xp||0));
 }
@@ -1231,7 +1238,7 @@ function renderVerification(userId, email){
 
             <div id="codeSection" style="margin-top:20px;padding:15px;background:rgba(184,255,92,.1);border:1px solid rgba(184,255,92,.3);border-radius:8px;text-align:center;display:none;">
               <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">📧 ${t('verificationCode')}</div>
-              <div style="font-size:13px;color:var(--text-soft);">Код надіслано на email. Перевір папки Inbox / Spam та введи 6-значний код нижче.</div>
+              <div style="font-size:13px;color:var(--text-soft);">${t('codeSentDesc')}</div>
             </div>
           </div>
         </div>
@@ -1257,10 +1264,10 @@ function renderVerification(userId, email){
       </div>
     </div>`;
 
-  // Store data
+  // Store data (keep answer in closure, not on window)
   window.__verifyUserId = userId;
   window.__verifyEmail = email;
-  window.__correctAnswer = correctAnswer;
+  let _captchaAnswer = correctAnswer;
 
   // Captcha solver
   const solveCaptchaBtn = document.getElementById('solveCaptchaBtn');
@@ -1269,7 +1276,7 @@ function renderVerification(userId, email){
   
   solveCaptchaBtn?.addEventListener('click', () => {
     const userAnswer = parseInt(captchaInput.value);
-    if(userAnswer === correctAnswer){
+    if(userAnswer === _captchaAnswer){
       captchaError.style.display = 'none';
       document.querySelector('.auth-hero').style.display = 'none';
       document.getElementById('verifyCard').style.display = 'block';
@@ -1332,7 +1339,11 @@ function renderDashboard(el){
   const myScore=calcScore({earnings:S.earnings,completedTasks:S.completedTasks,streak:S.streak,level:S.level,xp:S.xp});
   const xpPct=Math.min(100,Math.round((S.xp%1000)/10));
   const trending=S.tasks.filter(t=>t.status==='open').slice(0,3);
-  const mini=[];
+  const mini=(S.leaderboard||[]).slice(0,3).map(u=>({
+    name:u.name||u.username||'User',
+    av:(u.name||u.username||'?').charAt(0).toUpperCase(),
+    score:Number(u.score||u.xp||0)
+  }));
   el.innerHTML=`
     <div class="fade-up">
       <!-- Hero welcome -->
@@ -1344,7 +1355,7 @@ function renderDashboard(el){
             <p style="font-size:14px;color:var(--text-soft);">${isGuest?t('welcomeGuestDesc'):t('dashMotivationDesc')}</p>
           </div>
           <div style="text-align:right;flex-shrink:0;">
-            <div class="streak-badge"><span class="streak-fire">🔥</span>${S.streak} day streak</div>
+            <div class="streak-badge"><span class="streak-fire">🔥</span>${S.streak} ${t('dayStreak')}</div>
             <div style="font-size:12px;color:var(--muted);margin-top:4px;">Level ${S.level} · ${S.xp} XP</div>
           </div>
         </div>
@@ -2095,7 +2106,7 @@ function renderChat(el){
   }
   const rooms=(S.chatRooms||[]);
   const activeTier=Number(S.activeRoomTier||1);
-  const activeRoom=rooms.find(r=>Number(r.tier)===activeTier) || rooms[0];
+  const activeRoom=rooms.find(r=>Number(r.tier)===activeTier) || rooms[0] || null;
   const messages=(S.chatRoomMessages||[]);
 
   el.innerHTML=`
@@ -2106,8 +2117,7 @@ function renderChat(el){
           <div style="font-size:13px;color:var(--muted);">XP / LVL: <b>${Number(S.xp||0).toLocaleString()} XP · Lv ${Number(S.level||1)}</b></div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
-          <input id="buyPointsPacks" type="number" min="1" max="100" value="1" class="form-input" style="width:90px;">
-          <button id="buyPointsBtn" class="btn btn-ghost btn-sm">${t('buyPoints')}</button>
+          <input id="buyPointsPacksChat" type="number" min="1" max="100" value="1" class="form-input" style="width:90px;">          <button id="buyPointsBtn" class="btn btn-ghost btn-sm">${t('buyPoints')}</button>
         </div>
       </div>
 
@@ -2351,7 +2361,7 @@ function renderProfile(el){
     ? `<div class="card"><div class="section-title">👉 ${t('readyToStartQ')}</div><p style="font-size:14px;color:var(--text-soft);margin-bottom:14px;">${t('readyToStartDesc')}</p><button class="btn btn-primary btn-block" id="guestCreateBtn"><span class="btn-txt">${t('register')}</span></button></div>`
     : `<div class="card"><div class="section-title">✏️ ${t('editProfileTitle')}</div><form id="profileForm" style="display:flex;flex-direction:column;gap:14px;"><div class="form-group"><label class="form-label">${t('roleTitle')}</label><input type="text" id="pfRole" class="form-input" value="${esc(S.role||'')}" placeholder="${t('rolePlaceholder')}" maxlength="60"></div><div class="form-group"><label class="form-label">${t('bioLabel')}</label><textarea id="pfBio" class="form-textarea" rows="3" maxlength="500" placeholder="${t('bioPlaceholder')}">${esc(S.bio||'')}</textarea></div><div class="form-group"><label class="form-label">${t('skillsLabel')}</label><input type="text" id="pfSkills" class="form-input" value="${esc(S.skills||'')}" placeholder="${t('skillsPlaceholder')}"></div><button type="submit" class="btn btn-primary btn-block"><span class="btn-txt">${t('saveProfile')}</span></button></form></div>`;
 
-  const exchanger=isGuest?'':`<div class="card" style="margin-top:20px;"><div class="section-title">₮ Обмінник: USDT → 🪙</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;"><div class="card-flat" style="padding:10px;"><div class="stat-label">Coins</div><div style="font-weight:800;">${Number(S.coinBalance||0).toLocaleString()}</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">Rate</div><div style="font-weight:800;">1 USDT = 100 🪙</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">Pending</div><div style="font-weight:800;">${Number(S.pendingCryptoCount||0)}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><input id="exchAmount" class="form-input" type="number" min="1" max="10000" placeholder="USDT amount"><select id="exchNetwork" class="form-select"><option value="TRC20">TRC20</option><option value="BEP20">BEP20</option></select></div><div id="exchangeAlert" class="alert" style="margin-top:10px;"></div><button id="exchInitBtn" class="btn btn-primary btn-block" style="margin-top:10px;"><span class="btn-txt">Отримати адресу</span></button><div id="exchangeStep2" style="margin-top:10px;"></div></div>`;
+  const exchanger=isGuest?'':`<div class="card" style="margin-top:20px;"><div class="section-title">₮ ${t('exchangerTitle')}</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;"><div class="card-flat" style="padding:10px;"><div class="stat-label">Coins</div><div style="font-weight:800;">${Number(S.coinBalance||0).toLocaleString()}</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">Rate</div><div style="font-weight:800;">1 USDT = 100 🪙</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">${t('pending')}</div><div style="font-weight:800;">${Number(S.pendingCryptoCount||0)}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><input id="exchAmount" class="form-input" type="number" min="1" max="10000" placeholder="USDT amount"><select id="exchNetwork" class="form-select"><option value="TRC20">TRC20</option><option value="BEP20">BEP20</option></select></div><div id="exchangeAlert" class="alert" style="margin-top:10px;"></div><button id="exchInitBtn" class="btn btn-primary btn-block" style="margin-top:10px;"><span class="btn-txt">${t('exchangerGetAddress')}</span></button><div id="exchangeStep2" style="margin-top:10px;"></div></div>`;
 
   el.innerHTML=`
     <div class="fade-up" style="max-width:800px;">
@@ -2422,17 +2432,17 @@ function renderProfile(el){
     const amount=parseFloat(document.getElementById('exchAmount')?.value)||0;
     const network=document.getElementById('exchNetwork')?.value||'TRC20';
     const alertEl=document.getElementById('exchangeAlert');
-    if(amount<1||amount>10000){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent='Сума: від 1 до 10000 USDT';}return;}
+    if(amount<1||amount>10000){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=t('exchangerRange');}return;}
     const {ok,data}=await apiFetch(API.cryptoDeposit,{method:'POST',body:JSON.stringify({action:'initiate',amount_usdt:amount,network})});
-    if(!ok){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=data.message||'Помилка';}return;}
+    if(!ok){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=data.message||t('exchangerError');}return;}
     const step2=document.getElementById('exchangeStep2');
     if(step2){
-      step2.innerHTML=`<div class="card-flat" style="padding:10px;"><div style="font-size:12px;color:var(--muted);">Надішли ${Number(data.amount_usdt||amount)} USDT (${esc(data.network||network)}) на адресу:</div><div style="font-size:13px;font-weight:700;color:var(--primary);word-break:break-all;margin:6px 0;">${esc(data.wallet_address||'')}</div><input id="exchTxHash" class="form-input" placeholder="tx hash" style="margin-top:8px;"><button id="exchConfirmBtn" class="btn btn-success btn-block" style="margin-top:8px;">Підтвердити</button></div>`;
+      step2.innerHTML=`<div class="card-flat" style="padding:10px;"><div style="font-size:12px;color:var(--muted);">${t('exchangerSendTo')} ${Number(data.amount_usdt||amount)} USDT (${esc(data.network||network)}) ${t('exchangerToAddress')}</div><div style="font-size:13px;font-weight:700;color:var(--primary);word-break:break-all;margin:6px 0;">${esc(data.wallet_address||'')}</div><input id="exchTxHash" class="form-input" placeholder="tx hash" style="margin-top:8px;"><button id="exchConfirmBtn" class="btn btn-success btn-block" style="margin-top:8px;">${t('exchangerConfirm')}</button></div>`;
       document.getElementById('exchConfirmBtn')?.addEventListener('click',async()=>{
         const txHash=document.getElementById('exchTxHash')?.value?.trim();
         if(!txHash)return;
         const res=await apiFetch(API.cryptoDeposit,{method:'POST',body:JSON.stringify({action:'confirm',deposit_id:data.deposit_id,tx_hash:txHash})});
-        if(!res.ok){toast(res.data.message||'Помилка підтвердження','error');return;}
+        if(!res.ok){toast(res.data.message||t('exchangerConfirmError'),'error');return;}
         await loadWallet();
         toast(res.data.message||'Депозит підтверджено','success');
         navigate('profile');

@@ -53,9 +53,10 @@ try {
     $pdo->commit();
 
     $response = ['success' => true, 'message' => 'Реєстрація успішна. Код верифікації надіслано на email.', 'user_id' => $userId];
-    if (!$mailSent && APP_ENV !== 'production') {
+    if (!$mailSent && APP_ENV === 'development') {
         $response['message']           = 'DEV MODE: mail не відправлено, код в response.';
         $response['verification_code'] = $verificationCode;
+        error_log('LOLance DEV: verification code for user ' . $userId . ' returned in response (dev mode only)');
     }
     json_response($response);
 } catch (\Exception $e) {

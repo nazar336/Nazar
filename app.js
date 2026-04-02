@@ -513,6 +513,7 @@ function defaultState(){
     cryptoDeposits:[], pendingCryptoCount:0, coinHistory:[],
     checkinStreak:0, doneCheckinToday:false, checkins:[],
     chatRooms:[], activeRoomTier:1, chatRoomMessages:[],
+    leaderboard:[], userPosition:null,
   };
 }
 function loadState(){

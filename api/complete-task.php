@@ -119,13 +119,23 @@ try {
     $bonusXp = $diffXp[$task['difficulty'] ?? 'medium'] ?? 35;
     $totalXp = 100 + $bonusXp; // 100 base + difficulty bonus in ONE query
 
+    // Check last task completion for streak reset (reset if > 7 days since last completion)
+    $lastCompStmt = $pdo->prepare("
+        SELECT MAX(ta.completed_at) FROM task_assignments ta
+        JOIN transactions tx ON tx.user_id=ta.user_id AND tx.task_id=ta.task_id AND tx.type='task_reward' AND tx.status='completed'
+        WHERE ta.user_id=:uid AND ta.status='completed'
+    ");
+    $lastCompStmt->execute([':uid' => $workerId]);
+    $lastCompletion = $lastCompStmt->fetchColumn();
+    $resetStreak = $lastCompletion && (strtotime($lastCompletion) < strtotime('-7 days'));
+
     // ✅ Single UPDATE — xp is updated first (left-to-right), so level uses already-updated xp
     $pdo->prepare('
         UPDATE users SET
             completed_tasks = completed_tasks + 1,
             earnings        = earnings + :reward,
             xp              = xp + :xp,
-            streak          = streak + 1,
+            streak          = ' . ($resetStreak ? '1' : 'streak + 1') . ',
             level           = LEAST(12, FLOOR(xp / 1000) + 1)
         WHERE id = :uid
     ')->execute([':reward' => $reward, ':xp' => $totalXp, ':uid' => $workerId]);

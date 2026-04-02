@@ -531,9 +531,9 @@ function defaultState(){
 function loadState(){
   try{
     const raw=localStorage.getItem(STORAGE_KEY);
-    if(raw){ S=JSON.parse(raw); }
+    if(raw){ S={...defaultState(),...JSON.parse(raw)}; }
   }catch(e){}
-  if(!S) S=defaultState();
+  if(!S || typeof S!=='object') S=defaultState();
 }
 
 async function syncProfile(){
@@ -859,12 +859,13 @@ function setLoading(btn,state){
 
 /* ── 10. NOTIFICATIONS ───────────────────────────────────────── */
 function addNotif(text,type='info'){
+  if(!Array.isArray(S.notifications)) S.notifications=[];
   S.notifications.unshift({id:uid(),text,type,read:false,timestamp:new Date().toISOString()});
   saveState();
   updateNotifBadge();
 }
 function updateNotifBadge(){
-  const count=S.notifications.filter(n=>!n.read).length;
+  const count=(S.notifications||[]).filter(n=>!n.read).length;
   const badge=document.getElementById('notifBadge');
   if(badge){badge.textContent=count||'';badge.style.display=count?'flex':'none';}
 }
@@ -1002,7 +1003,7 @@ function renderShell(){
   if(np){
     np.innerHTML=`
       <div class="notif-head"><h4>${t('notifications')}</h4><button class="btn btn-ghost btn-xs" id="markReadBtn">${t('markRead')}</button></div>
-      <div class="notif-list">${S.notifications.length?S.notifications.map(n=>`<div class="notif-item${n.read?'':' unread'}"><div>${esc(n.text)}</div><div class="notif-time">${fmtAgo(n.timestamp)}</div></div>`).join(''):`<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">${t('noNotifications')}</div>`}</div>`;
+      <div class="notif-list">${(S.notifications||[]).length?(S.notifications||[]).map(n=>`<div class="notif-item${n.read?'':' unread'}"><div>${esc(n.text)}</div><div class="notif-time">${fmtAgo(n.timestamp)}</div></div>`).join(''):`<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">${t('noNotifications')}</div>`}</div>`;
   }
 
   document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.page)));
@@ -1014,7 +1015,7 @@ function renderShell(){
   }
   document.getElementById('langToggle')?.addEventListener('change',e=>{S.lang=e.target.value;saveState();renderShell();navigate(currentPage);});
   document.getElementById('notifToggle')?.addEventListener('click',toggleNotif);
-  document.getElementById('markReadBtn')?.addEventListener('click',()=>{S.notifications.forEach(n=>n.read=true);saveState();updateNotifBadge();renderShell();navigate(currentPage);});
+  document.getElementById('markReadBtn')?.addEventListener('click',()=>{(S.notifications||[]).forEach(n=>n.read=true);saveState();updateNotifBadge();renderShell();navigate(currentPage);});
 
   if(currentUser && !isGuest) syncProfile();
 
@@ -1377,7 +1378,7 @@ async function handleVerify(e, userId){
 function renderDashboard(el){
   const myScore=calcScore({earnings:S.earnings,completedTasks:S.completedTasks,streak:S.streak,level:S.level,xp:S.xp});
   const xpPct=Math.min(100,Math.round((S.xp%1000)/10));
-  const trending=S.tasks.filter(t=>t.status==='open').slice(0,3);
+  const trending=(S.tasks||[]).filter(t=>t.status==='open').slice(0,3);
   const mini=(S.leaderboard||[]).slice(0,3).map(u=>({av:(u.name||u.username||'?').charAt(0).toUpperCase(),name:u.name||u.username||'User',score:Number(u.score||0)}));
   el.innerHTML=`
     <div class="fade-up">
@@ -1428,8 +1429,8 @@ function renderDashboard(el){
         <div class="card">
           <div class="section-title">🏅 ${t('achievements')}</div>
           <div style="display:flex;flex-wrap:wrap;gap:7px;">
-            ${S.achievements.map(a=>`<span class="achievement">🎖 ${esc(a)}</span>`).join('')}
-            ${S.completedTasks>=5&&!S.achievements.includes('Lvl Climb')?'<span class="achievement">🚀 Lvl Climb</span>':''}
+            ${(S.achievements||[]).map(a=>`<span class="achievement">🎖 ${esc(a)}</span>`).join('')}
+            ${S.completedTasks>=5&&!(S.achievements||[]).includes('Lvl Climb')?'<span class="achievement">🚀 Lvl Climb</span>':''}
           </div>
         </div>
       </div>
@@ -1494,7 +1495,7 @@ function renderDashboard(el){
 function renderTasks(el){
   let filterStatus='all', filterCat='all', searchQ='';
   function filtered(){
-    return S.tasks.filter(t=>{
+    return (S.tasks||[]).filter(t=>{
       if(filterStatus!=='all'&&t.status!==filterStatus)return false;
       if(filterCat!=='all'&&t.category!==filterCat)return false;
       if(searchQ&&!t.title.toLowerCase().includes(searchQ.toLowerCase()))return false;

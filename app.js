@@ -16,7 +16,8 @@ const API = {
   messages:'api/messages.php', leaderboard:'api/leaderboard.php', takeTask:'api/take-task.php',
   completeTask:'api/complete-task.php',
   cryptoDeposit:'api/crypto-deposit.php', cryptoWithdraw:'api/crypto-withdraw.php', coins:'api/coins.php',
-  xp:'api/xp.php', chatRooms:'api/chat-rooms.php', support:'api/support.php'
+  xp:'api/xp.php', chatRooms:'api/chat-rooms.php', support:'api/support.php',
+  feed:'api/feed.php'
 };
 const CATEGORIES = ['Design','Video','Copy','Social','Community','QA','Localization','Product','Development','Marketing'];
 
@@ -74,7 +75,8 @@ const i18n = {
     // Create task
     titleLabel:'Title', titlePlaceholder:'Bold, clear task name', descPlaceholder:'What exactly needs to be done?', selectOption:'Select…', previewTitlePh:'Task title will appear here…', previewDescPh:'Description preview…', noDeadline:'No deadline',
     // Feed
-    noPosts:'No posts', mediaPreview:'Media preview', readMore:'Read more ↓', showLess:'Show less ↑', save:'Save', saved:'Saved',
+    noPosts:'No posts yet', mediaPreview:'Media preview', readMore:'Read more ↓', showLess:'Show less ↑', save:'Save', saved:'Saved',
+    createPost:'Create Post', postPlaceholder:'What\'s on your mind?', addMedia:'Add Media', mediaUrlPlaceholder:'Paste image or video URL (https://...)', postImage:'Image', postVideo:'Video', publishPost:'Publish', deletePost:'Delete', confirmDelete:'Delete this post?', postCreated:'Post published!', postDeleted:'Post deleted.', guestFeed:'Sign up to create posts and interact with the community.', feedLoadMore:'Load More', feedNoMore:'No more posts', myPosts:'My Posts',
     // Wallet
     txHistory:'Transaction History', type:'Type', amountCol:'Amount', whenCol:'When', recipientUsername:'Recipient username', confirm:'Confirm', guestWallet:'Wallet is available only for registered users.',
     // Chat
@@ -159,7 +161,8 @@ const i18n = {
     trendingTasks:'Популярні задачі', miniLeaderboard:'Міні-рейтинг',
     noTasksFound:'Задач не знайдено', adjustFilters:'Спробуйте змінити фільтри.', cancelled:'Скасовано', byUser:'від',
     titleLabel:'Заголовок', titlePlaceholder:'Чіткий заголовок задачі', descPlaceholder:'Що саме потрібно зробити?', selectOption:'Обрати…', previewTitlePh:'Заголовок з\'явиться тут…', previewDescPh:'Попередній перегляд…', noDeadline:'Без дедлайну',
-    noPosts:'Немає постів', mediaPreview:'Перегляд медіа', readMore:'Читати більше ↓', showLess:'Згорнути ↑', save:'Зберегти', saved:'Збережено',
+    noPosts:'Постів ще немає', mediaPreview:'Перегляд медіа', readMore:'Читати більше ↓', showLess:'Згорнути ↑', save:'Зберегти', saved:'Збережено',
+    createPost:'Створити пост', postPlaceholder:'Що у вас нового?', addMedia:'Додати медіа', mediaUrlPlaceholder:'Вставте URL зображення або відео (https://...)', postImage:'Фото', postVideo:'Відео', publishPost:'Опублікувати', deletePost:'Видалити', confirmDelete:'Видалити цей пост?', postCreated:'Пост опубліковано!', postDeleted:'Пост видалено.', guestFeed:'Зареєструйтесь, щоб створювати пости та взаємодіяти зі спільнотою.', feedLoadMore:'Завантажити ще', feedNoMore:'Більше постів немає', myPosts:'Мої пости',
     txHistory:'Історія транзакцій', type:'Тип', amountCol:'Сума', whenCol:'Коли', recipientUsername:'Username отримувача', confirm:'Підтвердити', guestWallet:'Гаманець доступний лише для зареєстрованих користувачів.',
     conversations:'Розмови', online:'Онлайн', lastSeen:'Був(-ла) нещодавно', selectConversation:'Оберіть розмову', guestChat:'Чат доступний лише для зареєстрованих користувачів.',
     chatReplyWallet1:'Перевірте вкладку Гаманець для поточного балансу.', chatReplyWallet2:'Кошти оновлюються після завершення задачі.', chatReplyTask1:'Перегляньте сторінку Задач для відкритих слотів.', chatReplyTask2:'Дедлайни вказані на кожній картці задачі.', chatReplyReward1:'Нагороди нараховуються автоматично після завершення.', chatReplyReward2:'Історія заробітку в розділі Гаманець.', chatReplyLevel1:'Рівень і XP показані на дашборді.', chatReplyLevel2:'Підтримуйте серію для бонусних балів.', chatFallback1:'Зрозуміло, я звернусь незабаром.', chatFallback2:'Дякую за повідомлення!', chatFallback3:'Зафіксовано. Перевірю.',
@@ -232,6 +235,7 @@ const i18n = {
     noTasksFound:'Keine Aufgaben gefunden', adjustFilters:'Versuchen Sie die Filter anzupassen.', cancelled:'Abgebrochen', byUser:'von',
     titleLabel:'Titel', titlePlaceholder:'Klarer Aufgabenname', descPlaceholder:'Was genau muss gemacht werden?', selectOption:'Wählen…', previewTitlePh:'Titel erscheint hier…', previewDescPh:'Beschreibungsvorschau…', noDeadline:'Kein Termin',
     noPosts:'Keine Beiträge', mediaPreview:'Medienvorschau', readMore:'Mehr lesen ↓', showLess:'Weniger zeigen ↑', save:'Speichern', saved:'Gespeichert',
+    createPost:'Beitrag erstellen', postPlaceholder:'Was gibt es Neues?', addMedia:'Medien hinzufügen', mediaUrlPlaceholder:'Bild- oder Video-URL einfügen (https://...)', postImage:'Bild', postVideo:'Video', publishPost:'Veröffentlichen', deletePost:'Löschen', confirmDelete:'Diesen Beitrag löschen?', postCreated:'Beitrag veröffentlicht!', postDeleted:'Beitrag gelöscht.', guestFeed:'Registrieren Sie sich, um Beiträge zu erstellen.', feedLoadMore:'Mehr laden', feedNoMore:'Keine weiteren Beiträge', myPosts:'Meine Beiträge',
     txHistory:'Transaktionsverlauf', type:'Typ', amountCol:'Betrag', whenCol:'Wann', recipientUsername:'Empfänger-Username', confirm:'Bestätigen', guestWallet:'Geldbörse nur für registrierte Benutzer verfügbar.',
     conversations:'Gespräche', online:'Online', lastSeen:'Zuletzt gesehen', selectConversation:'Gespräch wählen', guestChat:'Chat nur für registrierte Benutzer verfügbar.',
     chatReplyWallet1:'Prüfen Sie den Geldbörse-Tab für Ihren Kontostand.', chatReplyWallet2:'Das Guthaben wird nach Aufgabenabschluss aktualisiert.', chatReplyTask1:'Durchsuchen Sie die Aufgabenseite nach offenen Plätzen.', chatReplyTask2:'Fristen stehen auf jeder Aufgabenkarte.', chatReplyReward1:'Belohnungen werden automatisch nach Abschluss gutgeschrieben.', chatReplyReward2:'Ihre Verdiensthistorie finden Sie im Geldbörse-Bereich.', chatReplyLevel1:'Ihr Level und XP werden auf dem Dashboard angezeigt.', chatReplyLevel2:'Halten Sie Ihre Serie aktiv für Bonuspunkte.', chatFallback1:'Verstanden, ich melde mich bald.', chatFallback2:'Danke für die Nachricht!', chatFallback3:'Notiert. Ich prüfe das.',
@@ -304,6 +308,7 @@ const i18n = {
     noTasksFound:'Aucune tâche trouvée', adjustFilters:'Essayez d\'ajuster les filtres.', cancelled:'Annulé', byUser:'par',
     titleLabel:'Titre', titlePlaceholder:'Nom clair de la tâche', descPlaceholder:'Que faut-il faire exactement ?', selectOption:'Sélectionner…', previewTitlePh:'Le titre apparaîtra ici…', previewDescPh:'Aperçu de la description…', noDeadline:'Pas d\'échéance',
     noPosts:'Aucun post', mediaPreview:'Aperçu média', readMore:'Lire plus ↓', showLess:'Moins ↑', save:'Enregistrer', saved:'Enregistré',
+    createPost:'Créer un post', postPlaceholder:'Quoi de neuf ?', addMedia:'Ajouter un média', mediaUrlPlaceholder:'Collez l\'URL image ou vidéo (https://...)', postImage:'Image', postVideo:'Vidéo', publishPost:'Publier', deletePost:'Supprimer', confirmDelete:'Supprimer ce post ?', postCreated:'Post publié !', postDeleted:'Post supprimé.', guestFeed:'Inscrivez-vous pour créer des posts.', feedLoadMore:'Charger plus', feedNoMore:'Plus de posts', myPosts:'Mes posts',
     txHistory:'Historique des transactions', type:'Type', amountCol:'Montant', whenCol:'Quand', recipientUsername:'Nom d\'utilisateur destinataire', confirm:'Confirmer', guestWallet:'Le portefeuille est réservé aux utilisateurs inscrits.',
     conversations:'Conversations', online:'En ligne', lastSeen:'Vu récemment', selectConversation:'Sélectionnez une conversation', guestChat:'Le chat est réservé aux utilisateurs inscrits.',
     chatReplyWallet1:'Consultez l\'onglet Portefeuille pour votre solde.', chatReplyWallet2:'Les fonds sont mis à jour après la complétion de la tâche.', chatReplyTask1:'Parcourez la page Tâches pour les places disponibles.', chatReplyTask2:'Les échéances sont indiquées sur chaque carte.', chatReplyReward1:'Les récompenses sont créditées automatiquement.', chatReplyReward2:'L\'historique des gains est dans la section Portefeuille.', chatReplyLevel1:'Votre niveau et XP sont affichés sur le tableau de bord.', chatReplyLevel2:'Maintenez votre série pour des points bonus.', chatFallback1:'Compris, je reviens bientôt.', chatFallback2:'Merci pour le message !', chatFallback3:'Noté. Je vérifie.',
@@ -376,6 +381,7 @@ const i18n = {
     noTasksFound:'No se encontraron tareas', adjustFilters:'Intenta ajustar los filtros.', cancelled:'Cancelado', byUser:'por',
     titleLabel:'Título', titlePlaceholder:'Nombre claro de la tarea', descPlaceholder:'¿Qué hay que hacer exactamente?', selectOption:'Seleccionar…', previewTitlePh:'El título aparecerá aquí…', previewDescPh:'Vista previa de la descripción…', noDeadline:'Sin fecha límite',
     noPosts:'Sin publicaciones', mediaPreview:'Vista previa de medios', readMore:'Leer más ↓', showLess:'Mostrar menos ↑', save:'Guardar', saved:'Guardado',
+    createPost:'Crear publicación', postPlaceholder:'¿Qué hay de nuevo?', addMedia:'Agregar medios', mediaUrlPlaceholder:'Pega URL de imagen o video (https://...)', postImage:'Imagen', postVideo:'Video', publishPost:'Publicar', deletePost:'Eliminar', confirmDelete:'¿Eliminar esta publicación?', postCreated:'¡Publicación creada!', postDeleted:'Publicación eliminada.', guestFeed:'Regístrate para crear publicaciones.', feedLoadMore:'Cargar más', feedNoMore:'No hay más publicaciones', myPosts:'Mis publicaciones',
     txHistory:'Historial de transacciones', type:'Tipo', amountCol:'Monto', whenCol:'Cuándo', recipientUsername:'Usuario destinatario', confirm:'Confirmar', guestWallet:'La billetera solo está disponible para usuarios registrados.',
     conversations:'Conversaciones', online:'En línea', lastSeen:'Visto recientemente', selectConversation:'Selecciona una conversación', guestChat:'El chat solo está disponible para usuarios registrados.',
     chatReplyWallet1:'Consulta la pestaña Billetera para tu saldo.', chatReplyWallet2:'Los fondos se actualizan tras completar la tarea.', chatReplyTask1:'Explora la página de Tareas para espacios abiertos.', chatReplyTask2:'Los plazos se muestran en cada tarjeta de tarea.', chatReplyReward1:'Las recompensas se acreditan automáticamente.', chatReplyReward2:'Tu historial de ganancias está en la sección Billetera.', chatReplyLevel1:'Tu nivel y XP se muestran en el panel.', chatReplyLevel2:'Mantén tu racha activa para ganar más XP.', chatFallback1:'Entendido, vuelvo pronto.', chatFallback2:'¡Gracias por el mensaje!', chatFallback3:'Anotado. Lo verifico.',
@@ -448,6 +454,7 @@ const i18n = {
     noTasksFound:'Nie znaleziono zadań', adjustFilters:'Spróbuj zmienić filtry.', cancelled:'Anulowane', byUser:'od',
     titleLabel:'Tytuł', titlePlaceholder:'Jasna nazwa zadania', descPlaceholder:'Co dokładnie trzeba zrobić?', selectOption:'Wybierz…', previewTitlePh:'Tytuł pojawi się tutaj…', previewDescPh:'Podgląd opisu…', noDeadline:'Bez terminu',
     noPosts:'Brak postów', mediaPreview:'Podgląd mediów', readMore:'Czytaj więcej ↓', showLess:'Mniej ↑', save:'Zapisz', saved:'Zapisano',
+    createPost:'Utwórz post', postPlaceholder:'Co nowego?', addMedia:'Dodaj media', mediaUrlPlaceholder:'Wklej URL obrazu lub wideo (https://...)', postImage:'Zdjęcie', postVideo:'Wideo', publishPost:'Opublikuj', deletePost:'Usuń', confirmDelete:'Usunąć ten post?', postCreated:'Post opublikowany!', postDeleted:'Post usunięty.', guestFeed:'Zarejestruj się, aby tworzyć posty.', feedLoadMore:'Załaduj więcej', feedNoMore:'Brak kolejnych postów', myPosts:'Moje posty',
     txHistory:'Historia transakcji', type:'Typ', amountCol:'Kwota', whenCol:'Kiedy', recipientUsername:'Nazwa użytkownika odbiorcy', confirm:'Potwierdź', guestWallet:'Portfel dostępny tylko dla zarejestrowanych użytkowników.',
     conversations:'Rozmowy', online:'Online', lastSeen:'Widziany niedawno', selectConversation:'Wybierz rozmowę', guestChat:'Chat dostępny tylko dla zarejestrowanych użytkowników.',
     chatReplyWallet1:'Sprawdź zakładkę Portfel, aby zobaczyć saldo.', chatReplyWallet2:'Środki są aktualizowane po zakończeniu zadania.', chatReplyTask1:'Przeglądaj stronę Zadań w poszukiwaniu wolnych miejsc.', chatReplyTask2:'Terminy są pokazane na każdej karcie zadania.', chatReplyReward1:'Nagrody są automatycznie naliczane po zakończeniu.', chatReplyReward2:'Historia zarobków jest w sekcji Portfel.', chatReplyLevel1:'Twój poziom i XP są pokazane na pulpicie.', chatReplyLevel2:'Utrzymuj serię aktywną, aby zdobywać więcej XP.', chatFallback1:'Rozumiem, odezwę się wkrótce.', chatFallback2:'Dzięki za wiadomość!', chatFallback3:'Zanotowano. Sprawdzę.',
@@ -504,7 +511,7 @@ function defaultState(){
     achievements:[],
     bio:'', role:'', skills:'',
     tasks:[],
-    feed:[],
+    feed:[], feedPosts:[], feedPage:1, feedHasMore:false,
     notifications:[],
     transactions:[],
     threads:[],
@@ -768,6 +775,22 @@ async function loadLeaderboard(){
     }
   }catch(e){ console.error('loadLeaderboard error:', e); }
 }
+
+async function loadFeed(page=1, append=false){
+  try{
+    const {ok, data} = await apiFetch(`${API.feed}?page=${page}`);
+    if(ok){
+      if(append){
+        S.feedPosts = [...(S.feedPosts||[]), ...(data.posts||[])];
+      } else {
+        S.feedPosts = data.posts || [];
+      }
+      S.feedPage = data.page || 1;
+      S.feedHasMore = !!data.has_more;
+      saveState();
+    }
+  }catch(e){ console.error('loadFeed error:', e); }
+}
 function saveState(){ try{ localStorage.setItem(STORAGE_KEY,JSON.stringify(S)); }catch(e){ console.error('saveState error:', e); } }
 function calcScore(u){
   return Math.round((u.earnings||0)*1.02+(u.completedTasks||0)*65+(u.streak||0)*20+(u.level||1)*110+(u.xp||0));
@@ -873,6 +896,7 @@ function renderPage(page,el){
     loadTasks('taken');
   }
   if(page==='wallet' && !isGuest) loadWallet();
+  if(page==='feed') loadFeed();
   if(page==='chat' && !isGuest){ loadChatRooms(); loadPoints(); }
   if(page==='support' && !isGuest) loadSupport();
   if(page==='profile' && !isGuest) loadPoints();
@@ -1174,6 +1198,7 @@ async function handleRegister(e){
   const acceptTerms=!!document.getElementById('regAcceptTerms')?.checked;
   const acceptPrivacy=acceptTerms;
   if(!name||!username||!email||!password){showAlert('authAlert',t('required'));return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showAlert('authAlert','Email некоректний.');return;}
   if(!acceptTerms){showAlert('authAlert','Потрібно погодитись з Правилами платформи та Політикою приватності.');return;}
   hideAlert('authAlert');setLoading(btn,true);
   const {ok,data}=await apiFetch(API.register,{method:'POST',body:JSON.stringify({name,username,email,password,accept_terms:acceptTerms,accept_privacy:acceptPrivacy})});
@@ -1687,60 +1712,190 @@ function renderCreateTask(el){
   });
 }
 
-/* ── 18. FEED ────────────────────────────────────────────────── */
+/* ── 18. FEED (TikTok-like) ───────────────────────────────────── */
 function renderFeed(el){
-  let filter='all';
-  function filtered(){return filter==='all'?S.feed:S.feed.filter(p=>p.type===filter);}
-  function renderCards(){
-    const list=filtered();
+  let feedFilter='all'; // 'all' | 'my'
+  const expandedPosts=new Set();
+
+  function getPostsList(){
+    const posts=S.feedPosts||[];
+    if(feedFilter==='my' && currentUser) return posts.filter(p=>Number(p.user_id)===Number(currentUser.id));
+    return posts;
+  }
+
+  function renderPostCards(){
+    const list=getPostsList();
     const c=document.getElementById('feedCards');
     if(!c)return;
-    if(!list.length){c.innerHTML=`<div class="empty"><div class="empty-icon">📡</div><h3>${t('noPosts')}</h3></div>`;return;}
-    c.innerHTML=list.map(p=>`
-      <div class="feed-card">
+    if(!list.length){
+      c.innerHTML=`<div class="empty"><div class="empty-icon">📡</div><h3>${t('noPosts')}</h3></div>`;
+      return;
+    }
+    const isMe=id=>currentUser && Number(id)===Number(currentUser.id);
+    c.innerHTML=list.map(p=>{
+      const expanded=expandedPosts.has(p.id);
+      const textLen=(p.text||'').length;
+      return `
+      <div class="feed-card" style="border-radius:16px;overflow:hidden;">
         <div class="feed-header">
-          <div class="feed-av">${esc(p.av||p.author.charAt(0))}</div>
-          <div style="flex:1"><div class="feed-author">${esc(p.author)}</div><div class="feed-time">${fmtAgo(p.timestamp)}</div></div>
-          <span class="badge badge-${p.type==='task'?'open':p.type==='wallet'?'in_progress':'completed'}">${p.type==='task'?t('tasks'):p.type==='achievement'?t('achievements'):t('wallet')}</span>
+          <div class="feed-av">${esc((p.username||'?').charAt(0).toUpperCase())}</div>
+          <div style="flex:1">
+            <div class="feed-author">@${esc(p.username||'user')}</div>
+            <div class="feed-time">${fmtAgo(p.created_at)}</div>
+          </div>
+          ${isMe(p.user_id)?`<button class="action-btn" data-delete-post="${p.id}" title="${t('deletePost')}" style="color:var(--danger);font-size:14px;">🗑</button>`:''}
         </div>
-        ${p.hasMedia?`<div class="feed-media" style="background:linear-gradient(135deg,rgba(184,255,92,.05),rgba(125,215,255,.04));display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;">📷 ${t('mediaPreview')}</div>`:''}
-        <div class="feed-text${p.expanded?'':''}" style="${!p.expanded&&p.text.length>160?'display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text)}</div>
-        ${p.text.length>160?`<button class="action-btn" data-expand="${p.id}">${p.expanded?t('showLess'):t('readMore')}</button>`:''}
+        ${p.media_url?`
+          <div class="feed-media" style="border-radius:12px;overflow:hidden;margin:8px 0;">
+            ${p.media_type==='video'?`
+              <video src="${esc(p.media_url)}" controls playsinline preload="metadata"
+                style="width:100%;max-height:500px;object-fit:contain;background:#000;border-radius:12px;"></video>
+            `:`
+              <img src="${esc(p.media_url)}" alt="" loading="lazy"
+                style="width:100%;max-height:500px;object-fit:cover;border-radius:12px;">
+            `}
+          </div>
+        `:''}
+        <div class="feed-text" style="${!expanded&&textLen>200?'display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text)}</div>
+        ${textLen>200?`<button class="action-btn" data-expand-post="${p.id}">${expanded?t('showLess'):t('readMore')}</button>`:''}
         <div class="feed-actions">
-          <button class="action-btn${p.liked?' liked':''}" data-like="${p.id}">❤ ${p.likes}</button>
-          <button class="action-btn${p.bookmarked?' bookmarked':''}" data-bm="${p.id}">🔖 ${p.bookmarked?t('saved'):t('save')}</button>
+          <button class="action-btn${p.liked_by_me?' liked':''}" data-like-post="${p.id}">❤ ${Number(p.likes_count||0)}</button>
         </div>
-      </div>`).join('');
-    c.querySelectorAll('[data-like]').forEach(b=>b.addEventListener('click',()=>{
-      const f=S.feed.find(x=>x.id===b.dataset.like);if(!f)return;
-      f.liked=!f.liked;f.likes+=f.liked?1:-1;saveState();renderCards();
+      </div>`;
+    }).join('');
+
+    // Like
+    c.querySelectorAll('[data-like-post]').forEach(b=>b.addEventListener('click',async()=>{
+      if(isGuest){toast(t('guestFeed'),'error');return;}
+      const postId=Number(b.dataset.likePost);
+      const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({action:'like',post_id:postId})});
+      if(!ok){toast(data.message||'Error','error');return;}
+      const fp=(S.feedPosts||[]).find(x=>x.id===postId);
+      if(fp){fp.liked_by_me=data.liked;fp.likes_count=data.likes_count;}
+      saveState();renderPostCards();
     }));
-    c.querySelectorAll('[data-bm]').forEach(b=>b.addEventListener('click',()=>{
-      const f=S.feed.find(x=>x.id===b.dataset.bm);if(!f)return;
-      f.bookmarked=!f.bookmarked;saveState();renderCards();
+    // Expand
+    c.querySelectorAll('[data-expand-post]').forEach(b=>b.addEventListener('click',()=>{
+      const pid=Number(b.dataset.expandPost);
+      if(expandedPosts.has(pid)) expandedPosts.delete(pid); else expandedPosts.add(pid);
+      renderPostCards();
     }));
-    c.querySelectorAll('[data-expand]').forEach(b=>b.addEventListener('click',()=>{
-      const f=S.feed.find(x=>x.id===b.dataset.expand);if(!f)return;
-      f.expanded=!f.expanded;saveState();renderCards();
+    // Delete
+    c.querySelectorAll('[data-delete-post]').forEach(b=>b.addEventListener('click',async()=>{
+      if(!confirm(t('confirmDelete')))return;
+      const postId=Number(b.dataset.deletePost);
+      const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({action:'delete',post_id:postId})});
+      if(!ok){toast(data.message||'Error','error');return;}
+      S.feedPosts=(S.feedPosts||[]).filter(x=>x.id!==postId);
+      saveState();toast(t('postDeleted'),'success');renderPostCards();
     }));
   }
 
+  // Create post form (only for logged in users)
+  const createForm=isGuest?`
+    <div class="card" style="text-align:center;padding:20px;">
+      <p style="color:var(--muted);margin-bottom:12px;">${t('guestFeed')}</p>
+      <button class="btn btn-primary btn-sm" id="guestRegFeed">${t('register')}</button>
+    </div>
+  `:`
+    <div class="card" style="margin-bottom:16px;">
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div class="user-av" style="width:38px;height:38px;font-size:14px;flex-shrink:0;">${(currentUser.name||'?').charAt(0).toUpperCase()}</div>
+        <div style="flex:1;">
+          <textarea id="feedPostText" class="form-textarea" rows="3" maxlength="2000" placeholder="${t('postPlaceholder')}" style="resize:vertical;"></textarea>
+          <div id="feedMediaSection" style="display:none;margin-top:8px;">
+            <div style="display:flex;gap:8px;margin-bottom:6px;">
+              <button class="chip" id="feedMediaImage" data-mt="image">📷 ${t('postImage')}</button>
+              <button class="chip" id="feedMediaVideo" data-mt="video">🎥 ${t('postVideo')}</button>
+            </div>
+            <input id="feedMediaUrl" class="form-input" type="url" placeholder="${t('mediaUrlPlaceholder')}" style="font-size:13px;">
+            <div id="feedMediaPreview" style="margin-top:8px;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+            <button class="btn btn-ghost btn-sm" id="feedToggleMedia">📎 ${t('addMedia')}</button>
+            <button class="btn btn-primary btn-sm" id="feedPublishBtn"><span class="btn-txt">${t('publishPost')}</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
   el.innerHTML=`
     <div class="fade-up" style="max-width:680px;">
-      <div style="display:flex;gap:8px;margin-bottom:18px;" id="feedFilters">
+      ${createForm}
+      <div style="display:flex;gap:8px;margin-bottom:14px;" id="feedFilters">
         <button class="chip active" data-ft="all">${t('all')}</button>
-        <button class="chip" data-ft="task">${t('tasks')}</button>
-        <button class="chip" data-ft="achievement">${t('achievements')}</button>
-        <button class="chip" data-ft="wallet">${t('wallet')}</button>
+        ${!isGuest?`<button class="chip" data-ft="my">${t('myPosts')}</button>`:''}
       </div>
       <div style="display:flex;flex-direction:column;gap:14px;" id="feedCards"></div>
+      ${S.feedHasMore?`<div style="text-align:center;margin-top:16px;"><button class="btn btn-ghost btn-sm" id="feedLoadMoreBtn">${t('feedLoadMore')}</button></div>`:''}
     </div>`;
 
-  renderCards();
+  renderPostCards();
+
+  // Guest register
+  document.getElementById('guestRegFeed')?.addEventListener('click',()=>renderAuth('register'));
+
+  // Filter tabs
   document.getElementById('feedFilters')?.addEventListener('click',e=>{
     const btn=e.target.closest('[data-ft]');if(!btn)return;
     document.querySelectorAll('#feedFilters .chip').forEach(c=>c.classList.remove('active'));
-    btn.classList.add('active');filter=btn.dataset.ft;renderCards();
+    btn.classList.add('active');feedFilter=btn.dataset.ft;renderPostCards();
+  });
+
+  // Load more
+  document.getElementById('feedLoadMoreBtn')?.addEventListener('click',async()=>{
+    await loadFeed(S.feedPage+1, true);
+    navigate('feed');
+  });
+
+  // Media toggle
+  let mediaType='image';
+  document.getElementById('feedToggleMedia')?.addEventListener('click',()=>{
+    const sec=document.getElementById('feedMediaSection');
+    if(sec) sec.style.display=sec.style.display==='none'?'block':'none';
+  });
+  document.querySelectorAll('#feedMediaImage,#feedMediaVideo').forEach(b=>b.addEventListener('click',()=>{
+    mediaType=b.dataset.mt;
+    document.querySelectorAll('#feedMediaSection .chip').forEach(c=>c.classList.remove('active'));
+    b.classList.add('active');
+    // Show preview
+    const url=(document.getElementById('feedMediaUrl')?.value||'').trim();
+    showMediaPreview(url, mediaType);
+  }));
+  document.getElementById('feedMediaUrl')?.addEventListener('input',e=>{
+    showMediaPreview(e.target.value.trim(), mediaType);
+  });
+
+  function showMediaPreview(url, type){
+    const prev=document.getElementById('feedMediaPreview');
+    if(!prev)return;
+    if(!url){prev.innerHTML='';return;}
+    if(type==='video'){
+      prev.innerHTML=`<video src="${esc(url)}" controls preload="metadata" style="width:100%;max-height:200px;border-radius:8px;background:#000;"></video>`;
+    } else {
+      prev.innerHTML=`<img src="${esc(url)}" alt="" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;" onerror="this.style.display='none'">`;
+    }
+  }
+
+  // Publish
+  document.getElementById('feedPublishBtn')?.addEventListener('click',async()=>{
+    const text=(document.getElementById('feedPostText')?.value||'').trim();
+    if(!text){toast(t('required'),'error');return;}
+    const mediaUrl=(document.getElementById('feedMediaUrl')?.value||'').trim();
+    const mediaSec=document.getElementById('feedMediaSection');
+    const hasMedia=mediaSec && mediaSec.style.display!=='none' && mediaUrl;
+    const btn=document.getElementById('feedPublishBtn');
+    setLoading(btn,true);
+    const body={action:'create',text};
+    if(hasMedia){body.media_url=mediaUrl;body.media_type=mediaType;}
+    const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify(body)});
+    setLoading(btn,false);
+    if(!ok){toast(data.message||'Error','error');return;}
+    // Prepend new post
+    if(data.post) S.feedPosts=[(data.post),...(S.feedPosts||[])];
+    saveState();toast(t('postCreated'),'success');
+    navigate('feed');
   });
 }
 

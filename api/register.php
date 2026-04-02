@@ -15,6 +15,13 @@ if (!$acceptedTerms || !$acceptedPrivacy)
     json_response(['success' => false, 'message' => 'Для реєстрації потрібно погодитись з Правилами платформи та Політикою приватності.'], 422);
 
 $pdo   = db();
+
+// Rate limit: max 5 registrations per IP per 15 min
+$ip = substr((string)($_SERVER['REMOTE_ADDR'] ?? ''), 0, 45);
+if (check_rate_limit($pdo, 'register:' . $ip, 5, 15))
+    json_response(['success' => false, 'message' => 'Забагато спроб реєстрації. Спробуй через 15 хвилин.'], 429);
+record_rate_limit($pdo, 'register:' . $ip);
+
 $check = $pdo->prepare('SELECT id FROM users WHERE email=:e OR username=:u LIMIT 1');
 $check->execute(['e' => $email, 'u' => $username]);
 if ($check->fetch())

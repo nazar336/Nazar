@@ -41,6 +41,11 @@ try {
 
     if ($method === 'POST') {
         $input = read_json();
+
+        // Rate limit: max 10 tickets per user per 60 min
+        if (check_rate_limit($pdo, 'support:' . $userId, 10, 60))
+            json_response(['success' => false, 'message' => 'Too many tickets. Please wait before creating another.'], 429);
+
         $subject = trim((string) ($input['subject'] ?? ''));
         $description = trim((string) ($input['description'] ?? ''));
         $category = (string) ($input['category'] ?? 'general');
@@ -79,6 +84,8 @@ try {
         ]);
 
         $ticketId = (int) $pdo->lastInsertId();
+        record_rate_limit($pdo, 'support:' . $userId);
+
         $ticketStmt = $pdo->prepare('SELECT id, subject, description, category, priority, status, created_at, updated_at FROM support_tickets WHERE id = :id AND user_id = :user_id LIMIT 1');
         $ticketStmt->execute([':id' => $ticketId, ':user_id' => $userId]);
 

@@ -60,10 +60,20 @@ try {
         if ($description === '') json_response(['success' => false, 'message' => 'Description is required'], 400);
         if (mb_strlen($description) > 10000) json_response(['success' => false, 'message' => 'Description is too long (max 10000)'], 400);
         if ($category === '')    json_response(['success' => false, 'message' => 'Category is required'], 400);
+        if (mb_strlen($category) > 50) json_response(['success' => false, 'message' => 'Category is too long (max 50)'], 400);
         if ($reward <= 0)        json_response(['success' => false, 'message' => 'Reward must be positive'], 400);
         if ($reward > 999999)    json_response(['success' => false, 'message' => 'Reward is too large'], 400);
         if ($slots < 1)          json_response(['success' => false, 'message' => 'Slots must be at least 1'], 400);
         if ($slots > 1000)       json_response(['success' => false, 'message' => 'Max 1000 slots'], 400);
+
+        // Validate deadline format (YYYY-MM-DD or YYYY-MM-DD HH:MM:SS)
+        if ($deadline !== null) {
+            $dt = \DateTime::createFromFormat('Y-m-d H:i:s', $deadline) ?: \DateTime::createFromFormat('Y-m-d', $deadline) ?: \DateTime::createFromFormat('Y-m-d\TH:i', $deadline) ?: \DateTime::createFromFormat('Y-m-d\TH:i:s', $deadline);
+            if (!$dt) {
+                json_response(['success' => false, 'message' => 'Invalid deadline format. Use YYYY-MM-DD or YYYY-MM-DDTHH:MM'], 400);
+            }
+            $deadline = $dt->format('Y-m-d H:i:s');
+        }
 
         $stmt = $pdo->prepare('INSERT INTO tasks(title,description,category,difficulty,reward,slots,deadline,status,creator_id) VALUES(:t,:d,:c,:diff,:r,:s,:dl,"open",:cb)');
         $stmt->execute([':t' => $title, ':d' => $description, ':c' => $category, ':diff' => $difficulty, ':r' => $reward, ':s' => $slots, ':dl' => $deadline, ':cb' => $userId]);

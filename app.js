@@ -2029,7 +2029,7 @@ function showWithdrawModal(){
   function updatePreview(){
     const amt=parseFloat(amountInput?.value)||0;
     if(amt>=500){
-      const fee=Math.round(amt*5)/100;
+      const fee=Math.round(amt*5/100);
       const net=amt-fee;
       if(feeDisp)feeDisp.textContent=fee.toLocaleString();
       if(netDisp)netDisp.textContent=net.toLocaleString();

@@ -44,6 +44,14 @@ try {
     } elseif ($method === 'POST') {
         $input = read_json();
 
+        // ── Level privilege: must be level 3+ to create tasks ──
+        $lvlStmt = $pdo->prepare('SELECT level FROM users WHERE id=:uid');
+        $lvlStmt->execute([':uid' => $userId]);
+        $userLevel = (int)($lvlStmt->fetchColumn() ?: 1);
+        if ($userLevel < 3) {
+            json_response(['success' => false, 'message' => 'Level 3 required to create tasks. Current level: ' . $userLevel], 403);
+        }
+
         $title       = trim((string)($input['title']       ?? ''));
         $description = trim((string)($input['description'] ?? ''));
         $category    = trim((string)($input['category']    ?? ''));
@@ -58,9 +66,15 @@ try {
         if (mb_strlen($description) > 10000) json_response(['success' => false, 'message' => 'Description is too long (max 10000)'], 400);
         if ($category === '')    json_response(['success' => false, 'message' => 'Category is required'], 400);
         if ($reward <= 0)        json_response(['success' => false, 'message' => 'Reward must be positive'], 400);
-        if ($reward > 999999)    json_response(['success' => false, 'message' => 'Reward is too large'], 400);
         if ($slots < 1)          json_response(['success' => false, 'message' => 'Slots must be at least 1'], 400);
         if ($slots > 1000)       json_response(['success' => false, 'message' => 'Max 1000 slots'], 400);
+
+        // ── Level privilege: max reward scales with level ──
+        $maxRewardByLevel = [3=>1000, 4=>2500, 5=>5000, 6=>10000, 7=>25000, 8=>50000, 9=>100000, 10=>500000, 11=>999999, 12=>999999];
+        $maxReward = $maxRewardByLevel[$userLevel] ?? 999999;
+        if ($reward > $maxReward) {
+            json_response(['success' => false, 'message' => 'Max reward at level ' . $userLevel . ' is ' . number_format($maxReward) . ' coins. Level up to increase limit!'], 400);
+        }
 
         $stmt = $pdo->prepare('INSERT INTO tasks(title,description,category,difficulty,reward,slots,deadline,status,creator_id) VALUES(:t,:d,:c,:diff,:r,:s,:dl,"open",:cb)');
         $stmt->execute([':t' => $title, ':d' => $description, ':c' => $category, ':diff' => $difficulty, ':r' => $reward, ':s' => $slots, ':dl' => $deadline, ':cb' => $userId]);

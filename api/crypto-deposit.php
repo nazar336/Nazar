@@ -54,6 +54,10 @@ function handleGetRates(): never {
 
 // ── POST initiate ─────────────────────────────────────────────────
 function handleInitiate(PDO $pdo, int $userId, array $input): never {
+    // Rate limit: max 5 deposit initiations per user per 15 min
+    if (check_rate_limit($pdo, 'deposit:' . $userId, 5, 15))
+        json_response(['success' => false, 'message' => 'Too many deposit requests. Please wait.'], 429);
+
     $network = strtoupper(trim((string)($input['network'] ?? 'TRC20')));
 
     if (!array_key_exists($network, CRYPTO_WALLETS))
@@ -128,6 +132,7 @@ function handleInitiate(PDO $pdo, int $userId, array $input): never {
         ':exp'    => $expiresAt,
     ]);
     $depositId = (int)$pdo->lastInsertId();
+    record_rate_limit($pdo, 'deposit:' . $userId);
 
     json_response([
         'success'        => true,

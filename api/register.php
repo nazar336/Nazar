@@ -20,12 +20,14 @@ $pdo   = db();
 $ip = substr((string)($_SERVER['REMOTE_ADDR'] ?? ''), 0, 45);
 if (check_rate_limit($pdo, 'register:' . $ip, 5, 15))
     json_response(['success' => false, 'message' => 'Забагато спроб реєстрації. Спробуй через 15 хвилин.'], 429);
-record_rate_limit($pdo, 'register:' . $ip);
 
 $check = $pdo->prepare('SELECT id FROM users WHERE email=:e OR username=:u LIMIT 1');
 $check->execute(['e' => $email, 'u' => $username]);
 if ($check->fetch())
     json_response(['success' => false, 'message' => 'Користувач з таким email або username вже існує.'], 409);
+
+// Record rate limit only after passing validation (so invalid requests don't eat up the quota)
+record_rate_limit($pdo, 'register:' . $ip);
 
 $hash             = password_hash($password, PASSWORD_DEFAULT);
 $verificationCode = str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);

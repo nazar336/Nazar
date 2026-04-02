@@ -66,6 +66,10 @@ try {
             $description = $subject;
         }
 
+        if (mb_strlen($description) > 5000) {
+            json_response(['success' => false, 'message' => 'Description is too long (max 5000 characters)'], 422);
+        }
+
         if (!in_array($category, $allowedCategories, true)) {
             $category = 'general';
         }

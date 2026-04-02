@@ -93,6 +93,29 @@ try {
         $next = $nextStmt->fetch();
         if (!$next) { $pdo->rollBack(); json_response(['success' => false, 'message' => 'No pending submissions to approve'], 400); }
         $workerId = (int)$next['user_id'];
+    } else {
+        // Validate specified worker actually has a completed assignment with pending reward
+        $validateWorker = $pdo->prepare("
+            SELECT ta.user_id FROM task_assignments ta
+            WHERE ta.task_id=:tid AND ta.user_id=:wid AND ta.status='completed'
+              AND EXISTS (
+                SELECT 1 FROM transactions tx
+                WHERE tx.user_id=ta.user_id AND tx.task_id=ta.task_id
+                  AND tx.type='task_reward' AND tx.status='pending'
+              )
+            LIMIT 1
+        ");
+        $validateWorker->execute([':tid' => $taskId, ':wid' => $workerId]);
+        if (!$validateWorker->fetch()) {
+            $pdo->rollBack();
+            json_response(['success' => false, 'message' => 'Worker has no pending submission for this task'], 400);
+        }
+    }
+
+    // Prevent self-approval: task owner cannot be the worker
+    if ($workerId === $userId) {
+        $pdo->rollBack();
+        json_response(['success' => false, 'message' => 'Cannot approve yourself'], 403);
     }
 
     // Get pending tx for this worker

@@ -212,8 +212,13 @@ function handleBuyPoints(PDO $pdo, int $userId, array $input): never
 {
     $packs = (int)($input['packs'] ?? 1); // 1 пак = 50 монет = 100 XP
     if ($packs < 1 || $packs > 100) {
-        json_response(['success' => false, 'message' => 'Invalid pack count'], 400);
+        json_response(['success' => false, 'message' => 'Invalid pack count (1-100)'], 400);
     }
+
+    // Rate limit: max 10 XP purchases per user per 60 min
+    if (check_rate_limit($pdo, 'buy_xp:' . $userId, 10, 60))
+        json_response(['success' => false, 'message' => 'Too many XP purchases. Please wait.'], 429);
+    record_rate_limit($pdo, 'buy_xp:' . $userId);
 
     $coinsNeeded  = $packs * COINS_BUY_RATE;   // 50 монет за пак
     $xpToGive = $packs * XP_BUY_RATE;

@@ -33,6 +33,12 @@ try {
             $stmt->execute();
             $messages = $stmt->fetchAll();
 
+            // Sanitize message content to prevent XSS
+            foreach ($messages as &$msg) {
+                $msg['content'] = htmlspecialchars((string)$msg['content'], ENT_QUOTES, 'UTF-8');
+            }
+            unset($msg);
+
             // ✅ Mark unread messages as read
             $pdo->prepare("UPDATE messages SET read_at=NOW() WHERE thread_id=:tid AND sender_id!=:uid AND read_at IS NULL")
                 ->execute([':tid' => $threadId, ':uid' => $userId]);

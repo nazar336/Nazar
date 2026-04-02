@@ -66,11 +66,16 @@ try {
         if ($slots < 1)          json_response(['success' => false, 'message' => 'Slots must be at least 1'], 400);
         if ($slots > 1000)       json_response(['success' => false, 'message' => 'Max 1000 slots'], 400);
 
-        // Validate deadline format (YYYY-MM-DD or YYYY-MM-DD HH:MM:SS)
+        // Validate deadline format (YYYY-MM-DD or YYYY-MM-DDTHH:MM or YYYY-MM-DD HH:MM:SS)
         if ($deadline !== null) {
-            $dt = \DateTime::createFromFormat('Y-m-d H:i:s', $deadline) ?: \DateTime::createFromFormat('Y-m-d', $deadline) ?: \DateTime::createFromFormat('Y-m-d\TH:i', $deadline) ?: \DateTime::createFromFormat('Y-m-d\TH:i:s', $deadline);
+            $acceptedFormats = ['Y-m-d', 'Y-m-d H:i:s', 'Y-m-d\TH:i', 'Y-m-d\TH:i:s'];
+            $dt = null;
+            foreach ($acceptedFormats as $fmt) {
+                $dt = \DateTime::createFromFormat($fmt, $deadline);
+                if ($dt !== false) break;
+            }
             if (!$dt) {
-                json_response(['success' => false, 'message' => 'Invalid deadline format. Use YYYY-MM-DD or YYYY-MM-DDTHH:MM'], 400);
+                json_response(['success' => false, 'message' => 'Invalid deadline format. Accepted: YYYY-MM-DD, YYYY-MM-DDTHH:MM, YYYY-MM-DD HH:MM:SS'], 400);
             }
             $deadline = $dt->format('Y-m-d H:i:s');
         }

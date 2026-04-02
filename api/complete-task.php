@@ -119,7 +119,8 @@ try {
     $bonusXp = $diffXp[$task['difficulty'] ?? 'medium'] ?? 35;
     $totalXp = 100 + $bonusXp; // 100 base + difficulty bonus in ONE query
 
-    // ✅ Single UPDATE — level uses new xp value (MySQL evaluates SET left-to-right)
+    // ✅ Single UPDATE — level uses new xp value (MySQL evaluates SET left-to-right),
+    // fixing XP double-counting bug where :xp was previously added twice in level calculation
     $pdo->prepare('
         UPDATE users SET
             completed_tasks = completed_tasks + 1,

@@ -1268,10 +1268,7 @@ function renderVerification(userId, email){
       </div>
     </div>`;
 
-  // Store data in closure-safe variables
-  const _verifyUserId = userId;
-  const _verifyEmail = email;
-  let _captchaSolved = false;
+  // Captcha answer is in closure scope via correctAnswer variable (not exposed on window)
 
   // Captcha solver
   const solveCaptchaBtn = document.getElementById('solveCaptchaBtn');

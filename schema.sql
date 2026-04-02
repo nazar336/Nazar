@@ -56,6 +56,14 @@ CREATE TABLE IF NOT EXISTS email_verifications (
     UNIQUE KEY unique_user_verification (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- ── LOGIN RATE LIMITING ──
+CREATE TABLE IF NOT EXISTS login_attempts (
+    id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    identifier   VARCHAR(255) NOT NULL COMMENT 'email or IP',
+    attempted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    KEY idx_identifier_time (identifier, attempted_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- ── TASKS ──
 CREATE TABLE IF NOT EXISTS tasks (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -325,4 +333,29 @@ CREATE TABLE IF NOT EXISTS crypto_withdrawals (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     KEY idx_user_id (user_id),
     KEY idx_status (status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ── FEED POSTS ──
+CREATE TABLE IF NOT EXISTS feed_posts (
+    id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id      INT UNSIGNED NOT NULL,
+    content      TEXT NOT NULL,
+    media_url    VARCHAR(500),
+    category     ENUM('task','achievement','wallet','other') DEFAULT 'other',
+    likes_count  INT UNSIGNED DEFAULT 0,
+    created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    KEY idx_user_id (user_id),
+    KEY idx_created (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ── FEED LIKES ──
+CREATE TABLE IF NOT EXISTS feed_likes (
+    id         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    post_id    INT UNSIGNED NOT NULL,
+    user_id    INT UNSIGNED NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uniq_post_user (post_id, user_id),
+    FOREIGN KEY (post_id) REFERENCES feed_posts(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

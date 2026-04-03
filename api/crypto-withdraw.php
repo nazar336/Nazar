@@ -222,13 +222,13 @@ function handleWithdrawCancel(PDO $pdo, int $userId, array $input): never {
         $pdo->prepare("UPDATE crypto_withdrawals SET status='cancelled' WHERE id=:id")
             ->execute([':id' => $withdrawId]);
 
-        // Reverse the coin_spending log
+        // Reverse the coin_spending log (use positive amount with 'refund' description)
         $pdo->prepare('
             INSERT INTO coin_spending (user_id, amount, type, description)
             VALUES (:uid, :amt, "withdraw", :desc)
         ')->execute([
             ':uid'  => $userId,
-            ':amt'  => -$refundCoins,
+            ':amt'  => $refundCoins,
             ':desc' => 'Withdrawal cancelled — refund ' . $refundCoins . ' coins',
         ]);
 

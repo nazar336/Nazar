@@ -62,9 +62,9 @@ try {
         if ($category === '')    json_response(['success' => false, 'message' => 'Category is required'], 400);
         if (mb_strlen($category) > 50) json_response(['success' => false, 'message' => 'Category is too long (max 50)'], 400);
         if ($reward <= 0)        json_response(['success' => false, 'message' => 'Reward must be positive'], 400);
-        if ($reward > 999999)    json_response(['success' => false, 'message' => 'Reward is too large'], 400);
+        if ($reward > 10000)    json_response(['success' => false, 'message' => 'Reward max 10000 coins'], 400);
         if ($slots < 1)          json_response(['success' => false, 'message' => 'Slots must be at least 1'], 400);
-        if ($slots > 1000)       json_response(['success' => false, 'message' => 'Max 1000 slots'], 400);
+        if ($slots > 100)        json_response(['success' => false, 'message' => 'Max 100 slots'], 400);
 
         // Validate deadline format (YYYY-MM-DD or YYYY-MM-DDTHH:MM or YYYY-MM-DD HH:MM:SS)
         if ($deadline !== null) {
@@ -76,6 +76,10 @@ try {
             }
             if (!$dt) {
                 json_response(['success' => false, 'message' => 'Invalid deadline format. Accepted: YYYY-MM-DD, YYYY-MM-DDTHH:MM, YYYY-MM-DD HH:MM:SS'], 400);
+            }
+            // Deadline must be in the future
+            if ($dt <= new \DateTime()) {
+                json_response(['success' => false, 'message' => 'Deadline must be in the future'], 400);
             }
             $deadline = $dt->format('Y-m-d H:i:s');
         }
@@ -94,9 +98,10 @@ try {
         if (!$check->fetch()) json_response(['success' => false, 'message' => 'Not authorized'], 403);
 
         if (isset($input['status'])) {
-            $allowed = ['open', 'in_progress', 'completed', 'cancelled'];
+            // Only allow 'open' and 'cancelled' via PUT — 'completed' and 'in_progress' set by approval system only
+            $allowed = ['open', 'cancelled'];
             $status  = in_array($input['status'], $allowed, true) ? $input['status'] : null;
-            if (!$status) json_response(['success' => false, 'message' => 'Invalid status'], 400);
+            if (!$status) json_response(['success' => false, 'message' => 'Invalid status. Allowed: open, cancelled'], 400);
             $pdo->prepare('UPDATE tasks SET status=:s WHERE id=:id')->execute([':s' => $status, ':id' => $taskId]);
             json_response(['success' => true, 'message' => 'Task updated']);
         }
@@ -111,6 +116,12 @@ try {
         $task  = $check->fetch();
         if (!$task) json_response(['success' => false, 'message' => 'Not authorized'], 403);
         if ($task['status'] !== 'open') json_response(['success' => false, 'message' => 'Can only delete open tasks'], 400);
+
+        // Block deletion if there are active assignments
+        $assignCheck = $pdo->prepare("SELECT COUNT(*) FROM task_assignments WHERE task_id=:tid AND status IN ('taken','completed')");
+        $assignCheck->execute([':tid' => $taskId]);
+        if ((int)$assignCheck->fetchColumn() > 0)
+            json_response(['success' => false, 'message' => 'Cannot delete task with active assignments'], 400);
 
         $pdo->prepare('DELETE FROM tasks WHERE id=:id')->execute([':id' => $taskId]);
         json_response(['success' => true, 'message' => 'Task deleted']);

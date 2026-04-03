@@ -164,12 +164,22 @@ function handleTip(PDO $pdo, int $userId, array $input): never
     $amount     = (float)($input['amount'] ?? 0);
     $targetUser = (int)($input['target_user_id'] ?? 0);
 
-    if ($amount <= 0) {
-        json_response(['success' => false, 'message' => 'Amount must be positive'], 400);
+    // Round to 2 decimals to prevent floating-point manipulation
+    $amount = round($amount, 2);
+
+    if ($amount < 1) {
+        json_response(['success' => false, 'message' => 'Minimum tip is 1 coin'], 400);
+    }
+    if ($amount > 10000) {
+        json_response(['success' => false, 'message' => 'Maximum tip is 10000 coins'], 400);
     }
     if ($targetUser <= 0 || $targetUser === $userId) {
         json_response(['success' => false, 'message' => 'Invalid target user'], 400);
     }
+
+    // Rate limit: max 20 tips per user per hour
+    if (check_rate_limit($pdo, 'tip:' . $userId, 20, 60))
+        json_response(['success' => false, 'message' => 'Too many tips. Please wait.'], 429);
 
     // Перевіряємо що цільовий користувач існує
     $userCheck = $pdo->prepare('SELECT id, name FROM users WHERE id=:id AND is_active=1 LIMIT 1');
@@ -199,12 +209,12 @@ function handleTip(PDO $pdo, int $userId, array $input): never
             WHERE user_id=:uid
         ')->execute([':amt' => $amount, ':amt2' => $amount, ':uid' => $userId]);
 
-        // Нараховуємо отримувачу
+        // Нараховуємо отримувачу (tips don't inflate total_purchased)
         $pdo->prepare('
-            INSERT INTO user_coins (user_id, coin_balance, total_purchased)
-            VALUES (:uid, :amt, :amt2)
-            ON DUPLICATE KEY UPDATE coin_balance=coin_balance+:amt3, updated_at=NOW()
-        ')->execute([':uid' => $targetUser, ':amt' => $amount, ':amt2' => $amount, ':amt3' => $amount]);
+            INSERT INTO user_coins (user_id, coin_balance)
+            VALUES (:uid, :amt)
+            ON DUPLICATE KEY UPDATE coin_balance=coin_balance+:amt2, updated_at=NOW()
+        ')->execute([':uid' => $targetUser, ':amt' => $amount, ':amt2' => $amount]);
 
         // Лог витрати відправника
         $pdo->prepare('
@@ -219,6 +229,7 @@ function handleTip(PDO $pdo, int $userId, array $input): never
         ')->execute([':uid' => $targetUser, ':content' => 'You received ' . $amount . ' coins as a tip.']);
 
         $pdo->commit();
+        record_rate_limit($pdo, 'tip:' . $userId);
 
         json_response([
             'success'      => true,

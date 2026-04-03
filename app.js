@@ -710,7 +710,7 @@ async function sendRoomMessage(){
   if(!message){toast(t('noMessage'),'error');return;}
   const tier=Number(S.activeRoomTier||1);
   const {ok,data}=await apiFetch(API.chatRooms,{method:'POST',body:JSON.stringify({action:'send',tier,message})});
-  if(!ok){toast(data.message||'Error','error');return;}
+  if(!ok){toast(data.message||t('errorGeneric'),'error');return;}
   input.value='';
   await loadChatRooms(tier);
   navigate('chat');
@@ -722,26 +722,26 @@ async function sendGlobalMessage(){
   const message=input.value.trim();
   if(!message){toast(t('noMessage'),'error');return;}
   const {ok,data}=await apiFetch(API.chatRooms,{method:'POST',body:JSON.stringify({action:'send',tier:1,message})});
-  if(!ok){toast(data.message||'Error','error');return;}
+  if(!ok){toast(data.message||t('errorGeneric'),'error');return;}
   input.value='';
   await loadChatRooms(1);
-  toast('Message sent to Global chat','success');
+  toast(t('messageSentGlobal')||t('sendMessage'),'success');
   navigate('chat');
 }
 
 async function buyRoomPass(tier){
   const {ok,data}=await apiFetch(API.chatRooms,{method:'POST',body:JSON.stringify({action:'buy_pass',tier:Number(tier)})});
-  if(!ok){toast(data.message||'Error','error');return;}
+  if(!ok){toast(data.message||t('errorGeneric'),'error');return;}
   await loadWallet();
   await loadPoints();
   await loadChatRooms(Number(tier));
-  toast(data.message||'Pass purchased','success');
+  toast(data.message||t('buyPass'),'success');
   navigate('chat');
 }
 
 async function dailyCheckin(){
   const {ok,data}=await apiFetch(API.xp,{method:'POST',body:JSON.stringify({action:'checkin'})});
-  if(!ok){toast(data.message||'Check-in failed','error');return;}
+  if(!ok){toast(data.message||t('errorGeneric'),'error');return;}
   await loadPoints();
   toast(`+${Number(data.xp_earned||0)} XP`,'success');
   navigate('profile');
@@ -750,7 +750,7 @@ async function dailyCheckin(){
 async function buyPointsPack(){
   const packs=Math.max(1,Number(document.getElementById('buyPointsPacks')?.value||1));
   const {ok,data}=await apiFetch(API.xp,{method:'POST',body:JSON.stringify({action:'buy_xp',packs})});
-  if(!ok){toast(data.message||'Purchase failed','error');return;}
+  if(!ok){toast(data.message||t('errorGeneric'),'error');return;}
   await loadWallet();
   await loadPoints();
   toast(`+${Number(data.xp_earned||0)} XP`,'success');

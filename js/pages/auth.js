@@ -107,14 +107,6 @@ export function renderAuth(mode='login'){
               </button>
             </form>
 
-            <div class="auth-divider">
-              <span>${t('orText')}</span>
-            </div>
-
-            <button type="button" id="guestBtn" class="btn btn-outline btn-block btn-lg">
-              <span class="btn-txt">🎭 ${t('browseAsGuest')}</span>
-            </button>
-
             <div class="auth-footer">
               <span>${t('noAccount')}</span>
               <button type="button" id="switchRegister" class="link-btn">${t('register')}</button>
@@ -163,7 +155,6 @@ export function renderAuth(mode='login'){
   document.getElementById('switchRegister')?.addEventListener('click',()=>renderAuth('register'));
   document.getElementById('loginForm')?.addEventListener('submit',handleLogin);
   document.getElementById('registerForm')?.addEventListener('submit',handleRegister);
-  document.getElementById('guestBtn')?.addEventListener('click',handleGuestMode);
   document.getElementById('authLangSelector')?.addEventListener('change',e=>{appState.S.lang=e.target.value;saveState();renderAuth(mode);});
 }
 
@@ -204,10 +195,3 @@ export async function doLogout(){
   appState.currentUser=null;toast(t('logoutSuccess'),'info');renderAuth();
 }
 
-export function handleGuestMode(){
-  appState.isGuest=true;
-  appState.currentUser=null;
-  loadState();
-  toast(t('guestWelcome'),'info');
-  renderShell();
-}

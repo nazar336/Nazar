@@ -86,7 +86,7 @@ function handleWithdrawInitiate(PDO $pdo, int $userId, array $input): never {
         'ERC20'  => preg_match('/^0x[0-9a-fA-F]{40}$/', $walletAddress),
         'BTC'    => preg_match('/^(1|3|bc1)[A-Za-z0-9]{25,62}$/', $walletAddress),
         'SOL'    => preg_match('/^[1-9A-HJ-NP-Za-km-z]{32,44}$/', $walletAddress),
-        default  => true,
+        default  => false,
     };
     if (!$addrValid)
         json_response(['success' => false, 'message' => 'Невірний формат адреси для мережі ' . $network], 400);

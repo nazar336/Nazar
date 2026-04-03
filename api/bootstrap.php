@@ -106,7 +106,7 @@ function csrf_token(): string {
 function csrf_validate(): void {
     if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_SERVER['REQUEST_METHOD'] === 'OPTIONS') return;
     $token = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
-    if (empty($token) || !hash_equals($_SESSION['csrf_token'] ?? '', $token)) {
+    if (empty($token) || empty($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $token)) {
         json_response(['success' => false, 'message' => 'Invalid CSRF token'], 403);
     }
 }

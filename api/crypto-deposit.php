@@ -192,12 +192,19 @@ function handleConfirm(PDO $pdo, int $userId, array $input): never {
 
         $pdo->commit();
 
+        // Rotate session after sensitive crypto operation
+        rotate_session();
+
+        // Best-effort RPC verification (non-blocking for user)
+        $rpcResult = verify_transaction_rpc($txHash, $deposit['network']);
+
         json_response([
             'success' => true,
             'message' => 'Хеш транзакції прийнято. Депозит буде підтверджено адміністратором протягом 1–24 годин.',
             'deposit_id' => $depositId,
             'tx_hash'    => $txHash,
             'status'     => 'pending_review',
+            'rpc_check'  => $rpcResult['verified'] ? 'found_on_chain' : 'pending',
         ]);
     } catch (\Exception $e) {
         $pdo->rollBack();

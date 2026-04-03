@@ -79,6 +79,10 @@ function handleWithdrawInitiate(PDO $pdo, int $userId, array $input): never {
     if (!preg_match('/^[A-Za-z0-9]+$/', $walletAddress))
         json_response(['success' => false, 'message' => 'Адреса гаманця: тільки латиниця та цифри'], 400);
 
+    // Network-specific address format validation
+    if (!validate_crypto_address($walletAddress, $network))
+        json_response(['success' => false, 'message' => 'Невірний формат адреси для мережі ' . $network], 400);
+
     // Calculate amounts
     $feeCoins    = round($amountCoins * WITHDRAW_FEE_PCT / 100, 2);
     $netCoins    = $amountCoins - $feeCoins;
@@ -161,6 +165,9 @@ function handleWithdrawInitiate(PDO $pdo, int $userId, array $input): never {
         record_rate_limit($pdo, 'withdraw:' . $userId);
 
         $pdo->commit();
+
+        // Rotate session after sensitive financial operation
+        rotate_session();
 
         // New balance
         $newBal = $pdo->prepare('SELECT coin_balance FROM user_coins WHERE user_id=:uid');

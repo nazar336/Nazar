@@ -1,0 +1,213 @@
+'use strict';
+
+import { appState, saveState, loadState } from '../state.js';
+import { t } from '../i18n.js';
+import { apiFetch } from '../api.js';
+import { renderAnimatedBrandLayer, toast, showAlert, hideAlert, setLoading } from '../utils.js';
+import { API } from '../constants.js';
+import { renderShell } from '../shell.js';
+import { renderVerification } from './verify.js';
+
+export function renderAuth(mode='login'){
+  document.getElementById('app').innerHTML=`
+    <div class="auth-landing">
+      <!-- Background layers -->
+      <div class="bg-orbs" aria-hidden="true"></div>
+      <div class="bg-grid" aria-hidden="true"></div>
+      ${renderAnimatedBrandLayer('auth')}
+      
+      <div class="auth-container">
+        <!-- Left: Hero + Benefits -->
+        <div class="auth-hero">
+          <div class="auth-hero-content">
+            <div class="auth-logo-large">LOL<em>ance</em></div>
+            <h1 class="auth-title">${t('earnOnTasks')}</h1>
+            <p class="auth-subtitle">${t('authSubtitle')}</p>
+            
+            <div class="auth-benefits">
+              <div class="benefit-item">
+                <span class="benefit-icon">⚡</span>
+                <div>
+                  <div class="benefit-title">${t('quickEarnings')}</div>
+                  <div class="benefit-text">${t('quickEarningsDesc')}</div>
+                </div>
+              </div>
+              <div class="benefit-item">
+                <span class="benefit-icon">🎖️</span>
+                <div>
+                  <div class="benefit-title">${t('levelsAchievements')}</div>
+                  <div class="benefit-text">${t('levelsAchievementsDesc')}</div>
+                </div>
+              </div>
+              <div class="benefit-item">
+                <span class="benefit-icon">💎</span>
+                <div>
+                  <div class="benefit-title">${t('premiumFeatures')}</div>
+                  <div class="benefit-text">${t('premiumFeaturesDesc')}</div>
+                </div>
+              </div>
+              <div class="benefit-item">
+                <span class="benefit-icon">🌍</span>
+                <div>
+                  <div class="benefit-title">${t('globalCommunity')}</div>
+                  <div class="benefit-text">${t('globalCommunityDesc')}</div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="auth-stats">
+              <div class="stat"><strong>12.5K+</strong><span>${t('activeStat')}</span></div>
+              <div class="stat"><strong>2.3M USDT</strong><span>${t('paidOut')}</span></div>
+              <div class="stat"><strong>4.9★</strong><span>${t('leaderboard')}</span></div>
+            </div>
+          </div>
+
+          <!-- Illustration -->
+          <div class="auth-illustration">
+            <div class="illu-circle"></div>
+            <div class="illu-element illu-1">🚀</div>
+            <div class="illu-element illu-2">💰</div>
+            <div class="illu-element illu-3">📈</div>
+            <div class="illu-element illu-4">🎯</div>
+            <div class="illu-element illu-5">⭐</div>
+          </div>
+        </div>
+
+        <!-- Right: Auth Forms -->
+        <div class="auth-card">
+          <div class="auth-header">
+            <div class="auth-tabs" role="tablist">
+              <button class="auth-tab${mode==='login'?' active':''}" id="tabLogin" role="tab" aria-selected="${mode==='login'}">${t('login')}</button>
+              <button class="auth-tab${mode==='register'?' active':''}" id="tabRegister" role="tab" aria-selected="${mode==='register'}">${t('register')}</button>
+            </div>
+            <select id="authLangSelector" class="form-input" style="width:100px;font-size:13px;height:36px;padding:6px 8px;margin-top:0;" aria-label="Language selector">
+              <option value="UA" ${appState.S.lang==='UA'?'selected':''}>🇺🇦 Українська</option>
+              <option value="EN" ${appState.S.lang==='EN'?'selected':''}>🇬🇧 English</option>
+              <option value="DE" ${appState.S.lang==='DE'?'selected':''}>🇩🇪 Deutsch</option>
+              <option value="FR" ${appState.S.lang==='FR'?'selected':''}>🇫🇷 Français</option>
+              <option value="ES" ${appState.S.lang==='ES'?'selected':''}>🇪🇸 Español</option>
+              <option value="PL" ${appState.S.lang==='PL'?'selected':''}>🇵🇱 Polski</option>
+            </select>
+          </div>
+
+          <div id="authAlert" class="alert" style="margin-bottom:16px;"></div>
+
+          ${mode==='login'?`
+            <form id="loginForm" class="auth-form" novalidate>
+              <div class="form-group">
+                <label class="form-label" for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" class="form-input" placeholder="you@example.com" autocomplete="email" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="loginPwd">${t('password')}</label>
+                <input type="password" id="loginPwd" class="form-input" placeholder="••••••••" autocomplete="current-password" required>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top:8px;">
+                <span class="btn-txt">${t('login')}</span>
+              </button>
+            </form>
+
+            <div class="auth-divider">
+              <span>${t('orText')}</span>
+            </div>
+
+            <button type="button" id="guestBtn" class="btn btn-outline btn-block btn-lg">
+              <span class="btn-txt">🎭 ${t('browseAsGuest')}</span>
+            </button>
+
+            <div class="auth-footer">
+              <span>${t('noAccount')}</span>
+              <button type="button" id="switchRegister" class="link-btn">${t('register')}</button>
+            </div>
+          `:`
+            <form id="registerForm" class="auth-form" novalidate>
+              <div class="form-group">
+                <label class="form-label" for="regName">${t('fullName')} *</label>
+                <input type="text" id="regName" class="form-input" placeholder="${t('fullName')}" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="regUser">Username *</label>
+                <input type="text" id="regUser" class="form-input" placeholder="ivan_dev" pattern="[a-zA-Z0-9_]{3,32}" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="regEmail">Email *</label>
+                <input type="email" id="regEmail" class="form-input" placeholder="you@example.com" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="regPwd">${t('password')} *</label>
+                <input type="password" id="regPwd" class="form-input" placeholder="${t('minChars')}" required>
+              </div>
+              <div class="form-group" style="margin-top:-2px;">
+                <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.45;color:var(--text-soft);">
+                  <input type="checkbox" id="regAcceptTerms" style="margin-top:2px;" required>
+                  <span>Я погоджуюсь з <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Правилами платформи</a> та <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Політикою приватності</a>.</span>
+                </label>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top:8px;">
+                <span class="btn-txt">${t('register')}</span>
+              </button>
+            </form>
+
+            <div class="auth-footer">
+              <span>${t('haveAccount')}</span>
+              <button type="button" id="switchLogin" class="link-btn">${t('login')}</button>
+            </div>
+          `}
+        </div>
+      </div>
+    </div>`;
+
+  document.getElementById('tabLogin')?.addEventListener('click',()=>renderAuth('login'));
+  document.getElementById('tabRegister')?.addEventListener('click',()=>renderAuth('register'));
+  document.getElementById('switchLogin')?.addEventListener('click',()=>renderAuth('login'));
+  document.getElementById('switchRegister')?.addEventListener('click',()=>renderAuth('register'));
+  document.getElementById('loginForm')?.addEventListener('submit',handleLogin);
+  document.getElementById('registerForm')?.addEventListener('submit',handleRegister);
+  document.getElementById('guestBtn')?.addEventListener('click',handleGuestMode);
+  document.getElementById('authLangSelector')?.addEventListener('change',e=>{appState.S.lang=e.target.value;saveState();renderAuth(mode);});
+}
+
+export async function handleLogin(e){
+  e.preventDefault();
+  const btn=e.target.querySelector('[type=submit]');
+  const email=document.getElementById('loginEmail').value.trim();
+  const password=document.getElementById('loginPwd').value;
+  if(!email||!password){showAlert('authAlert',t('required'));return;}
+  hideAlert('authAlert');setLoading(btn,true);
+  const {ok,data}=await apiFetch(API.login,{method:'POST',body:JSON.stringify({email,password})});
+  setLoading(btn,false);
+  if(ok){appState.currentUser=data.user;appState.isGuest=false;loadState();toast(t('loginSuccess'),'success');renderShell();}
+  else showAlert('authAlert',data.message||'Login failed.');
+}
+
+export async function handleRegister(e){
+  e.preventDefault();
+  const btn=e.target.querySelector('[type=submit]');
+  const name=document.getElementById('regName').value.trim();
+  const username=document.getElementById('regUser').value.trim();
+  const email=document.getElementById('regEmail').value.trim();
+  const password=document.getElementById('regPwd').value;
+  const acceptTerms=!!document.getElementById('regAcceptTerms')?.checked;
+  const acceptPrivacy=acceptTerms;
+  if(!name||!username||!email||!password){showAlert('authAlert',t('required'));return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showAlert('authAlert',t('invalidEmail')||'Email некоректний.');return;}
+  if(!acceptTerms){showAlert('authAlert','Потрібно погодитись з Правилами платформи та Політикою приватності.');return;}
+  hideAlert('authAlert');setLoading(btn,true);
+  const {ok,data}=await apiFetch(API.register,{method:'POST',body:JSON.stringify({name,username,email,password,accept_terms:acceptTerms,accept_privacy:acceptPrivacy})});
+  setLoading(btn,false);
+  if(ok){appState.isGuest=false;toast(t('registerSuccess'),'success');renderVerification(data.user_id,email);}
+  else showAlert('authAlert',data.message||'Register failed.');
+}
+
+export async function doLogout(){
+  await apiFetch(API.logout,{method:'POST'});
+  appState.currentUser=null;toast(t('logoutSuccess'),'info');renderAuth();
+}
+
+export function handleGuestMode(){
+  appState.isGuest=true;
+  appState.currentUser=null;
+  loadState();
+  toast(t('guestWelcome'),'info');
+  renderShell();
+}

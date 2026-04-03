@@ -24,7 +24,7 @@ function cors_headers(array $allowedMethods = ['GET', 'POST', 'OPTIONS']): void 
         header('Vary: Origin');
     }
     header('Access-Control-Allow-Methods: ' . implode(', ', $allowedMethods));
-    header('Access-Control-Allow-Headers: Content-Type');
+    header('Access-Control-Allow-Headers: Content-Type, X-CSRF-Token');
     header('Access-Control-Allow-Credentials: true');
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         http_response_code(200);
@@ -87,6 +87,28 @@ function read_json(): array {
     if (!$raw) return [];
     $d = json_decode($raw, true);
     return is_array($d) ? $d : [];
+}
+
+// ── CSRF protection ──────────────────────────────────────────────
+
+function csrf_token(): string {
+    if (session_status() !== PHP_SESSION_ACTIVE) start_secure_session();
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+/**
+ * Validate CSRF token from X-CSRF-Token header on state-changing requests.
+ * Call after start_secure_session() on POST/PUT/DELETE endpoints.
+ */
+function csrf_validate(): void {
+    if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_SERVER['REQUEST_METHOD'] === 'OPTIONS') return;
+    $token = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    if (empty($token) || !hash_equals($_SESSION['csrf_token'] ?? '', $token)) {
+        json_response(['success' => false, 'message' => 'Invalid CSRF token'], 403);
+    }
 }
 
 function normalize_email(string $e): string {

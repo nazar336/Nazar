@@ -111,6 +111,8 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 coins',
     roomOnline:'online', noMsgsYet:'Be the first to write!', globalRoomDesc:'All users can chat here',
     withdrawCrypto:'Withdraw to Crypto', withdrawTitle:'Withdraw Coins to Crypto', withdrawCoins:'Amount (coins)', withdrawWallet:'Your wallet address', withdrawNetwork:'Network', withdrawFee:'Fee (5%)', withdrawNet:'You receive', withdrawConfirm:'Submit Withdrawal', withdrawSuccess:'Withdrawal request created!', withdrawCancel:'Cancel Withdrawal', withdrawCancelled:'Withdrawal cancelled. Coins refunded.', withdrawHistory:'Withdrawal History', withdrawPending:'You have a pending withdrawal', withdrawMin:'Min withdrawal: 500 coins', withdrawStatus:'Status', noWithdrawals:'No withdrawals yet',
+    // Error & system
+    loginFailed:'Login failed.', registerFailed:'Registration failed.', invalidTaskId:'Invalid task ID', errorGeneric:'Error', acceptTermsRequired:'You must accept the Terms and Privacy Policy.', sessionExpired:'Session expired. Please log in again.', requestTimeout:'Request timed out. Try again.', networkError:'Network error. Check your connection.', pageNotFound:'Page not found', pageNotFoundDesc:'The page you are looking for does not exist.', backToDashboard:'Back to Dashboard', loadingText:'Loading…',
   },
   UA:{
     appName:'LOLance', appTag:'Преміум платформа мікрозадач',
@@ -187,6 +189,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 монет',
     roomOnline:'онлайн', noMsgsYet:'Будь першим хто напише!', globalRoomDesc:'Тут можуть писати всі користувачі',
     withdrawCrypto:'Вивести в крипту', withdrawTitle:'Вивід монет у крипту', withdrawCoins:'Сума (монети)', withdrawWallet:'Адреса вашого гаманця', withdrawNetwork:'Мережа', withdrawFee:'Комісія (5%)', withdrawNet:'Ви отримаєте', withdrawConfirm:'Створити запит', withdrawSuccess:'Запит на вивід створено!', withdrawCancel:'Скасувати вивід', withdrawCancelled:'Вивід скасовано. Монети повернено.', withdrawHistory:'Історія виводів', withdrawPending:'У вас є активний запит на вивід', withdrawMin:'Мін. вивід: 500 монет', withdrawStatus:'Статус', noWithdrawals:'Виводів ще не було',
+    loginFailed:'Помилка входу.', registerFailed:'Помилка реєстрації.', invalidTaskId:'Невірний ID задачі', errorGeneric:'Помилка', acceptTermsRequired:'Потрібно погодитись з Правилами платформи та Політикою приватності.', sessionExpired:'Сесія закінчилась. Увійдіть знову.', requestTimeout:'Час запиту вичерпано. Спробуйте ще.', networkError:'Помилка мережі. Перевірте з\'єднання.', pageNotFound:'Сторінку не знайдено', pageNotFoundDesc:'Такої сторінки не існує.', backToDashboard:'На головну', loadingText:'Завантаження…',
   },
   DE:{
     appName:'LOLance', appTag:'Premium Micro-Task Plattform',
@@ -258,6 +261,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 Coins',
     roomOnline:'online', noMsgsYet:'Sei der Erste, der schreibt!', globalRoomDesc:'Hier können alle Nutzer schreiben',
     withdrawCrypto:'Auszahlung in Krypto', withdrawTitle:'Coins in Krypto auszahlen', withdrawCoins:'Betrag (Coins)', withdrawWallet:'Ihre Wallet-Adresse', withdrawNetwork:'Netzwerk', withdrawFee:'Gebühr (5%)', withdrawNet:'Sie erhalten', withdrawConfirm:'Auszahlung beantragen', withdrawSuccess:'Auszahlungsantrag erstellt!', withdrawCancel:'Auszahlung stornieren', withdrawCancelled:'Auszahlung storniert. Coins erstattet.', withdrawHistory:'Auszahlungshistorie', withdrawPending:'Sie haben eine offene Auszahlung', withdrawMin:'Min. Auszahlung: 500 Coins', withdrawStatus:'Status', noWithdrawals:'Noch keine Auszahlungen',
+    loginFailed:'Anmeldung fehlgeschlagen.', registerFailed:'Registrierung fehlgeschlagen.', invalidTaskId:'Ungültige Aufgaben-ID', errorGeneric:'Fehler', acceptTermsRequired:'Sie müssen die Nutzungsbedingungen und die Datenschutzrichtlinie akzeptieren.', sessionExpired:'Sitzung abgelaufen. Bitte erneut anmelden.', requestTimeout:'Zeitüberschreitung. Versuchen Sie es erneut.', networkError:'Netzwerkfehler. Überprüfen Sie Ihre Verbindung.', pageNotFound:'Seite nicht gefunden', pageNotFoundDesc:'Die Seite existiert nicht.', backToDashboard:'Zum Dashboard', loadingText:'Wird geladen…',
   },
   FR:{
     appName:'LOLance', appTag:'Plateforme Premium de Micro-Tâches',
@@ -329,6 +333,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 coins',
     roomOnline:'en ligne', noMsgsYet:'Soyez le premier à écrire !', globalRoomDesc:'Tous les utilisateurs peuvent écrire ici',
     withdrawCrypto:'Retirer en crypto', withdrawTitle:'Retirer des coins en crypto', withdrawCoins:'Montant (coins)', withdrawWallet:'Adresse de votre portefeuille', withdrawNetwork:'Réseau', withdrawFee:'Frais (5%)', withdrawNet:'Vous recevrez', withdrawConfirm:'Soumettre le retrait', withdrawSuccess:'Demande de retrait créée !', withdrawCancel:'Annuler le retrait', withdrawCancelled:'Retrait annulé. Coins remboursés.', withdrawHistory:'Historique des retraits', withdrawPending:'Vous avez un retrait en attente', withdrawMin:'Retrait min. : 500 coins', withdrawStatus:'Statut', noWithdrawals:'Aucun retrait pour le moment',
+    loginFailed:'Connexion échouée.', registerFailed:'Inscription échouée.', invalidTaskId:'ID de tâche invalide', errorGeneric:'Erreur', acceptTermsRequired:'Vous devez accepter les conditions et la politique de confidentialité.', sessionExpired:'Session expirée. Veuillez vous reconnecter.', requestTimeout:'Délai d\'attente dépassé. Réessayez.', networkError:'Erreur réseau. Vérifiez votre connexion.', pageNotFound:'Page introuvable', pageNotFoundDesc:'La page demandée n\'existe pas.', backToDashboard:'Retour au tableau de bord', loadingText:'Chargement…',
   },
   ES:{
     appName:'LOLance', appTag:'Plataforma Premium de Micro-Tareas',
@@ -400,6 +405,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 monedas',
     roomOnline:'en línea', noMsgsYet:'¡Sé el primero en escribir!', globalRoomDesc:'Todos los usuarios pueden escribir aquí',
     withdrawCrypto:'Retirar a crypto', withdrawTitle:'Retirar coins a crypto', withdrawCoins:'Cantidad (coins)', withdrawWallet:'Dirección de tu billetera', withdrawNetwork:'Red', withdrawFee:'Comisión (5%)', withdrawNet:'Recibirás', withdrawConfirm:'Solicitar retiro', withdrawSuccess:'¡Solicitud de retiro creada!', withdrawCancel:'Cancelar retiro', withdrawCancelled:'Retiro cancelado. Coins devueltos.', withdrawHistory:'Historial de retiros', withdrawPending:'Tienes un retiro pendiente', withdrawMin:'Retiro mín.: 500 coins', withdrawStatus:'Estado', noWithdrawals:'Sin retiros aún',
+    loginFailed:'Error de inicio de sesión.', registerFailed:'Error de registro.', invalidTaskId:'ID de tarea inválido', errorGeneric:'Error', acceptTermsRequired:'Debes aceptar los Términos y la Política de privacidad.', sessionExpired:'Sesión expirada. Inicia sesión de nuevo.', requestTimeout:'Tiempo de espera agotado. Inténtalo de nuevo.', networkError:'Error de red. Verifica tu conexión.', pageNotFound:'Página no encontrada', pageNotFoundDesc:'La página que buscas no existe.', backToDashboard:'Volver al panel', loadingText:'Cargando…',
   },
   PL:{
     appName:'LOLance', appTag:'Platforma Premium Mikro-Zadań',
@@ -471,6 +477,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 coinów',
     roomOnline:'online', noMsgsYet:'Bądź pierwszym, który pisze!', globalRoomDesc:'Tutaj mogą pisać wszyscy użytkownicy',
     withdrawCrypto:'Wypłata na krypto', withdrawTitle:'Wypłata coinów na krypto', withdrawCoins:'Kwota (coiny)', withdrawWallet:'Adres Twojego portfela', withdrawNetwork:'Sieć', withdrawFee:'Opłata (5%)', withdrawNet:'Otrzymasz', withdrawConfirm:'Złóż wniosek', withdrawSuccess:'Wniosek o wypłatę złożony!', withdrawCancel:'Anuluj wypłatę', withdrawCancelled:'Wypłata anulowana. Coiny zwrócone.', withdrawHistory:'Historia wypłat', withdrawPending:'Masz oczekującą wypłatę', withdrawMin:'Min. wypłata: 500 coinów', withdrawStatus:'Status', noWithdrawals:'Brak wypłat',
+    loginFailed:'Logowanie nie powiodło się.', registerFailed:'Rejestracja nie powiodła się.', invalidTaskId:'Nieprawidłowy ID zadania', errorGeneric:'Błąd', acceptTermsRequired:'Musisz zaakceptować Regulamin i Politykę prywatności.', sessionExpired:'Sesja wygasła. Zaloguj się ponownie.', requestTimeout:'Upłynął czas oczekiwania. Spróbuj ponownie.', networkError:'Błąd sieci. Sprawdź połączenie.', pageNotFound:'Nie znaleziono strony', pageNotFoundDesc:'Strona, której szukasz, nie istnieje.', backToDashboard:'Powrót do pulpitu', loadingText:'Ładowanie…',
   },
 };
 function t(k){ return (i18n[S.lang]||i18n.UA)[k] || k; }
@@ -489,6 +496,7 @@ let isGuest = false;
 let currentPage = 'dashboard';
 let activeChatId = null;
 let notifOpen = false;
+let csrfToken = '';
 
 function defaultState(){
   return {
@@ -767,9 +775,22 @@ function calcScore(u){
 
 /* ── 5. API ──────────────────────────────────────────────────── */
 async function apiFetch(url,opts={}){
-  const res=await fetch(url,{credentials:'same-origin',headers:{'Content-Type':'application/json'},...opts});
-  const data=await res.json().catch(()=>({success:false,message:'Server error.'}));
-  return {ok:res.ok&&data.success,data};
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),20000);
+  const headers={'Content-Type':'application/json'};
+  if(csrfToken) headers['X-CSRF-Token']=csrfToken;
+  try{
+    const res=await fetch(url,{credentials:'same-origin',headers,...opts,signal:controller.signal});
+    clearTimeout(timeout);
+    if(res.status===401&&!url.includes('login.php')&&!url.includes('register.php')){currentUser=null;isGuest=false;toast(t('sessionExpired'),'warning');renderAuth();return {ok:false,data:{success:false,message:t('sessionExpired')}};}
+    const data=await res.json().catch(()=>({success:false,message:'Server error.'}));
+    if(data.csrf_token) csrfToken=data.csrf_token;
+    return {ok:res.ok&&data.success,data};
+  }catch(e){
+    clearTimeout(timeout);
+    if(e.name==='AbortError') return {ok:false,data:{success:false,message:t('requestTimeout')}};
+    return {ok:false,data:{success:false,message:t('networkError')}};
+  }
 }
 
 /* ── 6. UTILS ────────────────────────────────────────────────── */
@@ -858,6 +879,11 @@ function navigate(page){
 function renderPage(page,el){
   const pages={dashboard:renderDashboard,tasks:renderTasks,createTask:renderCreateTask,feed:renderFeed,wallet:renderWallet,chat:renderChat,support:renderSupport,profile:renderProfile,leaderboard:renderLeaderboard};
   
+  if(!pages[page]){renderNotFound(el);return;}
+
+  // Show loading indicator
+  el.innerHTML=`<div class="page-loading"><div class="page-spinner"></div><p>${t('loadingText')}</p></div>`;
+
   // Load data before rendering each page
   if(page==='tasks' && !isGuest){
     loadTasks('open');
@@ -870,7 +896,22 @@ function renderPage(page,el){
   if(page==='profile' && !isGuest) loadPoints();
   if(page==='leaderboard') loadLeaderboard();
   
-  (pages[page]||renderDashboard)(el);
+  // Small delay to show loading state on slow devices
+  requestAnimationFrame(()=>pages[page](el));
+}
+
+function renderNotFound(el){
+  el.innerHTML=`
+    <div class="fade-up" style="display:flex;align-items:center;justify-content:center;min-height:60vh;">
+      <div class="card" style="max-width:440px;text-align:center;padding:40px 32px;">
+        <div style="font-size:64px;margin-bottom:16px;">🔍</div>
+        <h1 style="font-size:28px;font-weight:900;margin-bottom:8px;">404</h1>
+        <h2 style="font-size:18px;font-weight:700;margin-bottom:8px;">${t('pageNotFound')}</h2>
+        <p style="font-size:14px;color:var(--text-soft);margin-bottom:20px;">${t('pageNotFoundDesc')}</p>
+        <button class="btn btn-primary" id="backToDash">${t('backToDashboard')}</button>
+      </div>
+    </div>`;
+  document.getElementById('backToDash')?.addEventListener('click',()=>navigate('dashboard'));
 }
 
 /* ── 13. SHELL ───────────────────────────────────────────────── */
@@ -1116,7 +1157,13 @@ function renderAuth(mode='login'){
               <div class="form-group" style="margin-top:-2px;">
                 <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.45;color:var(--text-soft);">
                   <input type="checkbox" id="regAcceptTerms" style="margin-top:2px;" required>
-                  <span>Я погоджуюсь з <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Правилами платформи</a> та <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Політикою приватності</a>.</span>
+                  <span>${t('login')==='Login'?'I accept the':'Я погоджуюсь з'} <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">${t('termsLink')}</a></span>
+                </label>
+              </div>
+              <div class="form-group" style="margin-top:-6px;">
+                <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.45;color:var(--text-soft);">
+                  <input type="checkbox" id="regAcceptPrivacy" style="margin-top:2px;" required>
+                  <span>${t('login')==='Login'?'I accept the':'Я погоджуюсь з'} <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">${t('privacyLink')}</a></span>
                 </label>
               </div>
               <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top:8px;">
@@ -1153,7 +1200,7 @@ async function handleLogin(e){
   const {ok,data}=await apiFetch(API.login,{method:'POST',body:JSON.stringify({email,password})});
   setLoading(btn,false);
   if(ok){currentUser=data.user;isGuest=false;loadState();toast(t('loginSuccess'),'success');renderShell();}
-  else showAlert('authAlert',data.message||'Login failed.');
+  else showAlert('authAlert',data.message||t('loginFailed'));
 }
 
 async function handleRegister(e){
@@ -1164,14 +1211,14 @@ async function handleRegister(e){
   const email=document.getElementById('regEmail').value.trim();
   const password=document.getElementById('regPwd').value;
   const acceptTerms=!!document.getElementById('regAcceptTerms')?.checked;
-  const acceptPrivacy=acceptTerms;
+  const acceptPrivacy=!!document.getElementById('regAcceptPrivacy')?.checked;
   if(!name||!username||!email||!password){showAlert('authAlert',t('required'));return;}
-  if(!acceptTerms){showAlert('authAlert','Потрібно погодитись з Правилами платформи та Політикою приватності.');return;}
+  if(!acceptTerms||!acceptPrivacy){showAlert('authAlert',t('acceptTermsRequired'));return;}
   hideAlert('authAlert');setLoading(btn,true);
   const {ok,data}=await apiFetch(API.register,{method:'POST',body:JSON.stringify({name,username,email,password,accept_terms:acceptTerms,accept_privacy:acceptPrivacy})});
   setLoading(btn,false);
   if(ok){isGuest=false;toast(t('registerSuccess'),'success');renderVerification(data.user_id,email);}
-  else showAlert('authAlert',data.message||'Register failed.');
+  else showAlert('authAlert',data.message||t('registerFailed'));
 }
 
 async function doLogout(){
@@ -1553,12 +1600,12 @@ async function takeTask(tid){
   const serverTaskId=Number(tid);
 
   if(!Number.isInteger(serverTaskId) || serverTaskId<=0){
-    toast('Invalid task ID','error');
+    toast(t('invalidTaskId'),'error');
     return;
   }
 
   const {ok,data}=await apiFetch(API.takeTask,{method:'POST',body:JSON.stringify({task_id:serverTaskId})});
-  if(!ok){toast(data.message||'Error taking task','error');return;}
+  if(!ok){toast(data.message||t('errorGeneric'),'error');return;}
   addNotif(`${t('notifTaskTaken')} "${task?.title||'#'+tid}"!`,'success');
   toast(t('taskTaken'),'success');
   await loadTasks('open');
@@ -1572,16 +1619,16 @@ async function completeTask(tid,action='submit'){
   const serverTaskId=Number(tid);
 
   if(!Number.isInteger(serverTaskId) || serverTaskId<=0){
-    toast('Invalid task ID','error');
+    toast(t('invalidTaskId'),'error');
     return;
   }
 
   const {ok,data}=await apiFetch(API.completeTask,{method:'POST',body:JSON.stringify({task_id:serverTaskId,action})});
-  if(!ok){toast(data.message||'Error','error');return;}
+  if(!ok){toast(data.message||t('errorGeneric'),'error');return;}
   if(action==='submit'){
     toast(t('taskCompleted'),'success');
   }else{
-    addNotif(`Completed "${task?.title||('#'+tid)}" · +${Number(data.reward||0)} coins!`,'success');
+    addNotif(`${t('notifTaskCompleted')} "${task?.title||('#'+tid)}" · +${Number(data.reward||0)} coins!`,'success');
     toast(data.message||t('confirm'),'success');
     await syncProfile();
     await loadWallet();

@@ -6,6 +6,7 @@ cors_headers(['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']);
 start_secure_session();
 $pdo    = db();
 $method = $_SERVER['REQUEST_METHOD'];
+csrf_validate();
 
 if (!isset($_SESSION['user_id']) || (int)$_SESSION['user_id'] === 0)
     json_response(['success' => false, 'message' => 'Not authenticated'], 401);

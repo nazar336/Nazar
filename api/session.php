@@ -14,7 +14,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 if ((int)$_SESSION['user_id'] === 0) {
-    json_response(['success' => true, 'user' => [
+    json_response(['success' => true, 'csrf_token' => csrf_token(), 'user' => [
         'id' => 0, 'name' => 'Guest', 'username' => 'guest_user',
         'email' => 'guest@lolance.local', 'is_guest' => true,
     ]]);
@@ -34,4 +34,4 @@ if (!$user) {
     ]]);
 }
 
-json_response(['success' => true, 'user' => public_user($user)]);
+json_response(['success' => true, 'csrf_token' => csrf_token(), 'user' => public_user($user)]);

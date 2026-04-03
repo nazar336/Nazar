@@ -1,0 +1,15 @@
+{
+  "name": "lolance",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LOLance Premium Micro-Task Platform",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "find js/ -name '*.js' -exec node --check {} \\;"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4",
+    "jsdom": "^26.1.0"
+  }
+}

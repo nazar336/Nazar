@@ -1,0 +1,19 @@
+{
+  "name": "lolance/platform",
+  "description": "LOLance Premium Micro-Task Platform",
+  "type": "project",
+  "license": "proprietary",
+  "require": {
+    "php": ">=8.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.5"
+  },
+  "autoload": {
+    "files": []
+  },
+  "scripts": {
+    "test": "phpunit",
+    "lint": "find api/ -name '*.php' -exec php -l {} \\;"
+  }
+}

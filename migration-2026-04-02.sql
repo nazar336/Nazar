@@ -58,3 +58,15 @@ CREATE TABLE IF NOT EXISTS crypto_withdrawals (
 
 -- ── Drop cached balance from users (single source of truth = transactions) ──
 -- ALTER TABLE users DROP COLUMN IF EXISTS balance; -- optional, keep for now
+
+-- ── Make transaction_hash unique to prevent double-spend ──
+-- Safe: DROP existing non-unique key first, then add UNIQUE
+-- ALTER TABLE crypto_deposits DROP KEY IF EXISTS idx_tx_hash;
+-- ALTER TABLE crypto_deposits ADD UNIQUE KEY idx_tx_hash (transaction_hash);
+
+-- ── Cleanup old rate-limiting records (run periodically or via cron) ──
+-- DELETE FROM login_attempts WHERE attempted_at < DATE_SUB(NOW(), INTERVAL 1 DAY);
+
+-- ── Add missing indexes for performance ──
+-- ALTER TABLE transactions ADD KEY IF NOT EXISTS idx_user_status (user_id, status);
+-- ALTER TABLE task_assignments ADD KEY IF NOT EXISTS idx_status (status);

@@ -78,6 +78,13 @@ try {
 
     // Find worker to approve
     $workerId = isset($input['worker_id']) ? (int)$input['worker_id'] : 0;
+
+    // Block self-approval — task owner cannot approve their own work
+    if ($workerId === $userId) {
+        $pdo->rollBack();
+        json_response(['success' => false, 'message' => 'Cannot approve your own work'], 403);
+    }
+
     if ($workerId <= 0) {
         $nextStmt = $pdo->prepare("
             SELECT ta.user_id FROM task_assignments ta

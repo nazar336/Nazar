@@ -47,6 +47,10 @@ try {
     } elseif ($method === 'POST') {
         $input = read_json();
 
+        // Rate limit: max 10 tasks per user per hour
+        if (check_rate_limit($pdo, 'task_create:' . $userId, 10, 60))
+            json_response(['success' => false, 'message' => 'Too many tasks created. Please wait.'], 429);
+
         $title       = trim((string)($input['title']       ?? ''));
         $description = trim((string)($input['description'] ?? ''));
         $category    = trim((string)($input['category']    ?? ''));
@@ -86,6 +90,7 @@ try {
 
         $stmt = $pdo->prepare('INSERT INTO tasks(title,description,category,difficulty,reward,slots,deadline,status,creator_id) VALUES(:t,:d,:c,:diff,:r,:s,:dl,"open",:cb)');
         $stmt->execute([':t' => $title, ':d' => $description, ':c' => $category, ':diff' => $difficulty, ':r' => $reward, ':s' => $slots, ':dl' => $deadline, ':cb' => $userId]);
+        record_rate_limit($pdo, 'task_create:' . $userId);
         json_response(['success' => true, 'task_id' => (int)$pdo->lastInsertId(), 'message' => 'Task created']);
 
     } elseif ($method === 'PUT') {

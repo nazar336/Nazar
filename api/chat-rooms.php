@@ -1,18 +1,8 @@
 <?php
 declare(strict_types=1);
-$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-$host = $_SERVER['HTTP_HOST'] ?? '';
-if ($origin !== '' && parse_url($origin, PHP_URL_HOST) === $host) {
-    header('Access-Control-Allow-Origin: ' . $origin);
-    header('Vary: Origin');
-}
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
-header('Content-Type: application/json');
-
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
-
 require_once __DIR__ . '/bootstrap.php';
+cors_headers(['GET', 'POST', 'OPTIONS']);
+
 start_secure_session();
 
 if (!isset($_SESSION['user_id']) || (int)$_SESSION['user_id'] === 0) {

@@ -186,6 +186,10 @@ function handleSend(PDO $pdo, int $userId, array $input): never
         json_response(['success' => false, 'message' => 'Access denied'], 403);
     }
 
+    // Rate limit: max 60 messages per 5 min
+    if (check_rate_limit($pdo, 'chat:' . $userId, 60, 5))
+        json_response(['success' => false, 'message' => 'You are sending messages too fast. Please wait.'], 429);
+
     $cooldownStmt = $pdo->prepare('SELECT created_at FROM chat_room_messages WHERE user_id=:uid ORDER BY created_at DESC LIMIT 1');
     $cooldownStmt->execute([':uid' => $userId]);
     $lastCreated = $cooldownStmt->fetchColumn();
@@ -207,6 +211,7 @@ function handleSend(PDO $pdo, int $userId, array $input): never
     ')->execute([':tier' => $tier, ':uid' => $userId, ':uname' => $username, ':msg' => $message]);
 
     $msgId = (int)$pdo->lastInsertId();
+    record_rate_limit($pdo, 'chat:' . $userId);
 
     json_response([
         'success' => true,

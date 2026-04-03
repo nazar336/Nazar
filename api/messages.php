@@ -75,24 +75,31 @@ try {
         if (!$recipient)             json_response(['success' => false, 'message' => 'Recipient not found'], 404);
         if (!(bool)$recipient['is_active']) json_response(['success' => false, 'message' => 'Recipient not available'], 400);
 
-        // Find or create thread
-        $threadStmt = $pdo->prepare('SELECT id FROM message_threads WHERE (user1_id=:u1 AND user2_id=:u2) OR (user1_id=:u2 AND user2_id=:u1) LIMIT 1');
-        $threadStmt->execute([':u1' => $userId, ':u2' => $recipientId]);
-        $thread   = $threadStmt->fetch();
-        $threadId = $thread ? (int)$thread['id'] : null;
+        // Find or create thread (use transaction to prevent duplicate threads)
+        $pdo->beginTransaction();
+        try {
+            $threadStmt = $pdo->prepare('SELECT id FROM message_threads WHERE (user1_id=:u1 AND user2_id=:u2) OR (user1_id=:u2b AND user2_id=:u1b) LIMIT 1 FOR UPDATE');
+            $threadStmt->execute([':u1' => $userId, ':u2' => $recipientId, ':u2b' => $recipientId, ':u1b' => $userId]);
+            $thread   = $threadStmt->fetch();
+            $threadId = $thread ? (int)$thread['id'] : null;
 
-        if (!$threadId) {
-            $pdo->prepare('INSERT INTO message_threads(user1_id,user2_id,last_message_at) VALUES(:u1,:u2,NOW())')
-                ->execute([':u1' => $userId, ':u2' => $recipientId]);
-            $threadId = (int)$pdo->lastInsertId();
+            if (!$threadId) {
+                $pdo->prepare('INSERT INTO message_threads(user1_id,user2_id,last_message_at) VALUES(:u1,:u2,NOW())')
+                    ->execute([':u1' => $userId, ':u2' => $recipientId]);
+                $threadId = (int)$pdo->lastInsertId();
+            }
+
+            $pdo->prepare('INSERT INTO messages(thread_id,sender_id,content) VALUES(:tid,:uid,:content)')
+                ->execute([':tid' => $threadId, ':uid' => $userId, ':content' => $content]);
+            $messageId = (int)$pdo->lastInsertId();
+            record_rate_limit($pdo, 'msg:' . $userId);
+
+            $pdo->prepare('UPDATE message_threads SET last_message_at=NOW() WHERE id=:id')->execute([':id' => $threadId]);
+            $pdo->commit();
+        } catch (\Exception $e) {
+            if ($pdo->inTransaction()) $pdo->rollBack();
+            throw $e;
         }
-
-        $pdo->prepare('INSERT INTO messages(thread_id,sender_id,content) VALUES(:tid,:uid,:content)')
-            ->execute([':tid' => $threadId, ':uid' => $userId, ':content' => $content]);
-        $messageId = (int)$pdo->lastInsertId();
-        record_rate_limit($pdo, 'msg:' . $userId);
-
-        $pdo->prepare('UPDATE message_threads SET last_message_at=NOW() WHERE id=:id')->execute([':id' => $threadId]);
 
         json_response(['success' => true, 'message_id' => $messageId, 'thread_id' => $threadId]);
     } else {

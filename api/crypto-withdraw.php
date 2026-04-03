@@ -59,6 +59,10 @@ function handleWithdrawInfo(): never {
 
 // ── POST initiate ─────────────────────────────────────────────────
 function handleWithdrawInitiate(PDO $pdo, int $userId, array $input): never {
+    // Rate limit: max 3 withdrawals per hour
+    if (check_rate_limit($pdo, 'withdraw:' . $userId, 3, 60))
+        json_response(['success' => false, 'message' => 'Too many withdrawal requests. Please wait.'], 429);
+
     $amountCoins   = (float)($input['amount_coins'] ?? 0);
     $network       = strtoupper(trim((string)($input['network'] ?? 'TRC20')));
     $walletAddress = trim((string)($input['wallet_address'] ?? ''));
@@ -156,6 +160,7 @@ function handleWithdrawInitiate(PDO $pdo, int $userId, array $input): never {
         $withdrawId = (int)$pdo->lastInsertId();
 
         $pdo->commit();
+        record_rate_limit($pdo, 'withdraw:' . $userId);
 
         // New balance
         $newBal = $pdo->prepare('SELECT coin_balance FROM user_coins WHERE user_id=:uid');

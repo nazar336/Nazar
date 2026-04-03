@@ -197,14 +197,14 @@ function handleDailyVisit(PDO $pdo, int $userId): never
 /* ══ POST buy_points/buy_xp: витратити монети, отримати XP ══ */
 function handleBuyPoints(PDO $pdo, int $userId, array $input): never
 {
+    // Rate limit: max 10 XP purchases per hour (check early)
+    if (check_rate_limit($pdo, 'buyxp:' . $userId, 10, 60))
+        json_response(['success' => false, 'message' => 'Too many XP purchases. Please wait.'], 429);
+
     $packs = (int)($input['packs'] ?? 1); // 1 пак = 50 монет = 100 XP
     if ($packs < 1 || $packs > 100) {
         json_response(['success' => false, 'message' => 'Invalid pack count'], 400);
     }
-
-    // Rate limit: max 10 XP purchases per hour
-    if (check_rate_limit($pdo, 'buyxp:' . $userId, 10, 60))
-        json_response(['success' => false, 'message' => 'Too many XP purchases. Please wait.'], 429);
 
     $coinsNeeded  = $packs * COINS_BUY_RATE;   // 50 монет за пак
     $xpToGive = $packs * XP_BUY_RATE;

@@ -43,6 +43,8 @@
   <!-- Scroll progress -->
   <div class="scroll-progress" aria-hidden="true"><span id="scrollBar"></span></div>
 
-  <script src="app.js"></script>
+  <script type="module" src="js/main.js"></script>
+  <!-- Fallback for browsers without ES module support -->
+  <script nomodule src="app.js"></script>
 </body>
 </html>

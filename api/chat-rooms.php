@@ -195,8 +195,9 @@ function handleSend(PDO $pdo, int $userId, array $input): never
         json_response(['success' => false, 'message' => 'Access denied'], 403);
     }
 
-    // Rate limit: max 60 messages per user per 5 min (across all rooms)
-    if (check_rate_limit($pdo, 'chat:' . $userId, 60, 5))
+    // Rate limit: configurable chat message limit
+    $rl = get_rate_limit('chat');
+    if (check_rate_limit($pdo, 'chat:' . $userId, $rl[0], $rl[1]))
         json_response(['success' => false, 'message' => 'You are sending messages too fast. Please slow down.'], 429);
 
     // Per-room cooldown to prevent spam in a specific room

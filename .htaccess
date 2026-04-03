@@ -5,6 +5,11 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+# ── API Versioning ─────────────────────────────────────────────────
+# /api/v1/endpoint → /api/endpoint.php (version prefix routing)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^api/v1/(.+)$ api/$1.php [L,QSA]
+
 # ── Security Headers for static files ─────────────────────────────
 <IfModule mod_headers.c>
   # HSTS — enforce HTTPS for 1 year including subdomains

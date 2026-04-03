@@ -178,8 +178,9 @@ function handleTip(PDO $pdo, int $userId, array $input): never
         json_response(['success' => false, 'message' => 'Invalid target user'], 400);
     }
 
-    // Rate limit: max 20 tips per user per 60 min (prevent laundering)
-    if (check_rate_limit($pdo, 'tip:' . $userId, 20, 60))
+    // Rate limit: configurable tip limit
+    $rl = get_rate_limit('tip');
+    if (check_rate_limit($pdo, 'tip:' . $userId, $rl[0], $rl[1]))
         json_response(['success' => false, 'message' => 'Too many tips. Please wait before sending another.'], 429);
     record_rate_limit($pdo, 'tip:' . $userId);
 

@@ -43,8 +43,9 @@ try {
     if ($method === 'POST') {
         $input = read_json();
 
-        // Rate limit: max 10 tickets per user per 60 min
-        if (check_rate_limit($pdo, 'support:' . $userId, 10, 60))
+        // Rate limit: configurable support ticket limit
+        $rl = get_rate_limit('support');
+        if (check_rate_limit($pdo, 'support:' . $userId, $rl[0], $rl[1]))
             json_response(['success' => false, 'message' => 'Too many tickets. Please wait before creating another.'], 429);
 
         $subject = trim((string) ($input['subject'] ?? ''));

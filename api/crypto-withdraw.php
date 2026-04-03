@@ -60,8 +60,9 @@ function handleWithdrawInfo(): never {
 
 // ── POST initiate ─────────────────────────────────────────────────
 function handleWithdrawInitiate(PDO $pdo, int $userId, array $input): never {
-    // Rate limit: max 3 withdrawal requests per user per 60 min
-    if (check_rate_limit($pdo, 'withdraw:' . $userId, 3, 60))
+    // Rate limit: configurable withdrawal rate limit
+    $rl = get_rate_limit('withdraw');
+    if (check_rate_limit($pdo, 'withdraw:' . $userId, $rl[0], $rl[1]))
         json_response(['success' => false, 'message' => 'Too many withdrawal requests. Please wait.'], 429);
 
     $amountCoins   = (float)($input['amount_coins'] ?? 0);

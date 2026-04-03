@@ -16,9 +16,10 @@ if (!$acceptedTerms || !$acceptedPrivacy)
 
 $pdo   = db();
 
-// Rate limit: max 5 registrations per IP per 15 min
+// Rate limit: configurable registrations per IP
 $ip = substr((string)($_SERVER['REMOTE_ADDR'] ?? ''), 0, 45);
-if (check_rate_limit($pdo, 'register:' . $ip, 5, 15))
+$rl = get_rate_limit('register');
+if (check_rate_limit($pdo, 'register:' . $ip, $rl[0], $rl[1]))
     json_response(['success' => false, 'message' => 'Забагато спроб реєстрації. Спробуй через 15 хвилин.'], 429);
 
 $check = $pdo->prepare('SELECT id FROM users WHERE email=:e OR username=:u LIMIT 1');

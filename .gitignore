@@ -23,7 +23,7 @@ Thumbs.db
 *.log
 
 # PHP
-composer.lock
+# composer.lock is committed for reproducible builds
 
 # Temporary
 /tmp/
@@ -31,3 +31,7 @@ composer.lock
 *.zip
 *.gz
 *.tar
+
+# Test artifacts
+test-results/
+playwright-report/

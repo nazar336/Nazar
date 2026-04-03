@@ -48,8 +48,9 @@ try {
     } elseif ($method === 'POST') {
         $input = read_json();
 
-        // Rate limit: max 10 tasks per user per 60 min
-        if (check_rate_limit($pdo, 'task_create:' . $userId, 10, 60))
+        // Rate limit: configurable task creation limit
+        $rl = get_rate_limit('task');
+        if (check_rate_limit($pdo, 'task_create:' . $userId, $rl[0], $rl[1]))
             json_response(['success' => false, 'message' => 'Too many tasks created. Please wait before creating another.'], 429);
 
         // ── Level privilege: must be level 3+ to create tasks ──

@@ -35,6 +35,8 @@ const STATIC_ASSETS = [
   '/js/pages/landing.js',
   '/assets/favicon.svg',
   '/assets/lolance-logo.svg',
+  '/manifest.json',
+  '/js/focus-trap.js',
 ];
 
 // Install: pre-cache static assets

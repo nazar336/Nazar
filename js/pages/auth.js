@@ -96,11 +96,11 @@ export function renderAuth(mode='login'){
             <form id="loginForm" class="auth-form" novalidate>
               <div class="form-group">
                 <label class="form-label" for="loginEmail">Email</label>
-                <input type="email" id="loginEmail" class="form-input" placeholder="you@example.com" autocomplete="email" required>
+                <input type="email" id="loginEmail" class="form-input" placeholder="you@example.com" autocomplete="email" aria-label="Email" required>
               </div>
               <div class="form-group">
                 <label class="form-label" for="loginPwd">${t('password')}</label>
-                <input type="password" id="loginPwd" class="form-input" placeholder="••••••••" autocomplete="current-password" required>
+                <input type="password" id="loginPwd" class="form-input" placeholder="••••••••" autocomplete="current-password" aria-label="${t('password')}" required>
               </div>
               <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top:8px;">
                 <span class="btn-txt">${t('login')}</span>
@@ -123,23 +123,23 @@ export function renderAuth(mode='login'){
             <form id="registerForm" class="auth-form" novalidate>
               <div class="form-group">
                 <label class="form-label" for="regName">${t('fullName')} *</label>
-                <input type="text" id="regName" class="form-input" placeholder="${t('fullName')}" required>
+                <input type="text" id="regName" class="form-input" placeholder="${t('fullName')}" aria-label="${t('fullName')}" required>
               </div>
               <div class="form-group">
                 <label class="form-label" for="regUser">Username *</label>
-                <input type="text" id="regUser" class="form-input" placeholder="ivan_dev" pattern="[a-zA-Z0-9_]{3,32}" required>
+                <input type="text" id="regUser" class="form-input" placeholder="ivan_dev" pattern="[a-zA-Z0-9_]{3,32}" aria-label="Username" required>
               </div>
               <div class="form-group">
                 <label class="form-label" for="regEmail">Email *</label>
-                <input type="email" id="regEmail" class="form-input" placeholder="you@example.com" required>
+                <input type="email" id="regEmail" class="form-input" placeholder="you@example.com" aria-label="Email" required>
               </div>
               <div class="form-group">
                 <label class="form-label" for="regPwd">${t('password')} *</label>
-                <input type="password" id="regPwd" class="form-input" placeholder="${t('minChars')}" required>
+                <input type="password" id="regPwd" class="form-input" placeholder="${t('minChars')}" aria-label="${t('password')}" required>
               </div>
               <div class="form-group" style="margin-top:-2px;">
                 <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.45;color:var(--text-soft);">
-                  <input type="checkbox" id="regAcceptTerms" style="margin-top:2px;" required>
+                  <input type="checkbox" id="regAcceptTerms" style="margin-top:2px;" aria-label="Accept terms and privacy policy" required>
                   <span>Я погоджуюсь з <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Правилами платформи</a> та <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Політикою приватності</a>.</span>
                 </label>
               </div>

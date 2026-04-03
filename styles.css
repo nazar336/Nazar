@@ -60,9 +60,15 @@
     linear-gradient(180deg,#090f0b 0%,#060806 100%);
 }
 body.animations-off { --fast:.01ms linear; --med:.01ms linear; --slow:.01ms linear; }
+body.animations-off .main-content > * { animation:none !important; }
+body.animations-off .card:hover,
+body.animations-off .card-flat:hover,
+body.animations-off .stat-card:hover { transform:none; }
 @media (prefers-reduced-motion:reduce) {
   :root { --fast:.01ms linear; --med:.01ms linear; --slow:.01ms linear; }
   html  { scroll-behavior:auto; }
+  .main-content > * { animation:none !important; }
+  .card:hover,.card-flat:hover,.stat-card:hover { transform:none; }
 }
 
 /* ── Reset ────────────────────────────────────────────────── */
@@ -1018,7 +1024,49 @@ h1,h2,h3,h4,h5,h6 { line-height:1.25; }
 @keyframes toastOut { from{opacity:1} to{opacity:0;transform:translateX(20px)} }
 @keyframes fadeUp   { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
 @keyframes softPulse{ 0%,100%{opacity:1}50%{opacity:.7} }
+@keyframes scaleIn  { from{opacity:0;transform:scale(.96)} to{opacity:1;transform:none} }
+@keyframes slideInRight { from{opacity:0;transform:translateX(16px)} to{opacity:1;transform:none} }
 .fade-up { animation:fadeUp var(--med) forwards; }
+
+/* ── Page transition ─────────────────────────────────────── */
+.main-content { transition:opacity var(--fast); }
+.main-content > .card,
+.main-content > .card-flat,
+.main-content > .stats-grid > *,
+.main-content > .two-col > *,
+.main-content > .three-col > * {
+  animation:fadeUp var(--med) backwards;
+}
+.main-content > :nth-child(1) { animation-delay:.03s; }
+.main-content > :nth-child(2) { animation-delay:.07s; }
+.main-content > :nth-child(3) { animation-delay:.11s; }
+.main-content > :nth-child(4) { animation-delay:.15s; }
+.main-content > :nth-child(5) { animation-delay:.19s; }
+.main-content > :nth-child(6) { animation-delay:.23s; }
+.main-content > :nth-child(n+7) { animation-delay:.26s; }
+
+/* ── Nav hover micro-animations ──────────────────────────── */
+.nav-btn:hover .nav-icon { transform:scale(1.18); }
+.nav-btn:active .nav-icon { transform:scale(.92); }
+.mob-btn:active .icon { transform:scale(.88); transition:transform var(--fast); }
+.mob-btn .icon { transition:transform var(--fast); }
+
+/* ── Card hover lift ─────────────────────────────────────── */
+.card { transition:transform var(--fast), box-shadow var(--fast), border-color var(--fast); }
+.card:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(0,0,0,.18); }
+.card-flat { transition:transform var(--fast), border-color var(--fast); }
+.card-flat:hover { transform:translateY(-1px); border-color:rgba(255,255,255,.08); }
+.stat-card { transition:transform var(--fast), border-color var(--fast); }
+.stat-card:hover { transform:translateY(-2px); border-color:rgba(184,255,92,.18); }
+
+/* ── Button press effect ─────────────────────────────────── */
+.btn:active:not(:disabled) { transform:scale(.97); }
+
+/* ── Topbar title slide ──────────────────────────────────── */
+.topbar-title { transition:opacity var(--fast); }
+
+/* ── Section title glow on scroll ────────────────────────── */
+.section-title { transition:color var(--med); }
 
 /* ── Mobile nav ───────────────────────────────────────────── */
 .mobile-nav {

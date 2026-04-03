@@ -947,13 +947,15 @@ function navigate(page){
   const mc=document.getElementById('mainContent');
   if(!mc)return;
   mc.style.opacity='0';
+  mc.style.transform='translateY(6px)';
   setTimeout(()=>{
     mc.innerHTML='';
     renderPage(page,mc);
+    mc.style.transition=S.animationsOn?'opacity .22s ease, transform .22s ease':'none';
     mc.style.opacity='1';
-    mc.style.transition='opacity .2s';
+    mc.style.transform='none';
     mc.scrollTop=0;
-  },80);
+  },S.animationsOn?100:10);
   const titles={dashboard:t('dashboard'),tasks:t('tasks'),createTask:t('createTask'),feed:t('feed'),wallet:t('wallet'),chat:t('chat'),support:t('support'),profile:t('profile'),leaderboard:t('leaderboard')};
   const tb=document.getElementById('topbarTitle');
   if(tb)tb.textContent=titles[page]||page;
@@ -986,18 +988,18 @@ function renderShell(){
     {page:'tasks',icon:'📋',label:t('tasks')},
     {page:'createTask',icon:'✚',label:t('createTask')},
     {page:'feed',icon:'📡',label:t('feed')},
+    {page:'profile',icon:'👤',label:t('profile')},
     {page:'wallet',icon:'💎',label:t('wallet')},
     {page:'chat',icon:'💬',label:t('chat')},
     {page:'support',icon:'🛟',label:t('support')},
     {page:'leaderboard',icon:'🏆',label:t('leaderboard')},
-    {page:'profile',icon:'👤',label:t('profile')},
   ];
   const mobItems=[
     {page:'dashboard',icon:'⚡',label:t('dashboard')},
     {page:'tasks',icon:'📋',label:t('tasks')},
+    {page:'profile',icon:'👤',label:t('profile')},
     {page:'createTask',icon:'✚',label:t('createTask')},
     {page:'wallet',icon:'💎',label:t('wallet')},
-    {page:'profile',icon:'👤',label:t('profile')},
   ];
   const unreadCount=(S.notifications||[]).filter(n=>!n.read).length;
   const app=document.getElementById('app');

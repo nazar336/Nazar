@@ -48,4 +48,4 @@ start_secure_session();
 session_regenerate_id(true);
 $_SESSION['user_id'] = (int)$user['id'];
 
-json_response(['success' => true, 'user' => public_user($user)]);
+json_response(['success' => true, 'csrf_token' => csrf_token(), 'user' => public_user($user)]);

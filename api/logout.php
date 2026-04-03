@@ -7,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST')
     json_response(['success' => false, 'message' => 'Method not allowed'], 405);
 
 start_secure_session();
+csrf_validate();
 $_SESSION = [];
 if (ini_get('session.use_cookies')) {
     $p = session_get_cookie_params();

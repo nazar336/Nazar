@@ -7,13 +7,14 @@ if ($origin !== '' && parse_url($origin, PHP_URL_HOST) === $host) {
     header('Vary: Origin');
 }
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, X-CSRF-Token');
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
 
 require_once __DIR__ . '/bootstrap.php';
 start_secure_session();
+csrf_validate();
 
 if (!isset($_SESSION['user_id']) || (int)$_SESSION['user_id'] === 0) {
     json_response(['success' => false, 'message' => 'Not authenticated'], 401);
@@ -28,6 +29,22 @@ const XP_DAILY_CHECKIN = 10;
 const XP_DAILY_VISIT   = 5;
 const XP_BUY_RATE      = 100; // скільки XP за 1 купівлю
 const COINS_BUY_RATE   = 50;  // скільки монет коштує 1 купівля
+
+/* ─────── Level Privileges Map ─────── */
+const LEVEL_PRIVILEGES = [
+    1  => ['max_tasks' => 3,   'can_create' => false, 'max_reward' => 0,      'feed_media' => 'none',  'take_difficulty' => ['easy'],                  'badge' => '🌱', 'title' => 'Newcomer'],
+    2  => ['max_tasks' => 5,   'can_create' => false, 'max_reward' => 0,      'feed_media' => 'image', 'take_difficulty' => ['easy','medium'],          'badge' => '📸', 'title' => 'Explorer'],
+    3  => ['max_tasks' => 7,   'can_create' => true,  'max_reward' => 1000,   'feed_media' => 'image', 'take_difficulty' => ['easy','medium'],          'badge' => '🛠', 'title' => 'Creator'],
+    4  => ['max_tasks' => 10,  'can_create' => true,  'max_reward' => 2500,   'feed_media' => 'video', 'take_difficulty' => ['easy','medium'],          'badge' => '🎬', 'title' => 'Producer'],
+    5  => ['max_tasks' => 13,  'can_create' => true,  'max_reward' => 5000,   'feed_media' => 'video', 'take_difficulty' => ['easy','medium','hard'],   'badge' => '⚔️', 'title' => 'Warrior'],
+    6  => ['max_tasks' => 16,  'can_create' => true,  'max_reward' => 10000,  'feed_media' => 'all',   'take_difficulty' => ['easy','medium','hard'],   'badge' => '🥇', 'title' => 'Champion'],
+    7  => ['max_tasks' => 20,  'can_create' => true,  'max_reward' => 25000,  'feed_media' => 'all',   'take_difficulty' => ['easy','medium','hard'],   'badge' => '💎', 'title' => 'Expert'],
+    8  => ['max_tasks' => 25,  'can_create' => true,  'max_reward' => 50000,  'feed_media' => 'all',   'take_difficulty' => ['easy','medium','hard'],   'badge' => '🔥', 'title' => 'Elite'],
+    9  => ['max_tasks' => 30,  'can_create' => true,  'max_reward' => 100000, 'feed_media' => 'all',   'take_difficulty' => ['easy','medium','hard'],   'badge' => '👑', 'title' => 'Master'],
+    10 => ['max_tasks' => 40,  'can_create' => true,  'max_reward' => 500000, 'feed_media' => 'all',   'take_difficulty' => ['easy','medium','hard'],   'badge' => '🌟', 'title' => 'Grandmaster'],
+    11 => ['max_tasks' => 50,  'can_create' => true,  'max_reward' => 999999, 'feed_media' => 'all',   'take_difficulty' => ['easy','medium','hard'],   'badge' => '⚡', 'title' => 'Titan'],
+    12 => ['max_tasks' => 999, 'can_create' => true,  'max_reward' => 999999, 'feed_media' => 'all',   'take_difficulty' => ['easy','medium','hard'],   'badge' => '🏆', 'title' => 'Legend'],
+];
 
 try {
     if ($method === 'GET') {
@@ -51,7 +68,8 @@ try {
 
 function addXp(PDO $pdo, int $userId, int $amount): array
 {
-    $pdo->prepare('UPDATE users SET xp=xp+:xp, level=LEAST(12, FLOOR((xp+:xp)/1000)+1) WHERE id=:uid')
+    // xp is updated first (left-to-right in SET), so level calculation uses already-updated xp
+    $pdo->prepare('UPDATE users SET xp=xp+:xp, level=LEAST(12, FLOOR(xp/1000)+1) WHERE id=:uid')
         ->execute([':xp' => $amount, ':uid' => $userId]);
     $stmt = $pdo->prepare('SELECT xp, level FROM users WHERE id=:uid');
     $stmt->execute([':uid' => $userId]);
@@ -101,6 +119,9 @@ function handleGetPoints(PDO $pdo, int $userId): never
         'done_today'     => $doneToday,
         'visited_today'  => $visitedToday,
         'checkins'       => $checkins,   // [{checkin_date, points_earned}, …]
+        'privileges'     => LEVEL_PRIVILEGES[(int)$row['level']] ?? LEVEL_PRIVILEGES[1],
+        'next_privileges'=> (int)$row['level'] < 12 ? LEVEL_PRIVILEGES[(int)$row['level'] + 1] : null,
+        'all_privileges' => LEVEL_PRIVILEGES,
     ]);
 }
 
@@ -209,8 +230,13 @@ function handleBuyPoints(PDO $pdo, int $userId, array $input): never
 {
     $packs = (int)($input['packs'] ?? 1); // 1 пак = 50 монет = 100 XP
     if ($packs < 1 || $packs > 100) {
-        json_response(['success' => false, 'message' => 'Invalid pack count'], 400);
+        json_response(['success' => false, 'message' => 'Invalid pack count (1-100)'], 400);
     }
+
+    // Rate limit: max 10 XP purchases per user per 60 min
+    if (check_rate_limit($pdo, 'buy_xp:' . $userId, 10, 60))
+        json_response(['success' => false, 'message' => 'Too many XP purchases. Please wait.'], 429);
+    record_rate_limit($pdo, 'buy_xp:' . $userId);
 
     $coinsNeeded  = $packs * COINS_BUY_RATE;   // 50 монет за пак
     $xpToGive = $packs * XP_BUY_RATE;

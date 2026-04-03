@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST')
 
 start_secure_session();
 $pdo = db();
+csrf_validate();
 
 if (!isset($_SESSION['user_id']) || (int)$_SESSION['user_id'] === 0)
     json_response(['success' => false, 'message' => 'Not authenticated'], 401);
@@ -78,6 +79,13 @@ try {
 
     // Find worker to approve
     $workerId = isset($input['worker_id']) ? (int)$input['worker_id'] : 0;
+
+    // Block self-approval — task owner cannot approve their own work
+    if ($workerId === $userId) {
+        $pdo->rollBack();
+        json_response(['success' => false, 'message' => 'Cannot approve your own work'], 403);
+    }
+
     if ($workerId <= 0) {
         $nextStmt = $pdo->prepare("
             SELECT ta.user_id FROM task_assignments ta
@@ -93,6 +101,29 @@ try {
         $next = $nextStmt->fetch();
         if (!$next) { $pdo->rollBack(); json_response(['success' => false, 'message' => 'No pending submissions to approve'], 400); }
         $workerId = (int)$next['user_id'];
+    } else {
+        // Validate specified worker actually has a completed assignment with pending reward
+        $validateWorker = $pdo->prepare("
+            SELECT ta.user_id FROM task_assignments ta
+            WHERE ta.task_id=:tid AND ta.user_id=:wid AND ta.status='completed'
+              AND EXISTS (
+                SELECT 1 FROM transactions tx
+                WHERE tx.user_id=ta.user_id AND tx.task_id=ta.task_id
+                  AND tx.type='task_reward' AND tx.status='pending'
+              )
+            LIMIT 1
+        ");
+        $validateWorker->execute([':tid' => $taskId, ':wid' => $workerId]);
+        if (!$validateWorker->fetch()) {
+            $pdo->rollBack();
+            json_response(['success' => false, 'message' => 'Worker has no pending submission for this task'], 400);
+        }
+    }
+
+    // Prevent self-approval: task owner cannot be the worker
+    if ($workerId === $userId) {
+        $pdo->rollBack();
+        json_response(['success' => false, 'message' => 'Cannot approve yourself'], 403);
     }
 
     // Get pending tx for this worker
@@ -119,16 +150,26 @@ try {
     $bonusXp = $diffXp[$task['difficulty'] ?? 'medium'] ?? 35;
     $totalXp = 100 + $bonusXp; // 100 base + difficulty bonus in ONE query
 
-    // ✅ Single UPDATE — fixes double XP level miscalculation
+    // Check last task completion for streak reset (reset if > 7 days since last completion)
+    $lastCompStmt = $pdo->prepare("
+        SELECT MAX(ta.completed_at) FROM task_assignments ta
+        JOIN transactions tx ON tx.user_id=ta.user_id AND tx.task_id=ta.task_id AND tx.type='task_reward' AND tx.status='completed'
+        WHERE ta.user_id=:uid AND ta.status='completed'
+    ");
+    $lastCompStmt->execute([':uid' => $workerId]);
+    $lastCompletion = $lastCompStmt->fetchColumn();
+    $resetStreak = $lastCompletion && (strtotime($lastCompletion) < strtotime('-7 days'));
+
+    // ✅ Single UPDATE — xp is updated first (left-to-right), so level uses already-updated xp
     $pdo->prepare('
         UPDATE users SET
             completed_tasks = completed_tasks + 1,
             earnings        = earnings + :reward,
             xp              = xp + :xp,
-            streak          = streak + 1,
-            level           = LEAST(12, FLOOR((xp + :xp2) / 1000) + 1)
+            streak          = ' . ($resetStreak ? '1' : 'streak + 1') . ',
+            level           = LEAST(12, FLOOR(xp / 1000) + 1)
         WHERE id = :uid
-    ')->execute([':reward' => $reward, ':xp' => $totalXp, ':xp2' => $totalXp, ':uid' => $workerId]);
+    ')->execute([':reward' => $reward, ':xp' => $totalXp, ':uid' => $workerId]);
 
     // Notify worker
     $pdo->prepare("INSERT INTO notifications(user_id,type,title,content,related_id) VALUES(:uid,'payment','Задачу схвалено! 🎉',:content,:rid)")

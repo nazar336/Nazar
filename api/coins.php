@@ -7,7 +7,7 @@ if ($origin !== '' && parse_url($origin, PHP_URL_HOST) === $host) {
     header('Vary: Origin');
 }
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, X-CSRF-Token');
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
@@ -16,6 +16,7 @@ require_once __DIR__ . '/bootstrap.php';
 
 start_secure_session();
 $pdo = db();
+csrf_validate();
 
 if (!isset($_SESSION['user_id']) || (int)$_SESSION['user_id'] === 0) {
     json_response(['success' => false, 'message' => 'Not authenticated'], 401);
@@ -86,14 +87,17 @@ function handleGetCoins(PDO $pdo, int $userId): never
 // ── Витрата монет (оплата задачі монетами) ────────────────────────
 function handleSpend(PDO $pdo, int $userId, array $input): never
 {
-    $amount  = (float)($input['amount'] ?? 0);
+    $amount  = round((float)($input['amount'] ?? 0), 2);
     $taskId  = isset($input['task_id']) ? (int)$input['task_id'] : null;
-    $type    = in_array($input['type'] ?? '', ['task_payment','tip','premium','withdraw'], true)
+    $type    = in_array($input['type'] ?? '', ['task_payment','premium'], true)
                 ? $input['type'] : 'task_payment';
     $desc    = substr(trim((string)($input['description'] ?? '')), 0, 255);
 
     if ($amount <= 0) {
         json_response(['success' => false, 'message' => 'Amount must be positive'], 400);
+    }
+    if ($amount > 100000) {
+        json_response(['success' => false, 'message' => 'Amount too large (max 100000)'], 400);
     }
 
     $pdo->beginTransaction();
@@ -161,15 +165,23 @@ function handleSpend(PDO $pdo, int $userId, array $input): never
 // ── Чайові іншому користувачу монетами ───────────────────────────
 function handleTip(PDO $pdo, int $userId, array $input): never
 {
-    $amount     = (float)($input['amount'] ?? 0);
+    $amount     = round((float)($input['amount'] ?? 0), 2);
     $targetUser = (int)($input['target_user_id'] ?? 0);
 
-    if ($amount <= 0) {
-        json_response(['success' => false, 'message' => 'Amount must be positive'], 400);
+    if ($amount < 1) {
+        json_response(['success' => false, 'message' => 'Amount must be at least 1 coin'], 400);
+    }
+    if ($amount > 10000) {
+        json_response(['success' => false, 'message' => 'Max tip amount is 10000 coins'], 400);
     }
     if ($targetUser <= 0 || $targetUser === $userId) {
         json_response(['success' => false, 'message' => 'Invalid target user'], 400);
     }
+
+    // Rate limit: max 20 tips per user per 60 min (prevent laundering)
+    if (check_rate_limit($pdo, 'tip:' . $userId, 20, 60))
+        json_response(['success' => false, 'message' => 'Too many tips. Please wait before sending another.'], 429);
+    record_rate_limit($pdo, 'tip:' . $userId);
 
     // Перевіряємо що цільовий користувач існує
     $userCheck = $pdo->prepare('SELECT id, name FROM users WHERE id=:id AND is_active=1 LIMIT 1');
@@ -199,12 +211,12 @@ function handleTip(PDO $pdo, int $userId, array $input): never
             WHERE user_id=:uid
         ')->execute([':amt' => $amount, ':amt2' => $amount, ':uid' => $userId]);
 
-        // Нараховуємо отримувачу
+        // Нараховуємо отримувачу (tips are NOT purchases, don't update total_purchased)
         $pdo->prepare('
-            INSERT INTO user_coins (user_id, coin_balance, total_purchased)
-            VALUES (:uid, :amt, :amt2)
-            ON DUPLICATE KEY UPDATE coin_balance=coin_balance+:amt3, updated_at=NOW()
-        ')->execute([':uid' => $targetUser, ':amt' => $amount, ':amt2' => $amount, ':amt3' => $amount]);
+            INSERT INTO user_coins (user_id, coin_balance)
+            VALUES (:uid, :amt)
+            ON DUPLICATE KEY UPDATE coin_balance=coin_balance+:amt2, updated_at=NOW()
+        ')->execute([':uid' => $targetUser, ':amt' => $amount, ':amt2' => $amount]);
 
         // Лог витрати відправника
         $pdo->prepare('

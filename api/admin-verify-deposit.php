@@ -3,11 +3,20 @@ declare(strict_types=1);
 require_once __DIR__ . '/bootstrap.php';
 
 // ── Admin auth via secret header ONLY (GET param removed for security) ──
-$secret = $_SERVER['HTTP_X_ADMIN_SECRET'] ?? '';
-if ($secret !== ADMIN_SECRET || ADMIN_SECRET === 'change-this-to-a-random-secret-key')
-    json_response(['success' => false, 'message' => 'Unauthorized'], 401);
+$pdo = db();
+$adminIp = substr((string)($_SERVER['REMOTE_ADDR'] ?? '127.0.0.1'), 0, 45);
 
-$pdo    = db();
+// Rate limit admin auth attempts: max 5 per 15 min per IP
+if (check_rate_limit($pdo, 'admin_auth:' . $adminIp, 5, 15))
+    json_response(['success' => false, 'message' => 'Too many attempts. Try again later.'], 429);
+
+$secret = $_SERVER['HTTP_X_ADMIN_SECRET'] ?? '';
+if ($secret !== ADMIN_SECRET || ADMIN_SECRET === 'change-this-to-a-random-secret-key') {
+    record_rate_limit($pdo, 'admin_auth:' . $adminIp);
+    error_log('Admin auth failed from IP: ' . $adminIp);
+    json_response(['success' => false, 'message' => 'Unauthorized'], 401);
+}
+
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'GET') {

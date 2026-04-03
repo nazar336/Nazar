@@ -20,12 +20,14 @@ $pdo   = db();
 $ip = substr((string)($_SERVER['REMOTE_ADDR'] ?? ''), 0, 45);
 if (check_rate_limit($pdo, 'register:' . $ip, 5, 15))
     json_response(['success' => false, 'message' => 'Забагато спроб реєстрації. Спробуй через 15 хвилин.'], 429);
-record_rate_limit($pdo, 'register:' . $ip);
 
 $check = $pdo->prepare('SELECT id FROM users WHERE email=:e OR username=:u LIMIT 1');
 $check->execute(['e' => $email, 'u' => $username]);
 if ($check->fetch())
     json_response(['success' => false, 'message' => 'Користувач з таким email або username вже існує.'], 409);
+
+// Record rate limit only after passing validation (so invalid requests don't eat up the quota)
+record_rate_limit($pdo, 'register:' . $ip);
 
 $hash             = password_hash($password, PASSWORD_DEFAULT);
 $verificationCode = str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
@@ -54,9 +56,8 @@ try {
 
     $response = ['success' => true, 'message' => 'Реєстрація успішна. Код верифікації надіслано на email.', 'user_id' => $userId];
     if (!$mailSent && APP_ENV === 'development') {
-        $response['message']           = 'DEV MODE: mail не відправлено, код в response.';
-        $response['verification_code'] = $verificationCode;
-        error_log('LOLance DEV: verification code for user ' . $userId . ' returned in response (dev mode only)');
+        $response['message'] = 'DEV MODE: mail не відправлено, код записано в лог сервера.';
+        error_log('LOLance DEV: verification code for user ' . $userId . ': ' . $verificationCode . ' (dev mode only, never expose in response)');
     }
     json_response($response);
 } catch (\Exception $e) {

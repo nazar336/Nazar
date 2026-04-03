@@ -54,6 +54,10 @@ function handleGetRates(): never {
 
 // ── POST initiate ─────────────────────────────────────────────────
 function handleInitiate(PDO $pdo, int $userId, array $input): never {
+    // Rate limit: max 5 deposit initiations per user per 15 min
+    if (check_rate_limit($pdo, 'deposit:' . $userId, 5, 15))
+        json_response(['success' => false, 'message' => 'Too many deposit requests. Please wait.'], 429);
+
     $network = strtoupper(trim((string)($input['network'] ?? 'TRC20')));
 
     if (!array_key_exists($network, CRYPTO_WALLETS))
@@ -128,6 +132,7 @@ function handleInitiate(PDO $pdo, int $userId, array $input): never {
         ':exp'    => $expiresAt,
     ]);
     $depositId = (int)$pdo->lastInsertId();
+    record_rate_limit($pdo, 'deposit:' . $userId);
 
     json_response([
         'success'        => true,
@@ -152,10 +157,14 @@ function handleConfirm(PDO $pdo, int $userId, array $input): never {
 
     if ($depositId <= 0)
         json_response(['success' => false, 'message' => 'Invalid deposit_id'], 400);
-    if (strlen($txHash) < 10 || strlen($txHash) > 100)
-        json_response(['success' => false, 'message' => 'Невірний хеш транзакції (10–100 символів)'], 400);
-    if (!preg_match('/^[A-Fa-f0-9]+$/', $txHash))
-        json_response(['success' => false, 'message' => 'Хеш транзакції: тільки hex символи'], 400);
+    if (strlen($txHash) < 10 || strlen($txHash) > 128)
+        json_response(['success' => false, 'message' => 'Невірний хеш транзакції (10–128 символів)'], 400);
+    if (!preg_match('/^[A-Fa-f0-9]+$/', $txHash) && !preg_match('/^[A-Za-z0-9]+$/', $txHash))
+        json_response(['success' => false, 'message' => 'Хеш транзакції: тільки hex/base58 символи'], 400);
+
+    // NOTE: TX hash is validated for format only. Actual blockchain verification
+    // is performed by admin via admin-verify-deposit.php before coins are credited.
+    // No coins are credited until admin manually approves the deposit.
 
     // Unique tx hash check
     $dup = $pdo->prepare('SELECT id FROM crypto_deposits WHERE transaction_hash=:h LIMIT 1');

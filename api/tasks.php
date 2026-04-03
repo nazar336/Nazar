@@ -47,6 +47,18 @@ try {
     } elseif ($method === 'POST') {
         $input = read_json();
 
+        // Rate limit: max 10 tasks per user per 60 min
+        if (check_rate_limit($pdo, 'task_create:' . $userId, 10, 60))
+            json_response(['success' => false, 'message' => 'Too many tasks created. Please wait before creating another.'], 429);
+
+        // ── Level privilege: must be level 3+ to create tasks ──
+        $lvlStmt = $pdo->prepare('SELECT level FROM users WHERE id=:uid');
+        $lvlStmt->execute([':uid' => $userId]);
+        $userLevel = (int)($lvlStmt->fetchColumn() ?: 1);
+        if ($userLevel < 3) {
+            json_response(['success' => false, 'message' => 'Level 3 required to create tasks. Current level: ' . $userLevel], 403);
+        }
+
         $title       = trim((string)($input['title']       ?? ''));
         $description = trim((string)($input['description'] ?? ''));
         $category    = trim((string)($input['category']    ?? ''));
@@ -62,9 +74,11 @@ try {
         if ($category === '')    json_response(['success' => false, 'message' => 'Category is required'], 400);
         if (mb_strlen($category) > 50) json_response(['success' => false, 'message' => 'Category is too long (max 50)'], 400);
         if ($reward <= 0)        json_response(['success' => false, 'message' => 'Reward must be positive'], 400);
-        if ($reward > 999999)    json_response(['success' => false, 'message' => 'Reward is too large'], 400);
+        if ($reward > 10000)     json_response(['success' => false, 'message' => 'Reward is too large (max 10000 per task)'], 400);
         if ($slots < 1)          json_response(['success' => false, 'message' => 'Slots must be at least 1'], 400);
-        if ($slots > 1000)       json_response(['success' => false, 'message' => 'Max 1000 slots'], 400);
+        if ($slots > 100)        json_response(['success' => false, 'message' => 'Max 100 slots'], 400);
+
+        record_rate_limit($pdo, 'task_create:' . $userId);
 
         // Validate deadline format (YYYY-MM-DD or YYYY-MM-DDTHH:MM or YYYY-MM-DD HH:MM:SS)
         if ($deadline !== null) {
@@ -78,6 +92,13 @@ try {
                 json_response(['success' => false, 'message' => 'Invalid deadline format. Accepted: YYYY-MM-DD, YYYY-MM-DDTHH:MM, YYYY-MM-DD HH:MM:SS'], 400);
             }
             $deadline = $dt->format('Y-m-d H:i:s');
+        }
+
+        // ── Level privilege: max reward scales with level ──
+        $maxRewardByLevel = [3=>1000, 4=>2500, 5=>5000, 6=>10000, 7=>25000, 8=>50000, 9=>100000, 10=>500000, 11=>999999, 12=>999999];
+        $maxReward = $maxRewardByLevel[$userLevel] ?? 999999;
+        if ($reward > $maxReward) {
+            json_response(['success' => false, 'message' => 'Max reward at level ' . $userLevel . ' is ' . number_format($maxReward) . ' coins. Level up to increase limit!'], 400);
         }
 
         $stmt = $pdo->prepare('INSERT INTO tasks(title,description,category,difficulty,reward,slots,deadline,status,creator_id) VALUES(:t,:d,:c,:diff,:r,:s,:dl,"open",:cb)');
@@ -94,9 +115,17 @@ try {
         if (!$check->fetch()) json_response(['success' => false, 'message' => 'Not authorized'], 403);
 
         if (isset($input['status'])) {
-            $allowed = ['open', 'in_progress', 'completed', 'cancelled'];
+            // Only allow owner to cancel their tasks — 'completed' is set by approval system only
+            $allowed = ['open', 'cancelled'];
             $status  = in_array($input['status'], $allowed, true) ? $input['status'] : null;
-            if (!$status) json_response(['success' => false, 'message' => 'Invalid status'], 400);
+            if (!$status) json_response(['success' => false, 'message' => 'Invalid status. Allowed: open, cancelled'], 400);
+
+            // Cannot reopen a completed task
+            $taskCheck = $pdo->prepare('SELECT status FROM tasks WHERE id=:id');
+            $taskCheck->execute([':id' => $taskId]);
+            $currentStatus = $taskCheck->fetchColumn();
+            if ($currentStatus === 'completed') json_response(['success' => false, 'message' => 'Cannot modify a completed task'], 400);
+
             $pdo->prepare('UPDATE tasks SET status=:s WHERE id=:id')->execute([':s' => $status, ':id' => $taskId]);
             json_response(['success' => true, 'message' => 'Task updated']);
         }
@@ -111,6 +140,12 @@ try {
         $task  = $check->fetch();
         if (!$task) json_response(['success' => false, 'message' => 'Not authorized'], 403);
         if ($task['status'] !== 'open') json_response(['success' => false, 'message' => 'Can only delete open tasks'], 400);
+
+        // Prevent deletion if there are active assignments
+        $assignCheck = $pdo->prepare('SELECT COUNT(*) FROM task_assignments WHERE task_id=:tid AND status IN ("taken","completed")');
+        $assignCheck->execute([':tid' => $taskId]);
+        if ((int)$assignCheck->fetchColumn() > 0)
+            json_response(['success' => false, 'message' => 'Cannot delete task with active assignments'], 400);
 
         $pdo->prepare('DELETE FROM tasks WHERE id=:id')->execute([':id' => $taskId]);
         json_response(['success' => true, 'message' => 'Task deleted']);

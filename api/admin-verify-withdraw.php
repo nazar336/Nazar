@@ -5,10 +5,17 @@ cors_headers(['GET', 'POST', 'OPTIONS']);
 
 $pdo = db();
 
+// Rate limit admin auth attempts: max 5 per 15 min per IP
+$adminIp = substr((string)($_SERVER['REMOTE_ADDR'] ?? '127.0.0.1'), 0, 45);
+if (check_rate_limit($pdo, 'admin_auth:' . $adminIp, 5, 15))
+    json_response(['success' => false, 'message' => 'Too many attempts. Try again later.'], 429);
+
 // Admin auth via secret header ONLY (GET param removed for security)
 $secret = $_SERVER['HTTP_X_ADMIN_SECRET'] ?? '';
-if ($secret !== ADMIN_SECRET || ADMIN_SECRET === 'change-this-to-a-random-secret-key')
+if ($secret !== ADMIN_SECRET || ADMIN_SECRET === 'change-this-to-a-random-secret-key') {
+    record_rate_limit($pdo, 'admin_auth:' . $adminIp);
     json_response(['success' => false, 'message' => 'Unauthorized'], 401);
+}
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -121,13 +128,13 @@ function handleProcess(PDO $pdo, array $input): never {
                 WHERE user_id = :uid
             ')->execute([':amt' => $amountCoins, ':amt2' => $amountCoins, ':uid' => $userId]);
 
-            // Log refund
+            // Log refund (positive amount for accounting)
             $pdo->prepare('
                 INSERT INTO coin_spending (user_id, amount, type, description)
                 VALUES (:uid, :amt, "withdraw", :desc)
             ')->execute([
                 ':uid'  => $userId,
-                ':amt'  => -$amountCoins,
+                ':amt'  => $amountCoins,
                 ':desc' => 'Withdrawal rejected — refund ' . $amountCoins . ' coins',
             ]);
 

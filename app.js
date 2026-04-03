@@ -46,7 +46,7 @@ const i18n = {
     depositDone:'Crypto purchase successful.', withdrawDone:'Coins spent successfully.',
     transferDone:'Tip sent.', ticketDone:'Ticket created!',
     txDeposit:'Crypto purchase', txWithdraw:'Coin spending', txTransfer:'Tip to',
-    invalidAmount:'Enter a valid amount greater than zero.',
+    invalidAmount:'Enter a valid amount greater than zero.', invalidEmail:'Invalid email format.',
     insufficient:'Insufficient balance.',
     noMessage:'Write something first.',
     yourPosition:'Your position', score:'Score', badges:'Badges',
@@ -68,8 +68,6 @@ const i18n = {
     // Dashboard
     guest:'Guest', welcomeGuestTitle:'Welcome to LOLance premium!', welcomeGuestDesc:'Browse tasks and features without limits. Sign up to start earning.', dashMotivation:'Today you are suspiciously ahead of schedule.', dashMotivationDesc:'Complete one more task to boost your streak, wallet, and rank.',
     dayStreak:'day streak', available:'available', totalEarned:'total earned', tasksDone:'tasks done', pts:'pts',
-    acceptTermsText:'I agree to the <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Platform Terms</a> and <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Privacy Policy</a>.', mustAcceptTerms:'You must accept the Platform Terms and Privacy Policy.',
-    exchangerTitle:'Exchanger: USDT → 🪙', exchangerCoins:'Coins', exchangerRate:'Rate', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'Pending', exchangerGetAddr:'Get Address', exchangerUsdtAmount:'USDT amount',
     quickActions:'Quick Actions', browseOpenTasks:'Browse Open Tasks →', publishNewTask:'+ Publish New Task', walletOverview:'Wallet Overview',
     trendingTasks:'Trending Tasks', miniLeaderboard:'Mini Leaderboard',
     // Tasks
@@ -77,8 +75,8 @@ const i18n = {
     // Create task
     titleLabel:'Title', titlePlaceholder:'Bold, clear task name', descPlaceholder:'What exactly needs to be done?', selectOption:'Select…', previewTitlePh:'Task title will appear here…', previewDescPh:'Description preview…', noDeadline:'No deadline',
     // Feed
-    noPosts:'No posts', mediaPreview:'Media preview', readMore:'Read more ↓', showLess:'Show less ↑', save:'Save', saved:'Saved',
-    feedWritePost:'What\'s on your mind?', feedPostBtn:'Post', feedMyPosts:'My Posts', feedDeletePost:'Delete', feedDeleteConfirm:'Delete this post?', feedGuestMsg:'Sign up to post and like.',
+    noPosts:'No posts yet', mediaPreview:'Media preview', readMore:'Read more ↓', showLess:'Show less ↑', save:'Save', saved:'Saved',
+    createPost:'Create Post', postPlaceholder:'What\'s on your mind?', addMedia:'Add Media', mediaUrlPlaceholder:'Paste image or video URL (https://...)', postImage:'Image', postVideo:'Video', publishPost:'Publish', deletePost:'Delete', confirmDelete:'Delete this post?', postCreated:'Post published!', postDeleted:'Post deleted.', guestFeed:'Sign up to create posts and interact with the community.', feedLoadMore:'Load More', feedNoMore:'No more posts', myPosts:'My Posts',
     // Wallet
     txHistory:'Transaction History', type:'Type', amountCol:'Amount', whenCol:'When', recipientUsername:'Recipient username', confirm:'Confirm', guestWallet:'Wallet is available only for registered users.',
     // Chat
@@ -134,6 +132,27 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 coins',
     roomOnline:'online', noMsgsYet:'Be the first to write!', globalRoomDesc:'All users can chat here',
     withdrawCrypto:'Withdraw to Crypto', withdrawTitle:'Withdraw Coins to Crypto', withdrawCoins:'Amount (coins)', withdrawWallet:'Your wallet address', withdrawNetwork:'Network', withdrawFee:'Fee (5%)', withdrawNet:'You receive', withdrawConfirm:'Submit Withdrawal', withdrawSuccess:'Withdrawal request created!', withdrawCancel:'Cancel Withdrawal', withdrawCancelled:'Withdrawal cancelled. Coins refunded.', withdrawHistory:'Withdrawal History', withdrawPending:'You have a pending withdrawal', withdrawMin:'Min withdrawal: 500 coins', withdrawStatus:'Status', noWithdrawals:'No withdrawals yet',
+    exchangerTitle:'Exchange: USDT → 🪙', exchangerGetAddress:'Get Address', exchangerConfirm:'Confirm', exchangerRange:'Amount: 1 to 10,000 USDT', exchangerSendTo:'Send', exchangerToAddress:'to address:', exchangerError:'Error', exchangerConfirmError:'Confirmation error', codeSentDesc:'Code sent to email. Check Inbox / Spam and enter the 6-digit code below.', globalMsgSent:'Message sent to Global chat',
+    // Level Privileges
+    lvlPrivileges:'Level Benefits', lvlYourLevel:'Your Level', lvlNextLevel:'Next Level',
+    lvlMaxTasks:'Max active tasks', lvlCreateTasks:'Create tasks', lvlMaxReward:'Max reward',
+    lvlFeedMedia:'Feed media', lvlDifficulty:'Task difficulty',
+    lvlLocked:'🔒 Locked', lvlUnlocked:'✅ Unlocked', lvlUpgrade:'Level up to unlock!',
+    lvlNone:'Text only', lvlImage:'Images', lvlVideo:'Video', lvlAll:'All media',
+    lvlEasyOnly:'Easy only', lvlEasyMedium:'Easy + Medium', lvlAllDiff:'All difficulties',
+    lvlCreateLocked:'Create tasks unlocks at Level 3', lvlRewardLimit:'Max reward at your level:',
+    lvlTaskLimit:'Task limit reached! Level up for more slots.',
+    lvlDiffLocked:'This difficulty unlocks at higher level.',
+    lvlNewcomer:'Newcomer', lvlExplorer:'Explorer', lvlCreator:'Creator', lvlProducer:'Producer',
+    lvlWarrior:'Warrior', lvlChampion:'Champion', lvlExpert:'Expert', lvlElite:'Elite',
+    lvlMaster:'Master', lvlGrandmaster:'Grandmaster', lvlTitan:'Titan', lvlLegend:'Legend',
+    lvlUnlocksAt:'Unlocks at Lv',
+    // Feed Rewards
+    feedRewards:'Feed Rewards', feedPostXp:'+5 XP per post', feedLikeXp:'+1 XP per 10 likes',
+    feedDailyLimit:'posts today', feedPostsLeft:'posts left today',
+    feedCreatePost:'Create Post', feedWriteSomething:'Share something with the community…',
+    feedPostSuccess:'Post published!', feedMaxReached:'Daily XP limit reached, but you can still post.',
+    feedAddMedia:'Add media', feedSelectType:'Post type',
   },
   UA:{
     appName:'LOLance', appTag:'Преміум платформа мікрозадач',
@@ -158,7 +177,7 @@ const i18n = {
     depositDone:'Крипто-обмін успішний.', withdrawDone:'Списання монет успішне.',
     transferDone:'Чайові надіслано.', ticketDone:'Тікет створено!',
     txDeposit:'Крипто-обмін', txWithdraw:'Списання монет', txTransfer:'Чайові для',
-    invalidAmount:'Введи суму більше нуля.',
+    invalidAmount:'Введи суму більше нуля.', invalidEmail:'Email некоректний.',
     insufficient:'Недостатньо коштів.',
     noMessage:'Спочатку напиши щось.',
     yourPosition:'Твоя позиція', score:'Рахунок', badges:'Значки',
@@ -177,14 +196,12 @@ const i18n = {
     verifyEmail:'Перевір свою пошту', codeSentTo:'Ми надіслали 6-значний код на', solveCaptcha:'Розв\'яжи капчу', enterAnswer:'Введи відповідь', verifyCaptcha:'Перевір', wrongAnswer:'Неправильна відповідь', verificationCode:'Верифікаційний код', showCode:'Показати', hideCode:'Сховати', enterCodeScreen:'Введи код з екрану', sixDigits:'6 цифр', confirmBtn:'Підтвердити', backToLogin:'Повернутися до входу', verifySuccess:'Вражаю! Ви авторизовані 🎉', wrongCode:'Невірний код', invalidCode:'Введіть коректний 6-значний код',
     guest:'Гість', welcomeGuestTitle:'Вітаємо на LOLance преміум!', welcomeGuestDesc:'Переглядайте задачі та функції без обмежень. Зареєструйтеся щоб розпочати заробляти.', dashMotivation:'Сьогодні ви попереду графіку.', dashMotivationDesc:'Виконайте ще одну задачу щоб підвищити серію, баланс і рейтинг.',
     dayStreak:'день серія', available:'доступно', totalEarned:'зароблено', tasksDone:'задач виконано', pts:'балів',
-    acceptTermsText:'Я погоджуюсь з <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Правилами платформи</a> та <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Політикою приватності</a>.', mustAcceptTerms:'Потрібно погодитись з Правилами платформи та Політикою приватності.',
-    exchangerTitle:'Обмінник: USDT → 🪙', exchangerCoins:'Монети', exchangerRate:'Курс', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'Очікує', exchangerGetAddr:'Отримати адресу', exchangerUsdtAmount:'Сума USDT',
     quickActions:'Швидкі дії', browseOpenTasks:'Переглянути задачі →', publishNewTask:'+ Нова задача', walletOverview:'Огляд гаманця',
     trendingTasks:'Популярні задачі', miniLeaderboard:'Міні-рейтинг',
     noTasksFound:'Задач не знайдено', adjustFilters:'Спробуйте змінити фільтри.', cancelled:'Скасовано', byUser:'від',
     titleLabel:'Заголовок', titlePlaceholder:'Чіткий заголовок задачі', descPlaceholder:'Що саме потрібно зробити?', selectOption:'Обрати…', previewTitlePh:'Заголовок з\'явиться тут…', previewDescPh:'Попередній перегляд…', noDeadline:'Без дедлайну',
-    noPosts:'Немає постів', mediaPreview:'Перегляд медіа', readMore:'Читати більше ↓', showLess:'Згорнути ↑', save:'Зберегти', saved:'Збережено',
-    feedWritePost:'Що нового?', feedPostBtn:'Опублікувати', feedMyPosts:'Мої пости', feedDeletePost:'Видалити', feedDeleteConfirm:'Видалити цей пост?', feedGuestMsg:'Зареєструйтеся, щоб публікувати та лайкати.',
+    noPosts:'Постів ще немає', mediaPreview:'Перегляд медіа', readMore:'Читати більше ↓', showLess:'Згорнути ↑', save:'Зберегти', saved:'Збережено',
+    createPost:'Створити пост', postPlaceholder:'Що у вас нового?', addMedia:'Додати медіа', mediaUrlPlaceholder:'Вставте URL зображення або відео (https://...)', postImage:'Фото', postVideo:'Відео', publishPost:'Опублікувати', deletePost:'Видалити', confirmDelete:'Видалити цей пост?', postCreated:'Пост опубліковано!', postDeleted:'Пост видалено.', guestFeed:'Зареєструйтесь, щоб створювати пости та взаємодіяти зі спільнотою.', feedLoadMore:'Завантажити ще', feedNoMore:'Більше постів немає', myPosts:'Мої пости',
     txHistory:'Історія транзакцій', type:'Тип', amountCol:'Сума', whenCol:'Коли', recipientUsername:'Username отримувача', confirm:'Підтвердити', guestWallet:'Гаманець доступний лише для зареєстрованих користувачів.',
     conversations:'Розмови', online:'Онлайн', lastSeen:'Був(-ла) нещодавно', selectConversation:'Оберіть розмову', guestChat:'Чат доступний лише для зареєстрованих користувачів.',
     chatReplyWallet1:'Перевірте вкладку Гаманець для поточного балансу.', chatReplyWallet2:'Кошти оновлюються після завершення задачі.', chatReplyTask1:'Перегляньте сторінку Задач для відкритих слотів.', chatReplyTask2:'Дедлайни вказані на кожній картці задачі.', chatReplyReward1:'Нагороди нараховуються автоматично після завершення.', chatReplyReward2:'Історія заробітку в розділі Гаманець.', chatReplyLevel1:'Рівень і XP показані на дашборді.', chatReplyLevel2:'Підтримуйте серію для бонусних балів.', chatFallback1:'Зрозуміло, я звернусь незабаром.', chatFallback2:'Дякую за повідомлення!', chatFallback3:'Зафіксовано. Перевірю.',
@@ -230,6 +247,25 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 монет',
     roomOnline:'онлайн', noMsgsYet:'Будь першим хто напише!', globalRoomDesc:'Тут можуть писати всі користувачі',
     withdrawCrypto:'Вивести в крипту', withdrawTitle:'Вивід монет у крипту', withdrawCoins:'Сума (монети)', withdrawWallet:'Адреса вашого гаманця', withdrawNetwork:'Мережа', withdrawFee:'Комісія (5%)', withdrawNet:'Ви отримаєте', withdrawConfirm:'Створити запит', withdrawSuccess:'Запит на вивід створено!', withdrawCancel:'Скасувати вивід', withdrawCancelled:'Вивід скасовано. Монети повернено.', withdrawHistory:'Історія виводів', withdrawPending:'У вас є активний запит на вивід', withdrawMin:'Мін. вивід: 500 монет', withdrawStatus:'Статус', noWithdrawals:'Виводів ще не було',
+    exchangerTitle:'Обмінник: USDT → 🪙', exchangerGetAddress:'Отримати адресу', exchangerConfirm:'Підтвердити', exchangerRange:'Сума: від 1 до 10000 USDT', exchangerSendTo:'Надішли', exchangerToAddress:'на адресу:', exchangerError:'Помилка', exchangerConfirmError:'Помилка підтвердження', codeSentDesc:'Код надіслано на email. Перевір папки Inbox / Spam та введи 6-значний код нижче.', globalMsgSent:'Повідомлення надіслано до Global чату',
+    lvlPrivileges:'Переваги рівня', lvlYourLevel:'Твій рівень', lvlNextLevel:'Наступний рівень',
+    lvlMaxTasks:'Макс. активних задач', lvlCreateTasks:'Створення задач', lvlMaxReward:'Макс. нагорода',
+    lvlFeedMedia:'Медіа у стрічці', lvlDifficulty:'Складність задач',
+    lvlLocked:'🔒 Заблоковано', lvlUnlocked:'✅ Розблоковано', lvlUpgrade:'Підвищ рівень щоб розблокувати!',
+    lvlNone:'Тільки текст', lvlImage:'Зображення', lvlVideo:'Відео', lvlAll:'Все медіа',
+    lvlEasyOnly:'Тільки легкі', lvlEasyMedium:'Легкі + Середні', lvlAllDiff:'Всі складності',
+    lvlCreateLocked:'Створення задач з 3 рівня', lvlRewardLimit:'Макс. нагорода на вашому рівні:',
+    lvlTaskLimit:'Ліміт задач досягнуто! Підвищ рівень для більше слотів.',
+    lvlDiffLocked:'Ця складність відкривається на вищому рівні.',
+    lvlNewcomer:'Новачок', lvlExplorer:'Дослідник', lvlCreator:'Творець', lvlProducer:'Продюсер',
+    lvlWarrior:'Воїн', lvlChampion:'Чемпіон', lvlExpert:'Експерт', lvlElite:'Еліта',
+    lvlMaster:'Майстер', lvlGrandmaster:'Грандмайстер', lvlTitan:'Титан', lvlLegend:'Легенда',
+    lvlUnlocksAt:'Відкривається з Lv',
+    feedRewards:'Нагороди стрічки', feedPostXp:'+5 XP за пост', feedLikeXp:'+1 XP за 10 лайків',
+    feedDailyLimit:'постів сьогодні', feedPostsLeft:'постів залишилось',
+    feedCreatePost:'Створити пост', feedWriteSomething:'Поділіться чимось з спільнотою…',
+    feedPostSuccess:'Пост опубліковано!', feedMaxReached:'Денний ліміт XP досягнуто, але ви ще можете публікувати.',
+    feedAddMedia:'Додати медіа', feedSelectType:'Тип посту',
   },
   DE:{
     appName:'LOLance', appTag:'Premium Micro-Task Plattform',
@@ -254,7 +290,7 @@ const i18n = {
     depositDone:'Krypto-Kauf erfolgreich.', withdrawDone:'Coins erfolgreich ausgegeben.',
     transferDone:'Coin-Tipp gesendet.', ticketDone:'Ticket erstellt!',
     txDeposit:'Krypto-Kauf', txWithdraw:'Coin-Ausgabe', txTransfer:'Coin-Tipp an',
-    invalidAmount:'Bitte geben Sie einen Betrag größer als Null ein.',
+    invalidAmount:'Bitte geben Sie einen Betrag größer als Null ein.', invalidEmail:'Ungültiges E-Mail-Format.',
     insufficient:'Unzureichendes Guthaben.',
     noMessage:'Schreiben Sie zuerst etwas.',
     yourPosition:'Ihre Position', score:'Punktzahl', badges:'Abzeichen',
@@ -269,13 +305,11 @@ const i18n = {
     verifyEmail:'E-Mail bestätigen', codeSentTo:'Wir haben einen 6-stelligen Code gesendet an', solveCaptcha:'Captcha lösen', enterAnswer:'Antwort eingeben', verifyCaptcha:'Prüfen', wrongAnswer:'Falsche Antwort', verificationCode:'Verifizierungscode', showCode:'Anzeigen', hideCode:'Verbergen', enterCodeScreen:'Code vom Bildschirm eingeben', sixDigits:'6 Ziffern', confirmBtn:'Bestätigen', backToLogin:'Zurück zum Login', verifySuccess:'Super! Sie sind eingeloggt 🎉', wrongCode:'Falscher Code', invalidCode:'Gültigen 6-stelligen Code eingeben',
     guest:'Gast', welcomeGuestTitle:'Willkommen bei LOLance Premium!', welcomeGuestDesc:'Aufgaben und Funktionen ohne Einschränkungen durchsuchen.', dashMotivation:'Heute sind Sie dem Zeitplan voraus.', dashMotivationDesc:'Erledigen Sie eine weitere Aufgabe für Ihren Streak.',
     dayStreak:'Tage Serie', available:'verfügbar', totalEarned:'verdient', tasksDone:'erledigt', pts:'Pkt',
-    acceptTermsText:'Ich stimme den <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Plattformbedingungen</a> und der <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Datenschutzrichtlinie</a> zu.', mustAcceptTerms:'Sie müssen die Plattformbedingungen und die Datenschutzrichtlinie akzeptieren.',
-    exchangerTitle:'Tauscher: USDT → 🪙', exchangerCoins:'Coins', exchangerRate:'Kurs', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'Ausstehend', exchangerGetAddr:'Adresse anfordern', exchangerUsdtAmount:'USDT-Betrag',
     quickActions:'Schnellaktionen', browseOpenTasks:'Aufgaben durchsuchen →', publishNewTask:'+ Neue Aufgabe', walletOverview:'Geldübersicht', trendingTasks:'Beliebte Aufgaben', miniLeaderboard:'Mini-Rangliste',
     noTasksFound:'Keine Aufgaben gefunden', adjustFilters:'Versuchen Sie die Filter anzupassen.', cancelled:'Abgebrochen', byUser:'von',
     titleLabel:'Titel', titlePlaceholder:'Klarer Aufgabenname', descPlaceholder:'Was genau muss gemacht werden?', selectOption:'Wählen…', previewTitlePh:'Titel erscheint hier…', previewDescPh:'Beschreibungsvorschau…', noDeadline:'Kein Termin',
     noPosts:'Keine Beiträge', mediaPreview:'Medienvorschau', readMore:'Mehr lesen ↓', showLess:'Weniger zeigen ↑', save:'Speichern', saved:'Gespeichert',
-    feedWritePost:'Was gibt es Neues?', feedPostBtn:'Posten', feedMyPosts:'Meine Beiträge', feedDeletePost:'Löschen', feedDeleteConfirm:'Diesen Beitrag löschen?', feedGuestMsg:'Registrieren Sie sich zum Posten und Liken.',
+    createPost:'Beitrag erstellen', postPlaceholder:'Was gibt es Neues?', addMedia:'Medien hinzufügen', mediaUrlPlaceholder:'Bild- oder Video-URL einfügen (https://...)', postImage:'Bild', postVideo:'Video', publishPost:'Veröffentlichen', deletePost:'Löschen', confirmDelete:'Diesen Beitrag löschen?', postCreated:'Beitrag veröffentlicht!', postDeleted:'Beitrag gelöscht.', guestFeed:'Registrieren Sie sich, um Beiträge zu erstellen.', feedLoadMore:'Mehr laden', feedNoMore:'Keine weiteren Beiträge', myPosts:'Meine Beiträge',
     txHistory:'Transaktionsverlauf', type:'Typ', amountCol:'Betrag', whenCol:'Wann', recipientUsername:'Empfänger-Username', confirm:'Bestätigen', guestWallet:'Geldbörse nur für registrierte Benutzer verfügbar.',
     conversations:'Gespräche', online:'Online', lastSeen:'Zuletzt gesehen', selectConversation:'Gespräch wählen', guestChat:'Chat nur für registrierte Benutzer verfügbar.',
     chatReplyWallet1:'Prüfen Sie den Geldbörse-Tab für Ihren Kontostand.', chatReplyWallet2:'Das Guthaben wird nach Aufgabenabschluss aktualisiert.', chatReplyTask1:'Durchsuchen Sie die Aufgabenseite nach offenen Plätzen.', chatReplyTask2:'Fristen stehen auf jeder Aufgabenkarte.', chatReplyReward1:'Belohnungen werden automatisch nach Abschluss gutgeschrieben.', chatReplyReward2:'Ihre Verdiensthistorie finden Sie im Geldbörse-Bereich.', chatReplyLevel1:'Ihr Level und XP werden auf dem Dashboard angezeigt.', chatReplyLevel2:'Halten Sie Ihre Serie aktiv für Bonuspunkte.', chatFallback1:'Verstanden, ich melde mich bald.', chatFallback2:'Danke für die Nachricht!', chatFallback3:'Notiert. Ich prüfe das.',
@@ -321,6 +355,25 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 Coins',
     roomOnline:'online', noMsgsYet:'Sei der Erste, der schreibt!', globalRoomDesc:'Hier können alle Nutzer schreiben',
     withdrawCrypto:'Auszahlung in Krypto', withdrawTitle:'Coins in Krypto auszahlen', withdrawCoins:'Betrag (Coins)', withdrawWallet:'Ihre Wallet-Adresse', withdrawNetwork:'Netzwerk', withdrawFee:'Gebühr (5%)', withdrawNet:'Sie erhalten', withdrawConfirm:'Auszahlung beantragen', withdrawSuccess:'Auszahlungsantrag erstellt!', withdrawCancel:'Auszahlung stornieren', withdrawCancelled:'Auszahlung storniert. Coins erstattet.', withdrawHistory:'Auszahlungshistorie', withdrawPending:'Sie haben eine offene Auszahlung', withdrawMin:'Min. Auszahlung: 500 Coins', withdrawStatus:'Status', noWithdrawals:'Noch keine Auszahlungen',
+    exchangerTitle:'Umtausch: USDT → 🪙', exchangerGetAddress:'Adresse erhalten', exchangerConfirm:'Bestätigen', exchangerRange:'Betrag: 1 bis 10.000 USDT', exchangerSendTo:'Senden Sie', exchangerToAddress:'an Adresse:', exchangerError:'Fehler', exchangerConfirmError:'Bestätigungsfehler', codeSentDesc:'Code per E-Mail gesendet. Prüfen Sie Inbox / Spam und geben Sie den 6-stelligen Code unten ein.', globalMsgSent:'Nachricht an Global-Chat gesendet',
+    lvlPrivileges:'Level-Vorteile', lvlYourLevel:'Dein Level', lvlNextLevel:'Nächstes Level',
+    lvlMaxTasks:'Max aktive Aufgaben', lvlCreateTasks:'Aufgaben erstellen', lvlMaxReward:'Max Belohnung',
+    lvlFeedMedia:'Feed-Medien', lvlDifficulty:'Aufgabenschwierigkeit',
+    lvlLocked:'🔒 Gesperrt', lvlUnlocked:'✅ Freigeschaltet', lvlUpgrade:'Level up zum Freischalten!',
+    lvlNone:'Nur Text', lvlImage:'Bilder', lvlVideo:'Video', lvlAll:'Alle Medien',
+    lvlEasyOnly:'Nur Einfach', lvlEasyMedium:'Einfach + Mittel', lvlAllDiff:'Alle Schwierigkeiten',
+    lvlCreateLocked:'Aufgaben erstellen ab Level 3', lvlRewardLimit:'Max Belohnung auf deinem Level:',
+    lvlTaskLimit:'Aufgabenlimit erreicht! Level up für mehr.',
+    lvlDiffLocked:'Diese Schwierigkeit wird auf höherem Level freigeschaltet.',
+    lvlNewcomer:'Neuling', lvlExplorer:'Entdecker', lvlCreator:'Ersteller', lvlProducer:'Produzent',
+    lvlWarrior:'Krieger', lvlChampion:'Champion', lvlExpert:'Experte', lvlElite:'Elite',
+    lvlMaster:'Meister', lvlGrandmaster:'Großmeister', lvlTitan:'Titan', lvlLegend:'Legende',
+    lvlUnlocksAt:'Freigeschaltet ab Lv',
+    feedRewards:'Feed-Belohnungen', feedPostXp:'+5 XP pro Beitrag', feedLikeXp:'+1 XP pro 10 Likes',
+    feedDailyLimit:'Beiträge heute', feedPostsLeft:'Beiträge übrig',
+    feedCreatePost:'Beitrag erstellen', feedWriteSomething:'Teile etwas mit der Community…',
+    feedPostSuccess:'Beitrag veröffentlicht!', feedMaxReached:'Tägliches XP-Limit erreicht.',
+    feedAddMedia:'Medien hinzufügen', feedSelectType:'Beitragstyp',
   },
   FR:{
     appName:'LOLance', appTag:'Plateforme Premium de Micro-Tâches',
@@ -345,7 +398,7 @@ const i18n = {
     depositDone:'Achat crypto réussi.', withdrawDone:'Coins dépensés avec succès.',
     transferDone:'Pourboire en coins envoyé.', ticketDone:'Ticket créé!',
     txDeposit:'Achat crypto', txWithdraw:'Dépense de coins', txTransfer:'Pourboire à',
-    invalidAmount:'Veuillez entrer un montant supérieur à zéro.',
+    invalidAmount:'Veuillez entrer un montant supérieur à zéro.', invalidEmail:'Format d\'email invalide.',
     insufficient:'Solde insuffisant.',
     noMessage:'Écrivez quelque chose d\'abord.',
     yourPosition:'Votre position', score:'Score', badges:'Badges',
@@ -360,13 +413,11 @@ const i18n = {
     verifyEmail:'Vérifiez votre e-mail', codeSentTo:'Nous avons envoyé un code à 6 chiffres à', solveCaptcha:'Résoudre le captcha', enterAnswer:'Entrez la réponse', verifyCaptcha:'Vérifier', wrongAnswer:'Mauvaise réponse', verificationCode:'Code de vérification', showCode:'Afficher', hideCode:'Masquer', enterCodeScreen:'Entrez le code à l\'écran', sixDigits:'6 chiffres', confirmBtn:'Confirmer', backToLogin:'Retour connexion', verifySuccess:'Génial ! Vous êtes connecté 🎉', wrongCode:'Mauvais code', invalidCode:'Entrez un code valide à 6 chiffres',
     guest:'Invité', welcomeGuestTitle:'Bienvenue sur LOLance Premium !', welcomeGuestDesc:'Parcourez les tâches et fonctions sans limites.', dashMotivation:'Aujourd\'hui vous êtes en avance.', dashMotivationDesc:'Complétez une tâche pour booster votre série.',
     dayStreak:'jours de série', available:'disponible', totalEarned:'gagné', tasksDone:'tâches', pts:'pts',
-    acceptTermsText:'J\'accepte les <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Conditions de la plateforme</a> et la <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Politique de confidentialité</a>.', mustAcceptTerms:'Vous devez accepter les Conditions de la plateforme et la Politique de confidentialité.',
-    exchangerTitle:'Échangeur: USDT → 🪙', exchangerCoins:'Coins', exchangerRate:'Taux', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'En attente', exchangerGetAddr:'Obtenir l\'adresse', exchangerUsdtAmount:'Montant USDT',
     quickActions:'Actions rapides', browseOpenTasks:'Parcourir les tâches →', publishNewTask:'+ Nouvelle tâche', walletOverview:'Aperçu portefeuille', trendingTasks:'Tâches tendance', miniLeaderboard:'Mini-classement',
     noTasksFound:'Aucune tâche trouvée', adjustFilters:'Essayez d\'ajuster les filtres.', cancelled:'Annulé', byUser:'par',
     titleLabel:'Titre', titlePlaceholder:'Nom clair de la tâche', descPlaceholder:'Que faut-il faire exactement ?', selectOption:'Sélectionner…', previewTitlePh:'Le titre apparaîtra ici…', previewDescPh:'Aperçu de la description…', noDeadline:'Pas d\'échéance',
     noPosts:'Aucun post', mediaPreview:'Aperçu média', readMore:'Lire plus ↓', showLess:'Moins ↑', save:'Enregistrer', saved:'Enregistré',
-    feedWritePost:'Quoi de neuf ?', feedPostBtn:'Publier', feedMyPosts:'Mes posts', feedDeletePost:'Supprimer', feedDeleteConfirm:'Supprimer ce post ?', feedGuestMsg:'Inscrivez-vous pour publier et aimer.',
+    createPost:'Créer un post', postPlaceholder:'Quoi de neuf ?', addMedia:'Ajouter un média', mediaUrlPlaceholder:'Collez l\'URL image ou vidéo (https://...)', postImage:'Image', postVideo:'Vidéo', publishPost:'Publier', deletePost:'Supprimer', confirmDelete:'Supprimer ce post ?', postCreated:'Post publié !', postDeleted:'Post supprimé.', guestFeed:'Inscrivez-vous pour créer des posts.', feedLoadMore:'Charger plus', feedNoMore:'Plus de posts', myPosts:'Mes posts',
     txHistory:'Historique des transactions', type:'Type', amountCol:'Montant', whenCol:'Quand', recipientUsername:'Nom d\'utilisateur destinataire', confirm:'Confirmer', guestWallet:'Le portefeuille est réservé aux utilisateurs inscrits.',
     conversations:'Conversations', online:'En ligne', lastSeen:'Vu récemment', selectConversation:'Sélectionnez une conversation', guestChat:'Le chat est réservé aux utilisateurs inscrits.',
     chatReplyWallet1:'Consultez l\'onglet Portefeuille pour votre solde.', chatReplyWallet2:'Les fonds sont mis à jour après la complétion de la tâche.', chatReplyTask1:'Parcourez la page Tâches pour les places disponibles.', chatReplyTask2:'Les échéances sont indiquées sur chaque carte.', chatReplyReward1:'Les récompenses sont créditées automatiquement.', chatReplyReward2:'L\'historique des gains est dans la section Portefeuille.', chatReplyLevel1:'Votre niveau et XP sont affichés sur le tableau de bord.', chatReplyLevel2:'Maintenez votre série pour des points bonus.', chatFallback1:'Compris, je reviens bientôt.', chatFallback2:'Merci pour le message !', chatFallback3:'Noté. Je vérifie.',
@@ -412,6 +463,25 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 coins',
     roomOnline:'en ligne', noMsgsYet:'Soyez le premier à écrire !', globalRoomDesc:'Tous les utilisateurs peuvent écrire ici',
     withdrawCrypto:'Retirer en crypto', withdrawTitle:'Retirer des coins en crypto', withdrawCoins:'Montant (coins)', withdrawWallet:'Adresse de votre portefeuille', withdrawNetwork:'Réseau', withdrawFee:'Frais (5%)', withdrawNet:'Vous recevrez', withdrawConfirm:'Soumettre le retrait', withdrawSuccess:'Demande de retrait créée !', withdrawCancel:'Annuler le retrait', withdrawCancelled:'Retrait annulé. Coins remboursés.', withdrawHistory:'Historique des retraits', withdrawPending:'Vous avez un retrait en attente', withdrawMin:'Retrait min. : 500 coins', withdrawStatus:'Statut', noWithdrawals:'Aucun retrait pour le moment',
+    exchangerTitle:'Échange: USDT → 🪙', exchangerGetAddress:'Obtenir l\'adresse', exchangerConfirm:'Confirmer', exchangerRange:'Montant: 1 à 10 000 USDT', exchangerSendTo:'Envoyez', exchangerToAddress:'à l\'adresse:', exchangerError:'Erreur', exchangerConfirmError:'Erreur de confirmation', codeSentDesc:'Code envoyé par e-mail. Vérifiez Boîte de réception / Spam et entrez le code à 6 chiffres ci-dessous.', globalMsgSent:'Message envoyé au chat Global',
+    lvlPrivileges:'Avantages du niveau', lvlYourLevel:'Votre niveau', lvlNextLevel:'Niveau suivant',
+    lvlMaxTasks:'Max tâches actives', lvlCreateTasks:'Créer des tâches', lvlMaxReward:'Récompense max',
+    lvlFeedMedia:'Médias du flux', lvlDifficulty:'Difficulté des tâches',
+    lvlLocked:'🔒 Verrouillé', lvlUnlocked:'✅ Débloqué', lvlUpgrade:'Montez de niveau pour débloquer !',
+    lvlNone:'Texte seul', lvlImage:'Images', lvlVideo:'Vidéo', lvlAll:'Tous les médias',
+    lvlEasyOnly:'Facile seul', lvlEasyMedium:'Facile + Moyen', lvlAllDiff:'Toutes les difficultés',
+    lvlCreateLocked:'Création de tâches au niveau 3', lvlRewardLimit:'Récompense max à votre niveau :',
+    lvlTaskLimit:'Limite de tâches atteinte ! Montez de niveau.',
+    lvlDiffLocked:'Cette difficulté se débloque à un niveau supérieur.',
+    lvlNewcomer:'Débutant', lvlExplorer:'Explorateur', lvlCreator:'Créateur', lvlProducer:'Producteur',
+    lvlWarrior:'Guerrier', lvlChampion:'Champion', lvlExpert:'Expert', lvlElite:'Élite',
+    lvlMaster:'Maître', lvlGrandmaster:'Grand Maître', lvlTitan:'Titan', lvlLegend:'Légende',
+    lvlUnlocksAt:'Débloqué au Nv',
+    feedRewards:'Récompenses du flux', feedPostXp:'+5 XP par post', feedLikeXp:'+1 XP pour 10 likes',
+    feedDailyLimit:'posts aujourd\'hui', feedPostsLeft:'posts restants',
+    feedCreatePost:'Créer un post', feedWriteSomething:'Partagez quelque chose avec la communauté…',
+    feedPostSuccess:'Post publié !', feedMaxReached:'Limite quotidienne d\'XP atteinte.',
+    feedAddMedia:'Ajouter un média', feedSelectType:'Type de post',
   },
   ES:{
     appName:'LOLance', appTag:'Plataforma Premium de Micro-Tareas',
@@ -436,7 +506,7 @@ const i18n = {
     depositDone:'Compra cripto exitosa.', withdrawDone:'Coins gastadas correctamente.',
     transferDone:'Propina en coins enviada.', ticketDone:'¡Ticket creado!',
     txDeposit:'Compra cripto', txWithdraw:'Gasto de coins', txTransfer:'Propina a',
-    invalidAmount:'Ingresa un monto mayor que cero.',
+    invalidAmount:'Ingresa un monto mayor que cero.', invalidEmail:'Formato de email inválido.',
     insufficient:'Saldo insuficiente.',
     noMessage:'Escribe algo primero.',
     yourPosition:'Tu posición', score:'Puntuación', badges:'Insignias',
@@ -451,13 +521,11 @@ const i18n = {
     verifyEmail:'Verifica tu email', codeSentTo:'Enviamos un código de 6 dígitos a', solveCaptcha:'Resolver captcha', enterAnswer:'Ingresa la respuesta', verifyCaptcha:'Verificar', wrongAnswer:'Respuesta incorrecta', verificationCode:'Código de verificación', showCode:'Mostrar', hideCode:'Ocultar', enterCodeScreen:'Ingresa el código de la pantalla', sixDigits:'6 dígitos', confirmBtn:'Confirmar', backToLogin:'Volver al login', verifySuccess:'¡Genial! Estás conectado 🎉', wrongCode:'Código incorrecto', invalidCode:'Ingresa un código válido de 6 dígitos',
     guest:'Invitado', welcomeGuestTitle:'¡Bienvenido a LOLance Premium!', welcomeGuestDesc:'Explora tareas y funciones sin límites.', dashMotivation:'Hoy vas adelantado.', dashMotivationDesc:'Completa una tarea más para aumentar tu racha.',
     dayStreak:'días de racha', available:'disponible', totalEarned:'ganado', tasksDone:'tareas', pts:'pts',
-    acceptTermsText:'Acepto los <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Términos de la plataforma</a> y la <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Política de privacidad</a>.', mustAcceptTerms:'Debes aceptar los Términos de la plataforma y la Política de privacidad.',
-    exchangerTitle:'Intercambiador: USDT → 🪙', exchangerCoins:'Monedas', exchangerRate:'Tasa', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'Pendiente', exchangerGetAddr:'Obtener dirección', exchangerUsdtAmount:'Monto USDT',
     quickActions:'Acciones rápidas', browseOpenTasks:'Explorar tareas →', publishNewTask:'+ Nueva tarea', walletOverview:'Resumen de billetera', trendingTasks:'Tareas populares', miniLeaderboard:'Mini-clasificación',
     noTasksFound:'No se encontraron tareas', adjustFilters:'Intenta ajustar los filtros.', cancelled:'Cancelado', byUser:'por',
     titleLabel:'Título', titlePlaceholder:'Nombre claro de la tarea', descPlaceholder:'¿Qué hay que hacer exactamente?', selectOption:'Seleccionar…', previewTitlePh:'El título aparecerá aquí…', previewDescPh:'Vista previa de la descripción…', noDeadline:'Sin fecha límite',
     noPosts:'Sin publicaciones', mediaPreview:'Vista previa de medios', readMore:'Leer más ↓', showLess:'Mostrar menos ↑', save:'Guardar', saved:'Guardado',
-    feedWritePost:'¿Qué hay de nuevo?', feedPostBtn:'Publicar', feedMyPosts:'Mis publicaciones', feedDeletePost:'Eliminar', feedDeleteConfirm:'¿Eliminar esta publicación?', feedGuestMsg:'Regístrate para publicar y dar like.',
+    createPost:'Crear publicación', postPlaceholder:'¿Qué hay de nuevo?', addMedia:'Agregar medios', mediaUrlPlaceholder:'Pega URL de imagen o video (https://...)', postImage:'Imagen', postVideo:'Video', publishPost:'Publicar', deletePost:'Eliminar', confirmDelete:'¿Eliminar esta publicación?', postCreated:'¡Publicación creada!', postDeleted:'Publicación eliminada.', guestFeed:'Regístrate para crear publicaciones.', feedLoadMore:'Cargar más', feedNoMore:'No hay más publicaciones', myPosts:'Mis publicaciones',
     txHistory:'Historial de transacciones', type:'Tipo', amountCol:'Monto', whenCol:'Cuándo', recipientUsername:'Usuario destinatario', confirm:'Confirmar', guestWallet:'La billetera solo está disponible para usuarios registrados.',
     conversations:'Conversaciones', online:'En línea', lastSeen:'Visto recientemente', selectConversation:'Selecciona una conversación', guestChat:'El chat solo está disponible para usuarios registrados.',
     chatReplyWallet1:'Consulta la pestaña Billetera para tu saldo.', chatReplyWallet2:'Los fondos se actualizan tras completar la tarea.', chatReplyTask1:'Explora la página de Tareas para espacios abiertos.', chatReplyTask2:'Los plazos se muestran en cada tarjeta de tarea.', chatReplyReward1:'Las recompensas se acreditan automáticamente.', chatReplyReward2:'Tu historial de ganancias está en la sección Billetera.', chatReplyLevel1:'Tu nivel y XP se muestran en el panel.', chatReplyLevel2:'Mantén tu racha activa para ganar más XP.', chatFallback1:'Entendido, vuelvo pronto.', chatFallback2:'¡Gracias por el mensaje!', chatFallback3:'Anotado. Lo verifico.',
@@ -503,6 +571,25 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 monedas',
     roomOnline:'en línea', noMsgsYet:'¡Sé el primero en escribir!', globalRoomDesc:'Todos los usuarios pueden escribir aquí',
     withdrawCrypto:'Retirar a crypto', withdrawTitle:'Retirar coins a crypto', withdrawCoins:'Cantidad (coins)', withdrawWallet:'Dirección de tu billetera', withdrawNetwork:'Red', withdrawFee:'Comisión (5%)', withdrawNet:'Recibirás', withdrawConfirm:'Solicitar retiro', withdrawSuccess:'¡Solicitud de retiro creada!', withdrawCancel:'Cancelar retiro', withdrawCancelled:'Retiro cancelado. Coins devueltos.', withdrawHistory:'Historial de retiros', withdrawPending:'Tienes un retiro pendiente', withdrawMin:'Retiro mín.: 500 coins', withdrawStatus:'Estado', noWithdrawals:'Sin retiros aún',
+    exchangerTitle:'Cambio: USDT → 🪙', exchangerGetAddress:'Obtener dirección', exchangerConfirm:'Confirmar', exchangerRange:'Monto: 1 a 10.000 USDT', exchangerSendTo:'Envía', exchangerToAddress:'a la dirección:', exchangerError:'Error', exchangerConfirmError:'Error de confirmación', codeSentDesc:'Código enviado por email. Revisa Bandeja de entrada / Spam e ingresa el código de 6 dígitos abajo.', globalMsgSent:'Mensaje enviado al chat Global',
+    lvlPrivileges:'Beneficios del nivel', lvlYourLevel:'Tu nivel', lvlNextLevel:'Siguiente nivel',
+    lvlMaxTasks:'Máx tareas activas', lvlCreateTasks:'Crear tareas', lvlMaxReward:'Recompensa máx',
+    lvlFeedMedia:'Medios del feed', lvlDifficulty:'Dificultad de tareas',
+    lvlLocked:'🔒 Bloqueado', lvlUnlocked:'✅ Desbloqueado', lvlUpgrade:'¡Sube de nivel para desbloquear!',
+    lvlNone:'Solo texto', lvlImage:'Imágenes', lvlVideo:'Video', lvlAll:'Todos los medios',
+    lvlEasyOnly:'Solo fácil', lvlEasyMedium:'Fácil + Medio', lvlAllDiff:'Todas las dificultades',
+    lvlCreateLocked:'Crear tareas se desbloquea en nivel 3', lvlRewardLimit:'Recompensa máx en tu nivel:',
+    lvlTaskLimit:'¡Límite de tareas alcanzado! Sube de nivel.',
+    lvlDiffLocked:'Esta dificultad se desbloquea en un nivel superior.',
+    lvlNewcomer:'Novato', lvlExplorer:'Explorador', lvlCreator:'Creador', lvlProducer:'Productor',
+    lvlWarrior:'Guerrero', lvlChampion:'Campeón', lvlExpert:'Experto', lvlElite:'Élite',
+    lvlMaster:'Maestro', lvlGrandmaster:'Gran Maestro', lvlTitan:'Titán', lvlLegend:'Leyenda',
+    lvlUnlocksAt:'Se desbloquea en Nv',
+    feedRewards:'Recompensas del feed', feedPostXp:'+5 XP por post', feedLikeXp:'+1 XP por 10 likes',
+    feedDailyLimit:'posts hoy', feedPostsLeft:'posts restantes',
+    feedCreatePost:'Crear post', feedWriteSomething:'Comparte algo con la comunidad…',
+    feedPostSuccess:'¡Post publicado!', feedMaxReached:'Límite diario de XP alcanzado.',
+    feedAddMedia:'Agregar media', feedSelectType:'Tipo de post',
   },
   PL:{
     appName:'LOLance', appTag:'Platforma Premium Mikro-Zadań',
@@ -527,7 +614,7 @@ const i18n = {
     depositDone:'Zakup crypto zakończony.', withdrawDone:'Wydanie coinów zakończone.',
     transferDone:'Napiwek w coinach wysłany.', ticketDone:'Zgłoszenie utworzone!',
     txDeposit:'Zakup crypto', txWithdraw:'Wydanie coinów', txTransfer:'Napiwek dla',
-    invalidAmount:'Wpisz kwotę większą niż zero.',
+    invalidAmount:'Wpisz kwotę większą niż zero.', invalidEmail:'Nieprawidłowy format e-mail.',
     insufficient:'Niewystarczające saldo.',
     noMessage:'Najpierw napisz coś.',
     yourPosition:'Twoja pozycja', score:'Wynik', badges:'Odznaki',
@@ -542,13 +629,11 @@ const i18n = {
     verifyEmail:'Zweryfikuj swój email', codeSentTo:'Wysłaliśmy 6-cyfrowy kod na', solveCaptcha:'Rozwiąż captchę', enterAnswer:'Wpisz odpowiedź', verifyCaptcha:'Sprawdź', wrongAnswer:'Zła odpowiedź', verificationCode:'Kod weryfikacyjny', showCode:'Pokaż', hideCode:'Ukryj', enterCodeScreen:'Wpisz kod z ekranu', sixDigits:'6 cyfr', confirmBtn:'Potwierdź', backToLogin:'Powrót do logowania', verifySuccess:'Super! Jesteś zalogowany 🎉', wrongCode:'Zły kod', invalidCode:'Wpisz poprawny 6-cyfrowy kod',
     guest:'Gość', welcomeGuestTitle:'Witaj w LOLance Premium!', welcomeGuestDesc:'Przeglądaj zadania i funkcje bez ograniczeń.', dashMotivation:'Dziś jesteś przed harmonogramem.', dashMotivationDesc:'Wykonaj kolejne zadanie dla serii.',
     dayStreak:'dni serii', available:'dostępne', totalEarned:'zarobione', tasksDone:'zadań', pts:'pkt',
-    acceptTermsText:'Zgadzam się z <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Regulaminem platformy</a> i <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Polityką prywatności</a>.', mustAcceptTerms:'Musisz zaakceptować Regulamin platformy i Politykę prywatności.',
-    exchangerTitle:'Wymiennik: USDT → 🪙', exchangerCoins:'Coiny', exchangerRate:'Kurs', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'Oczekujące', exchangerGetAddr:'Uzyskaj adres', exchangerUsdtAmount:'Kwota USDT',
     quickActions:'Szybkie akcje', browseOpenTasks:'Przeglądaj zadania →', publishNewTask:'+ Nowe zadanie', walletOverview:'Przegląd portfela', trendingTasks:'Popularne zadania', miniLeaderboard:'Mini-ranking',
     noTasksFound:'Nie znaleziono zadań', adjustFilters:'Spróbuj zmienić filtry.', cancelled:'Anulowane', byUser:'od',
     titleLabel:'Tytuł', titlePlaceholder:'Jasna nazwa zadania', descPlaceholder:'Co dokładnie trzeba zrobić?', selectOption:'Wybierz…', previewTitlePh:'Tytuł pojawi się tutaj…', previewDescPh:'Podgląd opisu…', noDeadline:'Bez terminu',
     noPosts:'Brak postów', mediaPreview:'Podgląd mediów', readMore:'Czytaj więcej ↓', showLess:'Mniej ↑', save:'Zapisz', saved:'Zapisano',
-    feedWritePost:'Co nowego?', feedPostBtn:'Opublikuj', feedMyPosts:'Moje posty', feedDeletePost:'Usuń', feedDeleteConfirm:'Usunąć ten post?', feedGuestMsg:'Zarejestruj się, aby publikować i polubić.',
+    createPost:'Utwórz post', postPlaceholder:'Co nowego?', addMedia:'Dodaj media', mediaUrlPlaceholder:'Wklej URL obrazu lub wideo (https://...)', postImage:'Zdjęcie', postVideo:'Wideo', publishPost:'Opublikuj', deletePost:'Usuń', confirmDelete:'Usunąć ten post?', postCreated:'Post opublikowany!', postDeleted:'Post usunięty.', guestFeed:'Zarejestruj się, aby tworzyć posty.', feedLoadMore:'Załaduj więcej', feedNoMore:'Brak kolejnych postów', myPosts:'Moje posty',
     txHistory:'Historia transakcji', type:'Typ', amountCol:'Kwota', whenCol:'Kiedy', recipientUsername:'Nazwa użytkownika odbiorcy', confirm:'Potwierdź', guestWallet:'Portfel dostępny tylko dla zarejestrowanych użytkowników.',
     conversations:'Rozmowy', online:'Online', lastSeen:'Widziany niedawno', selectConversation:'Wybierz rozmowę', guestChat:'Chat dostępny tylko dla zarejestrowanych użytkowników.',
     chatReplyWallet1:'Sprawdź zakładkę Portfel, aby zobaczyć saldo.', chatReplyWallet2:'Środki są aktualizowane po zakończeniu zadania.', chatReplyTask1:'Przeglądaj stronę Zadań w poszukiwaniu wolnych miejsc.', chatReplyTask2:'Terminy są pokazane na każdej karcie zadania.', chatReplyReward1:'Nagrody są automatycznie naliczane po zakończeniu.', chatReplyReward2:'Historia zarobków jest w sekcji Portfel.', chatReplyLevel1:'Twój poziom i XP są pokazane na pulpicie.', chatReplyLevel2:'Utrzymuj serię aktywną, aby zdobywać więcej XP.', chatFallback1:'Rozumiem, odezwę się wkrótce.', chatFallback2:'Dzięki za wiadomość!', chatFallback3:'Zanotowano. Sprawdzę.',
@@ -594,9 +679,47 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 coinów',
     roomOnline:'online', noMsgsYet:'Bądź pierwszym, który pisze!', globalRoomDesc:'Tutaj mogą pisać wszyscy użytkownicy',
     withdrawCrypto:'Wypłata na krypto', withdrawTitle:'Wypłata coinów na krypto', withdrawCoins:'Kwota (coiny)', withdrawWallet:'Adres Twojego portfela', withdrawNetwork:'Sieć', withdrawFee:'Opłata (5%)', withdrawNet:'Otrzymasz', withdrawConfirm:'Złóż wniosek', withdrawSuccess:'Wniosek o wypłatę złożony!', withdrawCancel:'Anuluj wypłatę', withdrawCancelled:'Wypłata anulowana. Coiny zwrócone.', withdrawHistory:'Historia wypłat', withdrawPending:'Masz oczekującą wypłatę', withdrawMin:'Min. wypłata: 500 coinów', withdrawStatus:'Status', noWithdrawals:'Brak wypłat',
+    exchangerTitle:'Wymiana: USDT → 🪙', exchangerGetAddress:'Pobierz adres', exchangerConfirm:'Potwierdź', exchangerRange:'Kwota: od 1 do 10 000 USDT', exchangerSendTo:'Wyślij', exchangerToAddress:'na adres:', exchangerError:'Błąd', exchangerConfirmError:'Błąd potwierdzenia', codeSentDesc:'Kod wysłany na email. Sprawdź folder Inbox / Spam i wpisz 6-cyfrowy kod poniżej.', globalMsgSent:'Wiadomość wysłana do czatu Global',
+    lvlPrivileges:'Korzyści poziomu', lvlYourLevel:'Twój poziom', lvlNextLevel:'Następny poziom',
+    lvlMaxTasks:'Maks aktywnych zadań', lvlCreateTasks:'Tworzenie zadań', lvlMaxReward:'Maks nagroda',
+    lvlFeedMedia:'Media w kanale', lvlDifficulty:'Trudność zadań',
+    lvlLocked:'🔒 Zablokowane', lvlUnlocked:'✅ Odblokowane', lvlUpgrade:'Podnieś poziom, aby odblokować!',
+    lvlNone:'Tylko tekst', lvlImage:'Obrazy', lvlVideo:'Wideo', lvlAll:'Wszystkie media',
+    lvlEasyOnly:'Tylko łatwe', lvlEasyMedium:'Łatwe + Średnie', lvlAllDiff:'Wszystkie trudności',
+    lvlCreateLocked:'Tworzenie zadań od poziomu 3', lvlRewardLimit:'Maks nagroda na twoim poziomie:',
+    lvlTaskLimit:'Limit zadań osiągnięty! Podnieś poziom.',
+    lvlDiffLocked:'Ta trudność odblokuje się na wyższym poziomie.',
+    lvlNewcomer:'Nowicjusz', lvlExplorer:'Odkrywca', lvlCreator:'Twórca', lvlProducer:'Producent',
+    lvlWarrior:'Wojownik', lvlChampion:'Mistrz', lvlExpert:'Ekspert', lvlElite:'Elita',
+    lvlMaster:'Mistrz', lvlGrandmaster:'Arcymistrz', lvlTitan:'Tytan', lvlLegend:'Legenda',
+    lvlUnlocksAt:'Odblokowane od Poz',
+    feedRewards:'Nagrody kanału', feedPostXp:'+5 XP za post', feedLikeXp:'+1 XP za 10 polubień',
+    feedDailyLimit:'postów dziś', feedPostsLeft:'postów pozostało',
+    feedCreatePost:'Utwórz post', feedWriteSomething:'Podziel się czymś ze społecznością…',
+    feedPostSuccess:'Post opublikowany!', feedMaxReached:'Dzienny limit XP osiągnięty.',
+    feedAddMedia:'Dodaj media', feedSelectType:'Typ posta',
   },
 };
 function t(k){ return (i18n[S.lang]||i18n.UA)[k] || k; }
+
+/* ── Level Privileges Map ────────────────────────────────────── */
+const LEVEL_PRIVILEGES = {
+  1:  {maxTasks:3,   canCreate:false, maxReward:0,      feedMedia:'none',  takeDiff:['easy'],                 badge:'🌱', titleKey:'lvlNewcomer'},
+  2:  {maxTasks:5,   canCreate:false, maxReward:0,      feedMedia:'image', takeDiff:['easy','medium'],         badge:'📸', titleKey:'lvlExplorer'},
+  3:  {maxTasks:7,   canCreate:true,  maxReward:1000,   feedMedia:'image', takeDiff:['easy','medium'],         badge:'🛠', titleKey:'lvlCreator'},
+  4:  {maxTasks:10,  canCreate:true,  maxReward:2500,   feedMedia:'video', takeDiff:['easy','medium'],         badge:'🎬', titleKey:'lvlProducer'},
+  5:  {maxTasks:13,  canCreate:true,  maxReward:5000,   feedMedia:'video', takeDiff:['easy','medium','hard'],  badge:'⚔️', titleKey:'lvlWarrior'},
+  6:  {maxTasks:16,  canCreate:true,  maxReward:10000,  feedMedia:'all',   takeDiff:['easy','medium','hard'],  badge:'🥇', titleKey:'lvlChampion'},
+  7:  {maxTasks:20,  canCreate:true,  maxReward:25000,  feedMedia:'all',   takeDiff:['easy','medium','hard'],  badge:'💎', titleKey:'lvlExpert'},
+  8:  {maxTasks:25,  canCreate:true,  maxReward:50000,  feedMedia:'all',   takeDiff:['easy','medium','hard'],  badge:'🔥', titleKey:'lvlElite'},
+  9:  {maxTasks:30,  canCreate:true,  maxReward:100000, feedMedia:'all',   takeDiff:['easy','medium','hard'],  badge:'👑', titleKey:'lvlMaster'},
+  10: {maxTasks:40,  canCreate:true,  maxReward:500000, feedMedia:'all',   takeDiff:['easy','medium','hard'],  badge:'🌟', titleKey:'lvlGrandmaster'},
+  11: {maxTasks:50,  canCreate:true,  maxReward:999999, feedMedia:'all',   takeDiff:['easy','medium','hard'],  badge:'⚡', titleKey:'lvlTitan'},
+  12: {maxTasks:999, canCreate:true,  maxReward:999999, feedMedia:'all',   takeDiff:['easy','medium','hard'],  badge:'🏆', titleKey:'lvlLegend'},
+};
+function getLvlPriv(level){ return LEVEL_PRIVILEGES[Math.min(12,Math.max(1,level||1))]; }
+function feedMediaLabel(m){ return m==='none'?t('lvlNone'):m==='image'?t('lvlImage'):m==='video'?t('lvlVideo'):t('lvlAll'); }
+function diffLabel(arr){ return arr.length===1?t('lvlEasyOnly'):arr.length===2?t('lvlEasyMedium'):t('lvlAllDiff'); }
 
 /* ── 3. UTILITIES ───────────────────────────────────────────── */
 const uid = ()=> Math.random().toString(36).slice(2,9);
@@ -616,28 +739,34 @@ let notifOpen = false;
 function defaultState(){
   return {
     lang:'UA', animationsOn:true,
-    balance:0, earnings:0, spent:0, pending:0,
+    balance:0, earnings:0, spent:0, pending:0, pendingBalance:0,
     level:1, xp:0, streak:0, completedTasks:0, activeTasks:0,
     achievements:[],
-    bio:'', role:'', skills:'',
+    bio:'', role:'', skills:'', name:'', username:'',
     tasks:[],
-    feed:[],
+    feed:[], feedPosts:[], feedPage:1, feedHasMore:false,
     notifications:[],
     transactions:[],
     threads:[],
     tickets:[],
     coinBalance:0, coinsPurchased:0, coinsSpent:0,
     cryptoDeposits:[], pendingCryptoCount:0, coinHistory:[],
+    cryptoWithdrawals:[],
     checkinStreak:0, doneCheckinToday:false, checkins:[],
     chatRooms:[], activeRoomTier:1, chatRoomMessages:[],
+    leaderboard:[], userPosition:null,
+    feedTodayPosts:0, feedMaxPostsDay:3, feedXpPerPost:5,
   };
 }
 function loadState(){
   try{
     const raw=localStorage.getItem(STORAGE_KEY);
-    if(raw){ S={...defaultState(),...JSON.parse(raw)}; }
-  }catch(e){}
-  if(!S || typeof S!=='object') S=defaultState();
+    if(raw){ S=JSON.parse(raw); }
+  }catch(e){ console.error('loadState error:', e); }
+  // Merge with defaults to ensure all keys exist
+  const defaults=defaultState();
+  if(!S) S=defaults;
+  else S={...defaults,...S};
 }
 
 async function syncProfile(){
@@ -658,7 +787,7 @@ async function syncProfile(){
       S.skills = data.user.skills || '';
       saveState();
     }
-  }catch(e){}
+  }catch(e){ console.error('syncProfile error:', e); }
 }
 
 async function loadTasks(filter='open'){
@@ -694,6 +823,7 @@ async function loadTasks(filter='open'){
       saveState();
     }
   }catch(e){
+    console.error('loadTasks error:', e);
   }
 }
 
@@ -734,7 +864,7 @@ async function loadWallet(){
     }
 
     saveState();
-  }catch(e){}
+  }catch(e){ console.error('loadWallet error:', e); }
 }
 
 async function loadMessages(){
@@ -745,7 +875,7 @@ async function loadMessages(){
       S.threads = data.threads || [];
       saveState();
     }
-  }catch(e){}
+  }catch(e){ console.error('loadMessages error:', e); }
 }
 
 async function loadSupport(){
@@ -769,7 +899,7 @@ async function loadSupport(){
         if(main) renderSupport(main);
       }
     }
-  }catch(e){}
+  }catch(e){ console.error('loadSupport error:', e); }
 }
 
 async function loadPoints(){
@@ -784,7 +914,7 @@ async function loadPoints(){
       S.checkins=Array.isArray(data.checkins)?data.checkins:[];
       saveState();
     }
-  }catch(e){}
+  }catch(e){ console.error('loadPoints error:', e); }
 }
 
 async function loadChatRooms(tier){
@@ -815,7 +945,7 @@ async function loadChatRooms(tier){
       }
       saveState();
     }
-  }catch(e){}
+  }catch(e){ console.error('loadChatRooms error:', e); }
 }
 
 async function sendRoomMessage(){
@@ -840,7 +970,7 @@ async function sendGlobalMessage(){
   if(!ok){toast(data.message||'Error','error');return;}
   input.value='';
   await loadChatRooms(1);
-  toast('Message sent to Global chat','success');
+  toast(t('globalMsgSent'),'success');
   navigate('chat');
 }
 
@@ -863,7 +993,7 @@ async function dailyCheckin(){
 }
 
 async function buyPointsPack(){
-  const packs=Math.max(1,Number(document.getElementById('buyPointsPacks')?.value||1));
+  const packs=Math.max(1,Number(document.getElementById('buyPointsPacksChat')?.value||document.getElementById('buyPointsPacks')?.value||1));
   const {ok,data}=await apiFetch(API.xp,{method:'POST',body:JSON.stringify({action:'buy_xp',packs})});
   if(!ok){toast(data.message||'Purchase failed','error');return;}
   await loadWallet();
@@ -881,35 +1011,30 @@ async function loadLeaderboard(){
       S.userPosition = data.user_position;
       saveState();
     }
-  }catch(e){}
+  }catch(e){ console.error('loadLeaderboard error:', e); }
 }
-async function loadFeed(){
+
+async function loadFeed(page=1, append=false){
   try{
-    const {ok, data} = await apiFetch(API.feed);
+    const {ok, data} = await apiFetch(`${API.feed}?page=${page}`);
     if(ok){
-      S.feed = (data.posts||[]).map(p=>({
-        id:String(p.id),
-        author:p.author_name||p.author_username||'User',
-        av:p.avatar||(p.author_name||'?').charAt(0).toUpperCase(),
-        text:p.content||'',
-        type:p.category||'other',
-        likes:Number(p.likes_count||0),
-        liked:!!p.my_like,
-        hasMedia:!!p.media_url,
-        mediaUrl:p.media_url||'',
-        timestamp:p.created_at,
-        expanded:false,
-        bookmarked:false,
-        userId:Number(p.user_id),
-        username:p.author_username||''
-      }));
+      if(append){
+        S.feedPosts = [...(S.feedPosts||[]), ...(data.posts||[])];
+      } else {
+        S.feedPosts = data.posts || [];
+      }
+      S.feedPage = data.page || 1;
+      S.feedHasMore = !!data.has_more;
+      S.feedTodayPosts = data.today_posts||0;
+      S.feedMaxPostsDay = data.max_posts_day||3;
+      S.feedXpPerPost = data.xp_per_post||5;
       saveState();
     }
-  }catch(e){}
+  }catch(e){ console.error('loadFeed error:', e); }
 }
-function saveState(){ try{ localStorage.setItem(STORAGE_KEY,JSON.stringify(S)); }catch(e){} }
+function saveState(){ try{ localStorage.setItem(STORAGE_KEY,JSON.stringify(S)); }catch(e){ console.error('saveState error:', e); } }
 function calcScore(u){
-  return Math.round((u.level||1)*1000+(u.earnings||0)*0.5+(u.completedTasks||0)*10+(u.streak||0)*5);
+  return Math.round((u.earnings||0)*1.02+(u.completedTasks||0)*65+(u.streak||0)*20+(u.level||1)*110+(u.xp||0));
 }
 
 /* ── 5. API ──────────────────────────────────────────────────── */
@@ -963,13 +1088,12 @@ function setLoading(btn,state){
 
 /* ── 10. NOTIFICATIONS ───────────────────────────────────────── */
 function addNotif(text,type='info'){
-  if(!Array.isArray(S.notifications)) S.notifications=[];
   S.notifications.unshift({id:uid(),text,type,read:false,timestamp:new Date().toISOString()});
   saveState();
   updateNotifBadge();
 }
 function updateNotifBadge(){
-  const count=(S.notifications||[]).filter(n=>!n.read).length;
+  const count=S.notifications.filter(n=>!n.read).length;
   const badge=document.getElementById('notifBadge');
   if(badge){badge.textContent=count||'';badge.style.display=count?'flex':'none';}
 }
@@ -1009,18 +1133,22 @@ function renderPage(page,el){
   const pages={dashboard:renderDashboard,tasks:renderTasks,createTask:renderCreateTask,feed:renderFeed,wallet:renderWallet,chat:renderChat,support:renderSupport,profile:renderProfile,leaderboard:renderLeaderboard};
   
   // Load data before rendering each page
+  if(page==='dashboard' && !isGuest){
+    loadTasks('open');
+    loadLeaderboard();
+  }
   if(page==='tasks' && !isGuest){
     loadTasks('open');
     loadTasks('my');
     loadTasks('taken');
   }
   if(page==='wallet' && !isGuest) loadWallet();
+  if(page==='feed') loadFeed();
   if(page==='chat' && !isGuest){ loadChatRooms(); loadPoints(); }
+  if(page==='feed') loadFeedPosts();
   if(page==='support' && !isGuest) loadSupport();
   if(page==='profile' && !isGuest) loadPoints();
   if(page==='leaderboard') loadLeaderboard();
-  if(page==='dashboard') loadLeaderboard();
-  if(page==='feed' && !isGuest) loadFeed();
   
   (pages[page]||renderDashboard)(el);
 }
@@ -1109,7 +1237,7 @@ function renderShell(){
   if(np){
     np.innerHTML=`
       <div class="notif-head"><h4>${t('notifications')}</h4><button class="btn btn-ghost btn-xs" id="markReadBtn">${t('markRead')}</button></div>
-      <div class="notif-list">${(S.notifications||[]).length?(S.notifications||[]).map(n=>`<div class="notif-item${n.read?'':' unread'}"><div>${esc(n.text)}</div><div class="notif-time">${fmtAgo(n.timestamp)}</div></div>`).join(''):`<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">${t('noNotifications')}</div>`}</div>`;
+      <div class="notif-list">${S.notifications.length?S.notifications.map(n=>`<div class="notif-item${n.read?'':' unread'}"><div>${esc(n.text)}</div><div class="notif-time">${fmtAgo(n.timestamp)}</div></div>`).join(''):`<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">${t('noNotifications')}</div>`}</div>`;
   }
 
   document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.page)));
@@ -1121,7 +1249,7 @@ function renderShell(){
   }
   document.getElementById('langToggle')?.addEventListener('change',e=>{S.lang=e.target.value;saveState();renderShell();navigate(currentPage);});
   document.getElementById('notifToggle')?.addEventListener('click',toggleNotif);
-  document.getElementById('markReadBtn')?.addEventListener('click',()=>{(S.notifications||[]).forEach(n=>n.read=true);saveState();updateNotifBadge();renderShell();navigate(currentPage);});
+  document.getElementById('markReadBtn')?.addEventListener('click',()=>{S.notifications.forEach(n=>n.read=true);saveState();updateNotifBadge();renderShell();navigate(currentPage);});
 
   if(currentUser && !isGuest) syncProfile();
 
@@ -1214,6 +1342,8 @@ function renderAuth(mode='login'){
               <option value="UA" ${S.lang==='UA'?'selected':''}>🇺🇦 Українська</option>
               <option value="EN" ${S.lang==='EN'?'selected':''}>🇬🇧 English</option>
               <option value="DE" ${S.lang==='DE'?'selected':''}>🇩🇪 Deutsch</option>
+              <option value="FR" ${S.lang==='FR'?'selected':''}>🇫🇷 Français</option>
+              <option value="ES" ${S.lang==='ES'?'selected':''}>🇪🇸 Español</option>
               <option value="PL" ${S.lang==='PL'?'selected':''}>🇵🇱 Polski</option>
             </select>
           </div>
@@ -1268,7 +1398,7 @@ function renderAuth(mode='login'){
               <div class="form-group" style="margin-top:-2px;">
                 <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.45;color:var(--text-soft);">
                   <input type="checkbox" id="regAcceptTerms" style="margin-top:2px;" required>
-                  <span>${t('acceptTermsText')}</span>
+                  <span>Я погоджуюсь з <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Правилами платформи</a> та <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Політикою приватності</a>.</span>
                 </label>
               </div>
               <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top:8px;">
@@ -1318,7 +1448,8 @@ async function handleRegister(e){
   const acceptTerms=!!document.getElementById('regAcceptTerms')?.checked;
   const acceptPrivacy=acceptTerms;
   if(!name||!username||!email||!password){showAlert('authAlert',t('required'));return;}
-  if(!acceptTerms){showAlert('authAlert',t('mustAcceptTerms'));return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showAlert('authAlert',t('invalidEmail')||'Email некоректний.');return;}
+  if(!acceptTerms){showAlert('authAlert','Потрібно погодитись з Правилами платформи та Політикою приватності.');return;}
   hideAlert('authAlert');setLoading(btn,true);
   const {ok,data}=await apiFetch(API.register,{method:'POST',body:JSON.stringify({name,username,email,password,accept_terms:acceptTerms,accept_privacy:acceptPrivacy})});
   setLoading(btn,false);
@@ -1328,7 +1459,6 @@ async function handleRegister(e){
 
 async function doLogout(){
   await apiFetch(API.logout,{method:'POST'});
-  S.notifications=[];saveState();
   currentUser=null;toast(t('logoutSuccess'),'info');renderAuth();
 }
 
@@ -1384,7 +1514,7 @@ function renderVerification(userId, email){
 
             <div id="codeSection" style="margin-top:20px;padding:15px;background:rgba(184,255,92,.1);border:1px solid rgba(184,255,92,.3);border-radius:8px;text-align:center;display:none;">
               <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">📧 ${t('verificationCode')}</div>
-              <div style="font-size:13px;color:var(--text-soft);">Код надіслано на email. Перевір папки Inbox / Spam та введи 6-значний код нижче.</div>
+              <div style="font-size:13px;color:var(--text-soft);">${t('codeSentDesc')}</div>
             </div>
           </div>
         </div>
@@ -1410,10 +1540,10 @@ function renderVerification(userId, email){
       </div>
     </div>`;
 
-  // Store data
+  // Store data (keep answer in closure, not on window)
   window.__verifyUserId = userId;
   window.__verifyEmail = email;
-  window.__correctAnswer = correctAnswer;
+  let _captchaAnswer = correctAnswer;
 
   // Captcha solver
   const solveCaptchaBtn = document.getElementById('solveCaptchaBtn');
@@ -1422,7 +1552,7 @@ function renderVerification(userId, email){
   
   solveCaptchaBtn?.addEventListener('click', () => {
     const userAnswer = parseInt(captchaInput.value);
-    if(userAnswer === correctAnswer){
+    if(userAnswer === _captchaAnswer){
       captchaError.style.display = 'none';
       document.querySelector('.auth-hero').style.display = 'none';
       document.getElementById('verifyCard').style.display = 'block';
@@ -1483,9 +1613,13 @@ async function handleVerify(e, userId){
 /* ── 15. DASHBOARD ───────────────────────────────────────────── */
 function renderDashboard(el){
   const myScore=calcScore({earnings:S.earnings,completedTasks:S.completedTasks,streak:S.streak,level:S.level,xp:S.xp});
-  const xpPct=Math.min(100,Math.round((S.xp%1000)/10));
-  const trending=(S.tasks||[]).filter(t=>t.status==='open').slice(0,3);
-  const mini=(S.leaderboard||[]).slice(0,3).map(u=>({av:(u.name||u.username||'?').charAt(0).toUpperCase(),name:u.name||u.username||'User',score:Number(u.score||0)}));
+  const xpPct=Math.min(100,Math.round(((S.xp||0)%1000)/10));
+  const trending=(S.tasks||[]).filter(task=>task.status==='open').slice(0,3);
+  const mini=(S.leaderboard||[]).slice(0,3).map(u=>({
+    name:u.name||u.username||'User',
+    av:(u.name||u.username||'?').charAt(0).toUpperCase(),
+    score:Number(u.score||u.xp||0)
+  }));
   el.innerHTML=`
     <div class="fade-up">
       <!-- Hero welcome -->
@@ -1497,28 +1631,80 @@ function renderDashboard(el){
             <p style="font-size:14px;color:var(--text-soft);">${isGuest?t('welcomeGuestDesc'):t('dashMotivationDesc')}</p>
           </div>
           <div style="text-align:right;flex-shrink:0;">
-            <div class="streak-badge"><span class="streak-fire">🔥</span>${S.streak} ${t('dayStreak')}</div>
-            <div style="font-size:12px;color:var(--muted);margin-top:4px;">${t('level')} ${S.level} · ${S.xp} XP</div>
+            <div class="streak-badge"><span class="streak-fire">🔥</span>${S.streak||0} ${t('dayStreak')}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px;">${t('level')} ${S.level||1} · ${S.xp||0} XP</div>
           </div>
         </div>
       </div>
 
       <!-- Stats -->
       <div class="stats-grid" style="margin-bottom:20px;">
-        <div class="stat-card"><div class="stat-glow stat-glow-green"></div><div class="stat-label">${t('balance')}</div><div class="stat-value" style="color:var(--primary)">${S.balance.toLocaleString()} <span style="font-size:12px;">coins</span></div><div class="stat-sub">${t('available')}</div></div>
-        <div class="stat-card"><div class="stat-glow stat-glow-blue"></div><div class="stat-label">${t('earnings')}</div><div class="stat-value">${S.earnings.toLocaleString()} <span style="font-size:12px;">coins</span></div><div class="stat-sub">${t('totalEarned')}</div></div>
-        <div class="stat-card"><div class="stat-glow stat-glow-purple"></div><div class="stat-label">${t('completed')}</div><div class="stat-value">${S.completedTasks}</div><div class="stat-sub">${t('tasksDone')}</div></div>
-        <div class="stat-card"><div class="stat-glow stat-glow-orange"></div><div class="stat-label">${t('level')} / ${t('score')}</div><div class="stat-value">${S.level}</div><div class="stat-sub">${myScore.toLocaleString()} ${t('pts')}</div></div>
+        <div class="stat-card"><div class="stat-glow stat-glow-green"></div><div class="stat-label">${t('balance')}</div><div class="stat-value" style="color:var(--primary)">${Number(S.balance||0).toLocaleString()} <span style="font-size:12px;">coins</span></div><div class="stat-sub">${t('available')}</div></div>
+        <div class="stat-card"><div class="stat-glow stat-glow-blue"></div><div class="stat-label">${t('earnings')}</div><div class="stat-value">${Number(S.earnings||0).toLocaleString()} <span style="font-size:12px;">coins</span></div><div class="stat-sub">${t('totalEarned')}</div></div>
+        <div class="stat-card"><div class="stat-glow stat-glow-purple"></div><div class="stat-label">${t('completed')}</div><div class="stat-value">${S.completedTasks||0}</div><div class="stat-sub">${t('tasksDone')}</div></div>
+        <div class="stat-card"><div class="stat-glow stat-glow-orange"></div><div class="stat-label">${t('level')} / ${t('score')}</div><div class="stat-value">${S.level||1}</div><div class="stat-sub">${myScore.toLocaleString()} ${t('pts')}</div></div>
       </div>
 
       <!-- XP bar -->
       <div class="card card-sm" style="margin-bottom:20px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
           <span style="font-size:13px;font-weight:700;">${t('xpProgress')}</span>
-          <span style="font-size:12px;color:var(--muted);">${S.xp%1000}/1000 XP → ${t('level')} ${S.level+1}</span>
+          <span style="font-size:12px;color:var(--muted);">${(S.xp||0)%1000}/1000 XP → Lvl ${(S.level||1)+1}</span>
         </div>
         <div class="xp-bar-wrap"><div class="xp-bar" style="width:${xpPct}%"></div></div>
       </div>
+
+      <!-- Level Privileges -->
+      ${(()=>{
+        const priv=getLvlPriv(S.level);
+        const next=S.level<12?getLvlPriv(S.level+1):null;
+        return `
+      <div class="card" style="margin-bottom:20px;border-color:rgba(184,255,92,.2);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div class="section-title" style="margin-bottom:0;">🎯 ${t('lvlPrivileges')}</div>
+          <div style="font-size:14px;font-weight:800;">${priv.badge} ${t(priv.titleKey)} · Lv ${S.level}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;">
+          <div class="card-flat" style="padding:12px;">
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">📋 ${t('lvlMaxTasks')}</div>
+            <div style="font-size:18px;font-weight:800;color:var(--primary);">${priv.maxTasks>=999?'∞':priv.maxTasks}</div>
+          </div>
+          <div class="card-flat" style="padding:12px;">
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">🛠 ${t('lvlCreateTasks')}</div>
+            <div style="font-size:14px;font-weight:700;color:${priv.canCreate?'var(--success)':'var(--danger)'};">${priv.canCreate?t('lvlUnlocked'):t('lvlLocked')}</div>
+            ${!priv.canCreate?`<div style="font-size:11px;color:var(--muted);margin-top:2px;">${t('lvlUnlocksAt')} 3</div>`:''}
+          </div>
+          <div class="card-flat" style="padding:12px;">
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">💰 ${t('lvlMaxReward')}</div>
+            <div style="font-size:14px;font-weight:700;color:var(--info);">${priv.canCreate?priv.maxReward.toLocaleString()+' coins':'—'}</div>
+          </div>
+          <div class="card-flat" style="padding:12px;">
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">⚔️ ${t('lvlDifficulty')}</div>
+            <div style="font-size:14px;font-weight:700;">${diffLabel(priv.takeDiff)}</div>
+          </div>
+          <div class="card-flat" style="padding:12px;">
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">📸 ${t('lvlFeedMedia')}</div>
+            <div style="font-size:14px;font-weight:700;">${feedMediaLabel(priv.feedMedia)}</div>
+          </div>
+          <div class="card-flat" style="padding:12px;">
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">💬 ${t('chatRooms')}</div>
+            <div style="font-size:14px;font-weight:700;">${S.level>=9?'💎 '+t('diamondRoom'):S.level>=6?'🟡 '+t('goldRoom'):S.level>=3?'⚪ '+t('silverRoom'):'🌐 '+t('bronzeRoom')}</div>
+          </div>
+        </div>
+        ${next?`
+        <div style="margin-top:14px;padding:12px;background:rgba(184,255,92,.05);border-radius:12px;border:1px dashed rgba(184,255,92,.15);">
+          <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:8px;">🔮 ${t('lvlNextLevel')}: ${next.badge} ${t(next.titleKey)} · Lv ${S.level+1}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--text-soft);">
+            ${next.maxTasks>priv.maxTasks?`<span>📋 ${t('lvlMaxTasks')}: ${next.maxTasks>=999?'∞':next.maxTasks}</span>`:''}
+            ${next.canCreate&&!priv.canCreate?`<span>🛠 ${t('lvlCreateTasks')}: ${t('lvlUnlocked')}</span>`:''}
+            ${next.maxReward>priv.maxReward?`<span>💰 ${t('lvlMaxReward')}: ${next.maxReward.toLocaleString()}</span>`:''}
+            ${next.takeDiff.length>priv.takeDiff.length?`<span>⚔️ ${diffLabel(next.takeDiff)}</span>`:''}
+            ${next.feedMedia!==priv.feedMedia?`<span>📸 ${feedMediaLabel(next.feedMedia)}</span>`:''}
+          </div>
+        </div>
+        `:''}
+      </div>`;
+      })()}
 
       <div class="two-col" style="margin-bottom:20px;">
         <!-- Quick actions -->
@@ -1535,8 +1721,8 @@ function renderDashboard(el){
         <div class="card">
           <div class="section-title">🏅 ${t('achievements')}</div>
           <div style="display:flex;flex-wrap:wrap;gap:7px;">
-            ${(S.achievements||[]).map(a=>`<span class="achievement">🎖 ${esc(a)}</span>`).join('')}
-            ${S.completedTasks>=5&&!(S.achievements||[]).includes('Lvl Climb')?'<span class="achievement">🚀 Lvl Climb</span>':''}
+            ${S.achievements.map(a=>`<span class="achievement">🎖 ${esc(a)}</span>`).join('')}
+            ${S.completedTasks>=5&&!S.achievements.includes('Lvl Climb')?'<span class="achievement">🚀 Lvl Climb</span>':''}
           </div>
         </div>
       </div>
@@ -1601,10 +1787,10 @@ function renderDashboard(el){
 function renderTasks(el){
   let filterStatus='all', filterCat='all', searchQ='';
   function filtered(){
-    return (S.tasks||[]).filter(t=>{
-      if(filterStatus!=='all'&&t.status!==filterStatus)return false;
-      if(filterCat!=='all'&&t.category!==filterCat)return false;
-      if(searchQ&&!t.title.toLowerCase().includes(searchQ.toLowerCase()))return false;
+    return (S.tasks||[]).filter(task=>{
+      if(filterStatus!=='all'&&task.status!==filterStatus)return false;
+      if(filterCat!=='all'&&task.category!==filterCat)return false;
+      if(searchQ&&!task.title.toLowerCase().includes(searchQ.toLowerCase()))return false;
       return true;
     });
   }
@@ -1628,14 +1814,16 @@ function renderTasks(el){
         ?Number(task.slotsLeft)
         :Math.max(0,slotsTotal-takenSlots);
       const myAssignmentStatus=task.my_assignment_status||null;
-      const canTake=!isGuest&&task.status!=='completed'&&task.status!=='cancelled'&&slotsLeft>0&&currentUser&&!isOwner&&!myAssignmentStatus&&!participantsList.includes(currentUser.username);
+      const lvlPriv=getLvlPriv(S.level);
+      const diffAllowed=isGuest||lvlPriv.takeDiff.includes(task.difficulty||'easy');
+      const canTake=!isGuest&&task.status!=='completed'&&task.status!=='cancelled'&&slotsLeft>0&&currentUser&&!isOwner&&!myAssignmentStatus&&!participantsList.includes(currentUser.username)&&diffAllowed;
       const canSubmit=!isGuest&&currentUser&&(myAssignmentStatus==='taken'||participantsList.includes(currentUser.username)&&task.status==='in_progress');
       const canApprove=!isGuest&&isOwner&&Number(task.pending_submissions||0)>0;
       return `<div class="task-card" data-tid="${task.id}">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
           <div style="display:flex;gap:6px;flex-wrap:wrap;">
             <span class="badge badge-${task.status}">${task.status==='open'?t('open'):task.status==='in_progress'?t('inProgress'):task.status==='completed'?t('completed'):t('cancelled')}</span>
-            <span class="badge badge-${task.difficulty}">${t(task.difficulty)}</span>
+            <span class="badge badge-${task.difficulty}">${t(task.difficulty)}${!diffAllowed?' 🔒':''}</span>
           </div>
           <div class="task-reward">${task.reward}<span>coins</span></div>
         </div>
@@ -1650,7 +1838,7 @@ function renderTasks(el){
         <div class="task-footer">
           <span class="text-xs text-muted">${t('byUser')} ${esc(task.owner)}</span>
           <div style="display:flex;gap:7px;">
-            ${canTake?`<button class="btn btn-primary btn-xs take-btn" data-tid="${task.id}">${t('takeTask')}</button>`:''}
+            ${canTake?`<button class="btn btn-primary btn-xs take-btn" data-tid="${task.id}">${t('takeTask')}</button>`:''}${!isGuest&&!diffAllowed&&task.status==='open'?`<span style="font-size:11px;color:var(--warning);">🔒 ${t('lvlDiffLocked')}</span>`:''}
             ${canSubmit?`<button class="btn btn-success btn-xs complete-btn" data-tid="${task.id}">${t('completeTask')}</button>`:''}
             ${canApprove?`<button class="btn btn-info btn-xs approve-btn" data-tid="${task.id}">${t('confirm')}</button>`:''}
           </div>
@@ -1667,7 +1855,10 @@ function renderTasks(el){
     <div class="fade-up">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
         <h1 style="font-size:20px;font-weight:900;">${t('tasks')}</h1>
-        <button class="btn btn-primary btn-sm" id="openCreateTaskBtn">+ ${t('createTask')}</button>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:12px;color:var(--muted);">${getLvlPriv(S.level).badge} Lv ${S.level} · ${t('lvlMaxTasks')}: ${getLvlPriv(S.level).maxTasks>=999?'∞':getLvlPriv(S.level).maxTasks}</span>
+          <button class="btn btn-primary btn-sm" id="openCreateTaskBtn" ${!isGuest&&!getLvlPriv(S.level).canCreate?'style="opacity:.5;"':''}>${getLvlPriv(S.level).canCreate?'+ '+t('createTask'):'🔒 Lv 3'}</button>
+        </div>
       </div>
       <!-- Search + filters -->
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
@@ -1702,7 +1893,7 @@ function renderTasks(el){
 
 async function takeTask(tid){
   if(isGuest){toast(t('guestRegTask'),'warning');return;}
-  const task=S.tasks.find(t=>String(t.id)===String(tid));
+  const task=(S.tasks||[]).find(task=>String(task.id)===String(tid));
   const serverTaskId=Number(tid);
 
   if(!Number.isInteger(serverTaskId) || serverTaskId<=0){
@@ -1721,7 +1912,7 @@ async function takeTask(tid){
 }
 
 async function completeTask(tid,action='submit'){
-  const task=S.tasks.find(t=>String(t.id)===String(tid));
+  const task=(S.tasks||[]).find(task=>String(task.id)===String(tid));
   const serverTaskId=Number(tid);
 
   if(!Number.isInteger(serverTaskId) || serverTaskId<=0){
@@ -1750,10 +1941,30 @@ function renderCreateTask(el){
   el.innerHTML=`
     <div class="fade-up" style="max-width:900px;">
       <h1 style="font-size:20px;font-weight:900;margin-bottom:20px;">${t('createTask')}</h1>
+      ${(()=>{
+        const priv=getLvlPriv(S.level);
+        if(!isGuest && !priv.canCreate) return `
+          <div class="card" style="margin-bottom:20px;background:rgba(255,100,100,.06);border-color:rgba(255,100,100,.2);">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="font-size:32px;">🔒</div>
+              <div>
+                <div style="font-size:15px;font-weight:800;margin-bottom:4px;">${t('lvlCreateLocked')}</div>
+                <div style="font-size:13px;color:var(--muted);">${t('lvlYourLevel')}: ${priv.badge} Lv ${S.level} · ${t('lvlUpgrade')}</div>
+                <button class="btn btn-primary btn-sm" style="margin-top:8px;" id="goToDashForLvl">${t('earnPoints')} →</button>
+              </div>
+            </div>
+          </div>`;
+        return priv.canCreate ? `
+          <div class="card-flat" style="padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);">
+            <span>${priv.badge} Lv ${S.level}</span>
+            <span>·</span>
+            <span>${t('lvlMaxReward')}: <b style="color:var(--primary);">${priv.maxReward.toLocaleString()} coins</b></span>
+          </div>` : '';
+      })()}
       <div class="two-col">
         <div class="card">
           <div id="ctAlert" class="alert" style="margin-bottom:14px;"></div>
-          <form id="createTaskForm" style="display:flex;flex-direction:column;gap:16px;">
+          <form id="createTaskForm" style="display:flex;flex-direction:column;gap:16px;${(!isGuest&&!getLvlPriv(S.level).canCreate)?'opacity:.4;pointer-events:none;':''}">
             <div class="form-group"><label class="form-label">${t('titleLabel')} *</label><input type="text" id="ctTitle" class="form-input" placeholder="${t('titlePlaceholder')}" maxlength="120" required></div>
             <div class="form-group"><label class="form-label">${t('description')} *</label><textarea id="ctDesc" class="form-textarea" rows="4" placeholder="${t('descPlaceholder')}" required></textarea></div>
             <div class="form-row">
@@ -1826,143 +2037,254 @@ function renderCreateTask(el){
     loadTasks('my');
     navigate('tasks');
   });
+  document.getElementById('goToDashForLvl')?.addEventListener('click',()=>navigate('dashboard'));
 }
 
-/* ── 18. FEED ────────────────────────────────────────────────── */
+/* ── 18. FEED (TikTok-like) ───────────────────────────────────── */
 function renderFeed(el){
-  if(isGuest){
-    el.innerHTML=`
-      <div class="fade-up">
-        <div class="card" style="background:linear-gradient(135deg,rgba(184,255,92,.08),rgba(125,215,255,.04));border-color:rgba(184,255,92,.15);">
-          <div class="empty">
-            <div class="empty-icon">📡</div>
-            <h3>${t('feed')}</h3>
-            <p>${t('feedGuestMsg')}</p>
-            <button class="btn btn-primary btn-sm" id="guestRegisterFeed">${t('register')}</button>
-          </div>
-        </div>
-      </div>`;
-    document.getElementById('guestRegisterFeed')?.addEventListener('click',()=>renderAuth('register'));
-    return;
+  let feedFilter='all'; // 'all' | 'my'
+  const expandedPosts=new Set();
+  const todayPosts = S.feedTodayPosts||0;
+  const maxPosts = S.feedMaxPostsDay||3;
+  const postsLeft = Math.max(0, maxPosts - todayPosts);
+
+  function getPostsList(){
+    const posts=S.feedPosts||[];
+    if(feedFilter==='my' && currentUser) return posts.filter(p=>Number(p.user_id)===Number(currentUser.id));
+    return posts;
   }
 
-  let filter='all';
-  const meId=Number(currentUser?.id||0);
-  function filtered(){
-    if(filter==='mine') return S.feed.filter(p=>p.userId===meId);
-    return filter==='all'?S.feed:S.feed.filter(p=>p.type===filter);
-  }
-
-  function renderCards(){
-    const list=filtered();
+  function renderPostCards(){
+    const list=getPostsList();
     const c=document.getElementById('feedCards');
     if(!c)return;
-    if(!list.length){c.innerHTML=`<div class="empty"><div class="empty-icon">📡</div><h3>${t('noPosts')}</h3></div>`;return;}
-    c.innerHTML=list.map(p=>`
-      <div class="feed-card">
+    if(!list.length){
+      c.innerHTML=`<div class="empty"><div class="empty-icon">📡</div><h3>${t('noPosts')}</h3></div>`;
+      return;
+    }
+    const isMe=id=>currentUser && Number(id)===Number(currentUser.id);
+    c.innerHTML=list.map(p=>{
+      const expanded=expandedPosts.has(p.id);
+      const textLen=(p.text||'').length;
+      return `
+      <div class="feed-card" style="border-radius:16px;overflow:hidden;">
         <div class="feed-header">
-          <div class="feed-av">${esc(p.av||(p.author||'?').charAt(0))}</div>
-          <div style="flex:1"><div class="feed-author">${esc(p.author||'')}</div><div class="feed-time">${fmtAgo(p.timestamp)}</div></div>
-          ${p.userId===meId?`<button class="action-btn" data-del="${p.id}" title="${t('feedDeletePost')}">🗑</button>`:''}
-          <span class="badge badge-${p.type==='task'?'open':p.type==='wallet'?'in_progress':'completed'}">${p.type==='task'?t('tasks'):p.type==='achievement'?t('achievements'):p.type==='wallet'?t('wallet'):t('feed')}</span>
+          <div class="feed-av">${esc((p.username||'?').charAt(0).toUpperCase())}</div>
+          <div style="flex:1">
+            <div class="feed-author">@${esc(p.username||'user')} ${p.level?`<span style="font-size:11px;color:var(--muted);">Lv${p.level}</span>`:''}</div>
+            <div class="feed-time">${fmtAgo(p.created_at)}</div>
+          </div>
+          ${isMe(p.user_id)?`<button class="action-btn" data-delete-post="${p.id}" title="${t('deletePost')}" style="color:var(--danger);font-size:14px;">🗑</button>`:''}
         </div>
-        ${p.hasMedia?`<div class="feed-media" style="background:linear-gradient(135deg,rgba(184,255,92,.05),rgba(125,215,255,.04));display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;">📷 ${t('mediaPreview')}</div>`:''}
-        <div class="feed-text" style="${!p.expanded&&(p.text||'').length>160?'display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text||'')}</div>
-        ${(p.text||'').length>160?`<button class="action-btn" data-expand="${p.id}">${p.expanded?t('showLess'):t('readMore')}</button>`:''}
+        ${p.media_url?`
+          <div class="feed-media" style="border-radius:12px;overflow:hidden;margin:8px 0;">
+            ${p.media_type==='video'?`
+              <video src="${esc(p.media_url)}" controls playsinline preload="metadata"
+                style="width:100%;max-height:500px;object-fit:contain;background:#000;border-radius:12px;"></video>
+            `:`
+              <img src="${esc(p.media_url)}" alt="" loading="lazy"
+                style="width:100%;max-height:500px;object-fit:cover;border-radius:12px;">
+            `}
+          </div>
+        `:''}
+        <div class="feed-text" style="${!expanded&&textLen>200?'display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text)}</div>
+        ${textLen>200?`<button class="action-btn" data-expand-post="${p.id}">${expanded?t('showLess'):t('readMore')}</button>`:''}
         <div class="feed-actions">
-          <button class="action-btn${p.liked?' liked':''}" data-like="${p.id}">❤ ${p.likes}</button>
-          <button class="action-btn${p.bookmarked?' bookmarked':''}" data-bm="${p.id}">🔖 ${p.bookmarked?t('saved'):t('save')}</button>
+          <button class="action-btn${p.liked_by_me?' liked':''}" data-like-post="${p.id}">❤ ${Number(p.likes_count||0)}</button>
         </div>
-      </div>`).join('');
+      </div>`;
+    }).join('');
 
-    // Like via API
-    c.querySelectorAll('[data-like]').forEach(b=>b.addEventListener('click',async()=>{
-      const f=S.feed.find(x=>x.id===b.dataset.like);if(!f)return;
-      const action=f.liked?'unlike':'like';
-      const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({action,post_id:Number(f.id)})});
-      if(ok){
-        f.liked=!f.liked;
-        f.likes=typeof data.likes_count==='number'?data.likes_count:(f.likes+(f.liked?1:-1));
-        saveState();renderCards();
-      } else {
-        // Fallback local toggle for better UX
-        f.liked=!f.liked;f.likes+=f.liked?1:-1;saveState();renderCards();
-      }
+    // Like
+    c.querySelectorAll('[data-like-post]').forEach(b=>b.addEventListener('click',async()=>{
+      if(isGuest){toast(t('guestFeed'),'error');return;}
+      const postId=Number(b.dataset.likePost);
+      const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({action:'like',post_id:postId})});
+      if(!ok){toast(data.message||'Error','error');return;}
+      const fp=(S.feedPosts||[]).find(x=>x.id===postId);
+      if(fp){fp.liked_by_me=data.liked;fp.likes_count=data.likes_count;}
+      saveState();renderPostCards();
     }));
-    // Bookmark (local only)
-    c.querySelectorAll('[data-bm]').forEach(b=>b.addEventListener('click',()=>{
-      const f=S.feed.find(x=>x.id===b.dataset.bm);if(!f)return;
-      f.bookmarked=!f.bookmarked;saveState();renderCards();
+    // Expand
+    c.querySelectorAll('[data-expand-post]').forEach(b=>b.addEventListener('click',()=>{
+      const pid=Number(b.dataset.expandPost);
+      if(expandedPosts.has(pid)) expandedPosts.delete(pid); else expandedPosts.add(pid);
+      renderPostCards();
     }));
-    // Expand text
-    c.querySelectorAll('[data-expand]').forEach(b=>b.addEventListener('click',()=>{
-      const f=S.feed.find(x=>x.id===b.dataset.expand);if(!f)return;
-      f.expanded=!f.expanded;saveState();renderCards();
+    // Delete
+    c.querySelectorAll('[data-delete-post]').forEach(b=>b.addEventListener('click',async()=>{
+      if(!confirm(t('confirmDelete')))return;
+      const postId=Number(b.dataset.deletePost);
+      const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({action:'delete',post_id:postId})});
+      if(!ok){toast(data.message||'Error','error');return;}
+      S.feedPosts=(S.feedPosts||[]).filter(x=>x.id!==postId);
+      saveState();toast(t('postDeleted'),'success');renderPostCards();
     }));
     // Delete own post
     c.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',async()=>{
-      if(!confirm(t('feedDeleteConfirm')))return;
       const pid=b.dataset.del;
-      const {ok}=await apiFetch(`${API.feed}?id=${pid}`,{method:'DELETE'});
-      if(ok){
-        S.feed=S.feed.filter(x=>x.id!==pid);
-        saveState();renderCards();
-        toast(t('feedDeletePost'),'info');
-      }
+      try{
+        const {ok}=await apiFetch(API.feed+'?id='+pid,{method:'DELETE'});
+        if(ok){
+          S.feed=S.feed.filter(x=>x.id!==pid);saveState();renderCards();
+          toast('Deleted','success');
+        }
+      }catch(e){}
     }));
   }
 
-  el.innerHTML=`
-    <div class="fade-up" style="max-width:680px;">
-      <!-- Create post form -->
-      <div class="card" style="margin-bottom:18px;">
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-          <div class="user-av" style="width:36px;height:36px;font-size:14px;flex-shrink:0;">${(currentUser?.name||'?').charAt(0).toUpperCase()}</div>
-          <div style="flex:1">
-            <textarea id="feedPostText" class="form-textarea" rows="2" maxlength="2000" placeholder="${t('feedWritePost')}" style="resize:vertical;"></textarea>
-            <div style="display:flex;justify-content:flex-end;margin-top:8px;">
-              <button id="feedPostBtn" class="btn btn-primary btn-sm"><span class="btn-txt">${t('feedPostBtn')}</span></button>
+  const feedPriv = typeof getLvlPriv === 'function' ? getLvlPriv(S.level) : {badge:'🌱',feedMedia:'none'};
+
+  // Create post form (only for logged in users)
+  const createForm=isGuest?`
+    <div class="card" style="text-align:center;padding:20px;">
+      <p style="color:var(--muted);margin-bottom:12px;">${t('guestFeed')}</p>
+      <button class="btn btn-primary btn-sm" id="guestRegFeed">${t('register')}</button>
+    </div>
+  `:`
+    <!-- Rewards info bar -->
+    <div class="card" style="margin-bottom:14px;padding:14px;border-color:rgba(184,255,92,.15);">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+        <div class="section-title" style="margin-bottom:0;">🎁 ${t('feedRewards')}</div>
+        <div style="font-size:12px;color:var(--muted);">${feedPriv.badge} Lv ${S.level||1} · ${t('lvlFeedMedia')}: <b style="color:var(--primary);">${typeof feedMediaLabel==='function'?feedMediaLabel(feedPriv.feedMedia):feedPriv.feedMedia}</b></div>
+      </div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px;">
+        <span style="color:var(--success);font-weight:700;">📝 ${t('feedPostXp')}</span>
+        <span style="color:var(--info);font-weight:700;">❤️ ${t('feedLikeXp')}</span>
+        <span style="color:var(--muted);">📊 ${todayPosts}/${maxPosts} ${t('feedDailyLimit')} · ${postsLeft} ${t('feedPostsLeft')}</span>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:16px;">
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div class="user-av" style="width:38px;height:38px;font-size:14px;flex-shrink:0;">${(currentUser.name||'?').charAt(0).toUpperCase()}</div>
+        <div style="flex:1;">
+          <textarea id="feedPostText" class="form-textarea" rows="3" maxlength="2000" placeholder="${t('postPlaceholder')}" style="resize:vertical;"></textarea>
+          <div id="feedMediaSection" style="display:none;margin-top:8px;">
+            <div style="display:flex;gap:8px;margin-bottom:6px;">
+              <button class="chip" id="feedMediaImage" data-mt="image">📷 ${t('postImage')}</button>
+              <button class="chip" id="feedMediaVideo" data-mt="video">🎥 ${t('postVideo')}</button>
             </div>
+            <input id="feedMediaUrl" class="form-input" type="url" placeholder="${t('mediaUrlPlaceholder')}" style="font-size:13px;">
+            <div id="feedMediaPreview" style="margin-top:8px;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+            <button class="btn btn-ghost btn-sm" id="feedToggleMedia">📎 ${t('addMedia')}</button>
+            <button class="btn btn-primary btn-sm" id="feedPublishBtn"><span class="btn-txt">${postsLeft>0?`🚀 ${t('publishPost')} (+${S.feedXpPerPost||5} XP)`:t('publishPost')}</span></button>
           </div>
         </div>
       </div>
-      <!-- Filters -->
-      <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;" id="feedFilters">
+    </div>
+  `;
+
+  el.innerHTML=`
+    <div class="fade-up" style="max-width:680px;">
+      ${createForm}
+      <div style="display:flex;gap:8px;margin-bottom:14px;" id="feedFilters">
         <button class="chip active" data-ft="all">${t('all')}</button>
-        <button class="chip" data-ft="task">${t('tasks')}</button>
-        <button class="chip" data-ft="achievement">${t('achievements')}</button>
-        <button class="chip" data-ft="wallet">${t('wallet')}</button>
-        <button class="chip" data-ft="mine">${t('feedMyPosts')}</button>
+        ${!isGuest?`<button class="chip" data-ft="my">${t('myPosts')}</button>`:''}
       </div>
-      <!-- Cards -->
       <div style="display:flex;flex-direction:column;gap:14px;" id="feedCards"></div>
+      ${S.feedHasMore?`<div style="text-align:center;margin-top:16px;"><button class="btn btn-ghost btn-sm" id="feedLoadMoreBtn">${t('feedLoadMore')}</button></div>`:''}
     </div>`;
 
-  renderCards();
+  renderPostCards();
 
-  // Create post handler
-  document.getElementById('feedPostBtn')?.addEventListener('click',async()=>{
+  // Guest register
+  document.getElementById('guestRegFeed')?.addEventListener('click',()=>renderAuth('register'));
+
+  // Post creation (if form exists)
+  document.getElementById('feedPublishBtn')?.addEventListener('click',async()=>{
+    if(isGuest){toast(t('guestFeed'),'warning');return;}
     const text=document.getElementById('feedPostText')?.value?.trim();
-    if(!text){toast(t('required'),'error');return;}
-    const btn=document.getElementById('feedPostBtn');
-    setLoading(btn,true);
-    const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({action:'create',content:text,category:'other'})});
-    setLoading(btn,false);
-    if(ok){
-      document.getElementById('feedPostText').value='';
-      await loadFeed();
-      renderCards();
-      toast(t('feedPostBtn'),'success');
-    } else {
-      toast(data.message||'Error','error');
+    if(!text||text.length<3){toast(t('required'),'warning');return;}
+    const mediaUrl=document.getElementById('feedMediaUrl')?.value?.trim()||'';
+    const mediaType=document.getElementById('feedMediaType')?.value||document.querySelector('[data-mt].active')?.dataset?.mt||'';
+    const btn=document.getElementById('feedPublishBtn');
+    if(btn)btn.disabled=true;
+    try{
+      const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({
+        action:'create', text, media_url:mediaUrl, media_type:mediaType, post_type:'text'
+      })});
+      if(ok){
+        toast(data.message||t('feedPostSuccess'),'success');
+        if(data.xp_earned>0){
+          S.xp=data.xp||S.xp; S.level=data.level||S.level;
+        }
+        S.feedTodayPosts=data.posts_today||((S.feedTodayPosts||0)+1);
+        document.getElementById('feedPostText').value='';
+        if(document.getElementById('feedMediaUrl'))document.getElementById('feedMediaUrl').value='';
+        await loadFeed();
+        navigate('feed');
+      }else{
+        toast(data.message||'Error','error');
+      }
+    }catch(err){
+      toast('Network error','error');
+    }finally{
+      if(btn)btn.disabled=false;
     }
   });
 
-  // Filter handler
+  // Filter tabs
   document.getElementById('feedFilters')?.addEventListener('click',e=>{
     const btn=e.target.closest('[data-ft]');if(!btn)return;
     document.querySelectorAll('#feedFilters .chip').forEach(c=>c.classList.remove('active'));
-    btn.classList.add('active');filter=btn.dataset.ft;renderCards();
+    btn.classList.add('active');feedFilter=btn.dataset.ft;renderPostCards();
+  });
+
+  // Load more
+  document.getElementById('feedLoadMoreBtn')?.addEventListener('click',async()=>{
+    await loadFeed(S.feedPage+1, true);
+    navigate('feed');
+  });
+
+  // Media toggle
+  let mediaType='image';
+  document.getElementById('feedToggleMedia')?.addEventListener('click',()=>{
+    const sec=document.getElementById('feedMediaSection');
+    if(sec) sec.style.display=sec.style.display==='none'?'block':'none';
+  });
+  document.querySelectorAll('#feedMediaImage,#feedMediaVideo').forEach(b=>b.addEventListener('click',()=>{
+    mediaType=b.dataset.mt;
+    document.querySelectorAll('#feedMediaSection .chip').forEach(c=>c.classList.remove('active'));
+    b.classList.add('active');
+    // Show preview
+    const url=(document.getElementById('feedMediaUrl')?.value||'').trim();
+    showMediaPreview(url, mediaType);
+  }));
+  document.getElementById('feedMediaUrl')?.addEventListener('input',e=>{
+    showMediaPreview(e.target.value.trim(), mediaType);
+  });
+
+  function showMediaPreview(url, type){
+    const prev=document.getElementById('feedMediaPreview');
+    if(!prev)return;
+    if(!url){prev.innerHTML='';return;}
+    if(type==='video'){
+      prev.innerHTML=`<video src="${esc(url)}" controls preload="metadata" style="width:100%;max-height:200px;border-radius:8px;background:#000;"></video>`;
+    } else {
+      prev.innerHTML=`<img src="${esc(url)}" alt="" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;" onerror="this.style.display='none'">`;
+    }
+  }
+
+  // Publish
+  document.getElementById('feedPublishBtn')?.addEventListener('click',async()=>{
+    const text=(document.getElementById('feedPostText')?.value||'').trim();
+    if(!text){toast(t('required'),'error');return;}
+    const mediaUrl=(document.getElementById('feedMediaUrl')?.value||'').trim();
+    const mediaSec=document.getElementById('feedMediaSection');
+    const hasMedia=mediaSec && mediaSec.style.display!=='none' && mediaUrl;
+    const btn=document.getElementById('feedPublishBtn');
+    setLoading(btn,true);
+    const body={action:'create',text};
+    if(hasMedia){body.media_url=mediaUrl;body.media_type=mediaType;}
+    const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify(body)});
+    setLoading(btn,false);
+    if(!ok){toast(data.message||'Error','error');return;}
+    // Prepend new post
+    if(data.post) S.feedPosts=[(data.post),...(S.feedPosts||[])];
+    saveState();toast(t('postCreated'),'success');
+    navigate('feed');
   });
 }
 
@@ -2083,9 +2405,9 @@ function renderWallet(el){
           <div class="wallet-balance-label">${t('balance')}</div>
           <div class="wallet-balance"><sup>🪙</sup>${Number(S.balance||0).toLocaleString()}</div>
           <div style="display:flex;gap:20px;margin-top:14px;flex-wrap:wrap;">
-          <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">${t('earnings')}</div><div style="font-size:18px;font-weight:800;color:var(--success);">${S.earnings.toLocaleString()} 🪙</div></div>
-          <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">${t('spent')}</div><div style="font-size:18px;font-weight:800;color:var(--danger);">${S.spent.toLocaleString()} 🪙</div></div>
-          <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">${t('pending')}</div><div style="font-size:18px;font-weight:800;color:var(--warning);">${S.pending.toLocaleString()} 🪙</div></div>
+          <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">${t('earnings')}</div><div style="font-size:18px;font-weight:800;color:var(--success);">${Number(S.earnings||0).toLocaleString()} 🪙</div></div>
+          <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">${t('spent')}</div><div style="font-size:18px;font-weight:800;color:var(--danger);">${Number(S.spent||0).toLocaleString()} 🪙</div></div>
+          <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">${t('pending')}</div><div style="font-size:18px;font-weight:800;color:var(--warning);">${Number(S.pending||0).toLocaleString()} 🪙</div></div>
           </div>
           <div class="wallet-actions">
             <button class="btn btn-primary btn-sm" id="buyCoinsBtn">₮ Buy with USDT</button>
@@ -2329,7 +2651,7 @@ function renderChat(el){
   }
   const rooms=(S.chatRooms||[]);
   const activeTier=Number(S.activeRoomTier||1);
-  const activeRoom=rooms.find(r=>Number(r.tier)===activeTier) || rooms[0];
+  const activeRoom=rooms.find(r=>Number(r.tier)===activeTier) || rooms[0] || null;
   const messages=(S.chatRoomMessages||[]);
 
   el.innerHTML=`
@@ -2340,8 +2662,7 @@ function renderChat(el){
           <div style="font-size:13px;color:var(--muted);">XP / LVL: <b>${Number(S.xp||0).toLocaleString()} XP · Lv ${Number(S.level||1)}</b></div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
-          <input id="buyPointsPacks" type="number" min="1" max="100" value="1" class="form-input" style="width:90px;">
-          <button id="buyPointsBtn" class="btn btn-ghost btn-sm">${t('buyPoints')}</button>
+          <input id="buyPointsPacksChat" type="number" min="1" max="100" value="1" class="form-input" style="width:90px;">          <button id="buyPointsBtn" class="btn btn-ghost btn-sm">${t('buyPoints')}</button>
         </div>
       </div>
 
@@ -2541,7 +2862,7 @@ function renderSupport(el){
 /* ── 22. PROFILE ─────────────────────────────────────────────── */
 function renderProfile(el){
   const myScore=calcScore({earnings:S.earnings,completedTasks:S.completedTasks,streak:S.streak,level:S.level,xp:S.xp});
-  const xpPct=Math.min(100,Math.round((S.xp%1000)/10));
+  const xpPct=Math.min(100,Math.round(((S.xp||0)%1000)/10));
   const todayStr=new Date().toISOString().slice(0,10);
   const checkinSet=new Set((S.checkins||[]).map(ci=>ci.checkin_date));
   const last30=Array.from({length:30},(_,idx)=>{
@@ -2559,7 +2880,7 @@ function renderProfile(el){
         <div class="card-flat" style="padding:10px;"><div class="stat-label">${t('checkinStreak')}</div><div style="font-size:20px;font-weight:900;">${Number(S.checkinStreak||0)} 🔥</div></div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
-        <button id="dailyCheckinBtn" class="btn btn-${S.doneCheckinToday?'ghost':'success'} btn-sm" ${S.doneCheckinToday?'disabled':''}>${S.doneCheckinToday?t('checkinDone'):t('checkinBtn')}</button>
+        <button id="dailyCheckinBtn" class="btn btn-${S.doneCheckinToday?'ghost':'success'} btn-sm" ${S.doneCheckinToday?'disabled':''}>${S.doneCheckinToday?t('checkinDone'):'Check-in (+10 XP)'}</button>
         <input id="buyPointsPacks" type="number" min="1" max="100" value="1" class="form-input" style="width:90px;">
         <button id="buyPointsBtn" class="btn btn-ghost btn-sm">${t('buyPoints')}</button>
       </div>
@@ -2585,7 +2906,7 @@ function renderProfile(el){
     ? `<div class="card"><div class="section-title">👉 ${t('readyToStartQ')}</div><p style="font-size:14px;color:var(--text-soft);margin-bottom:14px;">${t('readyToStartDesc')}</p><button class="btn btn-primary btn-block" id="guestCreateBtn"><span class="btn-txt">${t('register')}</span></button></div>`
     : `<div class="card"><div class="section-title">✏️ ${t('editProfileTitle')}</div><form id="profileForm" style="display:flex;flex-direction:column;gap:14px;"><div class="form-group"><label class="form-label">${t('roleTitle')}</label><input type="text" id="pfRole" class="form-input" value="${esc(S.role||'')}" placeholder="${t('rolePlaceholder')}" maxlength="60"></div><div class="form-group"><label class="form-label">${t('bioLabel')}</label><textarea id="pfBio" class="form-textarea" rows="3" maxlength="500" placeholder="${t('bioPlaceholder')}">${esc(S.bio||'')}</textarea></div><div class="form-group"><label class="form-label">${t('skillsLabel')}</label><input type="text" id="pfSkills" class="form-input" value="${esc(S.skills||'')}" placeholder="${t('skillsPlaceholder')}"></div><button type="submit" class="btn btn-primary btn-block"><span class="btn-txt">${t('saveProfile')}</span></button></form></div>`;
 
-  const exchanger=isGuest?'':`<div class="card" style="margin-top:20px;"><div class="section-title">₮ ${t('exchangerTitle')}</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;"><div class="card-flat" style="padding:10px;"><div class="stat-label">${t('exchangerCoins')}</div><div style="font-weight:800;">${Number(S.coinBalance||0).toLocaleString()}</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">${t('exchangerRate')}</div><div style="font-weight:800;">${t('exchangerRateVal')}</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">${t('exchangerPending')}</div><div style="font-weight:800;">${Number(S.pendingCryptoCount||0)}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><input id="exchAmount" class="form-input" type="number" min="1" max="10000" placeholder="${t('exchangerUsdtAmount')}"><select id="exchNetwork" class="form-select"><option value="TRC20">TRC20</option><option value="BEP20">BEP20</option></select></div><div id="exchangeAlert" class="alert" style="margin-top:10px;"></div><button id="exchInitBtn" class="btn btn-primary btn-block" style="margin-top:10px;"><span class="btn-txt">${t('exchangerGetAddr')}</span></button><div id="exchangeStep2" style="margin-top:10px;"></div></div>`;
+  const exchanger=isGuest?'':`<div class="card" style="margin-top:20px;"><div class="section-title">₮ ${t('exchangerTitle')}</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;"><div class="card-flat" style="padding:10px;"><div class="stat-label">Coins</div><div style="font-weight:800;">${Number(S.coinBalance||0).toLocaleString()}</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">Rate</div><div style="font-weight:800;">1 USDT = 100 🪙</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">${t('pending')}</div><div style="font-weight:800;">${Number(S.pendingCryptoCount||0)}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><input id="exchAmount" class="form-input" type="number" min="1" max="10000" placeholder="USDT amount"><select id="exchNetwork" class="form-select"><option value="TRC20">TRC20</option><option value="BEP20">BEP20</option></select></div><div id="exchangeAlert" class="alert" style="margin-top:10px;"></div><button id="exchInitBtn" class="btn btn-primary btn-block" style="margin-top:10px;"><span class="btn-txt">${t('exchangerGetAddress')}</span></button><div id="exchangeStep2" style="margin-top:10px;"></div></div>`;
 
   el.innerHTML=`
     <div class="fade-up" style="max-width:800px;">
@@ -2599,12 +2920,12 @@ function renderProfile(el){
           </div>
           <div style="text-align:right">
             <div class="streak-badge"><span class="streak-fire">🔥</span>${S.streak} ${t('dayStreak')}</div>
-            <div style="font-size:12px;color:var(--muted);margin-top:4px;">${t('level')} ${S.level} · ${myScore.toLocaleString()} ${t('pts')}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px;">Lvl ${S.level} · ${myScore.toLocaleString()} ${t('pts')}</div>
           </div>
         </div>
         <div style="margin-top:16px;">
           <div style="display:flex;justify-content:space-between;margin-bottom:7px;font-size:12px;color:var(--muted);">
-            <span>${t('xpProgress')}</span><span>${S.xp%1000}/1000 XP</span>
+            <span>${t('xpProgress')}</span><span>${(S.xp||0)%1000}/1000 XP</span>
           </div>
           <div class="xp-bar-wrap"><div class="xp-bar" style="width:${xpPct}%"></div></div>
         </div>
@@ -2613,8 +2934,8 @@ function renderProfile(el){
       <div class="two-col">
         <div>
           <div class="stats-grid" style="margin-bottom:16px;">
-            <div class="stat-card"><div class="stat-glow stat-glow-green"></div><div class="stat-label">${t('earnings')}</div><div class="stat-value" style="font-size:22px;">${S.earnings.toLocaleString()} 🪙</div></div>
-            <div class="stat-card"><div class="stat-glow stat-glow-blue"></div><div class="stat-label">${t('completed')}</div><div class="stat-value" style="font-size:22px;">${S.completedTasks}</div></div>
+            <div class="stat-card"><div class="stat-glow stat-glow-green"></div><div class="stat-label">${t('earnings')}</div><div class="stat-value" style="font-size:22px;">${Number(S.earnings||0).toLocaleString()} 🪙</div></div>
+            <div class="stat-card"><div class="stat-glow stat-glow-blue"></div><div class="stat-label">${t('completed')}</div><div class="stat-value" style="font-size:22px;">${S.completedTasks||0}</div></div>
           </div>
           ${pointsCard}
           <div class="card card-sm">
@@ -2656,19 +2977,19 @@ function renderProfile(el){
     const amount=parseFloat(document.getElementById('exchAmount')?.value)||0;
     const network=document.getElementById('exchNetwork')?.value||'TRC20';
     const alertEl=document.getElementById('exchangeAlert');
-    if(amount<1||amount>10000){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent='Сума: від 1 до 10000 USDT';}return;}
+    if(amount<1||amount>10000){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=t('exchangerRange');}return;}
     const {ok,data}=await apiFetch(API.cryptoDeposit,{method:'POST',body:JSON.stringify({action:'initiate',amount_usdt:amount,network})});
-    if(!ok){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=data.message||'Помилка';}return;}
+    if(!ok){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=data.message||t('exchangerError');}return;}
     const step2=document.getElementById('exchangeStep2');
     if(step2){
-      step2.innerHTML=`<div class="card-flat" style="padding:10px;"><div style="font-size:12px;color:var(--muted);">Надішли ${Number(data.amount_usdt||amount)} USDT (${esc(data.network||network)}) на адресу:</div><div style="font-size:13px;font-weight:700;color:var(--primary);word-break:break-all;margin:6px 0;">${esc(data.wallet_address||'')}</div><input id="exchTxHash" class="form-input" placeholder="tx hash" style="margin-top:8px;"><button id="exchConfirmBtn" class="btn btn-success btn-block" style="margin-top:8px;">Підтвердити</button></div>`;
+      step2.innerHTML=`<div class="card-flat" style="padding:10px;"><div style="font-size:12px;color:var(--muted);">${t('exchangerSendTo')} ${Number(data.amount_usdt||amount)} USDT (${esc(data.network||network)}) ${t('exchangerToAddress')}</div><div style="font-size:13px;font-weight:700;color:var(--primary);word-break:break-all;margin:6px 0;">${esc(data.wallet_address||'')}</div><input id="exchTxHash" class="form-input" placeholder="tx hash" style="margin-top:8px;"><button id="exchConfirmBtn" class="btn btn-success btn-block" style="margin-top:8px;">${t('exchangerConfirm')}</button></div>`;
       document.getElementById('exchConfirmBtn')?.addEventListener('click',async()=>{
         const txHash=document.getElementById('exchTxHash')?.value?.trim();
         if(!txHash)return;
         const res=await apiFetch(API.cryptoDeposit,{method:'POST',body:JSON.stringify({action:'confirm',deposit_id:data.deposit_id,tx_hash:txHash})});
-        if(!res.ok){toast(res.data.message||'Помилка підтвердження','error');return;}
+        if(!res.ok){toast(res.data.message||t('exchangerConfirmError'),'error');return;}
         await loadWallet();
-        toast(res.data.message||'Депозит підтверджено','success');
+        toast(res.data.message||t('depositDone'),'success');
         navigate('profile');
       });
     }

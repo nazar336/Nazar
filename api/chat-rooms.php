@@ -7,13 +7,14 @@ if ($origin !== '' && parse_url($origin, PHP_URL_HOST) === $host) {
     header('Vary: Origin');
 }
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, X-CSRF-Token');
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
 
 require_once __DIR__ . '/bootstrap.php';
 start_secure_session();
+csrf_validate();
 
 if (!isset($_SESSION['user_id']) || (int)$_SESSION['user_id'] === 0) {
     json_response(['success' => false, 'message' => 'Not authenticated'], 401);
@@ -159,6 +160,14 @@ function handleGetMessages(PDO $pdo, int $userId, int $tier): never
     $stmt->execute();
     $msgs = array_reverse($stmt->fetchAll(PDO::FETCH_ASSOC));
 
+    // Sanitize message content to prevent XSS
+    foreach ($msgs as &$msg) {
+        $msg['message'] = htmlspecialchars((string)$msg['message'], ENT_QUOTES, 'UTF-8');
+        $msg['username'] = htmlspecialchars((string)$msg['username'], ENT_QUOTES, 'UTF-8');
+        $msg['name'] = htmlspecialchars((string)($msg['name'] ?? ''), ENT_QUOTES, 'UTF-8');
+    }
+    unset($msg);
+
     json_response([
         'success'    => true,
         'tier'       => $tier,
@@ -186,8 +195,13 @@ function handleSend(PDO $pdo, int $userId, array $input): never
         json_response(['success' => false, 'message' => 'Access denied'], 403);
     }
 
-    $cooldownStmt = $pdo->prepare('SELECT created_at FROM chat_room_messages WHERE user_id=:uid ORDER BY created_at DESC LIMIT 1');
-    $cooldownStmt->execute([':uid' => $userId]);
+    // Rate limit: max 60 messages per user per 5 min (across all rooms)
+    if (check_rate_limit($pdo, 'chat:' . $userId, 60, 5))
+        json_response(['success' => false, 'message' => 'You are sending messages too fast. Please slow down.'], 429);
+
+    // Per-room cooldown to prevent spam in a specific room
+    $cooldownStmt = $pdo->prepare('SELECT created_at FROM chat_room_messages WHERE user_id=:uid AND room_tier=:tier ORDER BY created_at DESC LIMIT 1');
+    $cooldownStmt->execute([':uid' => $userId, ':tier' => $tier]);
     $lastCreated = $cooldownStmt->fetchColumn();
     if ($lastCreated) {
         $seconds = time() - strtotime((string)$lastCreated);
@@ -201,12 +215,16 @@ function handleSend(PDO $pdo, int $userId, array $input): never
     $uStmt->execute([':uid' => $userId]);
     $username = (string)($uStmt->fetchColumn() ?? 'unknown');
 
+    // Sanitize message to prevent stored XSS
+    $sanitizedMessage = htmlspecialchars($message, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
     $pdo->prepare('
         INSERT INTO chat_room_messages (room_tier, user_id, username, message)
         VALUES (:tier, :uid, :uname, :msg)
-    ')->execute([':tier' => $tier, ':uid' => $userId, ':uname' => $username, ':msg' => $message]);
+    ')->execute([':tier' => $tier, ':uid' => $userId, ':uname' => $username, ':msg' => $sanitizedMessage]);
 
     $msgId = (int)$pdo->lastInsertId();
+    record_rate_limit($pdo, 'chat:' . $userId);
 
     json_response([
         'success' => true,

@@ -7,7 +7,7 @@ header('Access-Control-Allow-Origin: ' . $origin);
 header('Vary: Origin');
 }
 header('Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, X-CSRF-Token');
 header('Content-Type: application/json');
 
 if($_SERVER['REQUEST_METHOD']==='OPTIONS'){http_response_code(200);exit;}
@@ -17,6 +17,7 @@ require_once __DIR__.'/bootstrap.php';
 start_secure_session();
 $pdo=db();
 $method=$_SERVER['REQUEST_METHOD'];
+csrf_validate();
 
 if(!isset($_SESSION['user_id']) || (int)$_SESSION['user_id']===0){
   json_response(['success'=>false,'message'=>'Not authenticated'],401);
@@ -102,6 +103,19 @@ try{
         json_response(['success'=>false,'message'=>'Username already taken'],409);
         exit;
       }
+    }
+
+    // Validate avatar URL to prevent XSS
+    if(isset($input['avatar'])){
+      $avatarUrl=trim((string)$input['avatar']);
+      if($avatarUrl !== ''){
+        if(!filter_var($avatarUrl, FILTER_VALIDATE_URL) || !preg_match('#^https?://#i', $avatarUrl)){
+          json_response(['success'=>false,'message'=>'Invalid avatar URL. Must be a valid http(s) URL.'],422);
+          exit;
+        }
+      }
+      $params[':avatar']=$avatarUrl;
+      foreach($updates as $i=>$u){ if(str_starts_with($u,'avatar=')) $updates[$i]='avatar=:avatar'; }
     }
 
     if(isset($input['name'])){

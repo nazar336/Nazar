@@ -16,6 +16,12 @@ if (!preg_match('/^\d{6}$/', $code))
     json_response(['success' => false, 'message' => 'Код повинен бути 6 цифр.'], 422);
 
 $pdo = db();
+
+// Rate limit verification attempts per IP to prevent brute force
+$ip = substr((string)($_SERVER['REMOTE_ADDR'] ?? '127.0.0.1'), 0, 45);
+if (check_rate_limit($pdo, 'verify:' . $ip, 10, 15))
+    json_response(['success' => false, 'message' => 'Забагато спроб верифікації. Спробуй через 15 хвилин.'], 429);
+
 $pdo->beginTransaction();
 try {
     $stmt = $pdo->prepare('SELECT id,verification_code,attempts,expires_at FROM email_verifications WHERE user_id=:uid AND is_verified=FALSE LIMIT 1 FOR UPDATE');
@@ -37,6 +43,7 @@ try {
     if ($verification['verification_code'] !== $code) {
         $pdo->prepare('UPDATE email_verifications SET attempts=attempts+1 WHERE id=:id')->execute(['id' => $verification['id']]);
         $pdo->commit();
+        record_rate_limit($pdo, 'verify:' . $ip);
         json_response(['success' => false, 'message' => 'Неправильний код.'], 401);
     }
 

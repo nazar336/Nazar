@@ -7,7 +7,7 @@ header('Access-Control-Allow-Origin: ' . $origin);
 header('Vary: Origin');
 }
 header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, X-CSRF-Token');
 header('Content-Type: application/json');
 
 if($_SERVER['REQUEST_METHOD']==='OPTIONS'){http_response_code(200);exit;}
@@ -16,6 +16,7 @@ require_once __DIR__.'/bootstrap.php';
 
 start_secure_session();
 $pdo=db();
+csrf_validate();
 
 if(!isset($_SESSION['user_id']) || (int)$_SESSION['user_id']===0){
   json_response(['success'=>false,'message'=>'Not authenticated'],401);
@@ -34,11 +35,34 @@ try{
   
   $taskId=(int)$input['task_id'];
   
+  // ── Level privilege: check user level for difficulty & max active tasks ──
+  $lvlStmt=$pdo->prepare('SELECT level FROM users WHERE id=:uid');
+  $lvlStmt->execute([':uid'=>$userId]);
+  $userLevel=(int)($lvlStmt->fetchColumn()?:1);
+
+  // Max active tasks by level: lvl1=3, lvl2=5, lvl3=7, ..., lvl12=unlimited
+  $maxTasksByLevel=[1=>3,2=>5,3=>7,4=>10,5=>13,6=>16,7=>20,8=>25,9=>30,10=>40,11=>50,12=>999];
+  $maxActiveTasks=$maxTasksByLevel[$userLevel]??3;
+
+  // Difficulty allowed by level: lvl1=easy, lvl2+=medium, lvl5+=hard
+  $allowedDifficulty=['easy'];
+  if($userLevel>=2) $allowedDifficulty[]='medium';
+  if($userLevel>=5) $allowedDifficulty[]='hard';
+
+  // Check max active tasks before starting transaction
+  $activeCountStmt=$pdo->prepare('SELECT COUNT(*) FROM task_assignments WHERE user_id=:uid AND status="taken"');
+  $activeCountStmt->execute([':uid'=>$userId]);
+  $activeCount=(int)$activeCountStmt->fetchColumn();
+  if($activeCount>=$maxActiveTasks){
+    json_response(['success'=>false,'message'=>'Max active tasks at level '.$userLevel.' is '.$maxActiveTasks.'. Complete tasks or level up!'],400);
+    exit;
+  }
+
   $pdo->beginTransaction();
   try{
     // Lock task row to avoid slot race conditions
     $taskStmt=$pdo->prepare('
-      SELECT id,slots,status,reward,creator_id,deadline
+      SELECT id,slots,status,reward,creator_id,deadline,difficulty
       FROM tasks
       WHERE id=:id
       FOR UPDATE
@@ -49,6 +73,15 @@ try{
     if(!$task){
       $pdo->rollBack();
       json_response(['success'=>false,'message'=>'Task not found'],404);
+      exit;
+    }
+
+    // ── Level privilege: check difficulty restriction ──
+    $taskDifficulty=$task['difficulty']??'medium';
+    if(!in_array($taskDifficulty,$allowedDifficulty,true)){
+      $pdo->rollBack();
+      $reqLevel=$taskDifficulty==='hard'?5:2;
+      json_response(['success'=>false,'message'=>ucfirst($taskDifficulty).' tasks require level '.$reqLevel.'+. Current level: '.$userLevel],403);
       exit;
     }
     

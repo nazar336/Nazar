@@ -313,6 +313,18 @@ h1,h2,h3,h4,h5,h6 { line-height:1.25; }
   animation:spin .7s linear infinite;
 }
 
+/* ── Page Loading ─────────────────────────────────────────── */
+.page-loading {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  min-height:40vh; gap:16px; color:var(--muted);
+}
+.page-spinner {
+  width:32px; height:32px; border:3px solid var(--line);
+  border-top-color:var(--primary); border-radius:50%;
+  animation:spin .7s linear infinite;
+}
+.page-loading p { font-size:13px; font-weight:500; }
+
 /* ── Cards ────────────────────────────────────────────────── */
 .card {
   background:var(--panel);

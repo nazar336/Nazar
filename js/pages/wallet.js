@@ -51,7 +51,7 @@ export function renderWallet(el){
     wrap.innerHTML=deposits.length?deposits.map(dep=>`
       <div class="card-flat" style="padding:14px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start;">
         <div>
-          <div style="font-size:14px;font-weight:700;">${Number(dep.amount_usdt||0).toLocaleString()} USDT → ${Number(dep.amount_coins||0).toLocaleString()} coins</div>
+          <div style="font-size:14px;font-weight:700;">${Number(dep.amount_native||dep.amount_usdt||0).toLocaleString()} ${esc(dep.currency||'USDT')} → ${Number(dep.amount_coins||0).toLocaleString()} coins</div>
           <div style="font-size:12px;color:var(--muted);margin-top:4px;">${esc(dep.network||'TRC20')} · ${dep.created_at?fmtDate(dep.created_at)+' '+fmtTime(dep.created_at):''}</div>
           <div style="font-size:12px;color:var(--muted);margin-top:6px;word-break:break-all;">${esc(dep.transaction_hash||dep.wallet_address||'')}</div>
         </div>
@@ -129,7 +129,7 @@ export function renderWallet(el){
           <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">${t('pending')}</div><div style="font-size:18px;font-weight:800;color:var(--warning);">${Number(appState.S.pending||0).toLocaleString()} 🪙</div></div>
           </div>
           <div class="wallet-actions">
-            <button class="btn btn-primary btn-sm" id="buyCoinsBtn">₮ Buy with USDT</button>
+            <button class="btn btn-primary btn-sm" id="buyCoinsBtn">🪙 Buy with Crypto</button>
             <button class="btn btn-success btn-sm" id="withdrawCoinsBtn">💸 ${t('withdrawCrypto')}</button>
             <button class="btn btn-outline btn-sm" id="refreshCoinsBtn">⟳ Refresh</button>
           </div>
@@ -145,13 +145,13 @@ export function renderWallet(el){
               <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">Pending</div><div style="font-size:16px;font-weight:800;color:var(--primary);">${Number(appState.S.pendingCryptoCount||0).toLocaleString()} crypto</div></div>
             </div>
           </div>
-          <div class="card-flat" style="padding:12px;font-size:13px;color:var(--muted);">Rate: <strong style="color:var(--primary);">1 USDT = 100 coins</strong></div>
+          <div class="card-flat" style="padding:12px;font-size:13px;color:var(--muted);">Rate: <strong style="color:var(--primary);">1 USD = 100 coins</strong></div>
         </div>
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
         <div class="card" style="padding:0;">
-          <div style="padding:16px 20px;border-bottom:1px solid var(--line);font-size:14px;font-weight:700;">USDT Deposits</div>
+          <div style="padding:16px 20px;border-bottom:1px solid var(--line);font-size:14px;font-weight:700;">Crypto Deposits</div>
           <div id="cryptoHistory" style="padding:14px;display:flex;flex-direction:column;gap:10px;"></div>
         </div>
         <div class="card" style="padding:0;">
@@ -193,6 +193,8 @@ export function renderWallet(el){
   document.getElementById('refreshCoinsBtn')?.addEventListener('click',async()=>{await loadWallet();navigate('wallet');});
 }
 
+const NET_CURRENCY={TRC20:'USDT',BEP20:'USDT',ERC20:'ETH',BTC:'BTC',SOL:'SOL'};
+
 export function showWalletModal(type){
   const isCrypto=type==='crypto';
   if(!isCrypto){return;}
@@ -201,17 +203,36 @@ export function showWalletModal(type){
   modBg.innerHTML=`
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <button class="modal-close" id="modalCloseBtn" aria-label="Close">✕</button>
-      <div class="modal-title" id="modalTitle">Buy Coins with USDT</div>
+      <div class="modal-title" id="modalTitle">Buy Coins with Crypto</div>
       <div id="walletModalAlert" class="alert" style="margin-bottom:12px;"></div>
       <div style="display:flex;flex-direction:column;gap:14px;">
-        <div class="form-group"><label class="form-label">Network</label><select id="cryptoNetwork" class="form-select"><option value="TRC20">TRC20</option><option value="BEP20">BEP20</option></select></div>
-        <div class="form-group"><label class="form-label">${t('amountCol')} (USDT)</label><input type="number" id="wAmount" class="form-input" min="1" placeholder="100"></div>
-        <div class="card-flat" style="padding:12px;font-size:13px;color:var(--muted);">Rate: <strong style="color:var(--primary);">1 USDT = 100 coins</strong></div><div id="cryptoStep2"></div>
+        <div class="form-group"><label class="form-label">Network</label><select id="cryptoNetwork" class="form-select"><option value="TRC20">TRC20 (USDT)</option><option value="BEP20">BEP20 (USDT)</option><option value="ERC20">ERC20 (ETH)</option><option value="BTC">BTC</option><option value="SOL">SOL</option></select></div>
+        <div class="form-group"><label class="form-label" id="cryptoAmountLabel">${t('amountCol')} (USDT)</label><input type="number" id="wAmount" class="form-input" min="0.0001" step="any" placeholder="100"></div>
+        <div class="card-flat" style="padding:12px;font-size:13px;color:var(--muted);" id="cryptoRateInfo">Rate: <strong style="color:var(--primary);">1 USDT ≈ 100 coins</strong></div><div id="cryptoStep2"></div>
         <button class="btn btn-primary btn-block" id="wConfirmBtn"><span class="btn-txt">${t('confirm')}</span></button>
       </div>
     </div>`;
   document.getElementById('modalRoot').appendChild(modBg);
   modBg.setAttribute('aria-hidden','false');
+
+  const networkSelect=document.getElementById('cryptoNetwork');
+  const amountLabel=document.getElementById('cryptoAmountLabel');
+  const rateInfo=document.getElementById('cryptoRateInfo');
+  const amountInput=document.getElementById('wAmount');
+
+  function updateCurrencyLabel(){
+    const net=networkSelect?.value||'TRC20';
+    const cur=NET_CURRENCY[net]||'USDT';
+    if(amountLabel)amountLabel.textContent=t('amountCol')+' ('+cur+')';
+    if(cur==='USDT'){
+      if(rateInfo)rateInfo.innerHTML='Rate: <strong style="color:var(--primary);">1 USDT ≈ 100 coins</strong>';
+      if(amountInput){amountInput.placeholder='100';amountInput.min='1';amountInput.step='1';}
+    }else{
+      if(rateInfo)rateInfo.innerHTML='Rate: <strong style="color:var(--primary);">'+esc(cur)+' → USD → coins (100 coins/USD)</strong>';
+      if(amountInput){amountInput.placeholder=cur==='BTC'?'0.001':cur==='ETH'?'0.05':'1';amountInput.min='0.0001';amountInput.step='any';}
+    }
+  }
+  networkSelect?.addEventListener('change',updateCurrencyLabel);
 
   const close=()=>{modBg.remove();};
   modBg.addEventListener('click',e=>{if(e.target===modBg)close();});
@@ -224,18 +245,21 @@ export function showWalletModal(type){
     hideAlert('walletModalAlert');
     setLoading(btn,true);
     try{
-      const network=document.getElementById('cryptoNetwork')?.value||'TRC20';
-      const {ok,data}=await apiFetch(API.cryptoDeposit,{method:'POST',body:JSON.stringify({action:'initiate',amount_usdt:amount,network})});
+      const network=networkSelect?.value||'TRC20';
+      const currency=NET_CURRENCY[network]||'USDT';
+      const {ok,data}=await apiFetch(API.cryptoDeposit,{method:'POST',body:JSON.stringify({action:'initiate',amount,network})});
       if(!ok){showAlert('walletModalAlert',data.message||'Failed to create deposit');return;}
 
+      const displayCurrency=data.currency||currency;
+      const displayAmount=Number(data.amount_native||amount);
       const step2=document.getElementById('cryptoStep2');
       if(step2){
         step2.innerHTML=`
           <div class="card-flat" style="padding:12px;display:flex;flex-direction:column;gap:8px;">
-            <div style="font-size:12px;color:var(--muted);">Send exactly <strong style="color:var(--text);">${Number(data.amount_usdt||amount).toLocaleString()} USDT</strong> via <strong style="color:var(--text);">${esc(data.network||network)}</strong></div>
+            <div style="font-size:12px;color:var(--muted);">Send exactly <strong style="color:var(--text);">${displayAmount.toLocaleString(undefined,{maximumFractionDigits:8})} ${esc(displayCurrency)}</strong> via <strong style="color:var(--text);">${esc(data.network||network)}</strong></div>
             <div style="font-size:12px;color:var(--muted);">Wallet address</div>
             <div style="word-break:break-all;font-size:13px;font-weight:700;color:var(--primary);">${esc(data.wallet_address||'')}</div>
-            <div style="font-size:12px;color:var(--muted);">You will receive <strong style="color:var(--success);">${Number(data.amount_coins||amount*100).toLocaleString()} coins</strong></div>
+            <div style="font-size:12px;color:var(--muted);">You will receive <strong style="color:var(--success);">${Number(data.amount_coins||0).toLocaleString()} coins</strong>${data.amount_usdt?' (~$'+Number(data.amount_usdt).toLocaleString()+' USD)':''}</div>
             <div style="font-size:12px;color:var(--muted);">Expires: ${data.expires_at?fmtDate(data.expires_at)+' '+fmtTime(data.expires_at):'—'}</div>
             <div class="form-group" style="margin-top:8px;"><label class="form-label">Transaction hash</label><input type="text" id="cryptoTxHash" class="form-input" placeholder="Paste blockchain tx hash"></div>
             <button class="btn btn-success btn-block" id="cryptoFinalConfirm">I paid, confirm deposit</button>

@@ -89,12 +89,31 @@ const i18n = {
     // Leaderboard
     you:'You',
     // Landing
-    earnTitle:'Earn', landingMicroTasks:'on Micro-Tasks', landingSubtitle:'Premium platform for freelancers and companies. Complete engaging tasks, grow and earn while connecting with a global community.', getStarted:'Get Started', signUpBtn:'Sign Up', usersStat:'Users', paidStat:'On-chain', ratingStat:'Rating', tasksStat:'Tasks',
-    whyLolance:'Why LOLance?', skillGrowth:'Skill Growth', skillGrowthDesc:'Learn real-world skills working on projects from actual companies.', securePayments:'Secure Payments', securePaymentsDesc:'Protected transactions with transparent fees and secure escrow.', transparentRating:'Transparent Rating', transparentRatingDesc:'Build your reputation through quality work and achievements.', personalizedTasks:'Personalized Tasks', personalizedTasksDesc:'AI-matched tasks based on your skills and interests.',
-    howItWorks:'How It Works', signUpStep:'Sign Up', signUpStepDesc:'Quick registration in 2 minutes', browseStep:'Browse Tasks', browseStepDesc:'Find interesting work', executeStep:'Execute', executeStepDesc:'Complete with quality', getPaidStep:'Get Paid', getPaidStepDesc:'Instant payment to wallet',
+    earnTitle:'Earn', landingMicroTasks:'on Micro-Tasks', landingSubtitle:'Premium platform for freelancers and companies. Complete engaging tasks, grow and earn while connecting with a global community.', getStarted:'Get Started', signUpBtn:'Sign Up',
+    landingHeroDesc:'Pick a task, complete it, get paid — it\'s that simple. LOLance connects freelancers with real micro-tasks in design, development, copywriting and more.',
+    landingFeature1Title:'Browse Tasks', landingFeature1Desc:'Hundreds of micro-tasks across 10 categories — design, development, copywriting, video, QA and more. Filter by difficulty and pick what suits you.',
+    landingFeature2Title:'Complete & Earn', landingFeature2Desc:'Finish tasks, get instant coin rewards. Earn XP, level up, and climb the global leaderboard.',
+    landingFeature3Title:'Crypto Payments', landingFeature3Desc:'Buy coins with USDT (TRC20, BEP20) and withdraw earnings to your crypto wallet. Transparent 5% fee.',
+    landingFeature4Title:'Chat & Community', landingFeature4Desc:'Join public chat rooms, unlock premium tiers as you level up, and connect with freelancers worldwide.',
+    landingFeature5Title:'XP & Levels', landingFeature5Desc:'Earn XP from tasks, daily check-ins, and posts. Reach level 12 and unlock exclusive perks.',
+    landingFeature6Title:'Secure Platform', landingFeature6Desc:'Email verification, rate-limiting, encrypted sessions, and admin-verified transactions keep your account safe.',
+    howItWorks:'How It Works', signUpStep:'Sign Up', signUpStepDesc:'Quick registration with email verification', browseStep:'Browse Tasks', browseStepDesc:'Filter by category, difficulty and reward', executeStep:'Execute', executeStepDesc:'Complete the task with quality', getPaidStep:'Get Paid', getPaidStepDesc:'Coins go straight to your wallet',
     readyToEarn:'Ready to Start Earning?', joinFreelancers:'Join thousands of freelancers already earning', signUpNow:'Sign Up Now',
     aboutLink:'About', contactLink:'Contact', privacyLink:'Privacy', termsLink:'Terms', allRights:'All rights reserved.',
-    managementCard:'Management', rewardsCard:'Rewards', growthCard:'Growth', goalsCard:'Goals', rankingCard:'Ranking',
+    // Welcome bonus
+    welcomeBonusTitle:'🎁 Welcome Bonus for New Users', welcomeBonusDesc:'Register now and get a head start!',
+    welcomeBonus1:'+50 XP — instant boost after registration',
+    welcomeBonus2:'+10 XP — first daily check-in bonus',
+    welcomeBonus3:'Free access to Global chat room',
+    welcomeBonusCta:'Claim Your Bonus →',
+    // Trust badges
+    trustTitle:'Trusted & Verified', trustSSL:'SSL Encrypted', trustGDPR:'GDPR Compliant', trustKYC:'Verified Payments', trustSupport:'24/7 Support',
+    // Showcase
+    showcaseTitle:'What You Get Inside',
+    showcaseTasksTitle:'Task Board', showcaseTasksDesc:'Browse hundreds of tasks with live filters — by category, difficulty, and reward size.',
+    showcaseWalletTitle:'Crypto Wallet', showcaseWalletDesc:'Buy coins with USDT, track your balance, and withdraw earnings to any supported network.',
+    showcaseChatTitle:'Community Chat', showcaseChatDesc:'Chat rooms with tier-based access. Level up to unlock Silver, Gold, and Diamond rooms.',
+    showcaseProfileTitle:'Your Profile', showcaseProfileDesc:'Track XP, level, streak, and achievements. Customize your bio, skills, and avatar.',
     // Time
     justNow:'just now', minsAgo:'m ago', hoursAgo:'h ago', daysAgo:'d ago', guestWelcome:'You\'re in guest mode 🎭',
     guestRegTask:'Sign up to take a task', guestRegCreate:'Sign up to create a task',
@@ -189,11 +208,28 @@ const i18n = {
     subject:'Тема', subjectPlaceholder:'Коротко опишіть проблему', issueType:'Тип проблеми', priorityLabel:'Пріоритет', detailsLabel:'Деталі', detailsPlaceholder:'Надайте додатковий контекст…', billing:'Фінанси', technical:'Технічна', accountType:'Акаунт', generalType:'Загальна', normalPriority:'Звичайний', highPriority:'Високий', criticalPriority:'Критичний', submitTicket:'Надіслати тікет', noTicketsYet:'Тікетів поки немає', createTicketHelp:'Створіть тікет вище, якщо потрібна допомога.', statusCol:'Статус', createdCol:'Створено', guestSupport:'Створення тікетів доступне лише для зареєстрованих користувачів.',
     settings:'Налаштування', languageLabel:'Мова', animationsLabel:'Анімації', animOn:'Увімк ✓', animOff:'Вимк', readyToStartQ:'Готові почати?', readyToStartDesc:'Зареєструйтеся, щоб розпочати заробляти і брати участь у задачах.', editProfileTitle:'Редагування профілю', roleTitle:'Роль / Посада', rolePlaceholder:'Фрілансер, Дизайнер…', bioLabel:'Про себе', bioPlaceholder:'Розкажіть про себе…', skillsLabel:'Навички', skillsPlaceholder:'Дизайн, Відео, Текст…', defaultRole:'Фрілансер', browseWithout:'Переглядайте без зобов\'язань', guestAccount:'Гостьовий обліковий запис',
     you:'Ти',
-    earnTitle:'Заробляй', landingMicroTasks:'на мікрозадачах', landingSubtitle:'Преміум платформа для фрілансерів і компаній. Виконуй цікаві задачі, розвивайся та заробляй у спільноті з усього світу.', getStarted:'Почати', signUpBtn:'Створити акаунт', usersStat:'Користувачів', paidStat:'Крипто-обіг', ratingStat:'Рейтинг', tasksStat:'Задач',
-    whyLolance:'Чому LOLance?', skillGrowth:'Розвиток умінь', skillGrowthDesc:'Вивчайте нові навички, виконуючи реальні проекти від справжніх компаній.', securePayments:'Безпечні платежі', securePaymentsDesc:'Захищені транзакції та прозорі комісії. Ваші гроші в безпеці.', transparentRating:'Прозорий рейтинг', transparentRatingDesc:'Будуйте свою репутацію на платформі через якісну роботу.', personalizedTasks:'Персоналізовані задачі', personalizedTasksDesc:'Алгоритм підбирає задачі за вашими вміннями та інтересами.',
-    howItWorks:'Як це працює', signUpStep:'Реєстрація', signUpStepDesc:'Простий вхід за 2 хвилини', browseStep:'Перегляд задач', browseStepDesc:'Знайдіть цікаву роботу', executeStep:'Виконайте', executeStepDesc:'Виконайте задачу якісно', getPaidStep:'Отримайте оплату', getPaidStepDesc:'Миттєво на ваш рахунок',
+    earnTitle:'Заробляй', landingMicroTasks:'на мікрозадачах', landingSubtitle:'Преміум платформа для фрілансерів і компаній. Виконуй цікаві задачі, розвивайся та заробляй у спільноті з усього світу.', getStarted:'Почати', signUpBtn:'Створити акаунт',
+    landingHeroDesc:'Обери задачу, виконай, отримай оплату — все просто. LOLance з\'єднує фрілансерів з реальними мікрозадачами у дизайні, розробці, копірайтингу та інших сферах.',
+    landingFeature1Title:'Перегляд задач', landingFeature1Desc:'Сотні мікрозадач у 10 категоріях — дизайн, розробка, копірайтинг, відео, QA та інше. Фільтруйте за складністю.',
+    landingFeature2Title:'Виконуй і заробляй', landingFeature2Desc:'Завершуйте задачі, отримуйте монети миттєво. Заробляйте XP, прокачуйте рівень, піднімайтесь у рейтингу.',
+    landingFeature3Title:'Крипто-платежі', landingFeature3Desc:'Купуйте монети за USDT (TRC20, BEP20) та виводьте заробіток на криптогаманець. Прозора комісія 5%.',
+    landingFeature4Title:'Чат і спільнота', landingFeature4Desc:'Публічні чат-кімнати, преміум тієри з рівнем, спілкування з фрілансерами з усього світу.',
+    landingFeature5Title:'XP і рівні', landingFeature5Desc:'Заробляйте XP за задачі, щоденні чек-іни та пости. Досягніть 12 рівня та відкрийте ексклюзивні переваги.',
+    landingFeature6Title:'Безпечна платформа', landingFeature6Desc:'Верифікація email, захист від спаму, шифровані сесії та адмін-перевірені транзакції.',
+    howItWorks:'Як це працює', signUpStep:'Реєстрація', signUpStepDesc:'Швидка реєстрація з верифікацією email', browseStep:'Перегляд задач', browseStepDesc:'Фільтруйте за категорією, складністю і нагородою', executeStep:'Виконайте', executeStepDesc:'Виконайте задачу якісно', getPaidStep:'Отримайте оплату', getPaidStepDesc:'Монети зразу на вашому рахунку',
     readyToEarn:'Готові розпочати заробіток?', joinFreelancers:'Приєднайтеся до тисяч фрілансерів, які вже заробляють', signUpNow:'Створити акаунт',
     aboutLink:'Про нас', contactLink:'Контакти', privacyLink:'Політика', termsLink:'Умови', allRights:'Всі права захищені.',
+    welcomeBonusTitle:'🎁 Вітальний бонус для нових', welcomeBonusDesc:'Зареєструйтесь і отримайте фору!',
+    welcomeBonus1:'+50 XP — миттєвий буст після реєстрації',
+    welcomeBonus2:'+10 XP — перший щоденний чек-ін',
+    welcomeBonus3:'Безкоштовний доступ до Загального чату',
+    welcomeBonusCta:'Отримати бонус →',
+    trustTitle:'Надійно та перевірено', trustSSL:'SSL шифрування', trustGDPR:'GDPR сумісність', trustKYC:'Верифіковані платежі', trustSupport:'Підтримка 24/7',
+    showcaseTitle:'Що вас чекає всередині',
+    showcaseTasksTitle:'Дошка задач', showcaseTasksDesc:'Сотні задач з живими фільтрами — за категорією, складністю та розміром нагороди.',
+    showcaseWalletTitle:'Крипто-гаманець', showcaseWalletDesc:'Купуйте монети за USDT, відстежуйте баланс та виводьте заробіток на будь-яку підтримувану мережу.',
+    showcaseChatTitle:'Чат спільноти', showcaseChatDesc:'Чат-кімнати з доступом за рівнями. Прокачуйтесь щоб розблокувати Срібний, Золотий та Діамантовий зали.',
+    showcaseProfileTitle:'Ваш профіль', showcaseProfileDesc:'Відстежуйте XP, рівень, серію та досягнення. Налаштуйте біо, навички та аватар.',
     managementCard:'Управління', rewardsCard:'Премія', growthCard:'Ріст', goalsCard:'Цілі', rankingCard:'Рейтинг',
     justNow:'щойно', minsAgo:'хв тому', hoursAgo:'год тому', daysAgo:'д тому', guestWelcome:'Ви в гостьовому режимі 🎭',
     guestRegTask:'Зареєструйтеся, щоб взяти задачу', guestRegCreate:'Зареєструйтеся, щоб створити задачу',
@@ -280,11 +316,28 @@ const i18n = {
     subject:'Betreff', subjectPlaceholder:'Beschreiben Sie Ihr Problem kurz', issueType:'Problemtyp', priorityLabel:'Priorität', detailsLabel:'Details', detailsPlaceholder:'Zusätzlichen Kontext angeben…', billing:'Abrechnung', technical:'Technisch', accountType:'Konto', generalType:'Allgemein', normalPriority:'Normal', highPriority:'Hoch', criticalPriority:'Kritisch', submitTicket:'Ticket senden', noTicketsYet:'Noch keine Tickets', createTicketHelp:'Erstellen Sie eines oben, wenn Sie Hilfe benötigen.', statusCol:'Status', createdCol:'Erstellt', guestSupport:'Tickets nur für registrierte Benutzer verfügbar.',
     settings:'Einstellungen', languageLabel:'Sprache', animationsLabel:'Animationen', animOn:'An ✓', animOff:'Aus', readyToStartQ:'Bereit loszulegen?', readyToStartDesc:'Registrieren Sie sich, um zu verdienen.', editProfileTitle:'Profil bearbeiten', roleTitle:'Rolle / Titel', rolePlaceholder:'Freiberufler, Designer…', bioLabel:'Bio', bioPlaceholder:'Stellen Sie sich vor…', skillsLabel:'Fähigkeiten', skillsPlaceholder:'Design, Video, Text…', defaultRole:'Freiberufler', browseWithout:'Ohne Verpflichtung durchsuchen', guestAccount:'Gastkonto',
     you:'Sie',
-    earnTitle:'Verdienen', landingMicroTasks:'mit Micro-Tasks', landingSubtitle:'Premium-Plattform für Freiberufler und Unternehmen.', getStarted:'Loslegen', signUpBtn:'Registrieren', usersStat:'Benutzer', paidStat:'On-chain', ratingStat:'Bewertung', tasksStat:'Aufgaben',
-    whyLolance:'Warum LOLance?', skillGrowth:'Fähigkeitswachstum', skillGrowthDesc:'Lernen Sie reale Fähigkeiten bei echten Projekten.', securePayments:'Sichere Zahlungen', securePaymentsDesc:'Geschützte Transaktionen mit transparenten Gebühren.', transparentRating:'Transparente Bewertung', transparentRatingDesc:'Bauen Sie Ihren Ruf durch Qualitätsarbeit auf.', personalizedTasks:'Personalisierte Aufgaben', personalizedTasksDesc:'KI-basierte Aufgaben nach Ihren Fähigkeiten.',
-    howItWorks:'So funktioniert es', signUpStep:'Registrierung', signUpStepDesc:'Schnelle Anmeldung in 2 Minuten', browseStep:'Aufgaben durchsuchen', browseStepDesc:'Interessante Arbeit finden', executeStep:'Ausführen', executeStepDesc:'Qualität liefern', getPaidStep:'Bezahlt werden', getPaidStepDesc:'Sofortige Zahlung',
+    earnTitle:'Verdienen', landingMicroTasks:'mit Micro-Tasks', landingSubtitle:'Premium-Plattform für Freiberufler und Unternehmen.', getStarted:'Loslegen', signUpBtn:'Registrieren',
+    landingHeroDesc:'Wähle eine Aufgabe, erledige sie, werde bezahlt — so einfach. LOLance verbindet Freiberufler mit echten Micro-Tasks in Design, Entwicklung, Texterstellung und mehr.',
+    landingFeature1Title:'Aufgaben durchsuchen', landingFeature1Desc:'Hunderte von Micro-Tasks in 10 Kategorien — Design, Entwicklung, Text, Video, QA und mehr.',
+    landingFeature2Title:'Erledigen & Verdienen', landingFeature2Desc:'Aufgaben abschließen, sofort Coins erhalten. XP sammeln, aufleveln und im Ranking aufsteigen.',
+    landingFeature3Title:'Krypto-Zahlungen', landingFeature3Desc:'Coins mit USDT kaufen (TRC20, BEP20) und Verdienste auf Ihr Krypto-Wallet auszahlen. Transparente 5% Gebühr.',
+    landingFeature4Title:'Chat & Community', landingFeature4Desc:'Öffentliche Chat-Räume, Premium-Stufen mit Level-Zugang, weltweite Vernetzung mit Freiberuflern.',
+    landingFeature5Title:'XP & Level', landingFeature5Desc:'XP durch Aufgaben, tägliches Check-in und Posts verdienen. Erreiche Level 12 für exklusive Vorteile.',
+    landingFeature6Title:'Sichere Plattform', landingFeature6Desc:'E-Mail-Verifizierung, Ratenlimitierung, verschlüsselte Sitzungen und admin-verifizierte Transaktionen.',
+    howItWorks:'So funktioniert es', signUpStep:'Registrierung', signUpStepDesc:'Schnelle Registrierung mit E-Mail-Verifizierung', browseStep:'Aufgaben durchsuchen', browseStepDesc:'Nach Kategorie, Schwierigkeit und Belohnung filtern', executeStep:'Ausführen', executeStepDesc:'Qualität liefern', getPaidStep:'Bezahlt werden', getPaidStepDesc:'Coins direkt auf Ihr Wallet',
     readyToEarn:'Bereit zum Verdienen?', joinFreelancers:'Schließen Sie sich tausenden Freiberuflern an', signUpNow:'Jetzt registrieren',
     aboutLink:'Über uns', contactLink:'Kontakt', privacyLink:'Datenschutz', termsLink:'AGB', allRights:'Alle Rechte vorbehalten.',
+    welcomeBonusTitle:'🎁 Willkommensbonus für Neue', welcomeBonusDesc:'Registrieren und Vorsprung sichern!',
+    welcomeBonus1:'+50 XP — sofortiger Boost nach Registrierung',
+    welcomeBonus2:'+10 XP — erster täglicher Check-in-Bonus',
+    welcomeBonus3:'Freier Zugang zum globalen Chat-Raum',
+    welcomeBonusCta:'Bonus sichern →',
+    trustTitle:'Vertrauenswürdig & Verifiziert', trustSSL:'SSL-Verschlüsselung', trustGDPR:'GDPR-konform', trustKYC:'Verifizierte Zahlungen', trustSupport:'24/7 Support',
+    showcaseTitle:'Was Sie erwartet',
+    showcaseTasksTitle:'Aufgaben-Board', showcaseTasksDesc:'Hunderte Aufgaben mit Live-Filtern — nach Kategorie, Schwierigkeit und Belohnungshöhe.',
+    showcaseWalletTitle:'Krypto-Wallet', showcaseWalletDesc:'Coins mit USDT kaufen, Guthaben verfolgen und Verdienste auf jedes unterstützte Netzwerk auszahlen.',
+    showcaseChatTitle:'Community Chat', showcaseChatDesc:'Chat-Räume mit stufenbasiertem Zugang. Leveln Sie auf um Silber-, Gold- und Diamant-Räume freizuschalten.',
+    showcaseProfileTitle:'Ihr Profil', showcaseProfileDesc:'Verfolgen Sie XP, Level, Serie und Erfolge. Passen Sie Bio, Fähigkeiten und Avatar an.',
     managementCard:'Verwaltung', rewardsCard:'Belohnungen', growthCard:'Wachstum', goalsCard:'Ziele', rankingCard:'Ranking',
     justNow:'gerade', minsAgo:'Min', hoursAgo:'Std', daysAgo:'T', guestWelcome:'Sie sind im Gastmodus 🎭',
     guestRegTask:'Registrieren Sie sich, um eine Aufgabe anzunehmen', guestRegCreate:'Registrieren Sie sich, um eine Aufgabe zu erstellen',
@@ -371,11 +424,28 @@ const i18n = {
     subject:'Objet', subjectPlaceholder:'Décrivez brièvement votre problème', issueType:'Type de problème', priorityLabel:'Priorité', detailsLabel:'Détails', detailsPlaceholder:'Fournir un contexte supplémentaire…', billing:'Facturation', technical:'Technique', accountType:'Compte', generalType:'Général', normalPriority:'Normal', highPriority:'Élevé', criticalPriority:'Critique', submitTicket:'Soumettre le ticket', noTicketsYet:'Aucun ticket', createTicketHelp:'Créez-en un ci-dessus si vous avez besoin d\'aide.', statusCol:'Statut', createdCol:'Créé', guestSupport:'Tickets réservés aux utilisateurs inscrits.',
     settings:'Paramètres', languageLabel:'Langue', animationsLabel:'Animations', animOn:'Act ✓', animOff:'Dés', readyToStartQ:'Prêt à commencer ?', readyToStartDesc:'Inscrivez-vous pour gagner.', editProfileTitle:'Modifier le profil', roleTitle:'Rôle / Titre', rolePlaceholder:'Freelancer, Designer…', bioLabel:'Bio', bioPlaceholder:'Présentez-vous…', skillsLabel:'Compétences', skillsPlaceholder:'Design, Vidéo, Texte…', defaultRole:'Freelance', browseWithout:'Parcourez sans engagement', guestAccount:'Compte invité',
     you:'Vous',
-    earnTitle:'Gagnez', landingMicroTasks:'avec des Micro-Tâches', landingSubtitle:'Plateforme premium pour freelancers et entreprises.', getStarted:'Commencer', signUpBtn:'S\'inscrire', usersStat:'Utilisateurs', paidStat:'On-chain', ratingStat:'Évaluation', tasksStat:'Tâches',
-    whyLolance:'Pourquoi LOLance ?', skillGrowth:'Développement des compétences', skillGrowthDesc:'Apprenez des compétences réelles sur de vrais projets.', securePayments:'Paiements sécurisés', securePaymentsDesc:'Transactions protégées avec des frais transparents.', transparentRating:'Évaluation transparente', transparentRatingDesc:'Construisez votre réputation par un travail de qualité.', personalizedTasks:'Tâches personnalisées', personalizedTasksDesc:'Tâches IA selon vos compétences.',
-    howItWorks:'Comment ça marche', signUpStep:'Inscription', signUpStepDesc:'Inscription rapide en 2 minutes', browseStep:'Parcourir les tâches', browseStepDesc:'Trouver un travail intéressant', executeStep:'Exécuter', executeStepDesc:'Compléter avec qualité', getPaidStep:'Être payé', getPaidStepDesc:'Paiement instantané',
+    earnTitle:'Gagnez', landingMicroTasks:'avec des Micro-Tâches', landingSubtitle:'Plateforme premium pour freelancers et entreprises.', getStarted:'Commencer', signUpBtn:'S\'inscrire',
+    landingHeroDesc:'Choisissez une tâche, réalisez-la, soyez payé — c\'est aussi simple. LOLance connecte les freelancers avec de vraies micro-tâches en design, développement, rédaction et plus.',
+    landingFeature1Title:'Parcourir les tâches', landingFeature1Desc:'Des centaines de micro-tâches dans 10 catégories — design, développement, rédaction, vidéo, QA et plus.',
+    landingFeature2Title:'Exécuter & Gagner', landingFeature2Desc:'Terminez les tâches, recevez des coins instantanément. Gagnez de l\'XP, montez en niveau et grimpez dans le classement.',
+    landingFeature3Title:'Paiements Crypto', landingFeature3Desc:'Achetez des coins avec USDT (TRC20, BEP20) et retirez vos gains sur votre portefeuille crypto. Frais transparents de 5%.',
+    landingFeature4Title:'Chat & Communauté', landingFeature4Desc:'Salons de chat publics, niveaux premium par level, connexion avec des freelancers du monde entier.',
+    landingFeature5Title:'XP & Niveaux', landingFeature5Desc:'Gagnez de l\'XP via les tâches, check-ins quotidiens et posts. Atteignez le niveau 12 pour des avantages exclusifs.',
+    landingFeature6Title:'Plateforme Sécurisée', landingFeature6Desc:'Vérification email, limitation de débit, sessions chiffrées et transactions vérifiées par l\'admin.',
+    howItWorks:'Comment ça marche', signUpStep:'Inscription', signUpStepDesc:'Inscription rapide avec vérification email', browseStep:'Parcourir les tâches', browseStepDesc:'Filtrer par catégorie, difficulté et récompense', executeStep:'Exécuter', executeStepDesc:'Compléter avec qualité', getPaidStep:'Être payé', getPaidStepDesc:'Coins directement dans votre portefeuille',
     readyToEarn:'Prêt à gagner ?', joinFreelancers:'Rejoignez des milliers de freelancers', signUpNow:'S\'inscrire maintenant',
     aboutLink:'À propos', contactLink:'Contact', privacyLink:'Confidentialité', termsLink:'Conditions', allRights:'Tous droits réservés.',
+    welcomeBonusTitle:'🎁 Bonus de bienvenue pour les nouveaux', welcomeBonusDesc:'Inscrivez-vous et prenez de l\'avance !',
+    welcomeBonus1:'+50 XP — boost instantané après inscription',
+    welcomeBonus2:'+10 XP — premier bonus de check-in quotidien',
+    welcomeBonus3:'Accès gratuit au salon de chat Global',
+    welcomeBonusCta:'Réclamer le bonus →',
+    trustTitle:'Fiable & Vérifié', trustSSL:'Chiffrement SSL', trustGDPR:'Conforme RGPD', trustKYC:'Paiements Vérifiés', trustSupport:'Support 24/7',
+    showcaseTitle:'Ce qui vous attend',
+    showcaseTasksTitle:'Tableau des tâches', showcaseTasksDesc:'Des centaines de tâches avec des filtres en direct — par catégorie, difficulté et montant de récompense.',
+    showcaseWalletTitle:'Portefeuille Crypto', showcaseWalletDesc:'Achetez des coins avec USDT, suivez votre solde et retirez vos gains sur tout réseau pris en charge.',
+    showcaseChatTitle:'Chat Communauté', showcaseChatDesc:'Salons de chat avec accès par niveaux. Montez en niveau pour débloquer les salons Argent, Or et Diamant.',
+    showcaseProfileTitle:'Votre Profil', showcaseProfileDesc:'Suivez XP, niveau, série et réalisations. Personnalisez bio, compétences et avatar.',
     managementCard:'Gestion', rewardsCard:'Récompenses', growthCard:'Croissance', goalsCard:'Objectifs', rankingCard:'Classement',
     justNow:'à l\'instant', minsAgo:'min', hoursAgo:'h', daysAgo:'j', guestWelcome:'Vous êtes en mode invité 🎭',
     guestRegTask:'Inscrivez-vous pour prendre une tâche', guestRegCreate:'Inscrivez-vous pour créer une tâche',
@@ -462,11 +532,28 @@ const i18n = {
     subject:'Asunto', subjectPlaceholder:'Describe brevemente tu problema', issueType:'Tipo de problema', priorityLabel:'Prioridad', detailsLabel:'Detalles', detailsPlaceholder:'Proporciona contexto adicional…', billing:'Facturación', technical:'Técnico', accountType:'Cuenta', generalType:'General', normalPriority:'Normal', highPriority:'Alto', criticalPriority:'Crítico', submitTicket:'Enviar ticket', noTicketsYet:'Sin tickets aún', createTicketHelp:'Crea uno arriba si necesitas ayuda.', statusCol:'Estado', createdCol:'Creado', guestSupport:'Los tickets solo están disponibles para usuarios registrados.',
     settings:'Configuración', languageLabel:'Idioma', animationsLabel:'Animaciones', animOn:'Act ✓', animOff:'Des', readyToStartQ:'¿Listo para empezar?', readyToStartDesc:'Regístrate para ganar.', editProfileTitle:'Editar perfil', roleTitle:'Rol / Título', rolePlaceholder:'Freelancer, Diseñador…', bioLabel:'Bio', bioPlaceholder:'Preséntate…', skillsLabel:'Habilidades', skillsPlaceholder:'Diseño, Video, Texto…', defaultRole:'Freelancer', browseWithout:'Explora sin compromiso', guestAccount:'Cuenta de invitado',
     you:'Tú',
-    earnTitle:'Gana', landingMicroTasks:'con Micro-Tareas', landingSubtitle:'Plataforma premium para freelancers y empresas.', getStarted:'Empezar', signUpBtn:'Registrarse', usersStat:'Usuarios', paidStat:'On-chain', ratingStat:'Calificación', tasksStat:'Tareas',
-    whyLolance:'¿Por qué LOLance?', skillGrowth:'Crecimiento de habilidades', skillGrowthDesc:'Aprende habilidades reales en proyectos reales.', securePayments:'Pagos seguros', securePaymentsDesc:'Transacciones protegidas con comisiones transparentes.', transparentRating:'Calificación transparente', transparentRatingDesc:'Construye tu reputación con trabajo de calidad.', personalizedTasks:'Tareas personalizadas', personalizedTasksDesc:'Tareas IA según tus habilidades.',
-    howItWorks:'Cómo funciona', signUpStep:'Registro', signUpStepDesc:'Registro rápido en 2 minutos', browseStep:'Explorar tareas', browseStepDesc:'Encontrar trabajo interesante', executeStep:'Ejecutar', executeStepDesc:'Completar con calidad', getPaidStep:'Cobra', getPaidStepDesc:'Pago instantáneo',
+    earnTitle:'Gana', landingMicroTasks:'con Micro-Tareas', landingSubtitle:'Plataforma premium para freelancers y empresas.', getStarted:'Empezar', signUpBtn:'Registrarse',
+    landingHeroDesc:'Elige una tarea, complétala, recibe el pago — así de simple. LOLance conecta freelancers con micro-tareas reales en diseño, desarrollo, redacción y más.',
+    landingFeature1Title:'Explorar tareas', landingFeature1Desc:'Cientos de micro-tareas en 10 categorías — diseño, desarrollo, redacción, vídeo, QA y más.',
+    landingFeature2Title:'Completa y Gana', landingFeature2Desc:'Termina tareas, recibe monedas al instante. Gana XP, sube de nivel y escala en el ranking global.',
+    landingFeature3Title:'Pagos Crypto', landingFeature3Desc:'Compra monedas con USDT (TRC20, BEP20) y retira ganancias a tu billetera crypto. Comisión transparente del 5%.',
+    landingFeature4Title:'Chat y Comunidad', landingFeature4Desc:'Salas de chat públicas, niveles premium por nivel, conexión con freelancers de todo el mundo.',
+    landingFeature5Title:'XP y Niveles', landingFeature5Desc:'Gana XP con tareas, check-ins diarios y publicaciones. Alcanza el nivel 12 para ventajas exclusivas.',
+    landingFeature6Title:'Plataforma Segura', landingFeature6Desc:'Verificación de email, limitación de tasa, sesiones cifradas y transacciones verificadas por admin.',
+    howItWorks:'Cómo funciona', signUpStep:'Registro', signUpStepDesc:'Registro rápido con verificación de email', browseStep:'Explorar tareas', browseStepDesc:'Filtra por categoría, dificultad y recompensa', executeStep:'Ejecutar', executeStepDesc:'Completar con calidad', getPaidStep:'Cobra', getPaidStepDesc:'Monedas directo a tu billetera',
     readyToEarn:'¿Listo para ganar?', joinFreelancers:'Únete a miles de freelancers', signUpNow:'Registrarse ahora',
     aboutLink:'Acerca de', contactLink:'Contacto', privacyLink:'Privacidad', termsLink:'Términos', allRights:'Todos los derechos reservados.',
+    welcomeBonusTitle:'🎁 Bono de bienvenida para nuevos', welcomeBonusDesc:'¡Regístrate y obtén ventaja!',
+    welcomeBonus1:'+50 XP — impulso instantáneo tras el registro',
+    welcomeBonus2:'+10 XP — primer bono de check-in diario',
+    welcomeBonus3:'Acceso gratuito a la sala de chat Global',
+    welcomeBonusCta:'Reclamar bono →',
+    trustTitle:'Confiable y Verificado', trustSSL:'Cifrado SSL', trustGDPR:'Cumplimiento GDPR', trustKYC:'Pagos Verificados', trustSupport:'Soporte 24/7',
+    showcaseTitle:'Lo que te espera dentro',
+    showcaseTasksTitle:'Tablero de tareas', showcaseTasksDesc:'Cientos de tareas con filtros en vivo — por categoría, dificultad y monto de recompensa.',
+    showcaseWalletTitle:'Billetera Crypto', showcaseWalletDesc:'Compra monedas con USDT, rastrea tu saldo y retira ganancias a cualquier red compatible.',
+    showcaseChatTitle:'Chat Comunitario', showcaseChatDesc:'Salas de chat con acceso por niveles. Sube de nivel para desbloquear las salas Plata, Oro y Diamante.',
+    showcaseProfileTitle:'Tu Perfil', showcaseProfileDesc:'Rastrea XP, nivel, racha y logros. Personaliza bio, habilidades y avatar.',
     managementCard:'Gestión', rewardsCard:'Recompensas', growthCard:'Crecimiento', goalsCard:'Metas', rankingCard:'Ranking',
     justNow:'ahora', minsAgo:'min', hoursAgo:'h', daysAgo:'d', guestWelcome:'Estás en modo invitado 🎭',
     guestRegTask:'Regístrate para tomar una tarea', guestRegCreate:'Regístrate para crear una tarea',
@@ -553,11 +640,28 @@ const i18n = {
     subject:'Temat', subjectPlaceholder:'Krótko opisz problem', issueType:'Typ problemu', priorityLabel:'Priorytet', detailsLabel:'Szczegóły', detailsPlaceholder:'Podaj dodatkowy kontekst…', billing:'Rozliczenia', technical:'Techniczny', accountType:'Konto', generalType:'Ogólny', normalPriority:'Normalny', highPriority:'Wysoki', criticalPriority:'Krytyczny', submitTicket:'Wyślij zgłoszenie', noTicketsYet:'Brak zgłoszeń', createTicketHelp:'Utwórz jedno powyżej, jeśli potrzebujesz pomocy.', statusCol:'Status', createdCol:'Utworzono', guestSupport:'Zgłoszenia dostępne tylko dla zarejestrowanych użytkowników.',
     settings:'Ustawienia', languageLabel:'Język', animationsLabel:'Animacje', animOn:'Wł ✓', animOff:'Wył', readyToStartQ:'Gotowy zacząć?', readyToStartDesc:'Zarejestruj się, aby zarabiać.', editProfileTitle:'Edytuj profil', roleTitle:'Rola / Tytuł', rolePlaceholder:'Freelancer, Projektant…', bioLabel:'Bio', bioPlaceholder:'Przedstaw się…', skillsLabel:'Umiejętności', skillsPlaceholder:'Projektowanie, Wideo, Tekst…', defaultRole:'Freelancer', browseWithout:'Przeglądaj bez zobowiązań', guestAccount:'Konto gościa',
     you:'Ty',
-    earnTitle:'Zarabiaj', landingMicroTasks:'na Mikro-Zadaniach', landingSubtitle:'Platforma premium dla freelancerów i firm.', getStarted:'Zacznij', signUpBtn:'Zarejestruj się', usersStat:'Użytkowników', paidStat:'On-chain', ratingStat:'Ocena', tasksStat:'Zadań',
-    whyLolance:'Dlaczego LOLance?', skillGrowth:'Rozwój umiejętności', skillGrowthDesc:'Ucz się prawdziwych umiejętności na realnych projektach.', securePayments:'Bezpieczne płatności', securePaymentsDesc:'Chronione transakcje z przejrzystymi opłatami.', transparentRating:'Przejrzysty ranking', transparentRatingDesc:'Buduj reputację dzięki jakościowej pracy.', personalizedTasks:'Spersonalizowane zadania', personalizedTasksDesc:'Zadania AI dopasowane do umiejętności.',
-    howItWorks:'Jak to działa', signUpStep:'Rejestracja', signUpStepDesc:'Szybka rejestracja w 2 minuty', browseStep:'Przeglądaj zadania', browseStepDesc:'Znajdź ciekawą pracę', executeStep:'Wykonaj', executeStepDesc:'Ukończ z jakością', getPaidStep:'Otrzymaj zapłatę', getPaidStepDesc:'Natychmiastowa płatność',
+    earnTitle:'Zarabiaj', landingMicroTasks:'na Mikro-Zadaniach', landingSubtitle:'Platforma premium dla freelancerów i firm.', getStarted:'Zacznij', signUpBtn:'Zarejestruj się',
+    landingHeroDesc:'Wybierz zadanie, wykonaj je, dostań zapłatę — to takie proste. LOLance łączy freelancerów z prawdziwymi mikro-zadaniami w projektowaniu, programowaniu, copywritingu i więcej.',
+    landingFeature1Title:'Przeglądaj zadania', landingFeature1Desc:'Setki mikro-zadań w 10 kategoriach — projektowanie, programowanie, teksty, wideo, QA i więcej.',
+    landingFeature2Title:'Wykonuj i Zarabiaj', landingFeature2Desc:'Ukończ zadania, otrzymuj coiny natychmiast. Zdobywaj XP, awansuj i wspinaj się w rankingu.',
+    landingFeature3Title:'Płatności Krypto', landingFeature3Desc:'Kupuj coiny za USDT (TRC20, BEP20) i wypłacaj zarobki na portfel krypto. Przejrzysta prowizja 5%.',
+    landingFeature4Title:'Chat i Społeczność', landingFeature4Desc:'Publiczne pokoje czatu, poziomy premium według levelu, kontakt z freelancerami z całego świata.',
+    landingFeature5Title:'XP i Poziomy', landingFeature5Desc:'Zdobywaj XP za zadania, codzienne check-iny i posty. Osiągnij poziom 12 po ekskluzywne korzyści.',
+    landingFeature6Title:'Bezpieczna Platforma', landingFeature6Desc:'Weryfikacja email, limitowanie zapytań, szyfrowane sesje i transakcje weryfikowane przez admina.',
+    howItWorks:'Jak to działa', signUpStep:'Rejestracja', signUpStepDesc:'Szybka rejestracja z weryfikacją email', browseStep:'Przeglądaj zadania', browseStepDesc:'Filtruj po kategorii, trudności i nagrodzie', executeStep:'Wykonaj', executeStepDesc:'Ukończ z jakością', getPaidStep:'Otrzymaj zapłatę', getPaidStepDesc:'Coiny prosto do portfela',
     readyToEarn:'Gotowy do zarabiania?', joinFreelancers:'Dołącz do tysięcy freelancerów', signUpNow:'Zarejestruj się teraz',
     aboutLink:'O nas', contactLink:'Kontakt', privacyLink:'Prywatność', termsLink:'Regulamin', allRights:'Wszelkie prawa zastrzeżone.',
+    welcomeBonusTitle:'🎁 Bonus powitalny dla nowych', welcomeBonusDesc:'Zarejestruj się i zyskaj przewagę!',
+    welcomeBonus1:'+50 XP — natychmiastowy boost po rejestracji',
+    welcomeBonus2:'+10 XP — pierwszy dzienny bonus check-in',
+    welcomeBonus3:'Darmowy dostęp do globalnego pokoju czatu',
+    welcomeBonusCta:'Odbierz bonus →',
+    trustTitle:'Zaufane i Zweryfikowane', trustSSL:'Szyfrowanie SSL', trustGDPR:'Zgodność z GDPR', trustKYC:'Zweryfikowane Płatności', trustSupport:'Wsparcie 24/7',
+    showcaseTitle:'Co znajdziesz w środku',
+    showcaseTasksTitle:'Tablica zadań', showcaseTasksDesc:'Setki zadań z filtrami na żywo — po kategorii, trudności i wysokości nagrody.',
+    showcaseWalletTitle:'Portfel Krypto', showcaseWalletDesc:'Kupuj coiny za USDT, śledź saldo i wypłacaj zarobki na dowolną obsługiwaną sieć.',
+    showcaseChatTitle:'Chat Społeczności', showcaseChatDesc:'Pokoje czatu z dostępem według poziomów. Awansuj aby odblokować pokoje Srebrny, Złoty i Diamentowy.',
+    showcaseProfileTitle:'Twój Profil', showcaseProfileDesc:'Śledź XP, poziom, serię i osiągnięcia. Dostosuj bio, umiejętności i avatar.',
     managementCard:'Zarządzanie', rewardsCard:'Nagrody', growthCard:'Wzrost', goalsCard:'Cele', rankingCard:'Ranking',
     justNow:'właśnie', minsAgo:'min', hoursAgo:'godz', daysAgo:'d', guestWelcome:'Jesteś w trybie gościa 🎭',
     guestRegTask:'Zarejestruj się, aby przyjąć zadanie', guestRegCreate:'Zarejestruj się, aby utworzyć zadanie',
@@ -1011,13 +1115,15 @@ function navigate(page){
   const mc=document.getElementById('mainContent');
   if(!mc)return;
   mc.style.opacity='0';
+  mc.style.transform='translateY(6px)';
   setTimeout(()=>{
     mc.innerHTML='';
     renderPage(page,mc);
+    mc.style.transition=S.animationsOn?'opacity .22s ease, transform .22s ease':'none';
     mc.style.opacity='1';
-    mc.style.transition='opacity .2s';
+    mc.style.transform='none';
     mc.scrollTop=0;
-  },80);
+  },S.animationsOn?100:10);
   const titles={dashboard:t('dashboard'),tasks:t('tasks'),createTask:t('createTask'),feed:t('feed'),wallet:t('wallet'),chat:t('chat'),support:t('support'),profile:t('profile'),leaderboard:t('leaderboard')};
   const tb=document.getElementById('topbarTitle');
   if(tb)tb.textContent=titles[page]||page;
@@ -1056,18 +1162,18 @@ function renderShell(){
     {page:'tasks',icon:'📋',label:t('tasks')},
     {page:'createTask',icon:'✚',label:t('createTask')},
     {page:'feed',icon:'📡',label:t('feed')},
+    {page:'profile',icon:'👤',label:t('profile')},
     {page:'wallet',icon:'💎',label:t('wallet')},
     {page:'chat',icon:'💬',label:t('chat')},
     {page:'support',icon:'🛟',label:t('support')},
     {page:'leaderboard',icon:'🏆',label:t('leaderboard')},
-    {page:'profile',icon:'👤',label:t('profile')},
   ];
   const mobItems=[
     {page:'dashboard',icon:'⚡',label:t('dashboard')},
     {page:'tasks',icon:'📋',label:t('tasks')},
+    {page:'profile',icon:'👤',label:t('profile')},
     {page:'createTask',icon:'✚',label:t('createTask')},
     {page:'wallet',icon:'💎',label:t('wallet')},
-    {page:'profile',icon:'👤',label:t('profile')},
   ];
   const unreadCount=(S.notifications||[]).filter(n=>!n.read).length;
   const app=document.getElementById('app');
@@ -3021,9 +3127,7 @@ function renderLanding(){
               <span class="title-word">${t('earnTitle')}</span>
               <span class="title-word">${t('landingMicroTasks')}</span>
             </h1>
-            <p class="hero-subtitle">
-              ${t('landingSubtitle')}
-            </p>
+            <p class="hero-subtitle">${t('landingHeroDesc')}</p>
             
             <!-- CTAs -->
             <div class="hero-ctas">
@@ -3036,99 +3140,161 @@ function renderLanding(){
                 <span>${t('signUpBtn')}</span>
               </button>
             </div>
+          </div>
 
-            <div class="hero-stats">
-              <div class="stat-card">
-                <div class="stat-icon">👥</div>
-                <div class="stat-value">12.5K+</div>
-                <div class="stat-label">${t('usersStat')}</div>
+          <!-- Hero Visual — platform preview mockup -->
+          <div class="hero-visual">
+            <div class="landing-mockup">
+              <div class="mockup-bar">
+                <span class="mockup-dot" style="background:#ff5f57"></span>
+                <span class="mockup-dot" style="background:#ffbd2e"></span>
+                <span class="mockup-dot" style="background:#28c840"></span>
+                <span class="mockup-tab">LOLance — Dashboard</span>
               </div>
-              <div class="stat-card">
-                <div class="stat-icon">💰</div>
-                <div class="stat-value">2.3M USDT</div>
-                <div class="stat-label">${t('paidStat')}</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-icon">⭐</div>
-                <div class="stat-value">4.9</div>
-                <div class="stat-label">${t('ratingStat')}</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-icon">✅</div>
-                <div class="stat-value">98K+</div>
-                <div class="stat-label">${t('tasksStat')}</div>
+              <div class="mockup-body">
+                <div class="mockup-sidebar">
+                  <div class="mockup-nav-item active">⚡ Dashboard</div>
+                  <div class="mockup-nav-item">📋 Tasks</div>
+                  <div class="mockup-nav-item">💎 Wallet</div>
+                  <div class="mockup-nav-item">💬 Chat</div>
+                  <div class="mockup-nav-item">🏆 Rating</div>
+                </div>
+                <div class="mockup-content">
+                  <div class="mockup-stat-row">
+                    <div class="mockup-stat"><span class="mockup-stat-val">💰 1,250</span><span class="mockup-stat-lbl">coins</span></div>
+                    <div class="mockup-stat"><span class="mockup-stat-val">⭐ Lv.5</span><span class="mockup-stat-lbl">level</span></div>
+                    <div class="mockup-stat"><span class="mockup-stat-val">🔥 7</span><span class="mockup-stat-lbl">streak</span></div>
+                  </div>
+                  <div class="mockup-task-list">
+                    <div class="mockup-task"><span class="mockup-badge easy">Easy</span> Logo design <span class="mockup-reward">+200 💎</span></div>
+                    <div class="mockup-task"><span class="mockup-badge medium">Medium</span> Landing page <span class="mockup-reward">+500 💎</span></div>
+                    <div class="mockup-task"><span class="mockup-badge hard">Hard</span> API integration <span class="mockup-reward">+1000 💎</span></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Hero Visual -->
-          <div class="hero-visual">
-            <div class="floating-card card-1">
-              <div class="card-header">📋</div>
-              <div class="card-text">${t('managementCard')}</div>
+        <!-- Welcome Bonus Section -->
+        <div class="welcome-bonus-section">
+          <div class="welcome-bonus-card">
+            <h2>${t('welcomeBonusTitle')}</h2>
+            <p class="welcome-bonus-desc">${t('welcomeBonusDesc')}</p>
+            <div class="welcome-bonus-items">
+              <div class="welcome-bonus-item">
+                <span class="bonus-icon">🚀</span>
+                <span>${t('welcomeBonus1')}</span>
+              </div>
+              <div class="welcome-bonus-item">
+                <span class="bonus-icon">📅</span>
+                <span>${t('welcomeBonus2')}</span>
+              </div>
+              <div class="welcome-bonus-item">
+                <span class="bonus-icon">💬</span>
+                <span>${t('welcomeBonus3')}</span>
+              </div>
             </div>
-            <div class="floating-card card-2">
-              <div class="card-header">💎</div>
-              <div class="card-text">${t('rewardsCard')}</div>
+            <button id="bonusRegister" class="btn btn-primary btn-lg" style="margin-top:20px;">
+              ${t('welcomeBonusCta')}
+            </button>
+          </div>
+        </div>
+
+        <!-- Showcase: What You Get Inside -->
+        <div class="showcase-section">
+          <h2 class="section-title">${t('showcaseTitle')}</h2>
+          <div class="showcase-grid">
+            <div class="showcase-card">
+              <div class="showcase-preview">
+                <div class="showcase-mini-tasks">
+                  <div class="mini-task"><span class="mockup-badge easy">Easy</span> UI review <span class="mini-coins">+150 💎</span></div>
+                  <div class="mini-task"><span class="mockup-badge medium">Med</span> Write blog post <span class="mini-coins">+350 💎</span></div>
+                  <div class="mini-task"><span class="mockup-badge hard">Hard</span> Build API <span class="mini-coins">+800 💎</span></div>
+                </div>
+              </div>
+              <h3>📋 ${t('showcaseTasksTitle')}</h3>
+              <p>${t('showcaseTasksDesc')}</p>
             </div>
-            <div class="floating-card card-3">
-              <div class="card-header">📈</div>
-              <div class="card-text">${t('growthCard')}</div>
+            <div class="showcase-card">
+              <div class="showcase-preview">
+                <div class="showcase-wallet-mock">
+                  <div class="wallet-mock-balance">💎 12,500 <span>coins</span></div>
+                  <div class="wallet-mock-row"><span>USDT → Coins</span><span style="color:var(--success)">+5,000</span></div>
+                  <div class="wallet-mock-row"><span>Task reward</span><span style="color:var(--success)">+500</span></div>
+                  <div class="wallet-mock-row"><span>Withdrawal</span><span style="color:var(--danger)">-2,000</span></div>
+                </div>
+              </div>
+              <h3>💎 ${t('showcaseWalletTitle')}</h3>
+              <p>${t('showcaseWalletDesc')}</p>
             </div>
-            <div class="floating-card card-4">
-              <div class="card-header">🎯</div>
-              <div class="card-text">${t('goalsCard')}</div>
+            <div class="showcase-card">
+              <div class="showcase-preview">
+                <div class="showcase-chat-mock">
+                  <div class="chat-mock-msg left"><span class="chat-mock-name">Anna</span> Hey! Need help with the task?</div>
+                  <div class="chat-mock-msg right"><span class="chat-mock-name">You</span> Yes, sending details now 👍</div>
+                  <div class="chat-mock-msg left"><span class="chat-mock-name">Max</span> Great community here!</div>
+                </div>
+              </div>
+              <h3>💬 ${t('showcaseChatTitle')}</h3>
+              <p>${t('showcaseChatDesc')}</p>
             </div>
-            <div class="floating-card card-5">
-              <div class="card-header">🏆</div>
-              <div class="card-text">${t('rankingCard')}</div>
-            </div>
-            <div class="main-visual">
-              <span style="font-size:120px;animation:float 6s ease-in-out infinite;">💼</span>
+            <div class="showcase-card">
+              <div class="showcase-preview">
+                <div class="showcase-profile-mock">
+                  <div class="profile-mock-avatar">🧑‍💻</div>
+                  <div class="profile-mock-info">
+                    <div class="profile-mock-name">Alex Freelancer</div>
+                    <div class="profile-mock-stats">⭐ Lv.8 &nbsp; 🔥 15-day streak &nbsp; 🏆 Top 5%</div>
+                    <div class="profile-mock-xp"><div class="profile-mock-xp-fill" style="width:72%"></div></div>
+                  </div>
+                </div>
+              </div>
+              <h3>👤 ${t('showcaseProfileTitle')}</h3>
+              <p>${t('showcaseProfileDesc')}</p>
             </div>
           </div>
         </div>
 
         <!-- Features Section -->
         <div class="features-section">
-          <h2 class="section-title">${t('whyLolance')}</h2>
+          <h2 class="section-title">${t('howItWorks')}</h2>
           <div class="features-grid">
             <div class="feature-card">
-              <div class="feature-icon">⚡</div>
-              <h3>${t('quickEarnings')}</h3>
-              <p>${t('quickEarningsDesc')}</p>
+              <div class="feature-icon">📋</div>
+              <h3>${t('landingFeature1Title')}</h3>
+              <p>${t('landingFeature1Desc')}</p>
             </div>
             <div class="feature-card">
-              <div class="feature-icon">🎓</div>
-              <h3>${t('skillGrowth')}</h3>
-              <p>${t('skillGrowthDesc')}</p>
+              <div class="feature-icon">💰</div>
+              <h3>${t('landingFeature2Title')}</h3>
+              <p>${t('landingFeature2Desc')}</p>
             </div>
             <div class="feature-card">
-              <div class="feature-icon">🌍</div>
-              <h3>${t('globalCommunity')}</h3>
-              <p>${t('globalCommunityDesc')}</p>
+              <div class="feature-icon">🔗</div>
+              <h3>${t('landingFeature3Title')}</h3>
+              <p>${t('landingFeature3Desc')}</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">💬</div>
+              <h3>${t('landingFeature4Title')}</h3>
+              <p>${t('landingFeature4Desc')}</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🏆</div>
+              <h3>${t('landingFeature5Title')}</h3>
+              <p>${t('landingFeature5Desc')}</p>
             </div>
             <div class="feature-card">
               <div class="feature-icon">🔒</div>
-              <h3>${t('securePayments')}</h3>
-              <p>${t('securePaymentsDesc')}</p>
-            </div>
-            <div class="feature-card">
-              <div class="feature-icon">📊</div>
-              <h3>${t('transparentRating')}</h3>
-              <p>${t('transparentRatingDesc')}</p>
-            </div>
-            <div class="feature-card">
-              <div class="feature-icon">🎯</div>
-              <h3>${t('personalizedTasks')}</h3>
-              <p>${t('personalizedTasksDesc')}</p>
+              <h3>${t('landingFeature6Title')}</h3>
+              <p>${t('landingFeature6Desc')}</p>
             </div>
           </div>
         </div>
 
-        <!-- How It Works -->
+        <!-- How It Works Steps -->
         <div class="how-section">
-          <h2 class="section-title">${t('howItWorks')}</h2>
           <div class="steps-grid">
             <div class="step-card">
               <div class="step-number">1</div>
@@ -3139,7 +3305,7 @@ function renderLanding(){
             <div class="step-connector">→</div>
             <div class="step-card">
               <div class="step-number">2</div>
-              <div class="step-icon">📋</div>
+              <div class="step-icon">🔍</div>
               <h3>${t('browseStep')}</h3>
               <p>${t('browseStepDesc')}</p>
             </div>
@@ -3153,9 +3319,32 @@ function renderLanding(){
             <div class="step-connector">→</div>
             <div class="step-card">
               <div class="step-number">4</div>
-              <div class="step-icon">💰</div>
+              <div class="step-icon">💎</div>
               <h3>${t('getPaidStep')}</h3>
               <p>${t('getPaidStepDesc')}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="trust-section">
+          <h2 class="section-title">${t('trustTitle')}</h2>
+          <div class="trust-badges">
+            <div class="trust-badge">
+              <div class="trust-icon">🔒</div>
+              <span>${t('trustSSL')}</span>
+            </div>
+            <div class="trust-badge">
+              <div class="trust-icon">🛡️</div>
+              <span>${t('trustGDPR')}</span>
+            </div>
+            <div class="trust-badge">
+              <div class="trust-icon">✅</div>
+              <span>${t('trustKYC')}</span>
+            </div>
+            <div class="trust-badge">
+              <div class="trust-icon">🎧</div>
+              <span>${t('trustSupport')}</span>
             </div>
           </div>
         </div>
@@ -3174,18 +3363,18 @@ function renderLanding(){
         <!-- Footer -->
         <div class="landing-footer">
           <div class="footer-links">
-            <a href="#" class="footer-link">${t('aboutLink')}</a>
+            <a href="terms.html" class="footer-link" target="_blank">${t('termsLink')}</a>
+            <a href="privacy.html" class="footer-link" target="_blank">${t('privacyLink')}</a>
             <a href="#" class="footer-link">${t('contactLink')}</a>
-            <a href="#" class="footer-link">${t('privacyLink')}</a>
-            <a href="#" class="footer-link">${t('termsLink')}</a>
           </div>
-          <div class="footer-text">© 2024 LOLance. ${t('allRights')}</div>
+          <div class="footer-text">© 2026 LOLance. ${t('allRights')}</div>
         </div>
       </div>
     </div>`;
 
   document.getElementById('goLogin')?.addEventListener('click',()=>renderAuth('login'));
   document.getElementById('goRegister')?.addEventListener('click',()=>renderAuth('register'));
+  document.getElementById('bonusRegister')?.addEventListener('click',()=>renderAuth('register'));
   document.getElementById('ctaRegister')?.addEventListener('click',()=>renderAuth('register'));
   document.getElementById('landingLangSelector')?.addEventListener('change',e=>{S.lang=e.target.value;saveState();renderLanding();});
 }

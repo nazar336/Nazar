@@ -44,6 +44,6 @@ function get_crypto_rates(): array
         'SOL'  => (float)($parsed['solana']['usd']      ?? $fallback['SOL']),
     ];
 
-    @file_put_contents($cache, json_encode($rates));
+    @file_put_contents($cache, json_encode($rates), LOCK_EX);
     return $rates;
 }

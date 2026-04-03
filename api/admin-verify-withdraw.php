@@ -128,13 +128,13 @@ function handleProcess(PDO $pdo, array $input): never {
                 WHERE user_id = :uid
             ')->execute([':amt' => $amountCoins, ':amt2' => $amountCoins, ':uid' => $userId]);
 
-            // Log refund
+            // Log refund (positive amount for accounting)
             $pdo->prepare('
                 INSERT INTO coin_spending (user_id, amount, type, description)
                 VALUES (:uid, :amt, "withdraw", :desc)
             ')->execute([
                 ':uid'  => $userId,
-                ':amt'  => -$amountCoins,
+                ':amt'  => $amountCoins,
                 ':desc' => 'Withdrawal rejected — refund ' . $amountCoins . ' coins',
             ]);
 

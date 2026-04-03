@@ -87,7 +87,8 @@ CREATE TABLE IF NOT EXISTS task_assignments (
     FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     UNIQUE KEY unique_task_user (task_id, user_id),
-    KEY idx_user_id (user_id)
+    KEY idx_user_id (user_id),
+    KEY idx_status (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ── WALLET / TRANSACTIONS ──
@@ -107,7 +108,8 @@ CREATE TABLE IF NOT EXISTS transactions (
     FOREIGN KEY (to_user_id) REFERENCES users(id) ON DELETE SET NULL,
     FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE SET NULL,
     KEY idx_user_id (user_id),
-    KEY idx_created_at (created_at)
+    KEY idx_created_at (created_at),
+    KEY idx_user_status (user_id, status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ── MESSAGE THREADS (створити ЕРШ ніж messages!) ──
@@ -201,7 +203,7 @@ CREATE TABLE IF NOT EXISTS task_reviews (
     task_id       INT UNSIGNED NOT NULL,
     reviewer_id   INT UNSIGNED NOT NULL,
     reviewee_id   INT UNSIGNED NOT NULL,
-    rating        INT DEFAULT 5,
+    rating        INT DEFAULT 5 CHECK (rating >= 1 AND rating <= 5),
     comment       TEXT,
     created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
@@ -241,7 +243,7 @@ CREATE TABLE IF NOT EXISTS crypto_deposits (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     KEY idx_user_id (user_id),
     KEY idx_status (status),
-    KEY idx_tx_hash (transaction_hash)
+    UNIQUE KEY idx_tx_hash (transaction_hash)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ── ЩОДЕННИЙ CHECK-IN (30-денний календар) ──

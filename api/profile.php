@@ -46,6 +46,14 @@ try{
     // Remove sensitive data
     unset($user['password_hash']);
     
+    // Sanitize user-generated content for XSS protection
+    $sanitizeFields = ['name', 'username', 'bio', 'website', 'avatar', 'role', 'skills', 'location'];
+    foreach ($sanitizeFields as $field) {
+      if (isset($user[$field]) && $user[$field] !== null) {
+        $user[$field] = htmlspecialchars((string)$user[$field], ENT_QUOTES, 'UTF-8');
+      }
+    }
+    
     // Get user stats from task_assignments
     $statsStmt=$pdo->prepare('
       SELECT 
@@ -222,6 +230,14 @@ try{
     ');
     $getStmt->execute([':id'=>$userId]);
     $updated=$getStmt->fetch(PDO::FETCH_ASSOC);
+    
+    // Sanitize user-generated content for XSS protection
+    $sanitizeFields = ['name', 'username', 'bio', 'website', 'avatar', 'role', 'skills', 'location'];
+    foreach ($sanitizeFields as $field) {
+      if (isset($updated[$field]) && $updated[$field] !== null) {
+        $updated[$field] = htmlspecialchars((string)$updated[$field], ENT_QUOTES, 'UTF-8');
+      }
+    }
     
     json_response(['success'=>true,'user'=>$updated]);
   }

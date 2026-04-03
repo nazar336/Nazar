@@ -1,0 +1,99 @@
+name: LOLance CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  php-tests:
+    name: PHP Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, pdo, pdo_mysql, json
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run PHPUnit tests
+        run: ./vendor/bin/phpunit
+
+      - name: Run PHP linting
+        run: find api/ -name "*.php" -exec php -l {} \;
+
+  js-tests:
+    name: JS Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Run Vitest tests
+        run: npx vitest run
+
+      - name: Run JS syntax check
+        run: |
+          echo "Checking JavaScript syntax..."
+          find js/ -name "*.js" -exec node --check {} \;
+          echo "JS syntax check passed."
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for hardcoded passwords in PHP files
+        run: |
+          echo "Scanning PHP files for common security issues..."
+          ISSUES=0
+
+          # Check for hardcoded password assignments
+          if grep -rn --include="*.php" -E '\$(password|passwd|secret|api_key)\s*=\s*["\x27][^"\x27]+["\x27]' api/; then
+            echo "::warning::Potential hardcoded credentials found in PHP files."
+            ISSUES=$((ISSUES + 1))
+          fi
+
+          # Check for raw SQL with direct variable interpolation
+          if grep -rn --include="*.php" -E '(query|execute)\s*\(\s*"[^"]*\$' api/; then
+            echo "::warning::Potential SQL injection risk: direct variable interpolation in queries."
+            ISSUES=$((ISSUES + 1))
+          fi
+
+          if [ "$ISSUES" -eq 0 ]; then
+            echo "No common security issues detected."
+          else
+            echo "Found $ISSUES potential security issue(s). Please review the warnings above."
+          fi
+
+      - name: Verify no .env file is committed
+        run: |
+          if [ -f .env ]; then
+            echo "::error::.env file found in repository. This should be in .gitignore."
+            exit 1
+          fi
+          echo "No .env file committed — check passed."

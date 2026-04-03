@@ -1,0 +1,33 @@
+# Environment
+.env
+
+# Dependencies
+node_modules/
+vendor/
+
+# Build output
+dist/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# PHP
+composer.lock
+
+# Temporary
+/tmp/
+*.bak
+*.zip
+*.gz
+*.tar

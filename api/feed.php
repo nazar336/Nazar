@@ -6,6 +6,7 @@ cors_headers(['GET', 'POST', 'DELETE', 'OPTIONS']);
 start_secure_session();
 $pdo    = db();
 $method = $_SERVER['REQUEST_METHOD'];
+csrf_validate();
 
 /* ─────── Constants: Feed Rewards & Limits ─────── */
 const FEED_XP_PER_POST       = 5;    // XP earned per new post

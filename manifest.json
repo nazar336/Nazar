@@ -1,0 +1,19 @@
+{
+  "name": "LOLance — Premium Micro-Task Platform",
+  "short_name": "LOLance",
+  "description": "Complete engaging tasks, grow and earn while connecting with a global community.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#070b08",
+  "theme_color": "#b8ff43",
+  "orientation": "any",
+  "categories": ["business", "finance", "productivity"],
+  "lang": "uk",
+  "icons": [
+    { "src": "assets/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "assets/icon-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any maskable" }
+  ],
+  "screenshots": [],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

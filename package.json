@@ -6,10 +6,13 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "npx playwright test",
     "lint": "find js/ -name '*.js' -exec node --check {} \\;"
   },
   "devDependencies": {
-    "vitest": "^3.2.4",
-    "jsdom": "^26.1.0"
+    "@playwright/test": "^1.59.1",
+    "jsdom": "^26.1.0",
+    "serve": "^14.2.6",
+    "vitest": "^3.2.4"
   }
 }

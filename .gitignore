@@ -23,7 +23,7 @@ Thumbs.db
 *.log
 
 # PHP
-composer.lock
+# composer.lock is committed for reproducible builds
 
 # Temporary
 /tmp/

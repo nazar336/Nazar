@@ -111,6 +111,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 coins',
     roomOnline:'online', noMsgsYet:'Be the first to write!', globalRoomDesc:'All users can chat here',
     withdrawCrypto:'Withdraw to Crypto', withdrawTitle:'Withdraw Coins to Crypto', withdrawCoins:'Amount (coins)', withdrawWallet:'Your wallet address', withdrawNetwork:'Network', withdrawFee:'Fee (5%)', withdrawNet:'You receive', withdrawConfirm:'Submit Withdrawal', withdrawSuccess:'Withdrawal request created!', withdrawCancel:'Cancel Withdrawal', withdrawCancelled:'Withdrawal cancelled. Coins refunded.', withdrawHistory:'Withdrawal History', withdrawPending:'You have a pending withdrawal', withdrawMin:'Min withdrawal: 500 coins', withdrawStatus:'Status', noWithdrawals:'No withdrawals yet',
+    gameCoins:'Game Coins', purchased:'Purchased', rate:'Rate', usdtDeposits:'USDT Deposits', coinSpending:'Coin Spending', buyCoinsUsdt:'Buy Coins with USDT', refresh:'Refresh', txHash:'Transaction hash', pasteTxHash:'Paste blockchain tx hash', iPaidConfirm:'I paid, confirm deposit', missingTxHash:'Paste the transaction hash.', messageSentGlobal:'Message sent to Global chat', acceptTermsRequired:'You must accept the Terms and Privacy Policy.', noDepositsYet:'No crypto deposit history yet.', noSpendingYet:'No coin spending yet.', exchTitle:'Exchange: USDT → 🪙', getAddress:'Get Address', sendAmount:'Send', toAddress:'to address:', depositConfirmed:'Deposit confirmed', confirmError:'Confirmation error', amountRange:'Amount: 1 to 10000 USDT', faqQ1:'How to start earning?', faqA1:'Register, browse tasks and take one that fits your skills.', faqQ2:'How do payments work?', faqA2:'Earn coins by completing tasks. Buy coins with USDT or withdraw to crypto.', faqQ3:'What is XP and levels?', faqA3:'XP measures your activity. Earn XP from tasks, daily check-ins and visits. Every 1000 XP = 1 level.', faqQ4:'How to withdraw funds?', faqA4:'Go to Wallet, click Withdraw. Min 500 coins, 5% fee. Supports TRC20, BEP20, ERC20, BTC, SOL.', faqQ5:'Is my data safe?', faqA5:'Yes. Passwords are bcrypt-hashed, sessions use HttpOnly cookies, all data is transmitted over HTTPS.', loading:'Loading...',
   },
   UA:{
     appName:'LOLance', appTag:'Преміум платформа мікрозадач',
@@ -187,6 +188,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 монет',
     roomOnline:'онлайн', noMsgsYet:'Будь першим хто напише!', globalRoomDesc:'Тут можуть писати всі користувачі',
     withdrawCrypto:'Вивести в крипту', withdrawTitle:'Вивід монет у крипту', withdrawCoins:'Сума (монети)', withdrawWallet:'Адреса вашого гаманця', withdrawNetwork:'Мережа', withdrawFee:'Комісія (5%)', withdrawNet:'Ви отримаєте', withdrawConfirm:'Створити запит', withdrawSuccess:'Запит на вивід створено!', withdrawCancel:'Скасувати вивід', withdrawCancelled:'Вивід скасовано. Монети повернено.', withdrawHistory:'Історія виводів', withdrawPending:'У вас є активний запит на вивід', withdrawMin:'Мін. вивід: 500 монет', withdrawStatus:'Статус', noWithdrawals:'Виводів ще не було',
+    gameCoins:'Ігрові монети', purchased:'Куплено', rate:'Курс', usdtDeposits:'USDT Депозити', coinSpending:'Витрати монет', buyCoinsUsdt:'Купити монети за USDT', refresh:'Оновити', txHash:'Хеш транзакції', pasteTxHash:'Вставте хеш транзакції', iPaidConfirm:'Я оплатив, підтвердити', missingTxHash:'Вставте хеш транзакції.', messageSentGlobal:'Повідомлення надіслано до глобального чату', acceptTermsRequired:'Потрібно погодитись з Правилами платформи та Політикою приватності.', noDepositsYet:'Історія crypto-депозитів поки порожня.', noSpendingYet:'Витрат монет ще не було.', exchTitle:'Обмінник: USDT → 🪙', getAddress:'Отримати адресу', sendAmount:'Надішли', toAddress:'на адресу:', depositConfirmed:'Депозит підтверджено', confirmError:'Помилка підтвердження', amountRange:'Сума: від 1 до 10000 USDT', faqQ1:'Як почати заробляти?', faqA1:'Зареєструйтесь, перегляньте задачі і візьміть ту, що відповідає вашим навичкам.', faqQ2:'Як працюють виплати?', faqA2:'Заробляйте монети виконуючи задачі. Купуйте за USDT або виводьте в крипту.', faqQ3:'Що таке XP та рівні?', faqA3:'XP вимірює вашу активність. Заробляйте з задач, чек-інів та візитів. 1000 XP = 1 рівень.', faqQ4:'Як вивести кошти?', faqA4:'Перейдіть у Гаманець, натисніть Вивести. Мін 500 монет, комісія 5%. Підтримує TRC20, BEP20, ERC20, BTC, SOL.', faqQ5:'Чи мої дані в безпеці?', faqA5:'Так. Паролі зберігаються bcrypt-хешем, сесії через HttpOnly cookies, всі дані через HTTPS.', loading:'Завантаження...',
   },
   DE:{
     appName:'LOLance', appTag:'Premium Micro-Task Plattform',
@@ -258,6 +260,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 Coins',
     roomOnline:'online', noMsgsYet:'Sei der Erste, der schreibt!', globalRoomDesc:'Hier können alle Nutzer schreiben',
     withdrawCrypto:'Auszahlung in Krypto', withdrawTitle:'Coins in Krypto auszahlen', withdrawCoins:'Betrag (Coins)', withdrawWallet:'Ihre Wallet-Adresse', withdrawNetwork:'Netzwerk', withdrawFee:'Gebühr (5%)', withdrawNet:'Sie erhalten', withdrawConfirm:'Auszahlung beantragen', withdrawSuccess:'Auszahlungsantrag erstellt!', withdrawCancel:'Auszahlung stornieren', withdrawCancelled:'Auszahlung storniert. Coins erstattet.', withdrawHistory:'Auszahlungshistorie', withdrawPending:'Sie haben eine offene Auszahlung', withdrawMin:'Min. Auszahlung: 500 Coins', withdrawStatus:'Status', noWithdrawals:'Noch keine Auszahlungen',
+    gameCoins:'Spielmünzen', purchased:'Gekauft', rate:'Kurs', usdtDeposits:'USDT Einzahlungen', coinSpending:'Münzausgaben', buyCoinsUsdt:'Coins mit USDT kaufen', refresh:'Aktualisieren', txHash:'Transaktionshash', pasteTxHash:'Blockchain-Tx-Hash einfügen', iPaidConfirm:'Bezahlt, Einzahlung bestätigen', missingTxHash:'Bitte den Tx-Hash einfügen.', messageSentGlobal:'Nachricht an Global-Chat gesendet', acceptTermsRequired:'Sie müssen die Nutzungsbedingungen akzeptieren.', noDepositsYet:'Noch keine Krypto-Einzahlungen.', noSpendingYet:'Noch keine Münzausgaben.', exchTitle:'Tausch: USDT → 🪙', getAddress:'Adresse abrufen', sendAmount:'Senden Sie', toAddress:'an Adresse:', depositConfirmed:'Einzahlung bestätigt', confirmError:'Bestätigungsfehler', amountRange:'Betrag: 1 bis 10000 USDT', faqQ1:'Wie fange ich an zu verdienen?', faqA1:'Registrieren Sie sich, durchsuchen Sie Aufgaben und nehmen Sie eine an.', faqQ2:'Wie funktionieren Zahlungen?', faqA2:'Verdienen Sie Coins durch Aufgaben. Kaufen Sie mit USDT oder zahlen Sie in Krypto aus.', faqQ3:'Was sind XP und Level?', faqA3:'XP misst Ihre Aktivität. Verdienen Sie XP durch Aufgaben und tägliche Check-ins. 1000 XP = 1 Level.', faqQ4:'Wie kann ich auszahlen?', faqA4:'Gehen Sie zur Geldbörse, klicken Sie Auszahlen. Min 500 Coins, 5% Gebühr.', faqQ5:'Sind meine Daten sicher?', faqA5:'Ja. Passwörter werden bcrypt-gehasht, Sessions nutzen HttpOnly-Cookies, alle Daten über HTTPS.', loading:'Laden...',
   },
   FR:{
     appName:'LOLance', appTag:'Plateforme Premium de Micro-Tâches',
@@ -329,6 +332,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 coins',
     roomOnline:'en ligne', noMsgsYet:'Soyez le premier à écrire !', globalRoomDesc:'Tous les utilisateurs peuvent écrire ici',
     withdrawCrypto:'Retirer en crypto', withdrawTitle:'Retirer des coins en crypto', withdrawCoins:'Montant (coins)', withdrawWallet:'Adresse de votre portefeuille', withdrawNetwork:'Réseau', withdrawFee:'Frais (5%)', withdrawNet:'Vous recevrez', withdrawConfirm:'Soumettre le retrait', withdrawSuccess:'Demande de retrait créée !', withdrawCancel:'Annuler le retrait', withdrawCancelled:'Retrait annulé. Coins remboursés.', withdrawHistory:'Historique des retraits', withdrawPending:'Vous avez un retrait en attente', withdrawMin:'Retrait min. : 500 coins', withdrawStatus:'Statut', noWithdrawals:'Aucun retrait pour le moment',
+    gameCoins:'Pièces de jeu', purchased:'Acheté', rate:'Taux', usdtDeposits:'Dépôts USDT', coinSpending:'Dépenses de pièces', buyCoinsUsdt:'Acheter des pièces avec USDT', refresh:'Actualiser', txHash:'Hash de transaction', pasteTxHash:'Collez le hash de la transaction', iPaidConfirm:'J\'ai payé, confirmer', missingTxHash:'Collez le hash de la transaction.', messageSentGlobal:'Message envoyé au chat global', acceptTermsRequired:'Vous devez accepter les conditions.', noDepositsYet:'Aucun historique de dépôts crypto.', noSpendingYet:'Aucune dépense de pièces.', exchTitle:'Échange: USDT → 🪙', getAddress:'Obtenir l\'adresse', sendAmount:'Envoyez', toAddress:'à l\'adresse:', depositConfirmed:'Dépôt confirmé', confirmError:'Erreur de confirmation', amountRange:'Montant: 1 à 10000 USDT', faqQ1:'Comment commencer à gagner?', faqA1:'Inscrivez-vous, parcourez les tâches et prenez-en une.', faqQ2:'Comment fonctionnent les paiements?', faqA2:'Gagnez des pièces en complétant des tâches. Achetez avec USDT ou retirez en crypto.', faqQ3:'Qu\'est-ce que l\'XP et les niveaux?', faqA3:'L\'XP mesure votre activité. Gagnez de l\'XP via les tâches et check-ins. 1000 XP = 1 niveau.', faqQ4:'Comment retirer des fonds?', faqA4:'Allez dans Portefeuille, cliquez Retirer. Min 500 pièces, frais 5%.', faqQ5:'Mes données sont-elles en sécurité?', faqA5:'Oui. Les mots de passe sont hachés bcrypt, les sessions utilisent HttpOnly cookies, HTTPS.', loading:'Chargement...',
   },
   ES:{
     appName:'LOLance', appTag:'Plataforma Premium de Micro-Tareas',
@@ -400,6 +404,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 monedas',
     roomOnline:'en línea', noMsgsYet:'¡Sé el primero en escribir!', globalRoomDesc:'Todos los usuarios pueden escribir aquí',
     withdrawCrypto:'Retirar a crypto', withdrawTitle:'Retirar coins a crypto', withdrawCoins:'Cantidad (coins)', withdrawWallet:'Dirección de tu billetera', withdrawNetwork:'Red', withdrawFee:'Comisión (5%)', withdrawNet:'Recibirás', withdrawConfirm:'Solicitar retiro', withdrawSuccess:'¡Solicitud de retiro creada!', withdrawCancel:'Cancelar retiro', withdrawCancelled:'Retiro cancelado. Coins devueltos.', withdrawHistory:'Historial de retiros', withdrawPending:'Tienes un retiro pendiente', withdrawMin:'Retiro mín.: 500 coins', withdrawStatus:'Estado', noWithdrawals:'Sin retiros aún',
+    gameCoins:'Monedas de juego', purchased:'Comprado', rate:'Tasa', usdtDeposits:'Depósitos USDT', coinSpending:'Gastos de monedas', buyCoinsUsdt:'Comprar monedas con USDT', refresh:'Actualizar', txHash:'Hash de transacción', pasteTxHash:'Pegue el hash de la transacción', iPaidConfirm:'Pagué, confirmar depósito', missingTxHash:'Pegue el hash de la transacción.', messageSentGlobal:'Mensaje enviado al chat global', acceptTermsRequired:'Debe aceptar los términos.', noDepositsYet:'Sin historial de depósitos crypto.', noSpendingYet:'Sin gastos de monedas aún.', exchTitle:'Intercambio: USDT → 🪙', getAddress:'Obtener dirección', sendAmount:'Envíe', toAddress:'a la dirección:', depositConfirmed:'Depósito confirmado', confirmError:'Error de confirmación', amountRange:'Monto: 1 a 10000 USDT', faqQ1:'¿Cómo empezar a ganar?', faqA1:'Regístrese, explore las tareas y tome una.', faqQ2:'¿Cómo funcionan los pagos?', faqA2:'Gane monedas completando tareas. Compre con USDT o retire a crypto.', faqQ3:'¿Qué son XP y niveles?', faqA3:'XP mide tu actividad. Gana XP de tareas, check-ins y visitas. 1000 XP = 1 nivel.', faqQ4:'¿Cómo retirar fondos?', faqA4:'Vaya a Billetera, haga clic en Retirar. Mín 500 monedas, comisión 5%.', faqQ5:'¿Están seguros mis datos?', faqA5:'Sí. Las contraseñas están hasheadas con bcrypt, sesiones HttpOnly, todo por HTTPS.', loading:'Cargando...',
   },
   PL:{
     appName:'LOLance', appTag:'Platforma Premium Mikro-Zadań',
@@ -471,6 +476,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 coinów',
     roomOnline:'online', noMsgsYet:'Bądź pierwszym, który pisze!', globalRoomDesc:'Tutaj mogą pisać wszyscy użytkownicy',
     withdrawCrypto:'Wypłata na krypto', withdrawTitle:'Wypłata coinów na krypto', withdrawCoins:'Kwota (coiny)', withdrawWallet:'Adres Twojego portfela', withdrawNetwork:'Sieć', withdrawFee:'Opłata (5%)', withdrawNet:'Otrzymasz', withdrawConfirm:'Złóż wniosek', withdrawSuccess:'Wniosek o wypłatę złożony!', withdrawCancel:'Anuluj wypłatę', withdrawCancelled:'Wypłata anulowana. Coiny zwrócone.', withdrawHistory:'Historia wypłat', withdrawPending:'Masz oczekującą wypłatę', withdrawMin:'Min. wypłata: 500 coinów', withdrawStatus:'Status', noWithdrawals:'Brak wypłat',
+    gameCoins:'Monety gry', purchased:'Kupione', rate:'Kurs', usdtDeposits:'Depozyty USDT', coinSpending:'Wydatki monet', buyCoinsUsdt:'Kup monety za USDT', refresh:'Odśwież', txHash:'Hash transakcji', pasteTxHash:'Wklej hash transakcji', iPaidConfirm:'Zapłaciłem, potwierdź', missingTxHash:'Wklej hash transakcji.', messageSentGlobal:'Wiadomość wysłana na czat globalny', acceptTermsRequired:'Musisz zaakceptować regulamin.', noDepositsYet:'Brak historii depozytów krypto.', noSpendingYet:'Brak wydatków monet.', exchTitle:'Wymiana: USDT → 🪙', getAddress:'Pobierz adres', sendAmount:'Wyślij', toAddress:'na adres:', depositConfirmed:'Depozyt potwierdzony', confirmError:'Błąd potwierdzenia', amountRange:'Kwota: 1 do 10000 USDT', faqQ1:'Jak zacząć zarabiać?', faqA1:'Zarejestruj się, przeglądaj zadania i weź jedno.', faqQ2:'Jak działają płatności?', faqA2:'Zarabiaj monety wykonując zadania. Kupuj za USDT lub wypłacaj do krypto.', faqQ3:'Czym jest XP i poziomy?', faqA3:'XP mierzy aktywność. Zdobywaj XP z zadań, check-inów i wizyt. 1000 XP = 1 poziom.', faqQ4:'Jak wypłacić środki?', faqA4:'Przejdź do Portfela, kliknij Wypłać. Min 500 monet, 5% prowizji.', faqQ5:'Czy moje dane są bezpieczne?', faqA5:'Tak. Hasła hashowane bcrypt, sesje HttpOnly cookies, dane przez HTTPS.', loading:'Ładowanie...',
   },
 };
 function t(k){ return (i18n[S.lang]||i18n.UA)[k] || k; }
@@ -480,7 +486,13 @@ const uid = ()=> Math.random().toString(36).slice(2,9);
 
 /* ── 4. EMPTY DATA ──────────────────────────────────────────── */
 
-const seedFaqs = [];
+function getSeedFaqs(){return [
+  {q:t('faqQ1'),a:t('faqA1')},
+  {q:t('faqQ2'),a:t('faqA2')},
+  {q:t('faqQ3'),a:t('faqA3')},
+  {q:t('faqQ4'),a:t('faqA4')},
+  {q:t('faqQ5'),a:t('faqA5')},
+];}
 
 /* ── 4. STATE ────────────────────────────────────────────────── */
 let S = {};
@@ -614,16 +626,7 @@ async function loadWallet(){
   }catch(e){}
 }
 
-async function loadMessages(){
-  if(isGuest) return;
-  try{
-    const {ok, data} = await apiFetch(API.messages);
-    if(ok){
-      S.threads = data.threads || [];
-      saveState();
-    }
-  }catch(e){}
-}
+
 
 async function loadSupport(){
   if(isGuest) return;
@@ -700,12 +703,17 @@ async function sendRoomMessage(){
   if(!input)return;
   const message=input.value.trim();
   if(!message){toast(t('noMessage'),'error');return;}
-  const tier=Number(S.activeRoomTier||1);
-  const {ok,data}=await apiFetch(API.chatRooms,{method:'POST',body:JSON.stringify({action:'send',tier,message})});
-  if(!ok){toast(data.message||'Error','error');return;}
-  input.value='';
-  await loadChatRooms(tier);
-  navigate('chat');
+  const btn=document.getElementById('roomSendBtn');
+  if(!btn||btn.disabled)return;
+  setLoading(btn,true);
+  try{
+    const tier=Number(S.activeRoomTier||1);
+    const {ok,data}=await apiFetch(API.chatRooms,{method:'POST',body:JSON.stringify({action:'send',tier,message})});
+    if(!ok){toast(data.message||'Error','error');return;}
+    input.value='';
+    await loadChatRooms(tier);
+    navigate('chat');
+  }finally{setLoading(btn,false);}
 }
 
 async function sendGlobalMessage(){
@@ -713,12 +721,17 @@ async function sendGlobalMessage(){
   if(!input)return;
   const message=input.value.trim();
   if(!message){toast(t('noMessage'),'error');return;}
-  const {ok,data}=await apiFetch(API.chatRooms,{method:'POST',body:JSON.stringify({action:'send',tier:1,message})});
-  if(!ok){toast(data.message||'Error','error');return;}
-  input.value='';
-  await loadChatRooms(1);
-  toast('Message sent to Global chat','success');
-  navigate('chat');
+  const btn=document.getElementById('globalSendBtn');
+  if(!btn||btn.disabled)return;
+  setLoading(btn,true);
+  try{
+    const {ok,data}=await apiFetch(API.chatRooms,{method:'POST',body:JSON.stringify({action:'send',tier:1,message})});
+    if(!ok){toast(data.message||'Error','error');return;}
+    input.value='';
+    await loadChatRooms(1);
+    toast(t('messageSentGlobal'),'success');
+    navigate('chat');
+  }finally{setLoading(btn,false);}
 }
 
 async function buyRoomPass(tier){
@@ -732,22 +745,32 @@ async function buyRoomPass(tier){
 }
 
 async function dailyCheckin(){
-  const {ok,data}=await apiFetch(API.xp,{method:'POST',body:JSON.stringify({action:'checkin'})});
-  if(!ok){toast(data.message||'Check-in failed','error');return;}
-  await loadPoints();
-  toast(`+${Number(data.xp_earned||0)} XP`,'success');
-  navigate('profile');
+  const btn=document.getElementById('dailyCheckinBtn');
+  if(!btn||btn.disabled)return;
+  setLoading(btn,true);
+  try{
+    const {ok,data}=await apiFetch(API.xp,{method:'POST',body:JSON.stringify({action:'checkin'})});
+    if(!ok){toast(data.message||'Check-in failed','error');return;}
+    await loadPoints();
+    toast(`+${Number(data.xp_earned||0)} XP`,'success');
+    navigate('profile');
+  }finally{setLoading(btn,false);}
 }
 
 async function buyPointsPack(){
-  const packs=Math.max(1,Number(document.getElementById('buyPointsPacks')?.value||1));
-  const {ok,data}=await apiFetch(API.xp,{method:'POST',body:JSON.stringify({action:'buy_xp',packs})});
-  if(!ok){toast(data.message||'Purchase failed','error');return;}
-  await loadWallet();
-  await loadPoints();
-  toast(`+${Number(data.xp_earned||0)} XP`,'success');
-  if(currentPage==='chat') navigate('chat');
-  else navigate('profile');
+  const btn=document.getElementById('buyPointsBtn');
+  if(!btn||btn.disabled)return;
+  setLoading(btn,true);
+  try{
+    const packs=Math.max(1,Number(document.getElementById('buyPointsPacks')?.value||1));
+    const {ok,data}=await apiFetch(API.xp,{method:'POST',body:JSON.stringify({action:'buy_xp',packs})});
+    if(!ok){toast(data.message||'Purchase failed','error');return;}
+    await loadWallet();
+    await loadPoints();
+    toast(`+${Number(data.xp_earned||0)} XP`,'success');
+    if(currentPage==='chat') navigate('chat');
+    else navigate('profile');
+  }finally{setLoading(btn,false);}
 }
 
 async function loadLeaderboard(){
@@ -814,6 +837,14 @@ function setLoading(btn,state){
   else{btn.classList.remove('btn-loading');btn.disabled=false;if(btn.dataset.o)btn.innerHTML=btn.dataset.o;}
 }
 
+/* ── 9.5 DEBOUNCE GUARD ──────────────────────────────────────── */
+const _pendingOps = new Set();
+function guardOp(key, fn) {
+  if (_pendingOps.has(key)) return;
+  _pendingOps.add(key);
+  return Promise.resolve(fn()).finally(() => _pendingOps.delete(key));
+}
+
 /* ── 10. NOTIFICATIONS ───────────────────────────────────────── */
 function addNotif(text,type='info'){
   S.notifications.unshift({id:uid(),text,type,read:false,timestamp:new Date().toISOString()});
@@ -860,9 +891,7 @@ function renderPage(page,el){
   
   // Load data before rendering each page
   if(page==='tasks' && !isGuest){
-    loadTasks('open');
-    loadTasks('my');
-    loadTasks('taken');
+    loadTasks('all');
   }
   if(page==='wallet' && !isGuest) loadWallet();
   if(page==='chat' && !isGuest){ loadChatRooms(); loadPoints(); }
@@ -1034,9 +1063,9 @@ function renderAuth(mode='login'){
             </div>
 
             <div class="auth-stats">
-              <div class="stat"><strong>12.5K+</strong><span>${t('activeStat')}</span></div>
-              <div class="stat"><strong>2.3M USDT</strong><span>${t('paidOut')}</span></div>
-              <div class="stat"><strong>4.9★</strong><span>${t('leaderboard')}</span></div>
+              <div class="stat"><strong>—</strong><span>${t('activeStat')}</span></div>
+              <div class="stat"><strong>—</strong><span>${t('paidOut')}</span></div>
+              <div class="stat"><strong>—</strong><span>${t('ratingStat')}</span></div>
             </div>
           </div>
 
@@ -1166,7 +1195,7 @@ async function handleRegister(e){
   const acceptTerms=!!document.getElementById('regAcceptTerms')?.checked;
   const acceptPrivacy=acceptTerms;
   if(!name||!username||!email||!password){showAlert('authAlert',t('required'));return;}
-  if(!acceptTerms){showAlert('authAlert','Потрібно погодитись з Правилами платформи та Політикою приватності.');return;}
+  if(!acceptTerms){showAlert('authAlert',t('acceptTermsRequired'));return;}
   hideAlert('authAlert');setLoading(btn,true);
   const {ok,data}=await apiFetch(API.register,{method:'POST',body:JSON.stringify({name,username,email,password,accept_terms:acceptTerms,accept_privacy:acceptPrivacy})});
   setLoading(btn,false);
@@ -1329,10 +1358,15 @@ async function handleVerify(e, userId){
 
 /* ── 15. DASHBOARD ───────────────────────────────────────────── */
 function renderDashboard(el){
+  if(!isGuest && !(S.leaderboard||[]).length) loadLeaderboard();
   const myScore=calcScore({earnings:S.earnings,completedTasks:S.completedTasks,streak:S.streak,level:S.level,xp:S.xp});
   const xpPct=Math.min(100,Math.round((S.xp%1000)/10));
   const trending=S.tasks.filter(t=>t.status==='open').slice(0,3);
-  const mini=[];
+  const mini=(S.leaderboard||[]).slice(0,3).map(u=>({
+    av:(u.name||u.username||'?').charAt(0).toUpperCase(),
+    name:u.name||u.username||'User',
+    score:Number(u.score||0)
+  }));
   el.innerHTML=`
     <div class="fade-up">
       <!-- Hero welcome -->
@@ -1344,8 +1378,8 @@ function renderDashboard(el){
             <p style="font-size:14px;color:var(--text-soft);">${isGuest?t('welcomeGuestDesc'):t('dashMotivationDesc')}</p>
           </div>
           <div style="text-align:right;flex-shrink:0;">
-            <div class="streak-badge"><span class="streak-fire">🔥</span>${S.streak} day streak</div>
-            <div style="font-size:12px;color:var(--muted);margin-top:4px;">Level ${S.level} · ${S.xp} XP</div>
+            <div class="streak-badge"><span class="streak-fire">🔥</span>${S.streak} ${t('dayStreak')}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px;">${t('level')} ${S.level} · ${S.xp} XP</div>
           </div>
         </div>
       </div>
@@ -1551,45 +1585,48 @@ async function takeTask(tid){
   if(isGuest){toast(t('guestRegTask'),'warning');return;}
   const task=S.tasks.find(t=>String(t.id)===String(tid));
   const serverTaskId=Number(tid);
-
   if(!Number.isInteger(serverTaskId) || serverTaskId<=0){
     toast('Invalid task ID','error');
     return;
   }
-
-  const {ok,data}=await apiFetch(API.takeTask,{method:'POST',body:JSON.stringify({task_id:serverTaskId})});
-  if(!ok){toast(data.message||'Error taking task','error');return;}
-  addNotif(`${t('notifTaskTaken')} "${task?.title||'#'+tid}"!`,'success');
-  toast(t('taskTaken'),'success');
-  await loadTasks('open');
-  await loadTasks('my');
-  await loadTasks('taken');
-  navigate('tasks');
+  const btn=document.querySelector(`.take-btn[data-tid="${tid}"]`);
+  if(btn?.disabled)return;
+  if(btn)setLoading(btn,true);
+  try{
+    const {ok,data}=await apiFetch(API.takeTask,{method:'POST',body:JSON.stringify({task_id:serverTaskId})});
+    if(!ok){toast(data.message||'Error taking task','error');return;}
+    addNotif(`${t('notifTaskTaken')} "${task?.title||'#'+tid}"!`,'success');
+    toast(t('taskTaken'),'success');
+    await loadTasks('all');
+    navigate('tasks');
+  }finally{if(btn)setLoading(btn,false);}
 }
 
 async function completeTask(tid,action='submit'){
   const task=S.tasks.find(t=>String(t.id)===String(tid));
   const serverTaskId=Number(tid);
-
   if(!Number.isInteger(serverTaskId) || serverTaskId<=0){
     toast('Invalid task ID','error');
     return;
   }
-
-  const {ok,data}=await apiFetch(API.completeTask,{method:'POST',body:JSON.stringify({task_id:serverTaskId,action})});
-  if(!ok){toast(data.message||'Error','error');return;}
-  if(action==='submit'){
-    toast(t('taskCompleted'),'success');
-  }else{
-    addNotif(`Completed "${task?.title||('#'+tid)}" · +${Number(data.reward||0)} coins!`,'success');
-    toast(data.message||t('confirm'),'success');
-    await syncProfile();
-    await loadWallet();
-  }
-  await loadTasks('open');
-  await loadTasks('my');
-  await loadTasks('taken');
-  navigate('tasks');
+  const btnClass=action==='submit'?'.complete-btn':'.approve-btn';
+  const btn=document.querySelector(`${btnClass}[data-tid="${tid}"]`);
+  if(btn?.disabled)return;
+  if(btn)setLoading(btn,true);
+  try{
+    const {ok,data}=await apiFetch(API.completeTask,{method:'POST',body:JSON.stringify({task_id:serverTaskId,action})});
+    if(!ok){toast(data.message||'Error','error');return;}
+    if(action==='submit'){
+      toast(t('taskCompleted'),'success');
+    }else{
+      addNotif(`Completed "${task?.title||('#'+tid)}" · +${Number(data.reward||0)} coins!`,'success');
+      toast(data.message||t('confirm'),'success');
+      await syncProfile();
+      await loadWallet();
+    }
+    await loadTasks('all');
+    navigate('tasks');
+  }finally{if(btn)setLoading(btn,false);}
 }
 
 /* ── 17. CREATE TASK ─────────────────────────────────────────── */
@@ -1782,7 +1819,7 @@ function renderWallet(el){
         </div>
         <span class="badge badge-${dep.status==='confirmed'?'completed':dep.status==='pending'?'in_progress':'cancelled'}">${esc(dep.status||'pending')}</span>
       </div>
-    `).join(''):`<div class="card-flat" style="padding:14px;color:var(--muted);">Історія crypto-депозитів поки порожня.</div>`;
+    `).join(''):`<div class="card-flat" style="padding:14px;color:var(--muted);">${t('noDepositsYet')}</div>`;
   }
 
   function renderCoinHistory(){
@@ -1798,7 +1835,7 @@ function renderWallet(el){
         </div>
         <span class="badge badge-info">${esc(item.type||'spend')}</span>
       </div>
-    `).join(''):`<div class="card-flat" style="padding:14px;color:var(--muted);">Витрат монет ще не було.</div>`;
+    `).join(''):`<div class="card-flat" style="padding:14px;color:var(--muted);">${t('noSpendingYet')}</div>`;
   }
 
   function renderWithdrawHistory(){
@@ -1854,33 +1891,33 @@ function renderWallet(el){
           <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">${t('pending')}</div><div style="font-size:18px;font-weight:800;color:var(--warning);">${S.pending.toLocaleString()} 🪙</div></div>
           </div>
           <div class="wallet-actions">
-            <button class="btn btn-primary btn-sm" id="buyCoinsBtn">₮ Buy with USDT</button>
+            <button class="btn btn-primary btn-sm" id="buyCoinsBtn">₮ ${t('deposit')}</button>
             <button class="btn btn-success btn-sm" id="withdrawCoinsBtn">💸 ${t('withdrawCrypto')}</button>
-            <button class="btn btn-outline btn-sm" id="refreshCoinsBtn">⟳ Refresh</button>
+            <button class="btn btn-outline btn-sm" id="refreshCoinsBtn">⟳ ${t('refresh')}</button>
           </div>
         </div>
 
         <div class="card" style="padding:20px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;">
           <div>
-            <div class="wallet-balance-label">Game Coins</div>
+            <div class="wallet-balance-label">${t('gameCoins')}</div>
             <div class="wallet-balance" style="font-size:36px;"><sup>🪙</sup>${Number(S.coinBalance||0).toLocaleString()}</div>
             <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;">
-              <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">Purchased</div><div style="font-size:16px;font-weight:800;color:var(--info);">${Number(S.coinsPurchased||0).toLocaleString()}</div></div>
-              <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">Spent</div><div style="font-size:16px;font-weight:800;color:var(--warning);">${Number(S.coinsSpent||0).toLocaleString()}</div></div>
+              <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">${t('purchased')}</div><div style="font-size:16px;font-weight:800;color:var(--info);">${Number(S.coinsPurchased||0).toLocaleString()}</div></div>
+              <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">${t('spent')}</div><div style="font-size:16px;font-weight:800;color:var(--warning);">${Number(S.coinsSpent||0).toLocaleString()}</div></div>
               <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">Pending</div><div style="font-size:16px;font-weight:800;color:var(--primary);">${Number(S.pendingCryptoCount||0).toLocaleString()} crypto</div></div>
             </div>
           </div>
-          <div class="card-flat" style="padding:12px;font-size:13px;color:var(--muted);">Rate: <strong style="color:var(--primary);">1 USDT = 100 coins</strong></div>
+          <div class="card-flat" style="padding:12px;font-size:13px;color:var(--muted);">${t('rate')}: <strong style="color:var(--primary);">1 USDT = 100 coins</strong></div>
         </div>
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
         <div class="card" style="padding:0;">
-          <div style="padding:16px 20px;border-bottom:1px solid var(--line);font-size:14px;font-weight:700;">USDT Deposits</div>
+          <div style="padding:16px 20px;border-bottom:1px solid var(--line);font-size:14px;font-weight:700;">${t('usdtDeposits')}</div>
           <div id="cryptoHistory" style="padding:14px;display:flex;flex-direction:column;gap:10px;"></div>
         </div>
         <div class="card" style="padding:0;">
-          <div style="padding:16px 20px;border-bottom:1px solid var(--line);font-size:14px;font-weight:700;">Coin Spending</div>
+          <div style="padding:16px 20px;border-bottom:1px solid var(--line);font-size:14px;font-weight:700;">${t('coinSpending')}</div>
           <div id="coinHistory" style="padding:14px;display:flex;flex-direction:column;gap:10px;"></div>
         </div>
       </div>
@@ -1926,12 +1963,12 @@ function showWalletModal(type){
   modBg.innerHTML=`
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <button class="modal-close" id="modalCloseBtn" aria-label="Close">✕</button>
-      <div class="modal-title" id="modalTitle">Buy Coins with USDT</div>
+      <div class="modal-title" id="modalTitle">${t('buyCoinsUsdt')}</div>
       <div id="walletModalAlert" class="alert" style="margin-bottom:12px;"></div>
       <div style="display:flex;flex-direction:column;gap:14px;">
         <div class="form-group"><label class="form-label">Network</label><select id="cryptoNetwork" class="form-select"><option value="TRC20">TRC20</option><option value="BEP20">BEP20</option></select></div>
         <div class="form-group"><label class="form-label">${t('amountCol')} (USDT)</label><input type="number" id="wAmount" class="form-input" min="1" placeholder="100"></div>
-        <div class="card-flat" style="padding:12px;font-size:13px;color:var(--muted);">Rate: <strong style="color:var(--primary);">1 USDT = 100 coins</strong></div><div id="cryptoStep2"></div>
+        <div class="card-flat" style="padding:12px;font-size:13px;color:var(--muted);">${t('rate')}: <strong style="color:var(--primary);">1 USDT = 100 coins</strong></div><div id="cryptoStep2"></div>
         <button class="btn btn-primary btn-block" id="wConfirmBtn"><span class="btn-txt">${t('confirm')}</span></button>
       </div>
     </div>`;
@@ -1962,13 +1999,13 @@ function showWalletModal(type){
             <div style="word-break:break-all;font-size:13px;font-weight:700;color:var(--primary);">${esc(data.wallet_address||'')}</div>
             <div style="font-size:12px;color:var(--muted);">You will receive <strong style="color:var(--success);">${Number(data.amount_coins||amount*100).toLocaleString()} coins</strong></div>
             <div style="font-size:12px;color:var(--muted);">Expires: ${data.expires_at?fmtDate(data.expires_at)+' '+fmtTime(data.expires_at):'—'}</div>
-            <div class="form-group" style="margin-top:8px;"><label class="form-label">Transaction hash</label><input type="text" id="cryptoTxHash" class="form-input" placeholder="Paste blockchain tx hash"></div>
-            <button class="btn btn-success btn-block" id="cryptoFinalConfirm">I paid, confirm deposit</button>
+            <div class="form-group" style="margin-top:8px;"><label class="form-label">${t('txHash')}</label><input type="text" id="cryptoTxHash" class="form-input" placeholder="${t('pasteTxHash')}"></div>
+            <button class="btn btn-success btn-block" id="cryptoFinalConfirm">${t('iPaidConfirm')}</button>
           </div>`;
 
         document.getElementById('cryptoFinalConfirm')?.addEventListener('click',async()=>{
           const txHash=document.getElementById('cryptoTxHash')?.value?.trim();
-          if(!txHash){showAlert('walletModalAlert','Встав tx hash транзакції.');return;}
+          if(!txHash){showAlert('walletModalAlert',t('missingTxHash'));return;}
           const finalBtn=document.getElementById('cryptoFinalConfirm');
           setLoading(finalBtn,true);
           try{
@@ -2202,7 +2239,7 @@ function renderSupport(el){
       <div class="card" style="margin-bottom:20px;">
         <div class="section-title">❓ ${t('faq')}</div>
         <div id="faqList">
-          ${seedFaqs.map((f,i)=>`
+          ${getSeedFaqs().map((f,i)=>`
             <div class="faq-item" data-fi="${i}">
               <button class="faq-q">${esc(f.q)}<span class="arrow">▾</span></button>
               <div class="faq-a">${esc(f.a)}</div>
@@ -2325,7 +2362,7 @@ function renderProfile(el){
         <div class="card-flat" style="padding:10px;"><div class="stat-label">${t('checkinStreak')}</div><div style="font-size:20px;font-weight:900;">${Number(S.checkinStreak||0)} 🔥</div></div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
-        <button id="dailyCheckinBtn" class="btn btn-${S.doneCheckinToday?'ghost':'success'} btn-sm" ${S.doneCheckinToday?'disabled':''}>${S.doneCheckinToday?t('checkinDone'):'Check-in (+10 XP)'}</button>
+        <button id="dailyCheckinBtn" class="btn btn-${S.doneCheckinToday?'ghost':'success'} btn-sm" ${S.doneCheckinToday?'disabled':''}>${S.doneCheckinToday?t('checkinDone'):t('checkinBtn')}</button>
         <input id="buyPointsPacks" type="number" min="1" max="100" value="1" class="form-input" style="width:90px;">
         <button id="buyPointsBtn" class="btn btn-ghost btn-sm">${t('buyPoints')}</button>
       </div>
@@ -2351,7 +2388,7 @@ function renderProfile(el){
     ? `<div class="card"><div class="section-title">👉 ${t('readyToStartQ')}</div><p style="font-size:14px;color:var(--text-soft);margin-bottom:14px;">${t('readyToStartDesc')}</p><button class="btn btn-primary btn-block" id="guestCreateBtn"><span class="btn-txt">${t('register')}</span></button></div>`
     : `<div class="card"><div class="section-title">✏️ ${t('editProfileTitle')}</div><form id="profileForm" style="display:flex;flex-direction:column;gap:14px;"><div class="form-group"><label class="form-label">${t('roleTitle')}</label><input type="text" id="pfRole" class="form-input" value="${esc(S.role||'')}" placeholder="${t('rolePlaceholder')}" maxlength="60"></div><div class="form-group"><label class="form-label">${t('bioLabel')}</label><textarea id="pfBio" class="form-textarea" rows="3" maxlength="500" placeholder="${t('bioPlaceholder')}">${esc(S.bio||'')}</textarea></div><div class="form-group"><label class="form-label">${t('skillsLabel')}</label><input type="text" id="pfSkills" class="form-input" value="${esc(S.skills||'')}" placeholder="${t('skillsPlaceholder')}"></div><button type="submit" class="btn btn-primary btn-block"><span class="btn-txt">${t('saveProfile')}</span></button></form></div>`;
 
-  const exchanger=isGuest?'':`<div class="card" style="margin-top:20px;"><div class="section-title">₮ Обмінник: USDT → 🪙</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;"><div class="card-flat" style="padding:10px;"><div class="stat-label">Coins</div><div style="font-weight:800;">${Number(S.coinBalance||0).toLocaleString()}</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">Rate</div><div style="font-weight:800;">1 USDT = 100 🪙</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">Pending</div><div style="font-weight:800;">${Number(S.pendingCryptoCount||0)}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><input id="exchAmount" class="form-input" type="number" min="1" max="10000" placeholder="USDT amount"><select id="exchNetwork" class="form-select"><option value="TRC20">TRC20</option><option value="BEP20">BEP20</option></select></div><div id="exchangeAlert" class="alert" style="margin-top:10px;"></div><button id="exchInitBtn" class="btn btn-primary btn-block" style="margin-top:10px;"><span class="btn-txt">Отримати адресу</span></button><div id="exchangeStep2" style="margin-top:10px;"></div></div>`;
+  const exchanger=isGuest?'':`<div class="card" style="margin-top:20px;"><div class="section-title">₮ ${t('exchTitle')}</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;"><div class="card-flat" style="padding:10px;"><div class="stat-label">Coins</div><div style="font-weight:800;">${Number(S.coinBalance||0).toLocaleString()}</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">Rate</div><div style="font-weight:800;">1 USDT = 100 🪙</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">Pending</div><div style="font-weight:800;">${Number(S.pendingCryptoCount||0)}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><input id="exchAmount" class="form-input" type="number" min="1" max="10000" placeholder="USDT amount"><select id="exchNetwork" class="form-select"><option value="TRC20">TRC20</option><option value="BEP20">BEP20</option></select></div><div id="exchangeAlert" class="alert" style="margin-top:10px;"></div><button id="exchInitBtn" class="btn btn-primary btn-block" style="margin-top:10px;"><span class="btn-txt">${t('getAddress')}</span></button><div id="exchangeStep2" style="margin-top:10px;"></div></div>`;
 
   el.innerHTML=`
     <div class="fade-up" style="max-width:800px;">
@@ -2422,19 +2459,19 @@ function renderProfile(el){
     const amount=parseFloat(document.getElementById('exchAmount')?.value)||0;
     const network=document.getElementById('exchNetwork')?.value||'TRC20';
     const alertEl=document.getElementById('exchangeAlert');
-    if(amount<1||amount>10000){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent='Сума: від 1 до 10000 USDT';}return;}
+    if(amount<1||amount>10000){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=t('amountRange');}return;}
     const {ok,data}=await apiFetch(API.cryptoDeposit,{method:'POST',body:JSON.stringify({action:'initiate',amount_usdt:amount,network})});
-    if(!ok){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=data.message||'Помилка';}return;}
+    if(!ok){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=data.message||t('required');}return;}
     const step2=document.getElementById('exchangeStep2');
     if(step2){
-      step2.innerHTML=`<div class="card-flat" style="padding:10px;"><div style="font-size:12px;color:var(--muted);">Надішли ${Number(data.amount_usdt||amount)} USDT (${esc(data.network||network)}) на адресу:</div><div style="font-size:13px;font-weight:700;color:var(--primary);word-break:break-all;margin:6px 0;">${esc(data.wallet_address||'')}</div><input id="exchTxHash" class="form-input" placeholder="tx hash" style="margin-top:8px;"><button id="exchConfirmBtn" class="btn btn-success btn-block" style="margin-top:8px;">Підтвердити</button></div>`;
+      step2.innerHTML=`<div class="card-flat" style="padding:10px;"><div style="font-size:12px;color:var(--muted);">${t('sendAmount')} ${Number(data.amount_usdt||amount)} USDT (${esc(data.network||network)}) ${t('toAddress')}</div><div style="font-size:13px;font-weight:700;color:var(--primary);word-break:break-all;margin:6px 0;">${esc(data.wallet_address||'')}</div><input id="exchTxHash" class="form-input" placeholder="tx hash" style="margin-top:8px;"><button id="exchConfirmBtn" class="btn btn-success btn-block" style="margin-top:8px;">${t('confirm')}</button></div>`;
       document.getElementById('exchConfirmBtn')?.addEventListener('click',async()=>{
         const txHash=document.getElementById('exchTxHash')?.value?.trim();
         if(!txHash)return;
         const res=await apiFetch(API.cryptoDeposit,{method:'POST',body:JSON.stringify({action:'confirm',deposit_id:data.deposit_id,tx_hash:txHash})});
-        if(!res.ok){toast(res.data.message||'Помилка підтвердження','error');return;}
+        if(!res.ok){toast(res.data.message||t('confirmError'),'error');return;}
         await loadWallet();
-        toast(res.data.message||'Депозит підтверджено','success');
+        toast(res.data.message||t('depositConfirmed'),'success');
         navigate('profile');
       });
     }
@@ -2589,22 +2626,22 @@ function renderLanding(){
             <div class="hero-stats">
               <div class="stat-card">
                 <div class="stat-icon">👥</div>
-                <div class="stat-value">12.5K+</div>
+                <div class="stat-value">—</div>
                 <div class="stat-label">${t('usersStat')}</div>
               </div>
               <div class="stat-card">
                 <div class="stat-icon">💰</div>
-                <div class="stat-value">2.3M USDT</div>
+                <div class="stat-value">—</div>
                 <div class="stat-label">${t('paidStat')}</div>
               </div>
               <div class="stat-card">
                 <div class="stat-icon">⭐</div>
-                <div class="stat-value">4.9</div>
+                <div class="stat-value">—</div>
                 <div class="stat-label">${t('ratingStat')}</div>
               </div>
               <div class="stat-card">
                 <div class="stat-icon">✅</div>
-                <div class="stat-value">98K+</div>
+                <div class="stat-value">—</div>
                 <div class="stat-label">${t('tasksStat')}</div>
               </div>
             </div>

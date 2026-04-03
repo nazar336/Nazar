@@ -31,3 +31,7 @@ Thumbs.db
 *.zip
 *.gz
 *.tar
+
+# Test artifacts
+test-results/
+playwright-report/

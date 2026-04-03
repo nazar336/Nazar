@@ -160,39 +160,6 @@ export function renderFeed(el){
   // Guest register
   document.getElementById('guestRegFeed')?.addEventListener('click',()=>renderAuth('register'));
 
-  // Post creation (if form exists)
-  document.getElementById('feedPublishBtn')?.addEventListener('click',async()=>{
-    if(appState.isGuest){toast(t('guestFeed'),'warning');return;}
-    const text=document.getElementById('feedPostText')?.value?.trim();
-    if(!text||text.length<3){toast(t('required'),'warning');return;}
-    const mediaUrl=document.getElementById('feedMediaUrl')?.value?.trim()||'';
-    const mediaType=document.getElementById('feedMediaType')?.value||document.querySelector('[data-mt].active')?.dataset?.mt||'';
-    const btn=document.getElementById('feedPublishBtn');
-    if(btn)btn.disabled=true;
-    try{
-      const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({
-        action:'create', text, media_url:mediaUrl, media_type:mediaType, post_type:'text'
-      })});
-      if(ok){
-        toast(data.message||t('feedPostSuccess'),'success');
-        if(data.xp_earned>0){
-          appState.S.xp=data.xp||appState.S.xp; appState.S.level=data.level||appState.S.level;
-        }
-        appState.S.feedTodayPosts=data.posts_today||((appState.S.feedTodayPosts||0)+1);
-        document.getElementById('feedPostText').value='';
-        if(document.getElementById('feedMediaUrl'))document.getElementById('feedMediaUrl').value='';
-        await loadFeed();
-        navigate('feed');
-      }else{
-        toast(data.message||'Error','error');
-      }
-    }catch(err){
-      toast('Network error','error');
-    }finally{
-      if(btn)btn.disabled=false;
-    }
-  });
-
   // Filter tabs
   document.getElementById('feedFilters')?.addEventListener('click',e=>{
     const btn=e.target.closest('[data-ft]');if(!btn)return;

@@ -104,7 +104,7 @@ Body: {"deposit_id": 123, "action": "reject", "note": "Транзакція не
 | BTC    | BTC    | 14N6uCEx64Lv353znfaJ3V996asMgUPSWP |
 | SOL    | SOL    | GU2xLFTiau6hhLuTdhrCskTHYsu6SrSUuUw1cbgAWvrN |
 
-Курси автоматично завантажуються з CoinGecko (кеш 5 хв).
+Курси автоматично завантажуються з CoinGecko (кеш 1 хв).
 
 ---
 
@@ -122,7 +122,6 @@ Body: {"deposit_id": 123, "action": "reject", "note": "Транзакція не
 - `terms.html`
 - `index.html`
 - `styles.css`
-- `app.js` (крім заміни секції з `app-fixed-section.js`)
 
 ---
 
@@ -144,3 +143,43 @@ Body: {"deposit_id": 123, "action": "reject", "note": "Транзакція не
 | 12 | read_at ніколи не ставився | ✅ Авто-маркування |
 | 13 | Немає валідації довжин у tasks | ✅ Додано всі перевірки |
 | 14 | Багатовалютний обмін | ✅ BTC/ETH/SOL/USDT |
+| 15 | Вивід крипто (виводи монет) | ✅ crypto-withdraw.php + admin-verify-withdraw.php |
+| 16 | TikTok-like Feed | ✅ api/feed.php + feed_posts/feed_likes таблиці |
+| 17 | Кеш курсів 5 хв → спекуляції | ✅ Кеш 60с в crypto-lib.php |
+| 18 | Захист адмін ендпоінтів | ✅ X-Admin-Secret header + rate limiting |
+| 19 | Захардкоджені рядки у UI | ✅ Усі рядки через i18n t() |
+| 20 | Міні-рейтинг завжди порожній | ✅ Бере дані з S.leaderboard |
+| 21 | Кнопка check-in без i18n | ✅ Використовує t('checkinBtn') |
+| 22 | doLogout не очищав сповіщення | ✅ S.notifications=[] при виході |
+
+---
+
+## 9. Поточний етап розробки
+
+**Проект на стадії: Beta / Production-Ready**
+
+### Реалізовано (готово до деплою)
+
+- ✅ Реєстрація / вхід / email-верифікація (капча + код)
+- ✅ Система задач: створення, взяття, завершення, слоти, дедлайни
+- ✅ Гаманець: баланс, транзакції, крипто-депозит (USDT/BTC/ETH/SOL), вивід
+- ✅ Система XP / рівнів (1–12), щоденний check-in, стріки
+- ✅ Рейтинг / Leaderboard
+- ✅ Повідомлення (direct messages)
+- ✅ Чат-кімнати (Bronze/Silver/Gold/Diamond з рівневим доступом)
+- ✅ Підтримка / тікети
+- ✅ Feed (TikTok-like): публікації, лайки, медіа, XP-нагороди
+- ✅ Профіль: аватар, роль, навички, bio
+- ✅ Адмін-панель: верифікація депозитів і виводів
+- ✅ Rate limiting, input validation, CORS, CSP
+- ✅ Мультимовність: EN / UA / DE / FR / ES / PL
+
+### Що можна додати далі (backlog)
+
+- [ ] Push-сповіщення (Web Push API)
+- [ ] Пошук користувачів та їхніх профілів
+- [ ] Система відгуків та рейтингів виконавців
+- [ ] Розширена фільтрація задач (по навичкам, ціні, терміну)
+- [ ] Дашборд для замовників (статистика задач)
+- [ ] Автоматичне підтвердження виводу через on-chain моніторинг
+- [ ] Мобільний PWA (Service Worker + manifest.json)

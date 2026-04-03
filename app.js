@@ -16,7 +16,8 @@ const API = {
   messages:'api/messages.php', leaderboard:'api/leaderboard.php', takeTask:'api/take-task.php',
   completeTask:'api/complete-task.php',
   cryptoDeposit:'api/crypto-deposit.php', cryptoWithdraw:'api/crypto-withdraw.php', coins:'api/coins.php',
-  xp:'api/xp.php', chatRooms:'api/chat-rooms.php', support:'api/support.php'
+  xp:'api/xp.php', chatRooms:'api/chat-rooms.php', support:'api/support.php',
+  feed:'api/feed.php'
 };
 const CATEGORIES = ['Design','Video','Copy','Social','Community','QA','Localization','Product','Development','Marketing'];
 
@@ -67,6 +68,8 @@ const i18n = {
     // Dashboard
     guest:'Guest', welcomeGuestTitle:'Welcome to LOLance premium!', welcomeGuestDesc:'Browse tasks and features without limits. Sign up to start earning.', dashMotivation:'Today you are suspiciously ahead of schedule.', dashMotivationDesc:'Complete one more task to boost your streak, wallet, and rank.',
     dayStreak:'day streak', available:'available', totalEarned:'total earned', tasksDone:'tasks done', pts:'pts',
+    acceptTermsText:'I agree to the <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Platform Terms</a> and <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Privacy Policy</a>.', mustAcceptTerms:'You must accept the Platform Terms and Privacy Policy.',
+    exchangerTitle:'Exchanger: USDT → 🪙', exchangerCoins:'Coins', exchangerRate:'Rate', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'Pending', exchangerGetAddr:'Get Address', exchangerUsdtAmount:'USDT amount',
     quickActions:'Quick Actions', browseOpenTasks:'Browse Open Tasks →', publishNewTask:'+ Publish New Task', walletOverview:'Wallet Overview',
     trendingTasks:'Trending Tasks', miniLeaderboard:'Mini Leaderboard',
     // Tasks
@@ -75,6 +78,7 @@ const i18n = {
     titleLabel:'Title', titlePlaceholder:'Bold, clear task name', descPlaceholder:'What exactly needs to be done?', selectOption:'Select…', previewTitlePh:'Task title will appear here…', previewDescPh:'Description preview…', noDeadline:'No deadline',
     // Feed
     noPosts:'No posts', mediaPreview:'Media preview', readMore:'Read more ↓', showLess:'Show less ↑', save:'Save', saved:'Saved',
+    feedWritePost:'What\'s on your mind?', feedPostBtn:'Post', feedMyPosts:'My Posts', feedDeletePost:'Delete', feedDeleteConfirm:'Delete this post?', feedGuestMsg:'Sign up to post and like.',
     // Wallet
     txHistory:'Transaction History', type:'Type', amountCol:'Amount', whenCol:'When', recipientUsername:'Recipient username', confirm:'Confirm', guestWallet:'Wallet is available only for registered users.',
     // Chat
@@ -154,11 +158,14 @@ const i18n = {
     verifyEmail:'Перевір свою пошту', codeSentTo:'Ми надіслали 6-значний код на', solveCaptcha:'Розв\'яжи капчу', enterAnswer:'Введи відповідь', verifyCaptcha:'Перевір', wrongAnswer:'Неправильна відповідь', verificationCode:'Верифікаційний код', showCode:'Показати', hideCode:'Сховати', enterCodeScreen:'Введи код з екрану', sixDigits:'6 цифр', confirmBtn:'Підтвердити', backToLogin:'Повернутися до входу', verifySuccess:'Вражаю! Ви авторизовані 🎉', wrongCode:'Невірний код', invalidCode:'Введіть коректний 6-значний код',
     guest:'Гість', welcomeGuestTitle:'Вітаємо на LOLance преміум!', welcomeGuestDesc:'Переглядайте задачі та функції без обмежень. Зареєструйтеся щоб розпочати заробляти.', dashMotivation:'Сьогодні ви попереду графіку.', dashMotivationDesc:'Виконайте ще одну задачу щоб підвищити серію, баланс і рейтинг.',
     dayStreak:'день серія', available:'доступно', totalEarned:'зароблено', tasksDone:'задач виконано', pts:'балів',
+    acceptTermsText:'Я погоджуюсь з <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Правилами платформи</a> та <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Політикою приватності</a>.', mustAcceptTerms:'Потрібно погодитись з Правилами платформи та Політикою приватності.',
+    exchangerTitle:'Обмінник: USDT → 🪙', exchangerCoins:'Монети', exchangerRate:'Курс', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'Очікує', exchangerGetAddr:'Отримати адресу', exchangerUsdtAmount:'Сума USDT',
     quickActions:'Швидкі дії', browseOpenTasks:'Переглянути задачі →', publishNewTask:'+ Нова задача', walletOverview:'Огляд гаманця',
     trendingTasks:'Популярні задачі', miniLeaderboard:'Міні-рейтинг',
     noTasksFound:'Задач не знайдено', adjustFilters:'Спробуйте змінити фільтри.', cancelled:'Скасовано', byUser:'від',
     titleLabel:'Заголовок', titlePlaceholder:'Чіткий заголовок задачі', descPlaceholder:'Що саме потрібно зробити?', selectOption:'Обрати…', previewTitlePh:'Заголовок з\'явиться тут…', previewDescPh:'Попередній перегляд…', noDeadline:'Без дедлайну',
     noPosts:'Немає постів', mediaPreview:'Перегляд медіа', readMore:'Читати більше ↓', showLess:'Згорнути ↑', save:'Зберегти', saved:'Збережено',
+    feedWritePost:'Що нового?', feedPostBtn:'Опублікувати', feedMyPosts:'Мої пости', feedDeletePost:'Видалити', feedDeleteConfirm:'Видалити цей пост?', feedGuestMsg:'Зареєструйтеся, щоб публікувати та лайкати.',
     txHistory:'Історія транзакцій', type:'Тип', amountCol:'Сума', whenCol:'Коли', recipientUsername:'Username отримувача', confirm:'Підтвердити', guestWallet:'Гаманець доступний лише для зареєстрованих користувачів.',
     conversations:'Розмови', online:'Онлайн', lastSeen:'Був(-ла) нещодавно', selectConversation:'Оберіть розмову', guestChat:'Чат доступний лише для зареєстрованих користувачів.',
     chatReplyWallet1:'Перевірте вкладку Гаманець для поточного балансу.', chatReplyWallet2:'Кошти оновлюються після завершення задачі.', chatReplyTask1:'Перегляньте сторінку Задач для відкритих слотів.', chatReplyTask2:'Дедлайни вказані на кожній картці задачі.', chatReplyReward1:'Нагороди нараховуються автоматично після завершення.', chatReplyReward2:'Історія заробітку в розділі Гаманець.', chatReplyLevel1:'Рівень і XP показані на дашборді.', chatReplyLevel2:'Підтримуйте серію для бонусних балів.', chatFallback1:'Зрозуміло, я звернусь незабаром.', chatFallback2:'Дякую за повідомлення!', chatFallback3:'Зафіксовано. Перевірю.',
@@ -226,10 +233,13 @@ const i18n = {
     verifyEmail:'E-Mail bestätigen', codeSentTo:'Wir haben einen 6-stelligen Code gesendet an', solveCaptcha:'Captcha lösen', enterAnswer:'Antwort eingeben', verifyCaptcha:'Prüfen', wrongAnswer:'Falsche Antwort', verificationCode:'Verifizierungscode', showCode:'Anzeigen', hideCode:'Verbergen', enterCodeScreen:'Code vom Bildschirm eingeben', sixDigits:'6 Ziffern', confirmBtn:'Bestätigen', backToLogin:'Zurück zum Login', verifySuccess:'Super! Sie sind eingeloggt 🎉', wrongCode:'Falscher Code', invalidCode:'Gültigen 6-stelligen Code eingeben',
     guest:'Gast', welcomeGuestTitle:'Willkommen bei LOLance Premium!', welcomeGuestDesc:'Aufgaben und Funktionen ohne Einschränkungen durchsuchen.', dashMotivation:'Heute sind Sie dem Zeitplan voraus.', dashMotivationDesc:'Erledigen Sie eine weitere Aufgabe für Ihren Streak.',
     dayStreak:'Tage Serie', available:'verfügbar', totalEarned:'verdient', tasksDone:'erledigt', pts:'Pkt',
+    acceptTermsText:'Ich stimme den <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Plattformbedingungen</a> und der <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Datenschutzrichtlinie</a> zu.', mustAcceptTerms:'Sie müssen die Plattformbedingungen und die Datenschutzrichtlinie akzeptieren.',
+    exchangerTitle:'Tauscher: USDT → 🪙', exchangerCoins:'Coins', exchangerRate:'Kurs', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'Ausstehend', exchangerGetAddr:'Adresse anfordern', exchangerUsdtAmount:'USDT-Betrag',
     quickActions:'Schnellaktionen', browseOpenTasks:'Aufgaben durchsuchen →', publishNewTask:'+ Neue Aufgabe', walletOverview:'Geldübersicht', trendingTasks:'Beliebte Aufgaben', miniLeaderboard:'Mini-Rangliste',
     noTasksFound:'Keine Aufgaben gefunden', adjustFilters:'Versuchen Sie die Filter anzupassen.', cancelled:'Abgebrochen', byUser:'von',
     titleLabel:'Titel', titlePlaceholder:'Klarer Aufgabenname', descPlaceholder:'Was genau muss gemacht werden?', selectOption:'Wählen…', previewTitlePh:'Titel erscheint hier…', previewDescPh:'Beschreibungsvorschau…', noDeadline:'Kein Termin',
     noPosts:'Keine Beiträge', mediaPreview:'Medienvorschau', readMore:'Mehr lesen ↓', showLess:'Weniger zeigen ↑', save:'Speichern', saved:'Gespeichert',
+    feedWritePost:'Was gibt es Neues?', feedPostBtn:'Posten', feedMyPosts:'Meine Beiträge', feedDeletePost:'Löschen', feedDeleteConfirm:'Diesen Beitrag löschen?', feedGuestMsg:'Registrieren Sie sich zum Posten und Liken.',
     txHistory:'Transaktionsverlauf', type:'Typ', amountCol:'Betrag', whenCol:'Wann', recipientUsername:'Empfänger-Username', confirm:'Bestätigen', guestWallet:'Geldbörse nur für registrierte Benutzer verfügbar.',
     conversations:'Gespräche', online:'Online', lastSeen:'Zuletzt gesehen', selectConversation:'Gespräch wählen', guestChat:'Chat nur für registrierte Benutzer verfügbar.',
     chatReplyWallet1:'Prüfen Sie den Geldbörse-Tab für Ihren Kontostand.', chatReplyWallet2:'Das Guthaben wird nach Aufgabenabschluss aktualisiert.', chatReplyTask1:'Durchsuchen Sie die Aufgabenseite nach offenen Plätzen.', chatReplyTask2:'Fristen stehen auf jeder Aufgabenkarte.', chatReplyReward1:'Belohnungen werden automatisch nach Abschluss gutgeschrieben.', chatReplyReward2:'Ihre Verdiensthistorie finden Sie im Geldbörse-Bereich.', chatReplyLevel1:'Ihr Level und XP werden auf dem Dashboard angezeigt.', chatReplyLevel2:'Halten Sie Ihre Serie aktiv für Bonuspunkte.', chatFallback1:'Verstanden, ich melde mich bald.', chatFallback2:'Danke für die Nachricht!', chatFallback3:'Notiert. Ich prüfe das.',
@@ -297,10 +307,13 @@ const i18n = {
     verifyEmail:'Vérifiez votre e-mail', codeSentTo:'Nous avons envoyé un code à 6 chiffres à', solveCaptcha:'Résoudre le captcha', enterAnswer:'Entrez la réponse', verifyCaptcha:'Vérifier', wrongAnswer:'Mauvaise réponse', verificationCode:'Code de vérification', showCode:'Afficher', hideCode:'Masquer', enterCodeScreen:'Entrez le code à l\'écran', sixDigits:'6 chiffres', confirmBtn:'Confirmer', backToLogin:'Retour connexion', verifySuccess:'Génial ! Vous êtes connecté 🎉', wrongCode:'Mauvais code', invalidCode:'Entrez un code valide à 6 chiffres',
     guest:'Invité', welcomeGuestTitle:'Bienvenue sur LOLance Premium !', welcomeGuestDesc:'Parcourez les tâches et fonctions sans limites.', dashMotivation:'Aujourd\'hui vous êtes en avance.', dashMotivationDesc:'Complétez une tâche pour booster votre série.',
     dayStreak:'jours de série', available:'disponible', totalEarned:'gagné', tasksDone:'tâches', pts:'pts',
+    acceptTermsText:'J\'accepte les <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Conditions de la plateforme</a> et la <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Politique de confidentialité</a>.', mustAcceptTerms:'Vous devez accepter les Conditions de la plateforme et la Politique de confidentialité.',
+    exchangerTitle:'Échangeur: USDT → 🪙', exchangerCoins:'Coins', exchangerRate:'Taux', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'En attente', exchangerGetAddr:'Obtenir l\'adresse', exchangerUsdtAmount:'Montant USDT',
     quickActions:'Actions rapides', browseOpenTasks:'Parcourir les tâches →', publishNewTask:'+ Nouvelle tâche', walletOverview:'Aperçu portefeuille', trendingTasks:'Tâches tendance', miniLeaderboard:'Mini-classement',
     noTasksFound:'Aucune tâche trouvée', adjustFilters:'Essayez d\'ajuster les filtres.', cancelled:'Annulé', byUser:'par',
     titleLabel:'Titre', titlePlaceholder:'Nom clair de la tâche', descPlaceholder:'Que faut-il faire exactement ?', selectOption:'Sélectionner…', previewTitlePh:'Le titre apparaîtra ici…', previewDescPh:'Aperçu de la description…', noDeadline:'Pas d\'échéance',
     noPosts:'Aucun post', mediaPreview:'Aperçu média', readMore:'Lire plus ↓', showLess:'Moins ↑', save:'Enregistrer', saved:'Enregistré',
+    feedWritePost:'Quoi de neuf ?', feedPostBtn:'Publier', feedMyPosts:'Mes posts', feedDeletePost:'Supprimer', feedDeleteConfirm:'Supprimer ce post ?', feedGuestMsg:'Inscrivez-vous pour publier et aimer.',
     txHistory:'Historique des transactions', type:'Type', amountCol:'Montant', whenCol:'Quand', recipientUsername:'Nom d\'utilisateur destinataire', confirm:'Confirmer', guestWallet:'Le portefeuille est réservé aux utilisateurs inscrits.',
     conversations:'Conversations', online:'En ligne', lastSeen:'Vu récemment', selectConversation:'Sélectionnez une conversation', guestChat:'Le chat est réservé aux utilisateurs inscrits.',
     chatReplyWallet1:'Consultez l\'onglet Portefeuille pour votre solde.', chatReplyWallet2:'Les fonds sont mis à jour après la complétion de la tâche.', chatReplyTask1:'Parcourez la page Tâches pour les places disponibles.', chatReplyTask2:'Les échéances sont indiquées sur chaque carte.', chatReplyReward1:'Les récompenses sont créditées automatiquement.', chatReplyReward2:'L\'historique des gains est dans la section Portefeuille.', chatReplyLevel1:'Votre niveau et XP sont affichés sur le tableau de bord.', chatReplyLevel2:'Maintenez votre série pour des points bonus.', chatFallback1:'Compris, je reviens bientôt.', chatFallback2:'Merci pour le message !', chatFallback3:'Noté. Je vérifie.',
@@ -368,10 +381,13 @@ const i18n = {
     verifyEmail:'Verifica tu email', codeSentTo:'Enviamos un código de 6 dígitos a', solveCaptcha:'Resolver captcha', enterAnswer:'Ingresa la respuesta', verifyCaptcha:'Verificar', wrongAnswer:'Respuesta incorrecta', verificationCode:'Código de verificación', showCode:'Mostrar', hideCode:'Ocultar', enterCodeScreen:'Ingresa el código de la pantalla', sixDigits:'6 dígitos', confirmBtn:'Confirmar', backToLogin:'Volver al login', verifySuccess:'¡Genial! Estás conectado 🎉', wrongCode:'Código incorrecto', invalidCode:'Ingresa un código válido de 6 dígitos',
     guest:'Invitado', welcomeGuestTitle:'¡Bienvenido a LOLance Premium!', welcomeGuestDesc:'Explora tareas y funciones sin límites.', dashMotivation:'Hoy vas adelantado.', dashMotivationDesc:'Completa una tarea más para aumentar tu racha.',
     dayStreak:'días de racha', available:'disponible', totalEarned:'ganado', tasksDone:'tareas', pts:'pts',
+    acceptTermsText:'Acepto los <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Términos de la plataforma</a> y la <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Política de privacidad</a>.', mustAcceptTerms:'Debes aceptar los Términos de la plataforma y la Política de privacidad.',
+    exchangerTitle:'Intercambiador: USDT → 🪙', exchangerCoins:'Monedas', exchangerRate:'Tasa', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'Pendiente', exchangerGetAddr:'Obtener dirección', exchangerUsdtAmount:'Monto USDT',
     quickActions:'Acciones rápidas', browseOpenTasks:'Explorar tareas →', publishNewTask:'+ Nueva tarea', walletOverview:'Resumen de billetera', trendingTasks:'Tareas populares', miniLeaderboard:'Mini-clasificación',
     noTasksFound:'No se encontraron tareas', adjustFilters:'Intenta ajustar los filtros.', cancelled:'Cancelado', byUser:'por',
     titleLabel:'Título', titlePlaceholder:'Nombre claro de la tarea', descPlaceholder:'¿Qué hay que hacer exactamente?', selectOption:'Seleccionar…', previewTitlePh:'El título aparecerá aquí…', previewDescPh:'Vista previa de la descripción…', noDeadline:'Sin fecha límite',
     noPosts:'Sin publicaciones', mediaPreview:'Vista previa de medios', readMore:'Leer más ↓', showLess:'Mostrar menos ↑', save:'Guardar', saved:'Guardado',
+    feedWritePost:'¿Qué hay de nuevo?', feedPostBtn:'Publicar', feedMyPosts:'Mis publicaciones', feedDeletePost:'Eliminar', feedDeleteConfirm:'¿Eliminar esta publicación?', feedGuestMsg:'Regístrate para publicar y dar like.',
     txHistory:'Historial de transacciones', type:'Tipo', amountCol:'Monto', whenCol:'Cuándo', recipientUsername:'Usuario destinatario', confirm:'Confirmar', guestWallet:'La billetera solo está disponible para usuarios registrados.',
     conversations:'Conversaciones', online:'En línea', lastSeen:'Visto recientemente', selectConversation:'Selecciona una conversación', guestChat:'El chat solo está disponible para usuarios registrados.',
     chatReplyWallet1:'Consulta la pestaña Billetera para tu saldo.', chatReplyWallet2:'Los fondos se actualizan tras completar la tarea.', chatReplyTask1:'Explora la página de Tareas para espacios abiertos.', chatReplyTask2:'Los plazos se muestran en cada tarjeta de tarea.', chatReplyReward1:'Las recompensas se acreditan automáticamente.', chatReplyReward2:'Tu historial de ganancias está en la sección Billetera.', chatReplyLevel1:'Tu nivel y XP se muestran en el panel.', chatReplyLevel2:'Mantén tu racha activa para ganar más XP.', chatFallback1:'Entendido, vuelvo pronto.', chatFallback2:'¡Gracias por el mensaje!', chatFallback3:'Anotado. Lo verifico.',
@@ -439,10 +455,13 @@ const i18n = {
     verifyEmail:'Zweryfikuj swój email', codeSentTo:'Wysłaliśmy 6-cyfrowy kod na', solveCaptcha:'Rozwiąż captchę', enterAnswer:'Wpisz odpowiedź', verifyCaptcha:'Sprawdź', wrongAnswer:'Zła odpowiedź', verificationCode:'Kod weryfikacyjny', showCode:'Pokaż', hideCode:'Ukryj', enterCodeScreen:'Wpisz kod z ekranu', sixDigits:'6 cyfr', confirmBtn:'Potwierdź', backToLogin:'Powrót do logowania', verifySuccess:'Super! Jesteś zalogowany 🎉', wrongCode:'Zły kod', invalidCode:'Wpisz poprawny 6-cyfrowy kod',
     guest:'Gość', welcomeGuestTitle:'Witaj w LOLance Premium!', welcomeGuestDesc:'Przeglądaj zadania i funkcje bez ograniczeń.', dashMotivation:'Dziś jesteś przed harmonogramem.', dashMotivationDesc:'Wykonaj kolejne zadanie dla serii.',
     dayStreak:'dni serii', available:'dostępne', totalEarned:'zarobione', tasksDone:'zadań', pts:'pkt',
+    acceptTermsText:'Zgadzam się z <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Regulaminem platformy</a> i <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Polityką prywatności</a>.', mustAcceptTerms:'Musisz zaakceptować Regulamin platformy i Politykę prywatności.',
+    exchangerTitle:'Wymiennik: USDT → 🪙', exchangerCoins:'Coiny', exchangerRate:'Kurs', exchangerRateVal:'1 USDT = 100 🪙', exchangerPending:'Oczekujące', exchangerGetAddr:'Uzyskaj adres', exchangerUsdtAmount:'Kwota USDT',
     quickActions:'Szybkie akcje', browseOpenTasks:'Przeglądaj zadania →', publishNewTask:'+ Nowe zadanie', walletOverview:'Przegląd portfela', trendingTasks:'Popularne zadania', miniLeaderboard:'Mini-ranking',
     noTasksFound:'Nie znaleziono zadań', adjustFilters:'Spróbuj zmienić filtry.', cancelled:'Anulowane', byUser:'od',
     titleLabel:'Tytuł', titlePlaceholder:'Jasna nazwa zadania', descPlaceholder:'Co dokładnie trzeba zrobić?', selectOption:'Wybierz…', previewTitlePh:'Tytuł pojawi się tutaj…', previewDescPh:'Podgląd opisu…', noDeadline:'Bez terminu',
     noPosts:'Brak postów', mediaPreview:'Podgląd mediów', readMore:'Czytaj więcej ↓', showLess:'Mniej ↑', save:'Zapisz', saved:'Zapisano',
+    feedWritePost:'Co nowego?', feedPostBtn:'Opublikuj', feedMyPosts:'Moje posty', feedDeletePost:'Usuń', feedDeleteConfirm:'Usunąć ten post?', feedGuestMsg:'Zarejestruj się, aby publikować i polubić.',
     txHistory:'Historia transakcji', type:'Typ', amountCol:'Kwota', whenCol:'Kiedy', recipientUsername:'Nazwa użytkownika odbiorcy', confirm:'Potwierdź', guestWallet:'Portfel dostępny tylko dla zarejestrowanych użytkowników.',
     conversations:'Rozmowy', online:'Online', lastSeen:'Widziany niedawno', selectConversation:'Wybierz rozmowę', guestChat:'Chat dostępny tylko dla zarejestrowanych użytkowników.',
     chatReplyWallet1:'Sprawdź zakładkę Portfel, aby zobaczyć saldo.', chatReplyWallet2:'Środki są aktualizowane po zakończeniu zadania.', chatReplyTask1:'Przeglądaj stronę Zadań w poszukiwaniu wolnych miejsc.', chatReplyTask2:'Terminy są pokazane na każdej karcie zadania.', chatReplyReward1:'Nagrody są automatycznie naliczane po zakończeniu.', chatReplyReward2:'Historia zarobków jest w sekcji Portfel.', chatReplyLevel1:'Twój poziom i XP są pokazane na pulpicie.', chatReplyLevel2:'Utrzymuj serię aktywną, aby zdobywać więcej XP.', chatFallback1:'Rozumiem, odezwę się wkrótce.', chatFallback2:'Dzięki za wiadomość!', chatFallback3:'Zanotowano. Sprawdzę.',
@@ -512,9 +531,9 @@ function defaultState(){
 function loadState(){
   try{
     const raw=localStorage.getItem(STORAGE_KEY);
-    if(raw){ S=JSON.parse(raw); }
+    if(raw){ S={...defaultState(),...JSON.parse(raw)}; }
   }catch(e){}
-  if(!S) S=defaultState();
+  if(!S || typeof S!=='object') S=defaultState();
 }
 
 async function syncProfile(){
@@ -760,9 +779,33 @@ async function loadLeaderboard(){
     }
   }catch(e){}
 }
+async function loadFeed(){
+  try{
+    const {ok, data} = await apiFetch(API.feed);
+    if(ok){
+      S.feed = (data.posts||[]).map(p=>({
+        id:String(p.id),
+        author:p.author_name||p.author_username||'User',
+        av:p.avatar||(p.author_name||'?').charAt(0).toUpperCase(),
+        text:p.content||'',
+        type:p.category||'other',
+        likes:Number(p.likes_count||0),
+        liked:!!p.my_like,
+        hasMedia:!!p.media_url,
+        mediaUrl:p.media_url||'',
+        timestamp:p.created_at,
+        expanded:false,
+        bookmarked:false,
+        userId:Number(p.user_id),
+        username:p.author_username||''
+      }));
+      saveState();
+    }
+  }catch(e){}
+}
 function saveState(){ try{ localStorage.setItem(STORAGE_KEY,JSON.stringify(S)); }catch(e){} }
 function calcScore(u){
-  return Math.round((u.earnings||0)*1.02+(u.completedTasks||0)*65+(u.streak||0)*20+(u.level||1)*110+(u.xp||0));
+  return Math.round((u.level||1)*1000+(u.earnings||0)*0.5+(u.completedTasks||0)*10+(u.streak||0)*5);
 }
 
 /* ── 5. API ──────────────────────────────────────────────────── */
@@ -816,12 +859,13 @@ function setLoading(btn,state){
 
 /* ── 10. NOTIFICATIONS ───────────────────────────────────────── */
 function addNotif(text,type='info'){
+  if(!Array.isArray(S.notifications)) S.notifications=[];
   S.notifications.unshift({id:uid(),text,type,read:false,timestamp:new Date().toISOString()});
   saveState();
   updateNotifBadge();
 }
 function updateNotifBadge(){
-  const count=S.notifications.filter(n=>!n.read).length;
+  const count=(S.notifications||[]).filter(n=>!n.read).length;
   const badge=document.getElementById('notifBadge');
   if(badge){badge.textContent=count||'';badge.style.display=count?'flex':'none';}
 }
@@ -869,6 +913,8 @@ function renderPage(page,el){
   if(page==='support' && !isGuest) loadSupport();
   if(page==='profile' && !isGuest) loadPoints();
   if(page==='leaderboard') loadLeaderboard();
+  if(page==='dashboard') loadLeaderboard();
+  if(page==='feed' && !isGuest) loadFeed();
   
   (pages[page]||renderDashboard)(el);
 }
@@ -957,7 +1003,7 @@ function renderShell(){
   if(np){
     np.innerHTML=`
       <div class="notif-head"><h4>${t('notifications')}</h4><button class="btn btn-ghost btn-xs" id="markReadBtn">${t('markRead')}</button></div>
-      <div class="notif-list">${S.notifications.length?S.notifications.map(n=>`<div class="notif-item${n.read?'':' unread'}"><div>${esc(n.text)}</div><div class="notif-time">${fmtAgo(n.timestamp)}</div></div>`).join(''):`<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">${t('noNotifications')}</div>`}</div>`;
+      <div class="notif-list">${(S.notifications||[]).length?(S.notifications||[]).map(n=>`<div class="notif-item${n.read?'':' unread'}"><div>${esc(n.text)}</div><div class="notif-time">${fmtAgo(n.timestamp)}</div></div>`).join(''):`<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">${t('noNotifications')}</div>`}</div>`;
   }
 
   document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.page)));
@@ -969,7 +1015,7 @@ function renderShell(){
   }
   document.getElementById('langToggle')?.addEventListener('change',e=>{S.lang=e.target.value;saveState();renderShell();navigate(currentPage);});
   document.getElementById('notifToggle')?.addEventListener('click',toggleNotif);
-  document.getElementById('markReadBtn')?.addEventListener('click',()=>{S.notifications.forEach(n=>n.read=true);saveState();updateNotifBadge();renderShell();navigate(currentPage);});
+  document.getElementById('markReadBtn')?.addEventListener('click',()=>{(S.notifications||[]).forEach(n=>n.read=true);saveState();updateNotifBadge();renderShell();navigate(currentPage);});
 
   if(currentUser && !isGuest) syncProfile();
 
@@ -1116,7 +1162,7 @@ function renderAuth(mode='login'){
               <div class="form-group" style="margin-top:-2px;">
                 <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.45;color:var(--text-soft);">
                   <input type="checkbox" id="regAcceptTerms" style="margin-top:2px;" required>
-                  <span>Я погоджуюсь з <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Правилами платформи</a> та <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Політикою приватності</a>.</span>
+                  <span>${t('acceptTermsText')}</span>
                 </label>
               </div>
               <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top:8px;">
@@ -1166,7 +1212,7 @@ async function handleRegister(e){
   const acceptTerms=!!document.getElementById('regAcceptTerms')?.checked;
   const acceptPrivacy=acceptTerms;
   if(!name||!username||!email||!password){showAlert('authAlert',t('required'));return;}
-  if(!acceptTerms){showAlert('authAlert','Потрібно погодитись з Правилами платформи та Політикою приватності.');return;}
+  if(!acceptTerms){showAlert('authAlert',t('mustAcceptTerms'));return;}
   hideAlert('authAlert');setLoading(btn,true);
   const {ok,data}=await apiFetch(API.register,{method:'POST',body:JSON.stringify({name,username,email,password,accept_terms:acceptTerms,accept_privacy:acceptPrivacy})});
   setLoading(btn,false);
@@ -1176,6 +1222,7 @@ async function handleRegister(e){
 
 async function doLogout(){
   await apiFetch(API.logout,{method:'POST'});
+  S.notifications=[];saveState();
   currentUser=null;toast(t('logoutSuccess'),'info');renderAuth();
 }
 
@@ -1331,8 +1378,8 @@ async function handleVerify(e, userId){
 function renderDashboard(el){
   const myScore=calcScore({earnings:S.earnings,completedTasks:S.completedTasks,streak:S.streak,level:S.level,xp:S.xp});
   const xpPct=Math.min(100,Math.round((S.xp%1000)/10));
-  const trending=S.tasks.filter(t=>t.status==='open').slice(0,3);
-  const mini=[];
+  const trending=(S.tasks||[]).filter(t=>t.status==='open').slice(0,3);
+  const mini=(S.leaderboard||[]).slice(0,3).map(u=>({av:(u.name||u.username||'?').charAt(0).toUpperCase(),name:u.name||u.username||'User',score:Number(u.score||0)}));
   el.innerHTML=`
     <div class="fade-up">
       <!-- Hero welcome -->
@@ -1344,8 +1391,8 @@ function renderDashboard(el){
             <p style="font-size:14px;color:var(--text-soft);">${isGuest?t('welcomeGuestDesc'):t('dashMotivationDesc')}</p>
           </div>
           <div style="text-align:right;flex-shrink:0;">
-            <div class="streak-badge"><span class="streak-fire">🔥</span>${S.streak} day streak</div>
-            <div style="font-size:12px;color:var(--muted);margin-top:4px;">Level ${S.level} · ${S.xp} XP</div>
+            <div class="streak-badge"><span class="streak-fire">🔥</span>${S.streak} ${t('dayStreak')}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px;">${t('level')} ${S.level} · ${S.xp} XP</div>
           </div>
         </div>
       </div>
@@ -1362,7 +1409,7 @@ function renderDashboard(el){
       <div class="card card-sm" style="margin-bottom:20px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
           <span style="font-size:13px;font-weight:700;">${t('xpProgress')}</span>
-          <span style="font-size:12px;color:var(--muted);">${S.xp%1000}/1000 XP → Lvl ${S.level+1}</span>
+          <span style="font-size:12px;color:var(--muted);">${S.xp%1000}/1000 XP → ${t('level')} ${S.level+1}</span>
         </div>
         <div class="xp-bar-wrap"><div class="xp-bar" style="width:${xpPct}%"></div></div>
       </div>
@@ -1382,8 +1429,8 @@ function renderDashboard(el){
         <div class="card">
           <div class="section-title">🏅 ${t('achievements')}</div>
           <div style="display:flex;flex-wrap:wrap;gap:7px;">
-            ${S.achievements.map(a=>`<span class="achievement">🎖 ${esc(a)}</span>`).join('')}
-            ${S.completedTasks>=5&&!S.achievements.includes('Lvl Climb')?'<span class="achievement">🚀 Lvl Climb</span>':''}
+            ${(S.achievements||[]).map(a=>`<span class="achievement">🎖 ${esc(a)}</span>`).join('')}
+            ${S.completedTasks>=5&&!(S.achievements||[]).includes('Lvl Climb')?'<span class="achievement">🚀 Lvl Climb</span>':''}
           </div>
         </div>
       </div>
@@ -1448,7 +1495,7 @@ function renderDashboard(el){
 function renderTasks(el){
   let filterStatus='all', filterCat='all', searchQ='';
   function filtered(){
-    return S.tasks.filter(t=>{
+    return (S.tasks||[]).filter(t=>{
       if(filterStatus!=='all'&&t.status!==filterStatus)return false;
       if(filterCat!=='all'&&t.category!==filterCat)return false;
       if(searchQ&&!t.title.toLowerCase().includes(searchQ.toLowerCase()))return false;
@@ -1677,8 +1724,29 @@ function renderCreateTask(el){
 
 /* ── 18. FEED ────────────────────────────────────────────────── */
 function renderFeed(el){
+  if(isGuest){
+    el.innerHTML=`
+      <div class="fade-up">
+        <div class="card" style="background:linear-gradient(135deg,rgba(184,255,92,.08),rgba(125,215,255,.04));border-color:rgba(184,255,92,.15);">
+          <div class="empty">
+            <div class="empty-icon">📡</div>
+            <h3>${t('feed')}</h3>
+            <p>${t('feedGuestMsg')}</p>
+            <button class="btn btn-primary btn-sm" id="guestRegisterFeed">${t('register')}</button>
+          </div>
+        </div>
+      </div>`;
+    document.getElementById('guestRegisterFeed')?.addEventListener('click',()=>renderAuth('register'));
+    return;
+  }
+
   let filter='all';
-  function filtered(){return filter==='all'?S.feed:S.feed.filter(p=>p.type===filter);}
+  const meId=Number(currentUser?.id||0);
+  function filtered(){
+    if(filter==='mine') return S.feed.filter(p=>p.userId===meId);
+    return filter==='all'?S.feed:S.feed.filter(p=>p.type===filter);
+  }
+
   function renderCards(){
     const list=filtered();
     const c=document.getElementById('feedCards');
@@ -1687,44 +1755,104 @@ function renderFeed(el){
     c.innerHTML=list.map(p=>`
       <div class="feed-card">
         <div class="feed-header">
-          <div class="feed-av">${esc(p.av||p.author.charAt(0))}</div>
-          <div style="flex:1"><div class="feed-author">${esc(p.author)}</div><div class="feed-time">${fmtAgo(p.timestamp)}</div></div>
-          <span class="badge badge-${p.type==='task'?'open':p.type==='wallet'?'in_progress':'completed'}">${p.type==='task'?t('tasks'):p.type==='achievement'?t('achievements'):t('wallet')}</span>
+          <div class="feed-av">${esc(p.av||(p.author||'?').charAt(0))}</div>
+          <div style="flex:1"><div class="feed-author">${esc(p.author||'')}</div><div class="feed-time">${fmtAgo(p.timestamp)}</div></div>
+          ${p.userId===meId?`<button class="action-btn" data-del="${p.id}" title="${t('feedDeletePost')}">🗑</button>`:''}
+          <span class="badge badge-${p.type==='task'?'open':p.type==='wallet'?'in_progress':'completed'}">${p.type==='task'?t('tasks'):p.type==='achievement'?t('achievements'):p.type==='wallet'?t('wallet'):t('feed')}</span>
         </div>
         ${p.hasMedia?`<div class="feed-media" style="background:linear-gradient(135deg,rgba(184,255,92,.05),rgba(125,215,255,.04));display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;">📷 ${t('mediaPreview')}</div>`:''}
-        <div class="feed-text${p.expanded?'':''}" style="${!p.expanded&&p.text.length>160?'display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text)}</div>
-        ${p.text.length>160?`<button class="action-btn" data-expand="${p.id}">${p.expanded?t('showLess'):t('readMore')}</button>`:''}
+        <div class="feed-text" style="${!p.expanded&&(p.text||'').length>160?'display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text||'')}</div>
+        ${(p.text||'').length>160?`<button class="action-btn" data-expand="${p.id}">${p.expanded?t('showLess'):t('readMore')}</button>`:''}
         <div class="feed-actions">
           <button class="action-btn${p.liked?' liked':''}" data-like="${p.id}">❤ ${p.likes}</button>
           <button class="action-btn${p.bookmarked?' bookmarked':''}" data-bm="${p.id}">🔖 ${p.bookmarked?t('saved'):t('save')}</button>
         </div>
       </div>`).join('');
-    c.querySelectorAll('[data-like]').forEach(b=>b.addEventListener('click',()=>{
+
+    // Like via API
+    c.querySelectorAll('[data-like]').forEach(b=>b.addEventListener('click',async()=>{
       const f=S.feed.find(x=>x.id===b.dataset.like);if(!f)return;
-      f.liked=!f.liked;f.likes+=f.liked?1:-1;saveState();renderCards();
+      const action=f.liked?'unlike':'like';
+      const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({action,post_id:Number(f.id)})});
+      if(ok){
+        f.liked=!f.liked;
+        f.likes=typeof data.likes_count==='number'?data.likes_count:(f.likes+(f.liked?1:-1));
+        saveState();renderCards();
+      } else {
+        // Fallback local toggle for better UX
+        f.liked=!f.liked;f.likes+=f.liked?1:-1;saveState();renderCards();
+      }
     }));
+    // Bookmark (local only)
     c.querySelectorAll('[data-bm]').forEach(b=>b.addEventListener('click',()=>{
       const f=S.feed.find(x=>x.id===b.dataset.bm);if(!f)return;
       f.bookmarked=!f.bookmarked;saveState();renderCards();
     }));
+    // Expand text
     c.querySelectorAll('[data-expand]').forEach(b=>b.addEventListener('click',()=>{
       const f=S.feed.find(x=>x.id===b.dataset.expand);if(!f)return;
       f.expanded=!f.expanded;saveState();renderCards();
+    }));
+    // Delete own post
+    c.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',async()=>{
+      if(!confirm(t('feedDeleteConfirm')))return;
+      const pid=b.dataset.del;
+      const {ok}=await apiFetch(`${API.feed}?id=${pid}`,{method:'DELETE'});
+      if(ok){
+        S.feed=S.feed.filter(x=>x.id!==pid);
+        saveState();renderCards();
+        toast(t('feedDeletePost'),'info');
+      }
     }));
   }
 
   el.innerHTML=`
     <div class="fade-up" style="max-width:680px;">
-      <div style="display:flex;gap:8px;margin-bottom:18px;" id="feedFilters">
+      <!-- Create post form -->
+      <div class="card" style="margin-bottom:18px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div class="user-av" style="width:36px;height:36px;font-size:14px;flex-shrink:0;">${(currentUser?.name||'?').charAt(0).toUpperCase()}</div>
+          <div style="flex:1">
+            <textarea id="feedPostText" class="form-textarea" rows="2" maxlength="2000" placeholder="${t('feedWritePost')}" style="resize:vertical;"></textarea>
+            <div style="display:flex;justify-content:flex-end;margin-top:8px;">
+              <button id="feedPostBtn" class="btn btn-primary btn-sm"><span class="btn-txt">${t('feedPostBtn')}</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Filters -->
+      <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;" id="feedFilters">
         <button class="chip active" data-ft="all">${t('all')}</button>
         <button class="chip" data-ft="task">${t('tasks')}</button>
         <button class="chip" data-ft="achievement">${t('achievements')}</button>
         <button class="chip" data-ft="wallet">${t('wallet')}</button>
+        <button class="chip" data-ft="mine">${t('feedMyPosts')}</button>
       </div>
+      <!-- Cards -->
       <div style="display:flex;flex-direction:column;gap:14px;" id="feedCards"></div>
     </div>`;
 
   renderCards();
+
+  // Create post handler
+  document.getElementById('feedPostBtn')?.addEventListener('click',async()=>{
+    const text=document.getElementById('feedPostText')?.value?.trim();
+    if(!text){toast(t('required'),'error');return;}
+    const btn=document.getElementById('feedPostBtn');
+    setLoading(btn,true);
+    const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({action:'create',content:text,category:'other'})});
+    setLoading(btn,false);
+    if(ok){
+      document.getElementById('feedPostText').value='';
+      await loadFeed();
+      renderCards();
+      toast(t('feedPostBtn'),'success');
+    } else {
+      toast(data.message||'Error','error');
+    }
+  });
+
+  // Filter handler
   document.getElementById('feedFilters')?.addEventListener('click',e=>{
     const btn=e.target.closest('[data-ft]');if(!btn)return;
     document.querySelectorAll('#feedFilters .chip').forEach(c=>c.classList.remove('active'));
@@ -2325,7 +2453,7 @@ function renderProfile(el){
         <div class="card-flat" style="padding:10px;"><div class="stat-label">${t('checkinStreak')}</div><div style="font-size:20px;font-weight:900;">${Number(S.checkinStreak||0)} 🔥</div></div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
-        <button id="dailyCheckinBtn" class="btn btn-${S.doneCheckinToday?'ghost':'success'} btn-sm" ${S.doneCheckinToday?'disabled':''}>${S.doneCheckinToday?t('checkinDone'):'Check-in (+10 XP)'}</button>
+        <button id="dailyCheckinBtn" class="btn btn-${S.doneCheckinToday?'ghost':'success'} btn-sm" ${S.doneCheckinToday?'disabled':''}>${S.doneCheckinToday?t('checkinDone'):t('checkinBtn')}</button>
         <input id="buyPointsPacks" type="number" min="1" max="100" value="1" class="form-input" style="width:90px;">
         <button id="buyPointsBtn" class="btn btn-ghost btn-sm">${t('buyPoints')}</button>
       </div>
@@ -2351,7 +2479,7 @@ function renderProfile(el){
     ? `<div class="card"><div class="section-title">👉 ${t('readyToStartQ')}</div><p style="font-size:14px;color:var(--text-soft);margin-bottom:14px;">${t('readyToStartDesc')}</p><button class="btn btn-primary btn-block" id="guestCreateBtn"><span class="btn-txt">${t('register')}</span></button></div>`
     : `<div class="card"><div class="section-title">✏️ ${t('editProfileTitle')}</div><form id="profileForm" style="display:flex;flex-direction:column;gap:14px;"><div class="form-group"><label class="form-label">${t('roleTitle')}</label><input type="text" id="pfRole" class="form-input" value="${esc(S.role||'')}" placeholder="${t('rolePlaceholder')}" maxlength="60"></div><div class="form-group"><label class="form-label">${t('bioLabel')}</label><textarea id="pfBio" class="form-textarea" rows="3" maxlength="500" placeholder="${t('bioPlaceholder')}">${esc(S.bio||'')}</textarea></div><div class="form-group"><label class="form-label">${t('skillsLabel')}</label><input type="text" id="pfSkills" class="form-input" value="${esc(S.skills||'')}" placeholder="${t('skillsPlaceholder')}"></div><button type="submit" class="btn btn-primary btn-block"><span class="btn-txt">${t('saveProfile')}</span></button></form></div>`;
 
-  const exchanger=isGuest?'':`<div class="card" style="margin-top:20px;"><div class="section-title">₮ Обмінник: USDT → 🪙</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;"><div class="card-flat" style="padding:10px;"><div class="stat-label">Coins</div><div style="font-weight:800;">${Number(S.coinBalance||0).toLocaleString()}</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">Rate</div><div style="font-weight:800;">1 USDT = 100 🪙</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">Pending</div><div style="font-weight:800;">${Number(S.pendingCryptoCount||0)}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><input id="exchAmount" class="form-input" type="number" min="1" max="10000" placeholder="USDT amount"><select id="exchNetwork" class="form-select"><option value="TRC20">TRC20</option><option value="BEP20">BEP20</option></select></div><div id="exchangeAlert" class="alert" style="margin-top:10px;"></div><button id="exchInitBtn" class="btn btn-primary btn-block" style="margin-top:10px;"><span class="btn-txt">Отримати адресу</span></button><div id="exchangeStep2" style="margin-top:10px;"></div></div>`;
+  const exchanger=isGuest?'':`<div class="card" style="margin-top:20px;"><div class="section-title">₮ ${t('exchangerTitle')}</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;"><div class="card-flat" style="padding:10px;"><div class="stat-label">${t('exchangerCoins')}</div><div style="font-weight:800;">${Number(S.coinBalance||0).toLocaleString()}</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">${t('exchangerRate')}</div><div style="font-weight:800;">${t('exchangerRateVal')}</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">${t('exchangerPending')}</div><div style="font-weight:800;">${Number(S.pendingCryptoCount||0)}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><input id="exchAmount" class="form-input" type="number" min="1" max="10000" placeholder="${t('exchangerUsdtAmount')}"><select id="exchNetwork" class="form-select"><option value="TRC20">TRC20</option><option value="BEP20">BEP20</option></select></div><div id="exchangeAlert" class="alert" style="margin-top:10px;"></div><button id="exchInitBtn" class="btn btn-primary btn-block" style="margin-top:10px;"><span class="btn-txt">${t('exchangerGetAddr')}</span></button><div id="exchangeStep2" style="margin-top:10px;"></div></div>`;
 
   el.innerHTML=`
     <div class="fade-up" style="max-width:800px;">
@@ -2365,7 +2493,7 @@ function renderProfile(el){
           </div>
           <div style="text-align:right">
             <div class="streak-badge"><span class="streak-fire">🔥</span>${S.streak} ${t('dayStreak')}</div>
-            <div style="font-size:12px;color:var(--muted);margin-top:4px;">Lvl ${S.level} · ${myScore.toLocaleString()} ${t('pts')}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px;">${t('level')} ${S.level} · ${myScore.toLocaleString()} ${t('pts')}</div>
           </div>
         </div>
         <div style="margin-top:16px;">

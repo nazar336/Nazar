@@ -304,6 +304,15 @@ CREATE TABLE IF NOT EXISTS coin_spending (
     KEY idx_user_id (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- ── LOGIN ATTEMPTS (rate-limiter) ──
+CREATE TABLE IF NOT EXISTS login_attempts (
+    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    identifier    VARCHAR(255) NOT NULL,
+    attempted_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    KEY idx_identifier (identifier),
+    KEY idx_attempted (attempted_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- ── КРИПТО ВИВОДИ ──
 CREATE TABLE IF NOT EXISTS crypto_withdrawals (
     id               INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,

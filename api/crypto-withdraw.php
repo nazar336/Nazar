@@ -59,6 +59,11 @@ function handleWithdrawInfo(): never {
 
 // ── POST initiate ─────────────────────────────────────────────────
 function handleWithdrawInitiate(PDO $pdo, int $userId, array $input): never {
+    // Rate limit: max 3 withdrawal requests per hour
+    if (check_rate_limit($pdo, 'crypto_withdraw:' . $userId, 3, 60))
+        json_response(['success' => false, 'message' => 'Занадто багато запитів. Спробуйте через годину.'], 429);
+    record_rate_limit($pdo, 'crypto_withdraw:' . $userId);
+
     $amountCoins   = (float)($input['amount_coins'] ?? 0);
     $network       = strtoupper(trim((string)($input['network'] ?? 'TRC20')));
     $walletAddress = trim((string)($input['wallet_address'] ?? ''));
@@ -74,6 +79,16 @@ function handleWithdrawInitiate(PDO $pdo, int $userId, array $input): never {
         json_response(['success' => false, 'message' => 'Невірна адреса гаманця (10–128 символів)'], 400);
     if (!preg_match('/^[A-Za-z0-9]+$/', $walletAddress))
         json_response(['success' => false, 'message' => 'Адреса гаманця: тільки латиниця та цифри'], 400);
+    // Network-specific address format validation
+    $addrValid = match ($network) {
+        'TRC20'  => preg_match('/^T[A-Za-z1-9]{33}$/', $walletAddress),
+        'ERC20'  => preg_match('/^0x[0-9a-fA-F]{40}$/', $walletAddress),
+        'BTC'    => preg_match('/^(1|3|bc1)[A-Za-z0-9]{25,62}$/', $walletAddress),
+        'SOL'    => preg_match('/^[1-9A-HJ-NP-Za-km-z]{32,44}$/', $walletAddress),
+        default  => true,
+    };
+    if (!$addrValid)
+        json_response(['success' => false, 'message' => 'Невірний формат адреси для мережі ' . $network], 400);
 
     // Calculate amounts
     $feeCoins    = round($amountCoins * WITHDRAW_FEE_PCT / 100, 2);

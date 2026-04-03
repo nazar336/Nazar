@@ -62,9 +62,9 @@ try {
         if ($category === '')    json_response(['success' => false, 'message' => 'Category is required'], 400);
         if (mb_strlen($category) > 50) json_response(['success' => false, 'message' => 'Category is too long (max 50)'], 400);
         if ($reward <= 0)        json_response(['success' => false, 'message' => 'Reward must be positive'], 400);
-        if ($reward > 999999)    json_response(['success' => false, 'message' => 'Reward is too large'], 400);
+        if ($reward > 10000)     json_response(['success' => false, 'message' => 'Reward is too large (max 10 000)'], 400);
         if ($slots < 1)          json_response(['success' => false, 'message' => 'Slots must be at least 1'], 400);
-        if ($slots > 1000)       json_response(['success' => false, 'message' => 'Max 1000 slots'], 400);
+        if ($slots > 100)        json_response(['success' => false, 'message' => 'Max 100 slots'], 400);
 
         // Validate deadline format (YYYY-MM-DD or YYYY-MM-DDTHH:MM or YYYY-MM-DD HH:MM:SS)
         if ($deadline !== null) {

@@ -51,6 +51,14 @@ try {
         if (check_rate_limit($pdo, 'task_create:' . $userId, 10, 60))
             json_response(['success' => false, 'message' => 'Too many tasks created. Please wait before creating another.'], 429);
 
+        // ── Level privilege: must be level 3+ to create tasks ──
+        $lvlStmt = $pdo->prepare('SELECT level FROM users WHERE id=:uid');
+        $lvlStmt->execute([':uid' => $userId]);
+        $userLevel = (int)($lvlStmt->fetchColumn() ?: 1);
+        if ($userLevel < 3) {
+            json_response(['success' => false, 'message' => 'Level 3 required to create tasks. Current level: ' . $userLevel], 403);
+        }
+
         $title       = trim((string)($input['title']       ?? ''));
         $description = trim((string)($input['description'] ?? ''));
         $category    = trim((string)($input['category']    ?? ''));
@@ -84,6 +92,13 @@ try {
                 json_response(['success' => false, 'message' => 'Invalid deadline format. Accepted: YYYY-MM-DD, YYYY-MM-DDTHH:MM, YYYY-MM-DD HH:MM:SS'], 400);
             }
             $deadline = $dt->format('Y-m-d H:i:s');
+        }
+
+        // ── Level privilege: max reward scales with level ──
+        $maxRewardByLevel = [3=>1000, 4=>2500, 5=>5000, 6=>10000, 7=>25000, 8=>50000, 9=>100000, 10=>500000, 11=>999999, 12=>999999];
+        $maxReward = $maxRewardByLevel[$userLevel] ?? 999999;
+        if ($reward > $maxReward) {
+            json_response(['success' => false, 'message' => 'Max reward at level ' . $userLevel . ' is ' . number_format($maxReward) . ' coins. Level up to increase limit!'], 400);
         }
 
         $stmt = $pdo->prepare('INSERT INTO tasks(title,description,category,difficulty,reward,slots,deadline,status,creator_id) VALUES(:t,:d,:c,:diff,:r,:s,:dl,"open",:cb)');

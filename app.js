@@ -114,6 +114,26 @@ const i18n = {
     roomOnline:'online', noMsgsYet:'Be the first to write!', globalRoomDesc:'All users can chat here',
     withdrawCrypto:'Withdraw to Crypto', withdrawTitle:'Withdraw Coins to Crypto', withdrawCoins:'Amount (coins)', withdrawWallet:'Your wallet address', withdrawNetwork:'Network', withdrawFee:'Fee (5%)', withdrawNet:'You receive', withdrawConfirm:'Submit Withdrawal', withdrawSuccess:'Withdrawal request created!', withdrawCancel:'Cancel Withdrawal', withdrawCancelled:'Withdrawal cancelled. Coins refunded.', withdrawHistory:'Withdrawal History', withdrawPending:'You have a pending withdrawal', withdrawMin:'Min withdrawal: 500 coins', withdrawStatus:'Status', noWithdrawals:'No withdrawals yet',
     exchangerTitle:'Exchange: USDT → 🪙', exchangerGetAddress:'Get Address', exchangerConfirm:'Confirm', exchangerRange:'Amount: 1 to 10,000 USDT', exchangerSendTo:'Send', exchangerToAddress:'to address:', exchangerError:'Error', exchangerConfirmError:'Confirmation error', codeSentDesc:'Code sent to email. Check Inbox / Spam and enter the 6-digit code below.', globalMsgSent:'Message sent to Global chat',
+    // Level Privileges
+    lvlPrivileges:'Level Benefits', lvlYourLevel:'Your Level', lvlNextLevel:'Next Level',
+    lvlMaxTasks:'Max active tasks', lvlCreateTasks:'Create tasks', lvlMaxReward:'Max reward',
+    lvlFeedMedia:'Feed media', lvlDifficulty:'Task difficulty',
+    lvlLocked:'🔒 Locked', lvlUnlocked:'✅ Unlocked', lvlUpgrade:'Level up to unlock!',
+    lvlNone:'Text only', lvlImage:'Images', lvlVideo:'Video', lvlAll:'All media',
+    lvlEasyOnly:'Easy only', lvlEasyMedium:'Easy + Medium', lvlAllDiff:'All difficulties',
+    lvlCreateLocked:'Create tasks unlocks at Level 3', lvlRewardLimit:'Max reward at your level:',
+    lvlTaskLimit:'Task limit reached! Level up for more slots.',
+    lvlDiffLocked:'This difficulty unlocks at higher level.',
+    lvlNewcomer:'Newcomer', lvlExplorer:'Explorer', lvlCreator:'Creator', lvlProducer:'Producer',
+    lvlWarrior:'Warrior', lvlChampion:'Champion', lvlExpert:'Expert', lvlElite:'Elite',
+    lvlMaster:'Master', lvlGrandmaster:'Grandmaster', lvlTitan:'Titan', lvlLegend:'Legend',
+    lvlUnlocksAt:'Unlocks at Lv',
+    // Feed Rewards
+    feedRewards:'Feed Rewards', feedPostXp:'+5 XP per post', feedLikeXp:'+1 XP per 10 likes',
+    feedDailyLimit:'posts today', feedPostsLeft:'posts left today',
+    feedCreatePost:'Create Post', feedWriteSomething:'Share something with the community…',
+    feedPostSuccess:'Post published!', feedMaxReached:'Daily XP limit reached, but you can still post.',
+    feedAddMedia:'Add media', feedSelectType:'Post type',
   },
   UA:{
     appName:'LOLance', appTag:'Преміум платформа мікрозадач',
@@ -192,6 +212,24 @@ const i18n = {
     roomOnline:'онлайн', noMsgsYet:'Будь першим хто напише!', globalRoomDesc:'Тут можуть писати всі користувачі',
     withdrawCrypto:'Вивести в крипту', withdrawTitle:'Вивід монет у крипту', withdrawCoins:'Сума (монети)', withdrawWallet:'Адреса вашого гаманця', withdrawNetwork:'Мережа', withdrawFee:'Комісія (5%)', withdrawNet:'Ви отримаєте', withdrawConfirm:'Створити запит', withdrawSuccess:'Запит на вивід створено!', withdrawCancel:'Скасувати вивід', withdrawCancelled:'Вивід скасовано. Монети повернено.', withdrawHistory:'Історія виводів', withdrawPending:'У вас є активний запит на вивід', withdrawMin:'Мін. вивід: 500 монет', withdrawStatus:'Статус', noWithdrawals:'Виводів ще не було',
     exchangerTitle:'Обмінник: USDT → 🪙', exchangerGetAddress:'Отримати адресу', exchangerConfirm:'Підтвердити', exchangerRange:'Сума: від 1 до 10000 USDT', exchangerSendTo:'Надішли', exchangerToAddress:'на адресу:', exchangerError:'Помилка', exchangerConfirmError:'Помилка підтвердження', codeSentDesc:'Код надіслано на email. Перевір папки Inbox / Spam та введи 6-значний код нижче.', globalMsgSent:'Повідомлення надіслано до Global чату',
+    lvlPrivileges:'Переваги рівня', lvlYourLevel:'Твій рівень', lvlNextLevel:'Наступний рівень',
+    lvlMaxTasks:'Макс. активних задач', lvlCreateTasks:'Створення задач', lvlMaxReward:'Макс. нагорода',
+    lvlFeedMedia:'Медіа у стрічці', lvlDifficulty:'Складність задач',
+    lvlLocked:'🔒 Заблоковано', lvlUnlocked:'✅ Розблоковано', lvlUpgrade:'Підвищ рівень щоб розблокувати!',
+    lvlNone:'Тільки текст', lvlImage:'Зображення', lvlVideo:'Відео', lvlAll:'Все медіа',
+    lvlEasyOnly:'Тільки легкі', lvlEasyMedium:'Легкі + Середні', lvlAllDiff:'Всі складності',
+    lvlCreateLocked:'Створення задач з 3 рівня', lvlRewardLimit:'Макс. нагорода на вашому рівні:',
+    lvlTaskLimit:'Ліміт задач досягнуто! Підвищ рівень для більше слотів.',
+    lvlDiffLocked:'Ця складність відкривається на вищому рівні.',
+    lvlNewcomer:'Новачок', lvlExplorer:'Дослідник', lvlCreator:'Творець', lvlProducer:'Продюсер',
+    lvlWarrior:'Воїн', lvlChampion:'Чемпіон', lvlExpert:'Експерт', lvlElite:'Еліта',
+    lvlMaster:'Майстер', lvlGrandmaster:'Грандмайстер', lvlTitan:'Титан', lvlLegend:'Легенда',
+    lvlUnlocksAt:'Відкривається з Lv',
+    feedRewards:'Нагороди стрічки', feedPostXp:'+5 XP за пост', feedLikeXp:'+1 XP за 10 лайків',
+    feedDailyLimit:'постів сьогодні', feedPostsLeft:'постів залишилось',
+    feedCreatePost:'Створити пост', feedWriteSomething:'Поділіться чимось з спільнотою…',
+    feedPostSuccess:'Пост опубліковано!', feedMaxReached:'Денний ліміт XP досягнуто, але ви ще можете публікувати.',
+    feedAddMedia:'Додати медіа', feedSelectType:'Тип посту',
   },
   DE:{
     appName:'LOLance', appTag:'Premium Micro-Task Plattform',
@@ -265,6 +303,24 @@ const i18n = {
     roomOnline:'online', noMsgsYet:'Sei der Erste, der schreibt!', globalRoomDesc:'Hier können alle Nutzer schreiben',
     withdrawCrypto:'Auszahlung in Krypto', withdrawTitle:'Coins in Krypto auszahlen', withdrawCoins:'Betrag (Coins)', withdrawWallet:'Ihre Wallet-Adresse', withdrawNetwork:'Netzwerk', withdrawFee:'Gebühr (5%)', withdrawNet:'Sie erhalten', withdrawConfirm:'Auszahlung beantragen', withdrawSuccess:'Auszahlungsantrag erstellt!', withdrawCancel:'Auszahlung stornieren', withdrawCancelled:'Auszahlung storniert. Coins erstattet.', withdrawHistory:'Auszahlungshistorie', withdrawPending:'Sie haben eine offene Auszahlung', withdrawMin:'Min. Auszahlung: 500 Coins', withdrawStatus:'Status', noWithdrawals:'Noch keine Auszahlungen',
     exchangerTitle:'Umtausch: USDT → 🪙', exchangerGetAddress:'Adresse erhalten', exchangerConfirm:'Bestätigen', exchangerRange:'Betrag: 1 bis 10.000 USDT', exchangerSendTo:'Senden Sie', exchangerToAddress:'an Adresse:', exchangerError:'Fehler', exchangerConfirmError:'Bestätigungsfehler', codeSentDesc:'Code per E-Mail gesendet. Prüfen Sie Inbox / Spam und geben Sie den 6-stelligen Code unten ein.', globalMsgSent:'Nachricht an Global-Chat gesendet',
+    lvlPrivileges:'Level-Vorteile', lvlYourLevel:'Dein Level', lvlNextLevel:'Nächstes Level',
+    lvlMaxTasks:'Max aktive Aufgaben', lvlCreateTasks:'Aufgaben erstellen', lvlMaxReward:'Max Belohnung',
+    lvlFeedMedia:'Feed-Medien', lvlDifficulty:'Aufgabenschwierigkeit',
+    lvlLocked:'🔒 Gesperrt', lvlUnlocked:'✅ Freigeschaltet', lvlUpgrade:'Level up zum Freischalten!',
+    lvlNone:'Nur Text', lvlImage:'Bilder', lvlVideo:'Video', lvlAll:'Alle Medien',
+    lvlEasyOnly:'Nur Einfach', lvlEasyMedium:'Einfach + Mittel', lvlAllDiff:'Alle Schwierigkeiten',
+    lvlCreateLocked:'Aufgaben erstellen ab Level 3', lvlRewardLimit:'Max Belohnung auf deinem Level:',
+    lvlTaskLimit:'Aufgabenlimit erreicht! Level up für mehr.',
+    lvlDiffLocked:'Diese Schwierigkeit wird auf höherem Level freigeschaltet.',
+    lvlNewcomer:'Neuling', lvlExplorer:'Entdecker', lvlCreator:'Ersteller', lvlProducer:'Produzent',
+    lvlWarrior:'Krieger', lvlChampion:'Champion', lvlExpert:'Experte', lvlElite:'Elite',
+    lvlMaster:'Meister', lvlGrandmaster:'Großmeister', lvlTitan:'Titan', lvlLegend:'Legende',
+    lvlUnlocksAt:'Freigeschaltet ab Lv',
+    feedRewards:'Feed-Belohnungen', feedPostXp:'+5 XP pro Beitrag', feedLikeXp:'+1 XP pro 10 Likes',
+    feedDailyLimit:'Beiträge heute', feedPostsLeft:'Beiträge übrig',
+    feedCreatePost:'Beitrag erstellen', feedWriteSomething:'Teile etwas mit der Community…',
+    feedPostSuccess:'Beitrag veröffentlicht!', feedMaxReached:'Tägliches XP-Limit erreicht.',
+    feedAddMedia:'Medien hinzufügen', feedSelectType:'Beitragstyp',
   },
   FR:{
     appName:'LOLance', appTag:'Plateforme Premium de Micro-Tâches',
@@ -338,6 +394,24 @@ const i18n = {
     roomOnline:'en ligne', noMsgsYet:'Soyez le premier à écrire !', globalRoomDesc:'Tous les utilisateurs peuvent écrire ici',
     withdrawCrypto:'Retirer en crypto', withdrawTitle:'Retirer des coins en crypto', withdrawCoins:'Montant (coins)', withdrawWallet:'Adresse de votre portefeuille', withdrawNetwork:'Réseau', withdrawFee:'Frais (5%)', withdrawNet:'Vous recevrez', withdrawConfirm:'Soumettre le retrait', withdrawSuccess:'Demande de retrait créée !', withdrawCancel:'Annuler le retrait', withdrawCancelled:'Retrait annulé. Coins remboursés.', withdrawHistory:'Historique des retraits', withdrawPending:'Vous avez un retrait en attente', withdrawMin:'Retrait min. : 500 coins', withdrawStatus:'Statut', noWithdrawals:'Aucun retrait pour le moment',
     exchangerTitle:'Échange: USDT → 🪙', exchangerGetAddress:'Obtenir l\'adresse', exchangerConfirm:'Confirmer', exchangerRange:'Montant: 1 à 10 000 USDT', exchangerSendTo:'Envoyez', exchangerToAddress:'à l\'adresse:', exchangerError:'Erreur', exchangerConfirmError:'Erreur de confirmation', codeSentDesc:'Code envoyé par e-mail. Vérifiez Boîte de réception / Spam et entrez le code à 6 chiffres ci-dessous.', globalMsgSent:'Message envoyé au chat Global',
+    lvlPrivileges:'Avantages du niveau', lvlYourLevel:'Votre niveau', lvlNextLevel:'Niveau suivant',
+    lvlMaxTasks:'Max tâches actives', lvlCreateTasks:'Créer des tâches', lvlMaxReward:'Récompense max',
+    lvlFeedMedia:'Médias du flux', lvlDifficulty:'Difficulté des tâches',
+    lvlLocked:'🔒 Verrouillé', lvlUnlocked:'✅ Débloqué', lvlUpgrade:'Montez de niveau pour débloquer !',
+    lvlNone:'Texte seul', lvlImage:'Images', lvlVideo:'Vidéo', lvlAll:'Tous les médias',
+    lvlEasyOnly:'Facile seul', lvlEasyMedium:'Facile + Moyen', lvlAllDiff:'Toutes les difficultés',
+    lvlCreateLocked:'Création de tâches au niveau 3', lvlRewardLimit:'Récompense max à votre niveau :',
+    lvlTaskLimit:'Limite de tâches atteinte ! Montez de niveau.',
+    lvlDiffLocked:'Cette difficulté se débloque à un niveau supérieur.',
+    lvlNewcomer:'Débutant', lvlExplorer:'Explorateur', lvlCreator:'Créateur', lvlProducer:'Producteur',
+    lvlWarrior:'Guerrier', lvlChampion:'Champion', lvlExpert:'Expert', lvlElite:'Élite',
+    lvlMaster:'Maître', lvlGrandmaster:'Grand Maître', lvlTitan:'Titan', lvlLegend:'Légende',
+    lvlUnlocksAt:'Débloqué au Nv',
+    feedRewards:'Récompenses du flux', feedPostXp:'+5 XP par post', feedLikeXp:'+1 XP pour 10 likes',
+    feedDailyLimit:'posts aujourd\'hui', feedPostsLeft:'posts restants',
+    feedCreatePost:'Créer un post', feedWriteSomething:'Partagez quelque chose avec la communauté…',
+    feedPostSuccess:'Post publié !', feedMaxReached:'Limite quotidienne d\'XP atteinte.',
+    feedAddMedia:'Ajouter un média', feedSelectType:'Type de post',
   },
   ES:{
     appName:'LOLance', appTag:'Plataforma Premium de Micro-Tareas',
@@ -411,6 +485,24 @@ const i18n = {
     roomOnline:'en línea', noMsgsYet:'¡Sé el primero en escribir!', globalRoomDesc:'Todos los usuarios pueden escribir aquí',
     withdrawCrypto:'Retirar a crypto', withdrawTitle:'Retirar coins a crypto', withdrawCoins:'Cantidad (coins)', withdrawWallet:'Dirección de tu billetera', withdrawNetwork:'Red', withdrawFee:'Comisión (5%)', withdrawNet:'Recibirás', withdrawConfirm:'Solicitar retiro', withdrawSuccess:'¡Solicitud de retiro creada!', withdrawCancel:'Cancelar retiro', withdrawCancelled:'Retiro cancelado. Coins devueltos.', withdrawHistory:'Historial de retiros', withdrawPending:'Tienes un retiro pendiente', withdrawMin:'Retiro mín.: 500 coins', withdrawStatus:'Estado', noWithdrawals:'Sin retiros aún',
     exchangerTitle:'Cambio: USDT → 🪙', exchangerGetAddress:'Obtener dirección', exchangerConfirm:'Confirmar', exchangerRange:'Monto: 1 a 10.000 USDT', exchangerSendTo:'Envía', exchangerToAddress:'a la dirección:', exchangerError:'Error', exchangerConfirmError:'Error de confirmación', codeSentDesc:'Código enviado por email. Revisa Bandeja de entrada / Spam e ingresa el código de 6 dígitos abajo.', globalMsgSent:'Mensaje enviado al chat Global',
+    lvlPrivileges:'Beneficios del nivel', lvlYourLevel:'Tu nivel', lvlNextLevel:'Siguiente nivel',
+    lvlMaxTasks:'Máx tareas activas', lvlCreateTasks:'Crear tareas', lvlMaxReward:'Recompensa máx',
+    lvlFeedMedia:'Medios del feed', lvlDifficulty:'Dificultad de tareas',
+    lvlLocked:'🔒 Bloqueado', lvlUnlocked:'✅ Desbloqueado', lvlUpgrade:'¡Sube de nivel para desbloquear!',
+    lvlNone:'Solo texto', lvlImage:'Imágenes', lvlVideo:'Video', lvlAll:'Todos los medios',
+    lvlEasyOnly:'Solo fácil', lvlEasyMedium:'Fácil + Medio', lvlAllDiff:'Todas las dificultades',
+    lvlCreateLocked:'Crear tareas se desbloquea en nivel 3', lvlRewardLimit:'Recompensa máx en tu nivel:',
+    lvlTaskLimit:'¡Límite de tareas alcanzado! Sube de nivel.',
+    lvlDiffLocked:'Esta dificultad se desbloquea en un nivel superior.',
+    lvlNewcomer:'Novato', lvlExplorer:'Explorador', lvlCreator:'Creador', lvlProducer:'Productor',
+    lvlWarrior:'Guerrero', lvlChampion:'Campeón', lvlExpert:'Experto', lvlElite:'Élite',
+    lvlMaster:'Maestro', lvlGrandmaster:'Gran Maestro', lvlTitan:'Titán', lvlLegend:'Leyenda',
+    lvlUnlocksAt:'Se desbloquea en Nv',
+    feedRewards:'Recompensas del feed', feedPostXp:'+5 XP por post', feedLikeXp:'+1 XP por 10 likes',
+    feedDailyLimit:'posts hoy', feedPostsLeft:'posts restantes',
+    feedCreatePost:'Crear post', feedWriteSomething:'Comparte algo con la comunidad…',
+    feedPostSuccess:'¡Post publicado!', feedMaxReached:'Límite diario de XP alcanzado.',
+    feedAddMedia:'Agregar media', feedSelectType:'Tipo de post',
   },
   PL:{
     appName:'LOLance', appTag:'Platforma Premium Mikro-Zadań',
@@ -484,9 +576,46 @@ const i18n = {
     roomOnline:'online', noMsgsYet:'Bądź pierwszym, który pisze!', globalRoomDesc:'Tutaj mogą pisać wszyscy użytkownicy',
     withdrawCrypto:'Wypłata na krypto', withdrawTitle:'Wypłata coinów na krypto', withdrawCoins:'Kwota (coiny)', withdrawWallet:'Adres Twojego portfela', withdrawNetwork:'Sieć', withdrawFee:'Opłata (5%)', withdrawNet:'Otrzymasz', withdrawConfirm:'Złóż wniosek', withdrawSuccess:'Wniosek o wypłatę złożony!', withdrawCancel:'Anuluj wypłatę', withdrawCancelled:'Wypłata anulowana. Coiny zwrócone.', withdrawHistory:'Historia wypłat', withdrawPending:'Masz oczekującą wypłatę', withdrawMin:'Min. wypłata: 500 coinów', withdrawStatus:'Status', noWithdrawals:'Brak wypłat',
     exchangerTitle:'Wymiana: USDT → 🪙', exchangerGetAddress:'Pobierz adres', exchangerConfirm:'Potwierdź', exchangerRange:'Kwota: od 1 do 10 000 USDT', exchangerSendTo:'Wyślij', exchangerToAddress:'na adres:', exchangerError:'Błąd', exchangerConfirmError:'Błąd potwierdzenia', codeSentDesc:'Kod wysłany na email. Sprawdź folder Inbox / Spam i wpisz 6-cyfrowy kod poniżej.', globalMsgSent:'Wiadomość wysłana do czatu Global',
+    lvlPrivileges:'Korzyści poziomu', lvlYourLevel:'Twój poziom', lvlNextLevel:'Następny poziom',
+    lvlMaxTasks:'Maks aktywnych zadań', lvlCreateTasks:'Tworzenie zadań', lvlMaxReward:'Maks nagroda',
+    lvlFeedMedia:'Media w kanale', lvlDifficulty:'Trudność zadań',
+    lvlLocked:'🔒 Zablokowane', lvlUnlocked:'✅ Odblokowane', lvlUpgrade:'Podnieś poziom, aby odblokować!',
+    lvlNone:'Tylko tekst', lvlImage:'Obrazy', lvlVideo:'Wideo', lvlAll:'Wszystkie media',
+    lvlEasyOnly:'Tylko łatwe', lvlEasyMedium:'Łatwe + Średnie', lvlAllDiff:'Wszystkie trudności',
+    lvlCreateLocked:'Tworzenie zadań od poziomu 3', lvlRewardLimit:'Maks nagroda na twoim poziomie:',
+    lvlTaskLimit:'Limit zadań osiągnięty! Podnieś poziom.',
+    lvlDiffLocked:'Ta trudność odblokuje się na wyższym poziomie.',
+    lvlNewcomer:'Nowicjusz', lvlExplorer:'Odkrywca', lvlCreator:'Twórca', lvlProducer:'Producent',
+    lvlWarrior:'Wojownik', lvlChampion:'Mistrz', lvlExpert:'Ekspert', lvlElite:'Elita',
+    lvlMaster:'Mistrz', lvlGrandmaster:'Arcymistrz', lvlTitan:'Tytan', lvlLegend:'Legenda',
+    lvlUnlocksAt:'Odblokowane od Poz',
+    feedRewards:'Nagrody kanału', feedPostXp:'+5 XP za post', feedLikeXp:'+1 XP za 10 polubień',
+    feedDailyLimit:'postów dziś', feedPostsLeft:'postów pozostało',
+    feedCreatePost:'Utwórz post', feedWriteSomething:'Podziel się czymś ze społecznością…',
+    feedPostSuccess:'Post opublikowany!', feedMaxReached:'Dzienny limit XP osiągnięty.',
+    feedAddMedia:'Dodaj media', feedSelectType:'Typ posta',
   },
 };
 function t(k){ return (i18n[S.lang]||i18n.UA)[k] || k; }
+
+/* ── Level Privileges Map ────────────────────────────────────── */
+const LEVEL_PRIVILEGES = {
+  1:  {maxTasks:3,   canCreate:false, maxReward:0,      feedMedia:'none',  takeDiff:['easy'],                 badge:'🌱', titleKey:'lvlNewcomer'},
+  2:  {maxTasks:5,   canCreate:false, maxReward:0,      feedMedia:'image', takeDiff:['easy','medium'],         badge:'📸', titleKey:'lvlExplorer'},
+  3:  {maxTasks:7,   canCreate:true,  maxReward:1000,   feedMedia:'image', takeDiff:['easy','medium'],         badge:'🛠', titleKey:'lvlCreator'},
+  4:  {maxTasks:10,  canCreate:true,  maxReward:2500,   feedMedia:'video', takeDiff:['easy','medium'],         badge:'🎬', titleKey:'lvlProducer'},
+  5:  {maxTasks:13,  canCreate:true,  maxReward:5000,   feedMedia:'video', takeDiff:['easy','medium','hard'],  badge:'⚔️', titleKey:'lvlWarrior'},
+  6:  {maxTasks:16,  canCreate:true,  maxReward:10000,  feedMedia:'all',   takeDiff:['easy','medium','hard'],  badge:'🥇', titleKey:'lvlChampion'},
+  7:  {maxTasks:20,  canCreate:true,  maxReward:25000,  feedMedia:'all',   takeDiff:['easy','medium','hard'],  badge:'💎', titleKey:'lvlExpert'},
+  8:  {maxTasks:25,  canCreate:true,  maxReward:50000,  feedMedia:'all',   takeDiff:['easy','medium','hard'],  badge:'🔥', titleKey:'lvlElite'},
+  9:  {maxTasks:30,  canCreate:true,  maxReward:100000, feedMedia:'all',   takeDiff:['easy','medium','hard'],  badge:'👑', titleKey:'lvlMaster'},
+  10: {maxTasks:40,  canCreate:true,  maxReward:500000, feedMedia:'all',   takeDiff:['easy','medium','hard'],  badge:'🌟', titleKey:'lvlGrandmaster'},
+  11: {maxTasks:50,  canCreate:true,  maxReward:999999, feedMedia:'all',   takeDiff:['easy','medium','hard'],  badge:'⚡', titleKey:'lvlTitan'},
+  12: {maxTasks:999, canCreate:true,  maxReward:999999, feedMedia:'all',   takeDiff:['easy','medium','hard'],  badge:'🏆', titleKey:'lvlLegend'},
+};
+function getLvlPriv(level){ return LEVEL_PRIVILEGES[Math.min(12,Math.max(1,level||1))]; }
+function feedMediaLabel(m){ return m==='none'?t('lvlNone'):m==='image'?t('lvlImage'):m==='video'?t('lvlVideo'):t('lvlAll'); }
+function diffLabel(arr){ return arr.length===1?t('lvlEasyOnly'):arr.length===2?t('lvlEasyMedium'):t('lvlAllDiff'); }
 
 /* ── 3. UTILITIES ───────────────────────────────────────────── */
 const uid = ()=> Math.random().toString(36).slice(2,9);
@@ -522,6 +651,7 @@ function defaultState(){
     checkinStreak:0, doneCheckinToday:false, checkins:[],
     chatRooms:[], activeRoomTier:1, chatRoomMessages:[],
     leaderboard:[], userPosition:null,
+    feedTodayPosts:0, feedMaxPostsDay:3, feedXpPerPost:5,
   };
 }
 function loadState(){
@@ -791,6 +921,9 @@ async function loadFeed(page=1, append=false){
       }
       S.feedPage = data.page || 1;
       S.feedHasMore = !!data.has_more;
+      S.feedTodayPosts = data.today_posts||0;
+      S.feedMaxPostsDay = data.max_posts_day||3;
+      S.feedXpPerPost = data.xp_per_post||5;
       saveState();
     }
   }catch(e){ console.error('loadFeed error:', e); }
@@ -906,6 +1039,7 @@ function renderPage(page,el){
   if(page==='wallet' && !isGuest) loadWallet();
   if(page==='feed') loadFeed();
   if(page==='chat' && !isGuest){ loadChatRooms(); loadPoints(); }
+  if(page==='feed') loadFeedPosts();
   if(page==='support' && !isGuest) loadSupport();
   if(page==='profile' && !isGuest) loadPoints();
   if(page==='leaderboard') loadLeaderboard();
@@ -1414,6 +1548,58 @@ function renderDashboard(el){
         <div class="xp-bar-wrap"><div class="xp-bar" style="width:${xpPct}%"></div></div>
       </div>
 
+      <!-- Level Privileges -->
+      ${(()=>{
+        const priv=getLvlPriv(S.level);
+        const next=S.level<12?getLvlPriv(S.level+1):null;
+        return `
+      <div class="card" style="margin-bottom:20px;border-color:rgba(184,255,92,.2);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div class="section-title" style="margin-bottom:0;">🎯 ${t('lvlPrivileges')}</div>
+          <div style="font-size:14px;font-weight:800;">${priv.badge} ${t(priv.titleKey)} · Lv ${S.level}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;">
+          <div class="card-flat" style="padding:12px;">
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">📋 ${t('lvlMaxTasks')}</div>
+            <div style="font-size:18px;font-weight:800;color:var(--primary);">${priv.maxTasks>=999?'∞':priv.maxTasks}</div>
+          </div>
+          <div class="card-flat" style="padding:12px;">
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">🛠 ${t('lvlCreateTasks')}</div>
+            <div style="font-size:14px;font-weight:700;color:${priv.canCreate?'var(--success)':'var(--danger)'};">${priv.canCreate?t('lvlUnlocked'):t('lvlLocked')}</div>
+            ${!priv.canCreate?`<div style="font-size:11px;color:var(--muted);margin-top:2px;">${t('lvlUnlocksAt')} 3</div>`:''}
+          </div>
+          <div class="card-flat" style="padding:12px;">
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">💰 ${t('lvlMaxReward')}</div>
+            <div style="font-size:14px;font-weight:700;color:var(--info);">${priv.canCreate?priv.maxReward.toLocaleString()+' coins':'—'}</div>
+          </div>
+          <div class="card-flat" style="padding:12px;">
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">⚔️ ${t('lvlDifficulty')}</div>
+            <div style="font-size:14px;font-weight:700;">${diffLabel(priv.takeDiff)}</div>
+          </div>
+          <div class="card-flat" style="padding:12px;">
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">📸 ${t('lvlFeedMedia')}</div>
+            <div style="font-size:14px;font-weight:700;">${feedMediaLabel(priv.feedMedia)}</div>
+          </div>
+          <div class="card-flat" style="padding:12px;">
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">💬 ${t('chatRooms')}</div>
+            <div style="font-size:14px;font-weight:700;">${S.level>=9?'💎 '+t('diamondRoom'):S.level>=6?'🟡 '+t('goldRoom'):S.level>=3?'⚪ '+t('silverRoom'):'🌐 '+t('bronzeRoom')}</div>
+          </div>
+        </div>
+        ${next?`
+        <div style="margin-top:14px;padding:12px;background:rgba(184,255,92,.05);border-radius:12px;border:1px dashed rgba(184,255,92,.15);">
+          <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:8px;">🔮 ${t('lvlNextLevel')}: ${next.badge} ${t(next.titleKey)} · Lv ${S.level+1}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--text-soft);">
+            ${next.maxTasks>priv.maxTasks?`<span>📋 ${t('lvlMaxTasks')}: ${next.maxTasks>=999?'∞':next.maxTasks}</span>`:''}
+            ${next.canCreate&&!priv.canCreate?`<span>🛠 ${t('lvlCreateTasks')}: ${t('lvlUnlocked')}</span>`:''}
+            ${next.maxReward>priv.maxReward?`<span>💰 ${t('lvlMaxReward')}: ${next.maxReward.toLocaleString()}</span>`:''}
+            ${next.takeDiff.length>priv.takeDiff.length?`<span>⚔️ ${diffLabel(next.takeDiff)}</span>`:''}
+            ${next.feedMedia!==priv.feedMedia?`<span>📸 ${feedMediaLabel(next.feedMedia)}</span>`:''}
+          </div>
+        </div>
+        `:''}
+      </div>`;
+      })()}
+
       <div class="two-col" style="margin-bottom:20px;">
         <!-- Quick actions -->
         <div class="card">
@@ -1522,14 +1708,16 @@ function renderTasks(el){
         ?Number(task.slotsLeft)
         :Math.max(0,slotsTotal-takenSlots);
       const myAssignmentStatus=task.my_assignment_status||null;
-      const canTake=!isGuest&&task.status!=='completed'&&task.status!=='cancelled'&&slotsLeft>0&&currentUser&&!isOwner&&!myAssignmentStatus&&!participantsList.includes(currentUser.username);
+      const lvlPriv=getLvlPriv(S.level);
+      const diffAllowed=isGuest||lvlPriv.takeDiff.includes(task.difficulty||'easy');
+      const canTake=!isGuest&&task.status!=='completed'&&task.status!=='cancelled'&&slotsLeft>0&&currentUser&&!isOwner&&!myAssignmentStatus&&!participantsList.includes(currentUser.username)&&diffAllowed;
       const canSubmit=!isGuest&&currentUser&&(myAssignmentStatus==='taken'||participantsList.includes(currentUser.username)&&task.status==='in_progress');
       const canApprove=!isGuest&&isOwner&&Number(task.pending_submissions||0)>0;
       return `<div class="task-card" data-tid="${task.id}">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
           <div style="display:flex;gap:6px;flex-wrap:wrap;">
             <span class="badge badge-${task.status}">${task.status==='open'?t('open'):task.status==='in_progress'?t('inProgress'):task.status==='completed'?t('completed'):t('cancelled')}</span>
-            <span class="badge badge-${task.difficulty}">${t(task.difficulty)}</span>
+            <span class="badge badge-${task.difficulty}">${t(task.difficulty)}${!diffAllowed?' 🔒':''}</span>
           </div>
           <div class="task-reward">${task.reward}<span>coins</span></div>
         </div>
@@ -1544,7 +1732,7 @@ function renderTasks(el){
         <div class="task-footer">
           <span class="text-xs text-muted">${t('byUser')} ${esc(task.owner)}</span>
           <div style="display:flex;gap:7px;">
-            ${canTake?`<button class="btn btn-primary btn-xs take-btn" data-tid="${task.id}">${t('takeTask')}</button>`:''}
+            ${canTake?`<button class="btn btn-primary btn-xs take-btn" data-tid="${task.id}">${t('takeTask')}</button>`:''}${!isGuest&&!diffAllowed&&task.status==='open'?`<span style="font-size:11px;color:var(--warning);">🔒 ${t('lvlDiffLocked')}</span>`:''}
             ${canSubmit?`<button class="btn btn-success btn-xs complete-btn" data-tid="${task.id}">${t('completeTask')}</button>`:''}
             ${canApprove?`<button class="btn btn-info btn-xs approve-btn" data-tid="${task.id}">${t('confirm')}</button>`:''}
           </div>
@@ -1561,7 +1749,10 @@ function renderTasks(el){
     <div class="fade-up">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
         <h1 style="font-size:20px;font-weight:900;">${t('tasks')}</h1>
-        <button class="btn btn-primary btn-sm" id="openCreateTaskBtn">+ ${t('createTask')}</button>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:12px;color:var(--muted);">${getLvlPriv(S.level).badge} Lv ${S.level} · ${t('lvlMaxTasks')}: ${getLvlPriv(S.level).maxTasks>=999?'∞':getLvlPriv(S.level).maxTasks}</span>
+          <button class="btn btn-primary btn-sm" id="openCreateTaskBtn" ${!isGuest&&!getLvlPriv(S.level).canCreate?'style="opacity:.5;"':''}>${getLvlPriv(S.level).canCreate?'+ '+t('createTask'):'🔒 Lv 3'}</button>
+        </div>
       </div>
       <!-- Search + filters -->
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
@@ -1644,10 +1835,30 @@ function renderCreateTask(el){
   el.innerHTML=`
     <div class="fade-up" style="max-width:900px;">
       <h1 style="font-size:20px;font-weight:900;margin-bottom:20px;">${t('createTask')}</h1>
+      ${(()=>{
+        const priv=getLvlPriv(S.level);
+        if(!isGuest && !priv.canCreate) return `
+          <div class="card" style="margin-bottom:20px;background:rgba(255,100,100,.06);border-color:rgba(255,100,100,.2);">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="font-size:32px;">🔒</div>
+              <div>
+                <div style="font-size:15px;font-weight:800;margin-bottom:4px;">${t('lvlCreateLocked')}</div>
+                <div style="font-size:13px;color:var(--muted);">${t('lvlYourLevel')}: ${priv.badge} Lv ${S.level} · ${t('lvlUpgrade')}</div>
+                <button class="btn btn-primary btn-sm" style="margin-top:8px;" id="goToDashForLvl">${t('earnPoints')} →</button>
+              </div>
+            </div>
+          </div>`;
+        return priv.canCreate ? `
+          <div class="card-flat" style="padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);">
+            <span>${priv.badge} Lv ${S.level}</span>
+            <span>·</span>
+            <span>${t('lvlMaxReward')}: <b style="color:var(--primary);">${priv.maxReward.toLocaleString()} coins</b></span>
+          </div>` : '';
+      })()}
       <div class="two-col">
         <div class="card">
           <div id="ctAlert" class="alert" style="margin-bottom:14px;"></div>
-          <form id="createTaskForm" style="display:flex;flex-direction:column;gap:16px;">
+          <form id="createTaskForm" style="display:flex;flex-direction:column;gap:16px;${(!isGuest&&!getLvlPriv(S.level).canCreate)?'opacity:.4;pointer-events:none;':''}">
             <div class="form-group"><label class="form-label">${t('titleLabel')} *</label><input type="text" id="ctTitle" class="form-input" placeholder="${t('titlePlaceholder')}" maxlength="120" required></div>
             <div class="form-group"><label class="form-label">${t('description')} *</label><textarea id="ctDesc" class="form-textarea" rows="4" placeholder="${t('descPlaceholder')}" required></textarea></div>
             <div class="form-row">
@@ -1720,12 +1931,16 @@ function renderCreateTask(el){
     loadTasks('my');
     navigate('tasks');
   });
+  document.getElementById('goToDashForLvl')?.addEventListener('click',()=>navigate('dashboard'));
 }
 
 /* ── 18. FEED (TikTok-like) ───────────────────────────────────── */
 function renderFeed(el){
   let feedFilter='all'; // 'all' | 'my'
   const expandedPosts=new Set();
+  const todayPosts = S.feedTodayPosts||0;
+  const maxPosts = S.feedMaxPostsDay||3;
+  const postsLeft = Math.max(0, maxPosts - todayPosts);
 
   function getPostsList(){
     const posts=S.feedPosts||[];
@@ -1750,7 +1965,7 @@ function renderFeed(el){
         <div class="feed-header">
           <div class="feed-av">${esc((p.username||'?').charAt(0).toUpperCase())}</div>
           <div style="flex:1">
-            <div class="feed-author">@${esc(p.username||'user')}</div>
+            <div class="feed-author">@${esc(p.username||'user')} ${p.level?`<span style="font-size:11px;color:var(--muted);">Lv${p.level}</span>`:''}</div>
             <div class="feed-time">${fmtAgo(p.created_at)}</div>
           </div>
           ${isMe(p.user_id)?`<button class="action-btn" data-delete-post="${p.id}" title="${t('deletePost')}" style="color:var(--danger);font-size:14px;">🗑</button>`:''}
@@ -1799,7 +2014,20 @@ function renderFeed(el){
       S.feedPosts=(S.feedPosts||[]).filter(x=>x.id!==postId);
       saveState();toast(t('postDeleted'),'success');renderPostCards();
     }));
+    // Delete own post
+    c.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',async()=>{
+      const pid=b.dataset.del;
+      try{
+        const {ok}=await apiFetch(API.feed+'?id='+pid,{method:'DELETE'});
+        if(ok){
+          S.feed=S.feed.filter(x=>x.id!==pid);saveState();renderCards();
+          toast('Deleted','success');
+        }
+      }catch(e){}
+    }));
   }
+
+  const feedPriv = typeof getLvlPriv === 'function' ? getLvlPriv(S.level) : {badge:'🌱',feedMedia:'none'};
 
   // Create post form (only for logged in users)
   const createForm=isGuest?`
@@ -1808,6 +2036,18 @@ function renderFeed(el){
       <button class="btn btn-primary btn-sm" id="guestRegFeed">${t('register')}</button>
     </div>
   `:`
+    <!-- Rewards info bar -->
+    <div class="card" style="margin-bottom:14px;padding:14px;border-color:rgba(184,255,92,.15);">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+        <div class="section-title" style="margin-bottom:0;">🎁 ${t('feedRewards')}</div>
+        <div style="font-size:12px;color:var(--muted);">${feedPriv.badge} Lv ${S.level||1} · ${t('lvlFeedMedia')}: <b style="color:var(--primary);">${typeof feedMediaLabel==='function'?feedMediaLabel(feedPriv.feedMedia):feedPriv.feedMedia}</b></div>
+      </div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px;">
+        <span style="color:var(--success);font-weight:700;">📝 ${t('feedPostXp')}</span>
+        <span style="color:var(--info);font-weight:700;">❤️ ${t('feedLikeXp')}</span>
+        <span style="color:var(--muted);">📊 ${todayPosts}/${maxPosts} ${t('feedDailyLimit')} · ${postsLeft} ${t('feedPostsLeft')}</span>
+      </div>
+    </div>
     <div class="card" style="margin-bottom:16px;">
       <div style="display:flex;align-items:flex-start;gap:12px;">
         <div class="user-av" style="width:38px;height:38px;font-size:14px;flex-shrink:0;">${(currentUser.name||'?').charAt(0).toUpperCase()}</div>
@@ -1823,7 +2063,7 @@ function renderFeed(el){
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
             <button class="btn btn-ghost btn-sm" id="feedToggleMedia">📎 ${t('addMedia')}</button>
-            <button class="btn btn-primary btn-sm" id="feedPublishBtn"><span class="btn-txt">${t('publishPost')}</span></button>
+            <button class="btn btn-primary btn-sm" id="feedPublishBtn"><span class="btn-txt">${postsLeft>0?`🚀 ${t('publishPost')} (+${S.feedXpPerPost||5} XP)`:t('publishPost')}</span></button>
           </div>
         </div>
       </div>
@@ -1845,6 +2085,39 @@ function renderFeed(el){
 
   // Guest register
   document.getElementById('guestRegFeed')?.addEventListener('click',()=>renderAuth('register'));
+
+  // Post creation (if form exists)
+  document.getElementById('feedPublishBtn')?.addEventListener('click',async()=>{
+    if(isGuest){toast(t('guestFeed'),'warning');return;}
+    const text=document.getElementById('feedPostText')?.value?.trim();
+    if(!text||text.length<3){toast(t('required'),'warning');return;}
+    const mediaUrl=document.getElementById('feedMediaUrl')?.value?.trim()||'';
+    const mediaType=document.getElementById('feedMediaType')?.value||document.querySelector('[data-mt].active')?.dataset?.mt||'';
+    const btn=document.getElementById('feedPublishBtn');
+    if(btn)btn.disabled=true;
+    try{
+      const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({
+        action:'create', text, media_url:mediaUrl, media_type:mediaType, post_type:'text'
+      })});
+      if(ok){
+        toast(data.message||t('feedPostSuccess'),'success');
+        if(data.xp_earned>0){
+          S.xp=data.xp||S.xp; S.level=data.level||S.level;
+        }
+        S.feedTodayPosts=data.posts_today||((S.feedTodayPosts||0)+1);
+        document.getElementById('feedPostText').value='';
+        if(document.getElementById('feedMediaUrl'))document.getElementById('feedMediaUrl').value='';
+        await loadFeed();
+        navigate('feed');
+      }else{
+        toast(data.message||'Error','error');
+      }
+    }catch(err){
+      toast('Network error','error');
+    }finally{
+      if(btn)btn.disabled=false;
+    }
+  });
 
   // Filter tabs
   document.getElementById('feedFilters')?.addEventListener('click',e=>{

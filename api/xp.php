@@ -29,6 +29,22 @@ const XP_DAILY_VISIT   = 5;
 const XP_BUY_RATE      = 100; // скільки XP за 1 купівлю
 const COINS_BUY_RATE   = 50;  // скільки монет коштує 1 купівля
 
+/* ─────── Level Privileges Map ─────── */
+const LEVEL_PRIVILEGES = [
+    1  => ['max_tasks' => 3,   'can_create' => false, 'max_reward' => 0,      'feed_media' => 'none',  'take_difficulty' => ['easy'],                  'badge' => '🌱', 'title' => 'Newcomer'],
+    2  => ['max_tasks' => 5,   'can_create' => false, 'max_reward' => 0,      'feed_media' => 'image', 'take_difficulty' => ['easy','medium'],          'badge' => '📸', 'title' => 'Explorer'],
+    3  => ['max_tasks' => 7,   'can_create' => true,  'max_reward' => 1000,   'feed_media' => 'image', 'take_difficulty' => ['easy','medium'],          'badge' => '🛠', 'title' => 'Creator'],
+    4  => ['max_tasks' => 10,  'can_create' => true,  'max_reward' => 2500,   'feed_media' => 'video', 'take_difficulty' => ['easy','medium'],          'badge' => '🎬', 'title' => 'Producer'],
+    5  => ['max_tasks' => 13,  'can_create' => true,  'max_reward' => 5000,   'feed_media' => 'video', 'take_difficulty' => ['easy','medium','hard'],   'badge' => '⚔️', 'title' => 'Warrior'],
+    6  => ['max_tasks' => 16,  'can_create' => true,  'max_reward' => 10000,  'feed_media' => 'all',   'take_difficulty' => ['easy','medium','hard'],   'badge' => '🥇', 'title' => 'Champion'],
+    7  => ['max_tasks' => 20,  'can_create' => true,  'max_reward' => 25000,  'feed_media' => 'all',   'take_difficulty' => ['easy','medium','hard'],   'badge' => '💎', 'title' => 'Expert'],
+    8  => ['max_tasks' => 25,  'can_create' => true,  'max_reward' => 50000,  'feed_media' => 'all',   'take_difficulty' => ['easy','medium','hard'],   'badge' => '🔥', 'title' => 'Elite'],
+    9  => ['max_tasks' => 30,  'can_create' => true,  'max_reward' => 100000, 'feed_media' => 'all',   'take_difficulty' => ['easy','medium','hard'],   'badge' => '👑', 'title' => 'Master'],
+    10 => ['max_tasks' => 40,  'can_create' => true,  'max_reward' => 500000, 'feed_media' => 'all',   'take_difficulty' => ['easy','medium','hard'],   'badge' => '🌟', 'title' => 'Grandmaster'],
+    11 => ['max_tasks' => 50,  'can_create' => true,  'max_reward' => 999999, 'feed_media' => 'all',   'take_difficulty' => ['easy','medium','hard'],   'badge' => '⚡', 'title' => 'Titan'],
+    12 => ['max_tasks' => 999, 'can_create' => true,  'max_reward' => 999999, 'feed_media' => 'all',   'take_difficulty' => ['easy','medium','hard'],   'badge' => '🏆', 'title' => 'Legend'],
+];
+
 try {
     if ($method === 'GET') {
         handleGetPoints($pdo, $userId);
@@ -102,6 +118,9 @@ function handleGetPoints(PDO $pdo, int $userId): never
         'done_today'     => $doneToday,
         'visited_today'  => $visitedToday,
         'checkins'       => $checkins,   // [{checkin_date, points_earned}, …]
+        'privileges'     => LEVEL_PRIVILEGES[(int)$row['level']] ?? LEVEL_PRIVILEGES[1],
+        'next_privileges'=> (int)$row['level'] < 12 ? LEVEL_PRIVILEGES[(int)$row['level'] + 1] : null,
+        'all_privileges' => LEVEL_PRIVILEGES,
     ]);
 }
 

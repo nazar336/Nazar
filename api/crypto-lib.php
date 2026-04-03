@@ -16,7 +16,7 @@ function get_crypto_rates(): array
         'SOL'  => 150.0,
     ];
 
-    // Використати кеш якщо свіжий (< 60 сек — зменшено з 300 для запобігання арбітражу)
+    // Використати кеш якщо свіжий (< 60 сек — захист від спекуляції)
     if (file_exists($cache) && (time() - filemtime($cache)) < 60) {
         $data = json_decode((string)file_get_contents($cache), true);
         if (is_array($data) && isset($data['BTC'])) return $data;

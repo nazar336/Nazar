@@ -214,10 +214,13 @@ function handleSend(PDO $pdo, int $userId, array $input): never
     $uStmt->execute([':uid' => $userId]);
     $username = (string)($uStmt->fetchColumn() ?? 'unknown');
 
+    // Sanitize message to prevent stored XSS
+    $sanitizedMessage = htmlspecialchars($message, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
     $pdo->prepare('
         INSERT INTO chat_room_messages (room_tier, user_id, username, message)
         VALUES (:tier, :uid, :uname, :msg)
-    ')->execute([':tier' => $tier, ':uid' => $userId, ':uname' => $username, ':msg' => $message]);
+    ')->execute([':tier' => $tier, ':uid' => $userId, ':uname' => $username, ':msg' => $sanitizedMessage]);
 
     $msgId = (int)$pdo->lastInsertId();
     record_rate_limit($pdo, 'chat:' . $userId);

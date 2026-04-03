@@ -13,6 +13,7 @@ if (check_rate_limit($pdo, 'admin_auth:' . $adminIp, 5, 15))
 $secret = $_SERVER['HTTP_X_ADMIN_SECRET'] ?? '';
 if ($secret !== ADMIN_SECRET || ADMIN_SECRET === 'change-this-to-a-random-secret-key') {
     record_rate_limit($pdo, 'admin_auth:' . $adminIp);
+    error_log('Admin auth failed from IP: ' . $adminIp);
     json_response(['success' => false, 'message' => 'Unauthorized'], 401);
 }
 

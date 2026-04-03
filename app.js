@@ -16,7 +16,8 @@ const API = {
   messages:'api/messages.php', leaderboard:'api/leaderboard.php', takeTask:'api/take-task.php',
   completeTask:'api/complete-task.php',
   cryptoDeposit:'api/crypto-deposit.php', cryptoWithdraw:'api/crypto-withdraw.php', coins:'api/coins.php',
-  xp:'api/xp.php', chatRooms:'api/chat-rooms.php', support:'api/support.php'
+  xp:'api/xp.php', chatRooms:'api/chat-rooms.php', support:'api/support.php',
+  feed:'api/feed.php'
 };
 const CATEGORIES = ['Design','Video','Copy','Social','Community','QA','Localization','Product','Development','Marketing'];
 
@@ -45,7 +46,7 @@ const i18n = {
     depositDone:'Crypto purchase successful.', withdrawDone:'Coins spent successfully.',
     transferDone:'Tip sent.', ticketDone:'Ticket created!',
     txDeposit:'Crypto purchase', txWithdraw:'Coin spending', txTransfer:'Tip to',
-    invalidAmount:'Enter a valid amount greater than zero.',
+    invalidAmount:'Enter a valid amount greater than zero.', invalidEmail:'Invalid email format.',
     insufficient:'Insufficient balance.',
     noMessage:'Write something first.',
     yourPosition:'Your position', score:'Score', badges:'Badges',
@@ -74,7 +75,8 @@ const i18n = {
     // Create task
     titleLabel:'Title', titlePlaceholder:'Bold, clear task name', descPlaceholder:'What exactly needs to be done?', selectOption:'Select…', previewTitlePh:'Task title will appear here…', previewDescPh:'Description preview…', noDeadline:'No deadline',
     // Feed
-    noPosts:'No posts', mediaPreview:'Media preview', readMore:'Read more ↓', showLess:'Show less ↑', save:'Save', saved:'Saved',
+    noPosts:'No posts yet', mediaPreview:'Media preview', readMore:'Read more ↓', showLess:'Show less ↑', save:'Save', saved:'Saved',
+    createPost:'Create Post', postPlaceholder:'What\'s on your mind?', addMedia:'Add Media', mediaUrlPlaceholder:'Paste image or video URL (https://...)', postImage:'Image', postVideo:'Video', publishPost:'Publish', deletePost:'Delete', confirmDelete:'Delete this post?', postCreated:'Post published!', postDeleted:'Post deleted.', guestFeed:'Sign up to create posts and interact with the community.', feedLoadMore:'Load More', feedNoMore:'No more posts', myPosts:'My Posts',
     // Wallet
     txHistory:'Transaction History', type:'Type', amountCol:'Amount', whenCol:'When', recipientUsername:'Recipient username', confirm:'Confirm', guestWallet:'Wallet is available only for registered users.',
     // Chat
@@ -111,6 +113,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 coins',
     roomOnline:'online', noMsgsYet:'Be the first to write!', globalRoomDesc:'All users can chat here',
     withdrawCrypto:'Withdraw to Crypto', withdrawTitle:'Withdraw Coins to Crypto', withdrawCoins:'Amount (coins)', withdrawWallet:'Your wallet address', withdrawNetwork:'Network', withdrawFee:'Fee (5%)', withdrawNet:'You receive', withdrawConfirm:'Submit Withdrawal', withdrawSuccess:'Withdrawal request created!', withdrawCancel:'Cancel Withdrawal', withdrawCancelled:'Withdrawal cancelled. Coins refunded.', withdrawHistory:'Withdrawal History', withdrawPending:'You have a pending withdrawal', withdrawMin:'Min withdrawal: 500 coins', withdrawStatus:'Status', noWithdrawals:'No withdrawals yet',
+    exchangerTitle:'Exchange: USDT → 🪙', exchangerGetAddress:'Get Address', exchangerConfirm:'Confirm', exchangerRange:'Amount: 1 to 10,000 USDT', exchangerSendTo:'Send', exchangerToAddress:'to address:', exchangerError:'Error', exchangerConfirmError:'Confirmation error', codeSentDesc:'Code sent to email. Check Inbox / Spam and enter the 6-digit code below.', globalMsgSent:'Message sent to Global chat',
   },
   UA:{
     appName:'LOLance', appTag:'Преміум платформа мікрозадач',
@@ -135,7 +138,7 @@ const i18n = {
     depositDone:'Крипто-обмін успішний.', withdrawDone:'Списання монет успішне.',
     transferDone:'Чайові надіслано.', ticketDone:'Тікет створено!',
     txDeposit:'Крипто-обмін', txWithdraw:'Списання монет', txTransfer:'Чайові для',
-    invalidAmount:'Введи суму більше нуля.',
+    invalidAmount:'Введи суму більше нуля.', invalidEmail:'Email некоректний.',
     insufficient:'Недостатньо коштів.',
     noMessage:'Спочатку напиши щось.',
     yourPosition:'Твоя позиція', score:'Рахунок', badges:'Значки',
@@ -158,7 +161,8 @@ const i18n = {
     trendingTasks:'Популярні задачі', miniLeaderboard:'Міні-рейтинг',
     noTasksFound:'Задач не знайдено', adjustFilters:'Спробуйте змінити фільтри.', cancelled:'Скасовано', byUser:'від',
     titleLabel:'Заголовок', titlePlaceholder:'Чіткий заголовок задачі', descPlaceholder:'Що саме потрібно зробити?', selectOption:'Обрати…', previewTitlePh:'Заголовок з\'явиться тут…', previewDescPh:'Попередній перегляд…', noDeadline:'Без дедлайну',
-    noPosts:'Немає постів', mediaPreview:'Перегляд медіа', readMore:'Читати більше ↓', showLess:'Згорнути ↑', save:'Зберегти', saved:'Збережено',
+    noPosts:'Постів ще немає', mediaPreview:'Перегляд медіа', readMore:'Читати більше ↓', showLess:'Згорнути ↑', save:'Зберегти', saved:'Збережено',
+    createPost:'Створити пост', postPlaceholder:'Що у вас нового?', addMedia:'Додати медіа', mediaUrlPlaceholder:'Вставте URL зображення або відео (https://...)', postImage:'Фото', postVideo:'Відео', publishPost:'Опублікувати', deletePost:'Видалити', confirmDelete:'Видалити цей пост?', postCreated:'Пост опубліковано!', postDeleted:'Пост видалено.', guestFeed:'Зареєструйтесь, щоб створювати пости та взаємодіяти зі спільнотою.', feedLoadMore:'Завантажити ще', feedNoMore:'Більше постів немає', myPosts:'Мої пости',
     txHistory:'Історія транзакцій', type:'Тип', amountCol:'Сума', whenCol:'Коли', recipientUsername:'Username отримувача', confirm:'Підтвердити', guestWallet:'Гаманець доступний лише для зареєстрованих користувачів.',
     conversations:'Розмови', online:'Онлайн', lastSeen:'Був(-ла) нещодавно', selectConversation:'Оберіть розмову', guestChat:'Чат доступний лише для зареєстрованих користувачів.',
     chatReplyWallet1:'Перевірте вкладку Гаманець для поточного балансу.', chatReplyWallet2:'Кошти оновлюються після завершення задачі.', chatReplyTask1:'Перегляньте сторінку Задач для відкритих слотів.', chatReplyTask2:'Дедлайни вказані на кожній картці задачі.', chatReplyReward1:'Нагороди нараховуються автоматично після завершення.', chatReplyReward2:'Історія заробітку в розділі Гаманець.', chatReplyLevel1:'Рівень і XP показані на дашборді.', chatReplyLevel2:'Підтримуйте серію для бонусних балів.', chatFallback1:'Зрозуміло, я звернусь незабаром.', chatFallback2:'Дякую за повідомлення!', chatFallback3:'Зафіксовано. Перевірю.',
@@ -187,6 +191,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 монет',
     roomOnline:'онлайн', noMsgsYet:'Будь першим хто напише!', globalRoomDesc:'Тут можуть писати всі користувачі',
     withdrawCrypto:'Вивести в крипту', withdrawTitle:'Вивід монет у крипту', withdrawCoins:'Сума (монети)', withdrawWallet:'Адреса вашого гаманця', withdrawNetwork:'Мережа', withdrawFee:'Комісія (5%)', withdrawNet:'Ви отримаєте', withdrawConfirm:'Створити запит', withdrawSuccess:'Запит на вивід створено!', withdrawCancel:'Скасувати вивід', withdrawCancelled:'Вивід скасовано. Монети повернено.', withdrawHistory:'Історія виводів', withdrawPending:'У вас є активний запит на вивід', withdrawMin:'Мін. вивід: 500 монет', withdrawStatus:'Статус', noWithdrawals:'Виводів ще не було',
+    exchangerTitle:'Обмінник: USDT → 🪙', exchangerGetAddress:'Отримати адресу', exchangerConfirm:'Підтвердити', exchangerRange:'Сума: від 1 до 10000 USDT', exchangerSendTo:'Надішли', exchangerToAddress:'на адресу:', exchangerError:'Помилка', exchangerConfirmError:'Помилка підтвердження', codeSentDesc:'Код надіслано на email. Перевір папки Inbox / Spam та введи 6-значний код нижче.', globalMsgSent:'Повідомлення надіслано до Global чату',
   },
   DE:{
     appName:'LOLance', appTag:'Premium Micro-Task Plattform',
@@ -211,7 +216,7 @@ const i18n = {
     depositDone:'Krypto-Kauf erfolgreich.', withdrawDone:'Coins erfolgreich ausgegeben.',
     transferDone:'Coin-Tipp gesendet.', ticketDone:'Ticket erstellt!',
     txDeposit:'Krypto-Kauf', txWithdraw:'Coin-Ausgabe', txTransfer:'Coin-Tipp an',
-    invalidAmount:'Bitte geben Sie einen Betrag größer als Null ein.',
+    invalidAmount:'Bitte geben Sie einen Betrag größer als Null ein.', invalidEmail:'Ungültiges E-Mail-Format.',
     insufficient:'Unzureichendes Guthaben.',
     noMessage:'Schreiben Sie zuerst etwas.',
     yourPosition:'Ihre Position', score:'Punktzahl', badges:'Abzeichen',
@@ -230,6 +235,7 @@ const i18n = {
     noTasksFound:'Keine Aufgaben gefunden', adjustFilters:'Versuchen Sie die Filter anzupassen.', cancelled:'Abgebrochen', byUser:'von',
     titleLabel:'Titel', titlePlaceholder:'Klarer Aufgabenname', descPlaceholder:'Was genau muss gemacht werden?', selectOption:'Wählen…', previewTitlePh:'Titel erscheint hier…', previewDescPh:'Beschreibungsvorschau…', noDeadline:'Kein Termin',
     noPosts:'Keine Beiträge', mediaPreview:'Medienvorschau', readMore:'Mehr lesen ↓', showLess:'Weniger zeigen ↑', save:'Speichern', saved:'Gespeichert',
+    createPost:'Beitrag erstellen', postPlaceholder:'Was gibt es Neues?', addMedia:'Medien hinzufügen', mediaUrlPlaceholder:'Bild- oder Video-URL einfügen (https://...)', postImage:'Bild', postVideo:'Video', publishPost:'Veröffentlichen', deletePost:'Löschen', confirmDelete:'Diesen Beitrag löschen?', postCreated:'Beitrag veröffentlicht!', postDeleted:'Beitrag gelöscht.', guestFeed:'Registrieren Sie sich, um Beiträge zu erstellen.', feedLoadMore:'Mehr laden', feedNoMore:'Keine weiteren Beiträge', myPosts:'Meine Beiträge',
     txHistory:'Transaktionsverlauf', type:'Typ', amountCol:'Betrag', whenCol:'Wann', recipientUsername:'Empfänger-Username', confirm:'Bestätigen', guestWallet:'Geldbörse nur für registrierte Benutzer verfügbar.',
     conversations:'Gespräche', online:'Online', lastSeen:'Zuletzt gesehen', selectConversation:'Gespräch wählen', guestChat:'Chat nur für registrierte Benutzer verfügbar.',
     chatReplyWallet1:'Prüfen Sie den Geldbörse-Tab für Ihren Kontostand.', chatReplyWallet2:'Das Guthaben wird nach Aufgabenabschluss aktualisiert.', chatReplyTask1:'Durchsuchen Sie die Aufgabenseite nach offenen Plätzen.', chatReplyTask2:'Fristen stehen auf jeder Aufgabenkarte.', chatReplyReward1:'Belohnungen werden automatisch nach Abschluss gutgeschrieben.', chatReplyReward2:'Ihre Verdiensthistorie finden Sie im Geldbörse-Bereich.', chatReplyLevel1:'Ihr Level und XP werden auf dem Dashboard angezeigt.', chatReplyLevel2:'Halten Sie Ihre Serie aktiv für Bonuspunkte.', chatFallback1:'Verstanden, ich melde mich bald.', chatFallback2:'Danke für die Nachricht!', chatFallback3:'Notiert. Ich prüfe das.',
@@ -258,6 +264,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 Coins',
     roomOnline:'online', noMsgsYet:'Sei der Erste, der schreibt!', globalRoomDesc:'Hier können alle Nutzer schreiben',
     withdrawCrypto:'Auszahlung in Krypto', withdrawTitle:'Coins in Krypto auszahlen', withdrawCoins:'Betrag (Coins)', withdrawWallet:'Ihre Wallet-Adresse', withdrawNetwork:'Netzwerk', withdrawFee:'Gebühr (5%)', withdrawNet:'Sie erhalten', withdrawConfirm:'Auszahlung beantragen', withdrawSuccess:'Auszahlungsantrag erstellt!', withdrawCancel:'Auszahlung stornieren', withdrawCancelled:'Auszahlung storniert. Coins erstattet.', withdrawHistory:'Auszahlungshistorie', withdrawPending:'Sie haben eine offene Auszahlung', withdrawMin:'Min. Auszahlung: 500 Coins', withdrawStatus:'Status', noWithdrawals:'Noch keine Auszahlungen',
+    exchangerTitle:'Umtausch: USDT → 🪙', exchangerGetAddress:'Adresse erhalten', exchangerConfirm:'Bestätigen', exchangerRange:'Betrag: 1 bis 10.000 USDT', exchangerSendTo:'Senden Sie', exchangerToAddress:'an Adresse:', exchangerError:'Fehler', exchangerConfirmError:'Bestätigungsfehler', codeSentDesc:'Code per E-Mail gesendet. Prüfen Sie Inbox / Spam und geben Sie den 6-stelligen Code unten ein.', globalMsgSent:'Nachricht an Global-Chat gesendet',
   },
   FR:{
     appName:'LOLance', appTag:'Plateforme Premium de Micro-Tâches',
@@ -282,7 +289,7 @@ const i18n = {
     depositDone:'Achat crypto réussi.', withdrawDone:'Coins dépensés avec succès.',
     transferDone:'Pourboire en coins envoyé.', ticketDone:'Ticket créé!',
     txDeposit:'Achat crypto', txWithdraw:'Dépense de coins', txTransfer:'Pourboire à',
-    invalidAmount:'Veuillez entrer un montant supérieur à zéro.',
+    invalidAmount:'Veuillez entrer un montant supérieur à zéro.', invalidEmail:'Format d\'email invalide.',
     insufficient:'Solde insuffisant.',
     noMessage:'Écrivez quelque chose d\'abord.',
     yourPosition:'Votre position', score:'Score', badges:'Badges',
@@ -301,6 +308,7 @@ const i18n = {
     noTasksFound:'Aucune tâche trouvée', adjustFilters:'Essayez d\'ajuster les filtres.', cancelled:'Annulé', byUser:'par',
     titleLabel:'Titre', titlePlaceholder:'Nom clair de la tâche', descPlaceholder:'Que faut-il faire exactement ?', selectOption:'Sélectionner…', previewTitlePh:'Le titre apparaîtra ici…', previewDescPh:'Aperçu de la description…', noDeadline:'Pas d\'échéance',
     noPosts:'Aucun post', mediaPreview:'Aperçu média', readMore:'Lire plus ↓', showLess:'Moins ↑', save:'Enregistrer', saved:'Enregistré',
+    createPost:'Créer un post', postPlaceholder:'Quoi de neuf ?', addMedia:'Ajouter un média', mediaUrlPlaceholder:'Collez l\'URL image ou vidéo (https://...)', postImage:'Image', postVideo:'Vidéo', publishPost:'Publier', deletePost:'Supprimer', confirmDelete:'Supprimer ce post ?', postCreated:'Post publié !', postDeleted:'Post supprimé.', guestFeed:'Inscrivez-vous pour créer des posts.', feedLoadMore:'Charger plus', feedNoMore:'Plus de posts', myPosts:'Mes posts',
     txHistory:'Historique des transactions', type:'Type', amountCol:'Montant', whenCol:'Quand', recipientUsername:'Nom d\'utilisateur destinataire', confirm:'Confirmer', guestWallet:'Le portefeuille est réservé aux utilisateurs inscrits.',
     conversations:'Conversations', online:'En ligne', lastSeen:'Vu récemment', selectConversation:'Sélectionnez une conversation', guestChat:'Le chat est réservé aux utilisateurs inscrits.',
     chatReplyWallet1:'Consultez l\'onglet Portefeuille pour votre solde.', chatReplyWallet2:'Les fonds sont mis à jour après la complétion de la tâche.', chatReplyTask1:'Parcourez la page Tâches pour les places disponibles.', chatReplyTask2:'Les échéances sont indiquées sur chaque carte.', chatReplyReward1:'Les récompenses sont créditées automatiquement.', chatReplyReward2:'L\'historique des gains est dans la section Portefeuille.', chatReplyLevel1:'Votre niveau et XP sont affichés sur le tableau de bord.', chatReplyLevel2:'Maintenez votre série pour des points bonus.', chatFallback1:'Compris, je reviens bientôt.', chatFallback2:'Merci pour le message !', chatFallback3:'Noté. Je vérifie.',
@@ -329,6 +337,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 coins',
     roomOnline:'en ligne', noMsgsYet:'Soyez le premier à écrire !', globalRoomDesc:'Tous les utilisateurs peuvent écrire ici',
     withdrawCrypto:'Retirer en crypto', withdrawTitle:'Retirer des coins en crypto', withdrawCoins:'Montant (coins)', withdrawWallet:'Adresse de votre portefeuille', withdrawNetwork:'Réseau', withdrawFee:'Frais (5%)', withdrawNet:'Vous recevrez', withdrawConfirm:'Soumettre le retrait', withdrawSuccess:'Demande de retrait créée !', withdrawCancel:'Annuler le retrait', withdrawCancelled:'Retrait annulé. Coins remboursés.', withdrawHistory:'Historique des retraits', withdrawPending:'Vous avez un retrait en attente', withdrawMin:'Retrait min. : 500 coins', withdrawStatus:'Statut', noWithdrawals:'Aucun retrait pour le moment',
+    exchangerTitle:'Échange: USDT → 🪙', exchangerGetAddress:'Obtenir l\'adresse', exchangerConfirm:'Confirmer', exchangerRange:'Montant: 1 à 10 000 USDT', exchangerSendTo:'Envoyez', exchangerToAddress:'à l\'adresse:', exchangerError:'Erreur', exchangerConfirmError:'Erreur de confirmation', codeSentDesc:'Code envoyé par e-mail. Vérifiez Boîte de réception / Spam et entrez le code à 6 chiffres ci-dessous.', globalMsgSent:'Message envoyé au chat Global',
   },
   ES:{
     appName:'LOLance', appTag:'Plataforma Premium de Micro-Tareas',
@@ -353,7 +362,7 @@ const i18n = {
     depositDone:'Compra cripto exitosa.', withdrawDone:'Coins gastadas correctamente.',
     transferDone:'Propina en coins enviada.', ticketDone:'¡Ticket creado!',
     txDeposit:'Compra cripto', txWithdraw:'Gasto de coins', txTransfer:'Propina a',
-    invalidAmount:'Ingresa un monto mayor que cero.',
+    invalidAmount:'Ingresa un monto mayor que cero.', invalidEmail:'Formato de email inválido.',
     insufficient:'Saldo insuficiente.',
     noMessage:'Escribe algo primero.',
     yourPosition:'Tu posición', score:'Puntuación', badges:'Insignias',
@@ -372,6 +381,7 @@ const i18n = {
     noTasksFound:'No se encontraron tareas', adjustFilters:'Intenta ajustar los filtros.', cancelled:'Cancelado', byUser:'por',
     titleLabel:'Título', titlePlaceholder:'Nombre claro de la tarea', descPlaceholder:'¿Qué hay que hacer exactamente?', selectOption:'Seleccionar…', previewTitlePh:'El título aparecerá aquí…', previewDescPh:'Vista previa de la descripción…', noDeadline:'Sin fecha límite',
     noPosts:'Sin publicaciones', mediaPreview:'Vista previa de medios', readMore:'Leer más ↓', showLess:'Mostrar menos ↑', save:'Guardar', saved:'Guardado',
+    createPost:'Crear publicación', postPlaceholder:'¿Qué hay de nuevo?', addMedia:'Agregar medios', mediaUrlPlaceholder:'Pega URL de imagen o video (https://...)', postImage:'Imagen', postVideo:'Video', publishPost:'Publicar', deletePost:'Eliminar', confirmDelete:'¿Eliminar esta publicación?', postCreated:'¡Publicación creada!', postDeleted:'Publicación eliminada.', guestFeed:'Regístrate para crear publicaciones.', feedLoadMore:'Cargar más', feedNoMore:'No hay más publicaciones', myPosts:'Mis publicaciones',
     txHistory:'Historial de transacciones', type:'Tipo', amountCol:'Monto', whenCol:'Cuándo', recipientUsername:'Usuario destinatario', confirm:'Confirmar', guestWallet:'La billetera solo está disponible para usuarios registrados.',
     conversations:'Conversaciones', online:'En línea', lastSeen:'Visto recientemente', selectConversation:'Selecciona una conversación', guestChat:'El chat solo está disponible para usuarios registrados.',
     chatReplyWallet1:'Consulta la pestaña Billetera para tu saldo.', chatReplyWallet2:'Los fondos se actualizan tras completar la tarea.', chatReplyTask1:'Explora la página de Tareas para espacios abiertos.', chatReplyTask2:'Los plazos se muestran en cada tarjeta de tarea.', chatReplyReward1:'Las recompensas se acreditan automáticamente.', chatReplyReward2:'Tu historial de ganancias está en la sección Billetera.', chatReplyLevel1:'Tu nivel y XP se muestran en el panel.', chatReplyLevel2:'Mantén tu racha activa para ganar más XP.', chatFallback1:'Entendido, vuelvo pronto.', chatFallback2:'¡Gracias por el mensaje!', chatFallback3:'Anotado. Lo verifico.',
@@ -400,6 +410,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 monedas',
     roomOnline:'en línea', noMsgsYet:'¡Sé el primero en escribir!', globalRoomDesc:'Todos los usuarios pueden escribir aquí',
     withdrawCrypto:'Retirar a crypto', withdrawTitle:'Retirar coins a crypto', withdrawCoins:'Cantidad (coins)', withdrawWallet:'Dirección de tu billetera', withdrawNetwork:'Red', withdrawFee:'Comisión (5%)', withdrawNet:'Recibirás', withdrawConfirm:'Solicitar retiro', withdrawSuccess:'¡Solicitud de retiro creada!', withdrawCancel:'Cancelar retiro', withdrawCancelled:'Retiro cancelado. Coins devueltos.', withdrawHistory:'Historial de retiros', withdrawPending:'Tienes un retiro pendiente', withdrawMin:'Retiro mín.: 500 coins', withdrawStatus:'Estado', noWithdrawals:'Sin retiros aún',
+    exchangerTitle:'Cambio: USDT → 🪙', exchangerGetAddress:'Obtener dirección', exchangerConfirm:'Confirmar', exchangerRange:'Monto: 1 a 10.000 USDT', exchangerSendTo:'Envía', exchangerToAddress:'a la dirección:', exchangerError:'Error', exchangerConfirmError:'Error de confirmación', codeSentDesc:'Código enviado por email. Revisa Bandeja de entrada / Spam e ingresa el código de 6 dígitos abajo.', globalMsgSent:'Mensaje enviado al chat Global',
   },
   PL:{
     appName:'LOLance', appTag:'Platforma Premium Mikro-Zadań',
@@ -424,7 +435,7 @@ const i18n = {
     depositDone:'Zakup crypto zakończony.', withdrawDone:'Wydanie coinów zakończone.',
     transferDone:'Napiwek w coinach wysłany.', ticketDone:'Zgłoszenie utworzone!',
     txDeposit:'Zakup crypto', txWithdraw:'Wydanie coinów', txTransfer:'Napiwek dla',
-    invalidAmount:'Wpisz kwotę większą niż zero.',
+    invalidAmount:'Wpisz kwotę większą niż zero.', invalidEmail:'Nieprawidłowy format e-mail.',
     insufficient:'Niewystarczające saldo.',
     noMessage:'Najpierw napisz coś.',
     yourPosition:'Twoja pozycja', score:'Wynik', badges:'Odznaki',
@@ -443,6 +454,7 @@ const i18n = {
     noTasksFound:'Nie znaleziono zadań', adjustFilters:'Spróbuj zmienić filtry.', cancelled:'Anulowane', byUser:'od',
     titleLabel:'Tytuł', titlePlaceholder:'Jasna nazwa zadania', descPlaceholder:'Co dokładnie trzeba zrobić?', selectOption:'Wybierz…', previewTitlePh:'Tytuł pojawi się tutaj…', previewDescPh:'Podgląd opisu…', noDeadline:'Bez terminu',
     noPosts:'Brak postów', mediaPreview:'Podgląd mediów', readMore:'Czytaj więcej ↓', showLess:'Mniej ↑', save:'Zapisz', saved:'Zapisano',
+    createPost:'Utwórz post', postPlaceholder:'Co nowego?', addMedia:'Dodaj media', mediaUrlPlaceholder:'Wklej URL obrazu lub wideo (https://...)', postImage:'Zdjęcie', postVideo:'Wideo', publishPost:'Opublikuj', deletePost:'Usuń', confirmDelete:'Usunąć ten post?', postCreated:'Post opublikowany!', postDeleted:'Post usunięty.', guestFeed:'Zarejestruj się, aby tworzyć posty.', feedLoadMore:'Załaduj więcej', feedNoMore:'Brak kolejnych postów', myPosts:'Moje posty',
     txHistory:'Historia transakcji', type:'Typ', amountCol:'Kwota', whenCol:'Kiedy', recipientUsername:'Nazwa użytkownika odbiorcy', confirm:'Potwierdź', guestWallet:'Portfel dostępny tylko dla zarejestrowanych użytkowników.',
     conversations:'Rozmowy', online:'Online', lastSeen:'Widziany niedawno', selectConversation:'Wybierz rozmowę', guestChat:'Chat dostępny tylko dla zarejestrowanych użytkowników.',
     chatReplyWallet1:'Sprawdź zakładkę Portfel, aby zobaczyć saldo.', chatReplyWallet2:'Środki są aktualizowane po zakończeniu zadania.', chatReplyTask1:'Przeglądaj stronę Zadań w poszukiwaniu wolnych miejsc.', chatReplyTask2:'Terminy są pokazane na każdej karcie zadania.', chatReplyReward1:'Nagrody są automatycznie naliczane po zakończeniu.', chatReplyReward2:'Historia zarobków jest w sekcji Portfel.', chatReplyLevel1:'Twój poziom i XP są pokazane na pulpicie.', chatReplyLevel2:'Utrzymuj serię aktywną, aby zdobywać więcej XP.', chatFallback1:'Rozumiem, odezwę się wkrótce.', chatFallback2:'Dzięki za wiadomość!', chatFallback3:'Zanotowano. Sprawdzę.',
@@ -471,6 +483,7 @@ const i18n = {
     earnBuyLabel:'100 XP = 50 coinów',
     roomOnline:'online', noMsgsYet:'Bądź pierwszym, który pisze!', globalRoomDesc:'Tutaj mogą pisać wszyscy użytkownicy',
     withdrawCrypto:'Wypłata na krypto', withdrawTitle:'Wypłata coinów na krypto', withdrawCoins:'Kwota (coiny)', withdrawWallet:'Adres Twojego portfela', withdrawNetwork:'Sieć', withdrawFee:'Opłata (5%)', withdrawNet:'Otrzymasz', withdrawConfirm:'Złóż wniosek', withdrawSuccess:'Wniosek o wypłatę złożony!', withdrawCancel:'Anuluj wypłatę', withdrawCancelled:'Wypłata anulowana. Coiny zwrócone.', withdrawHistory:'Historia wypłat', withdrawPending:'Masz oczekującą wypłatę', withdrawMin:'Min. wypłata: 500 coinów', withdrawStatus:'Status', noWithdrawals:'Brak wypłat',
+    exchangerTitle:'Wymiana: USDT → 🪙', exchangerGetAddress:'Pobierz adres', exchangerConfirm:'Potwierdź', exchangerRange:'Kwota: od 1 do 10 000 USDT', exchangerSendTo:'Wyślij', exchangerToAddress:'na adres:', exchangerError:'Błąd', exchangerConfirmError:'Błąd potwierdzenia', codeSentDesc:'Kod wysłany na email. Sprawdź folder Inbox / Spam i wpisz 6-cyfrowy kod poniżej.', globalMsgSent:'Wiadomość wysłana do czatu Global',
   },
 };
 function t(k){ return (i18n[S.lang]||i18n.UA)[k] || k; }
@@ -498,7 +511,7 @@ function defaultState(){
     achievements:[],
     bio:'', role:'', skills:'', name:'', username:'',
     tasks:[],
-    feed:[],
+    feed:[], feedPosts:[], feedPage:1, feedHasMore:false,
     notifications:[],
     transactions:[],
     threads:[],
@@ -508,14 +521,14 @@ function defaultState(){
     cryptoWithdrawals:[],
     checkinStreak:0, doneCheckinToday:false, checkins:[],
     chatRooms:[], activeRoomTier:1, chatRoomMessages:[],
-    leaderboard:[], userPosition:0,
+    leaderboard:[], userPosition:null,
   };
 }
 function loadState(){
   try{
     const raw=localStorage.getItem(STORAGE_KEY);
     if(raw){ S=JSON.parse(raw); }
-  }catch(e){}
+  }catch(e){ console.error('loadState error:', e); }
   // Merge with defaults to ensure all keys exist
   const defaults=defaultState();
   if(!S) S=defaults;
@@ -540,7 +553,7 @@ async function syncProfile(){
       S.skills = data.user.skills || '';
       saveState();
     }
-  }catch(e){}
+  }catch(e){ console.error('syncProfile error:', e); }
 }
 
 async function loadTasks(filter='open'){
@@ -576,6 +589,7 @@ async function loadTasks(filter='open'){
       saveState();
     }
   }catch(e){
+    console.error('loadTasks error:', e);
   }
 }
 
@@ -616,7 +630,7 @@ async function loadWallet(){
     }
 
     saveState();
-  }catch(e){}
+  }catch(e){ console.error('loadWallet error:', e); }
 }
 
 async function loadMessages(){
@@ -627,7 +641,7 @@ async function loadMessages(){
       S.threads = data.threads || [];
       saveState();
     }
-  }catch(e){}
+  }catch(e){ console.error('loadMessages error:', e); }
 }
 
 async function loadSupport(){
@@ -651,7 +665,7 @@ async function loadSupport(){
         if(main) renderSupport(main);
       }
     }
-  }catch(e){}
+  }catch(e){ console.error('loadSupport error:', e); }
 }
 
 async function loadPoints(){
@@ -666,7 +680,7 @@ async function loadPoints(){
       S.checkins=Array.isArray(data.checkins)?data.checkins:[];
       saveState();
     }
-  }catch(e){}
+  }catch(e){ console.error('loadPoints error:', e); }
 }
 
 async function loadChatRooms(tier){
@@ -697,7 +711,7 @@ async function loadChatRooms(tier){
       }
       saveState();
     }
-  }catch(e){}
+  }catch(e){ console.error('loadChatRooms error:', e); }
 }
 
 async function sendRoomMessage(){
@@ -722,7 +736,7 @@ async function sendGlobalMessage(){
   if(!ok){toast(data.message||'Error','error');return;}
   input.value='';
   await loadChatRooms(1);
-  toast('Message sent to Global chat','success');
+  toast(t('globalMsgSent'),'success');
   navigate('chat');
 }
 
@@ -745,7 +759,7 @@ async function dailyCheckin(){
 }
 
 async function buyPointsPack(){
-  const packs=Math.max(1,Number(document.getElementById('buyPointsPacks')?.value||1));
+  const packs=Math.max(1,Number(document.getElementById('buyPointsPacksChat')?.value||document.getElementById('buyPointsPacks')?.value||1));
   const {ok,data}=await apiFetch(API.xp,{method:'POST',body:JSON.stringify({action:'buy_xp',packs})});
   if(!ok){toast(data.message||'Purchase failed','error');return;}
   await loadWallet();
@@ -763,9 +777,25 @@ async function loadLeaderboard(){
       S.userPosition = data.user_position;
       saveState();
     }
-  }catch(e){}
+  }catch(e){ console.error('loadLeaderboard error:', e); }
 }
-function saveState(){ try{ localStorage.setItem(STORAGE_KEY,JSON.stringify(S)); }catch(e){} }
+
+async function loadFeed(page=1, append=false){
+  try{
+    const {ok, data} = await apiFetch(`${API.feed}?page=${page}`);
+    if(ok){
+      if(append){
+        S.feedPosts = [...(S.feedPosts||[]), ...(data.posts||[])];
+      } else {
+        S.feedPosts = data.posts || [];
+      }
+      S.feedPage = data.page || 1;
+      S.feedHasMore = !!data.has_more;
+      saveState();
+    }
+  }catch(e){ console.error('loadFeed error:', e); }
+}
+function saveState(){ try{ localStorage.setItem(STORAGE_KEY,JSON.stringify(S)); }catch(e){ console.error('saveState error:', e); } }
 function calcScore(u){
   return Math.round((u.earnings||0)*1.02+(u.completedTasks||0)*65+(u.streak||0)*20+(u.level||1)*110+(u.xp||0));
 }
@@ -874,6 +904,7 @@ function renderPage(page,el){
     loadTasks('taken');
   }
   if(page==='wallet' && !isGuest) loadWallet();
+  if(page==='feed') loadFeed();
   if(page==='chat' && !isGuest){ loadChatRooms(); loadPoints(); }
   if(page==='support' && !isGuest) loadSupport();
   if(page==='profile' && !isGuest) loadPoints();
@@ -1177,6 +1208,7 @@ async function handleRegister(e){
   const acceptTerms=!!document.getElementById('regAcceptTerms')?.checked;
   const acceptPrivacy=acceptTerms;
   if(!name||!username||!email||!password){showAlert('authAlert',t('required'));return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showAlert('authAlert',t('invalidEmail')||'Email некоректний.');return;}
   if(!acceptTerms){showAlert('authAlert','Потрібно погодитись з Правилами платформи та Політикою приватності.');return;}
   hideAlert('authAlert');setLoading(btn,true);
   const {ok,data}=await apiFetch(API.register,{method:'POST',body:JSON.stringify({name,username,email,password,accept_terms:acceptTerms,accept_privacy:acceptPrivacy})});
@@ -1242,7 +1274,7 @@ function renderVerification(userId, email){
 
             <div id="codeSection" style="margin-top:20px;padding:15px;background:rgba(184,255,92,.1);border:1px solid rgba(184,255,92,.3);border-radius:8px;text-align:center;display:none;">
               <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">📧 ${t('verificationCode')}</div>
-              <div style="font-size:13px;color:var(--text-soft);">Код надіслано на email. Перевір папки Inbox / Spam та введи 6-значний код нижче.</div>
+              <div style="font-size:13px;color:var(--text-soft);">${t('codeSentDesc')}</div>
             </div>
           </div>
         </div>
@@ -1268,7 +1300,10 @@ function renderVerification(userId, email){
       </div>
     </div>`;
 
-  // Captcha answer is in closure scope via correctAnswer variable (not exposed on window)
+  // Store data (keep answer in closure, not on window)
+  window.__verifyUserId = userId;
+  window.__verifyEmail = email;
+  let _captchaAnswer = correctAnswer;
 
   // Captcha solver
   const solveCaptchaBtn = document.getElementById('solveCaptchaBtn');
@@ -1277,7 +1312,7 @@ function renderVerification(userId, email){
   
   solveCaptchaBtn?.addEventListener('click', () => {
     const userAnswer = parseInt(captchaInput.value);
-    if(userAnswer === correctAnswer){
+    if(userAnswer === _captchaAnswer){
       captchaError.style.display = 'none';
       document.querySelector('.auth-hero').style.display = 'none';
       document.getElementById('verifyCard').style.display = 'block';
@@ -1343,7 +1378,7 @@ function renderDashboard(el){
   const mini=(S.leaderboard||[]).slice(0,3).map(u=>({
     name:u.name||u.username||'User',
     av:(u.name||u.username||'?').charAt(0).toUpperCase(),
-    score:Number(u.score||0)
+    score:Number(u.score||u.xp||0)
   }));
   el.innerHTML=`
     <div class="fade-up">
@@ -1687,60 +1722,190 @@ function renderCreateTask(el){
   });
 }
 
-/* ── 18. FEED ────────────────────────────────────────────────── */
+/* ── 18. FEED (TikTok-like) ───────────────────────────────────── */
 function renderFeed(el){
-  let filter='all';
-  function filtered(){return filter==='all'?(S.feed||[]):(S.feed||[]).filter(p=>p.type===filter);}
-  function renderCards(){
-    const list=filtered();
+  let feedFilter='all'; // 'all' | 'my'
+  const expandedPosts=new Set();
+
+  function getPostsList(){
+    const posts=S.feedPosts||[];
+    if(feedFilter==='my' && currentUser) return posts.filter(p=>Number(p.user_id)===Number(currentUser.id));
+    return posts;
+  }
+
+  function renderPostCards(){
+    const list=getPostsList();
     const c=document.getElementById('feedCards');
     if(!c)return;
-    if(!list.length){c.innerHTML=`<div class="empty"><div class="empty-icon">📡</div><h3>${t('noPosts')}</h3></div>`;return;}
-    c.innerHTML=list.map(p=>`
-      <div class="feed-card">
+    if(!list.length){
+      c.innerHTML=`<div class="empty"><div class="empty-icon">📡</div><h3>${t('noPosts')}</h3></div>`;
+      return;
+    }
+    const isMe=id=>currentUser && Number(id)===Number(currentUser.id);
+    c.innerHTML=list.map(p=>{
+      const expanded=expandedPosts.has(p.id);
+      const textLen=(p.text||'').length;
+      return `
+      <div class="feed-card" style="border-radius:16px;overflow:hidden;">
         <div class="feed-header">
-          <div class="feed-av">${esc(p.av||p.author.charAt(0))}</div>
-          <div style="flex:1"><div class="feed-author">${esc(p.author)}</div><div class="feed-time">${fmtAgo(p.timestamp)}</div></div>
-          <span class="badge badge-${p.type==='task'?'open':p.type==='wallet'?'in_progress':'completed'}">${p.type==='task'?t('tasks'):p.type==='achievement'?t('achievements'):t('wallet')}</span>
+          <div class="feed-av">${esc((p.username||'?').charAt(0).toUpperCase())}</div>
+          <div style="flex:1">
+            <div class="feed-author">@${esc(p.username||'user')}</div>
+            <div class="feed-time">${fmtAgo(p.created_at)}</div>
+          </div>
+          ${isMe(p.user_id)?`<button class="action-btn" data-delete-post="${p.id}" title="${t('deletePost')}" style="color:var(--danger);font-size:14px;">🗑</button>`:''}
         </div>
-        ${p.hasMedia?`<div class="feed-media" style="background:linear-gradient(135deg,rgba(184,255,92,.05),rgba(125,215,255,.04));display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;">📷 ${t('mediaPreview')}</div>`:''}
-        <div class="feed-text${p.expanded?'':''}" style="${!p.expanded&&p.text.length>160?'display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text)}</div>
-        ${p.text.length>160?`<button class="action-btn" data-expand="${p.id}">${p.expanded?t('showLess'):t('readMore')}</button>`:''}
+        ${p.media_url?`
+          <div class="feed-media" style="border-radius:12px;overflow:hidden;margin:8px 0;">
+            ${p.media_type==='video'?`
+              <video src="${esc(p.media_url)}" controls playsinline preload="metadata"
+                style="width:100%;max-height:500px;object-fit:contain;background:#000;border-radius:12px;"></video>
+            `:`
+              <img src="${esc(p.media_url)}" alt="" loading="lazy"
+                style="width:100%;max-height:500px;object-fit:cover;border-radius:12px;">
+            `}
+          </div>
+        `:''}
+        <div class="feed-text" style="${!expanded&&textLen>200?'display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text)}</div>
+        ${textLen>200?`<button class="action-btn" data-expand-post="${p.id}">${expanded?t('showLess'):t('readMore')}</button>`:''}
         <div class="feed-actions">
-          <button class="action-btn${p.liked?' liked':''}" data-like="${p.id}">❤ ${p.likes}</button>
-          <button class="action-btn${p.bookmarked?' bookmarked':''}" data-bm="${p.id}">🔖 ${p.bookmarked?t('saved'):t('save')}</button>
+          <button class="action-btn${p.liked_by_me?' liked':''}" data-like-post="${p.id}">❤ ${Number(p.likes_count||0)}</button>
         </div>
-      </div>`).join('');
-    c.querySelectorAll('[data-like]').forEach(b=>b.addEventListener('click',()=>{
-      const f=S.feed.find(x=>x.id===b.dataset.like);if(!f)return;
-      f.liked=!f.liked;f.likes+=f.liked?1:-1;saveState();renderCards();
+      </div>`;
+    }).join('');
+
+    // Like
+    c.querySelectorAll('[data-like-post]').forEach(b=>b.addEventListener('click',async()=>{
+      if(isGuest){toast(t('guestFeed'),'error');return;}
+      const postId=Number(b.dataset.likePost);
+      const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({action:'like',post_id:postId})});
+      if(!ok){toast(data.message||'Error','error');return;}
+      const fp=(S.feedPosts||[]).find(x=>x.id===postId);
+      if(fp){fp.liked_by_me=data.liked;fp.likes_count=data.likes_count;}
+      saveState();renderPostCards();
     }));
-    c.querySelectorAll('[data-bm]').forEach(b=>b.addEventListener('click',()=>{
-      const f=S.feed.find(x=>x.id===b.dataset.bm);if(!f)return;
-      f.bookmarked=!f.bookmarked;saveState();renderCards();
+    // Expand
+    c.querySelectorAll('[data-expand-post]').forEach(b=>b.addEventListener('click',()=>{
+      const pid=Number(b.dataset.expandPost);
+      if(expandedPosts.has(pid)) expandedPosts.delete(pid); else expandedPosts.add(pid);
+      renderPostCards();
     }));
-    c.querySelectorAll('[data-expand]').forEach(b=>b.addEventListener('click',()=>{
-      const f=S.feed.find(x=>x.id===b.dataset.expand);if(!f)return;
-      f.expanded=!f.expanded;saveState();renderCards();
+    // Delete
+    c.querySelectorAll('[data-delete-post]').forEach(b=>b.addEventListener('click',async()=>{
+      if(!confirm(t('confirmDelete')))return;
+      const postId=Number(b.dataset.deletePost);
+      const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({action:'delete',post_id:postId})});
+      if(!ok){toast(data.message||'Error','error');return;}
+      S.feedPosts=(S.feedPosts||[]).filter(x=>x.id!==postId);
+      saveState();toast(t('postDeleted'),'success');renderPostCards();
     }));
   }
 
+  // Create post form (only for logged in users)
+  const createForm=isGuest?`
+    <div class="card" style="text-align:center;padding:20px;">
+      <p style="color:var(--muted);margin-bottom:12px;">${t('guestFeed')}</p>
+      <button class="btn btn-primary btn-sm" id="guestRegFeed">${t('register')}</button>
+    </div>
+  `:`
+    <div class="card" style="margin-bottom:16px;">
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div class="user-av" style="width:38px;height:38px;font-size:14px;flex-shrink:0;">${(currentUser.name||'?').charAt(0).toUpperCase()}</div>
+        <div style="flex:1;">
+          <textarea id="feedPostText" class="form-textarea" rows="3" maxlength="2000" placeholder="${t('postPlaceholder')}" style="resize:vertical;"></textarea>
+          <div id="feedMediaSection" style="display:none;margin-top:8px;">
+            <div style="display:flex;gap:8px;margin-bottom:6px;">
+              <button class="chip" id="feedMediaImage" data-mt="image">📷 ${t('postImage')}</button>
+              <button class="chip" id="feedMediaVideo" data-mt="video">🎥 ${t('postVideo')}</button>
+            </div>
+            <input id="feedMediaUrl" class="form-input" type="url" placeholder="${t('mediaUrlPlaceholder')}" style="font-size:13px;">
+            <div id="feedMediaPreview" style="margin-top:8px;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+            <button class="btn btn-ghost btn-sm" id="feedToggleMedia">📎 ${t('addMedia')}</button>
+            <button class="btn btn-primary btn-sm" id="feedPublishBtn"><span class="btn-txt">${t('publishPost')}</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
   el.innerHTML=`
     <div class="fade-up" style="max-width:680px;">
-      <div style="display:flex;gap:8px;margin-bottom:18px;" id="feedFilters">
+      ${createForm}
+      <div style="display:flex;gap:8px;margin-bottom:14px;" id="feedFilters">
         <button class="chip active" data-ft="all">${t('all')}</button>
-        <button class="chip" data-ft="task">${t('tasks')}</button>
-        <button class="chip" data-ft="achievement">${t('achievements')}</button>
-        <button class="chip" data-ft="wallet">${t('wallet')}</button>
+        ${!isGuest?`<button class="chip" data-ft="my">${t('myPosts')}</button>`:''}
       </div>
       <div style="display:flex;flex-direction:column;gap:14px;" id="feedCards"></div>
+      ${S.feedHasMore?`<div style="text-align:center;margin-top:16px;"><button class="btn btn-ghost btn-sm" id="feedLoadMoreBtn">${t('feedLoadMore')}</button></div>`:''}
     </div>`;
 
-  renderCards();
+  renderPostCards();
+
+  // Guest register
+  document.getElementById('guestRegFeed')?.addEventListener('click',()=>renderAuth('register'));
+
+  // Filter tabs
   document.getElementById('feedFilters')?.addEventListener('click',e=>{
     const btn=e.target.closest('[data-ft]');if(!btn)return;
     document.querySelectorAll('#feedFilters .chip').forEach(c=>c.classList.remove('active'));
-    btn.classList.add('active');filter=btn.dataset.ft;renderCards();
+    btn.classList.add('active');feedFilter=btn.dataset.ft;renderPostCards();
+  });
+
+  // Load more
+  document.getElementById('feedLoadMoreBtn')?.addEventListener('click',async()=>{
+    await loadFeed(S.feedPage+1, true);
+    navigate('feed');
+  });
+
+  // Media toggle
+  let mediaType='image';
+  document.getElementById('feedToggleMedia')?.addEventListener('click',()=>{
+    const sec=document.getElementById('feedMediaSection');
+    if(sec) sec.style.display=sec.style.display==='none'?'block':'none';
+  });
+  document.querySelectorAll('#feedMediaImage,#feedMediaVideo').forEach(b=>b.addEventListener('click',()=>{
+    mediaType=b.dataset.mt;
+    document.querySelectorAll('#feedMediaSection .chip').forEach(c=>c.classList.remove('active'));
+    b.classList.add('active');
+    // Show preview
+    const url=(document.getElementById('feedMediaUrl')?.value||'').trim();
+    showMediaPreview(url, mediaType);
+  }));
+  document.getElementById('feedMediaUrl')?.addEventListener('input',e=>{
+    showMediaPreview(e.target.value.trim(), mediaType);
+  });
+
+  function showMediaPreview(url, type){
+    const prev=document.getElementById('feedMediaPreview');
+    if(!prev)return;
+    if(!url){prev.innerHTML='';return;}
+    if(type==='video'){
+      prev.innerHTML=`<video src="${esc(url)}" controls preload="metadata" style="width:100%;max-height:200px;border-radius:8px;background:#000;"></video>`;
+    } else {
+      prev.innerHTML=`<img src="${esc(url)}" alt="" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;" onerror="this.style.display='none'">`;
+    }
+  }
+
+  // Publish
+  document.getElementById('feedPublishBtn')?.addEventListener('click',async()=>{
+    const text=(document.getElementById('feedPostText')?.value||'').trim();
+    if(!text){toast(t('required'),'error');return;}
+    const mediaUrl=(document.getElementById('feedMediaUrl')?.value||'').trim();
+    const mediaSec=document.getElementById('feedMediaSection');
+    const hasMedia=mediaSec && mediaSec.style.display!=='none' && mediaUrl;
+    const btn=document.getElementById('feedPublishBtn');
+    setLoading(btn,true);
+    const body={action:'create',text};
+    if(hasMedia){body.media_url=mediaUrl;body.media_type=mediaType;}
+    const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify(body)});
+    setLoading(btn,false);
+    if(!ok){toast(data.message||'Error','error');return;}
+    // Prepend new post
+    if(data.post) S.feedPosts=[(data.post),...(S.feedPosts||[])];
+    saveState();toast(t('postCreated'),'success');
+    navigate('feed');
   });
 }
 
@@ -2107,7 +2272,7 @@ function renderChat(el){
   }
   const rooms=(S.chatRooms||[]);
   const activeTier=Number(S.activeRoomTier||1);
-  const activeRoom=rooms.find(r=>Number(r.tier)===activeTier) || rooms[0];
+  const activeRoom=rooms.find(r=>Number(r.tier)===activeTier) || rooms[0] || null;
   const messages=(S.chatRoomMessages||[]);
 
   el.innerHTML=`
@@ -2118,8 +2283,7 @@ function renderChat(el){
           <div style="font-size:13px;color:var(--muted);">XP / LVL: <b>${Number(S.xp||0).toLocaleString()} XP · Lv ${Number(S.level||1)}</b></div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
-          <input id="buyPointsPacks" type="number" min="1" max="100" value="1" class="form-input" style="width:90px;">
-          <button id="buyPointsBtn" class="btn btn-ghost btn-sm">${t('buyPoints')}</button>
+          <input id="buyPointsPacksChat" type="number" min="1" max="100" value="1" class="form-input" style="width:90px;">          <button id="buyPointsBtn" class="btn btn-ghost btn-sm">${t('buyPoints')}</button>
         </div>
       </div>
 
@@ -2363,7 +2527,7 @@ function renderProfile(el){
     ? `<div class="card"><div class="section-title">👉 ${t('readyToStartQ')}</div><p style="font-size:14px;color:var(--text-soft);margin-bottom:14px;">${t('readyToStartDesc')}</p><button class="btn btn-primary btn-block" id="guestCreateBtn"><span class="btn-txt">${t('register')}</span></button></div>`
     : `<div class="card"><div class="section-title">✏️ ${t('editProfileTitle')}</div><form id="profileForm" style="display:flex;flex-direction:column;gap:14px;"><div class="form-group"><label class="form-label">${t('roleTitle')}</label><input type="text" id="pfRole" class="form-input" value="${esc(S.role||'')}" placeholder="${t('rolePlaceholder')}" maxlength="60"></div><div class="form-group"><label class="form-label">${t('bioLabel')}</label><textarea id="pfBio" class="form-textarea" rows="3" maxlength="500" placeholder="${t('bioPlaceholder')}">${esc(S.bio||'')}</textarea></div><div class="form-group"><label class="form-label">${t('skillsLabel')}</label><input type="text" id="pfSkills" class="form-input" value="${esc(S.skills||'')}" placeholder="${t('skillsPlaceholder')}"></div><button type="submit" class="btn btn-primary btn-block"><span class="btn-txt">${t('saveProfile')}</span></button></form></div>`;
 
-  const exchanger=isGuest?'':`<div class="card" style="margin-top:20px;"><div class="section-title">₮ Обмінник: USDT → 🪙</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;"><div class="card-flat" style="padding:10px;"><div class="stat-label">Coins</div><div style="font-weight:800;">${Number(S.coinBalance||0).toLocaleString()}</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">Rate</div><div style="font-weight:800;">1 USDT = 100 🪙</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">Pending</div><div style="font-weight:800;">${Number(S.pendingCryptoCount||0)}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><input id="exchAmount" class="form-input" type="number" min="1" max="10000" placeholder="USDT amount"><select id="exchNetwork" class="form-select"><option value="TRC20">TRC20</option><option value="BEP20">BEP20</option></select></div><div id="exchangeAlert" class="alert" style="margin-top:10px;"></div><button id="exchInitBtn" class="btn btn-primary btn-block" style="margin-top:10px;"><span class="btn-txt">Отримати адресу</span></button><div id="exchangeStep2" style="margin-top:10px;"></div></div>`;
+  const exchanger=isGuest?'':`<div class="card" style="margin-top:20px;"><div class="section-title">₮ ${t('exchangerTitle')}</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;"><div class="card-flat" style="padding:10px;"><div class="stat-label">Coins</div><div style="font-weight:800;">${Number(S.coinBalance||0).toLocaleString()}</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">Rate</div><div style="font-weight:800;">1 USDT = 100 🪙</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">${t('pending')}</div><div style="font-weight:800;">${Number(S.pendingCryptoCount||0)}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><input id="exchAmount" class="form-input" type="number" min="1" max="10000" placeholder="USDT amount"><select id="exchNetwork" class="form-select"><option value="TRC20">TRC20</option><option value="BEP20">BEP20</option></select></div><div id="exchangeAlert" class="alert" style="margin-top:10px;"></div><button id="exchInitBtn" class="btn btn-primary btn-block" style="margin-top:10px;"><span class="btn-txt">${t('exchangerGetAddress')}</span></button><div id="exchangeStep2" style="margin-top:10px;"></div></div>`;
 
   el.innerHTML=`
     <div class="fade-up" style="max-width:800px;">
@@ -2434,19 +2598,19 @@ function renderProfile(el){
     const amount=parseFloat(document.getElementById('exchAmount')?.value)||0;
     const network=document.getElementById('exchNetwork')?.value||'TRC20';
     const alertEl=document.getElementById('exchangeAlert');
-    if(amount<1||amount>10000){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent='Сума: від 1 до 10000 USDT';}return;}
+    if(amount<1||amount>10000){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=t('exchangerRange');}return;}
     const {ok,data}=await apiFetch(API.cryptoDeposit,{method:'POST',body:JSON.stringify({action:'initiate',amount_usdt:amount,network})});
-    if(!ok){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=data.message||'Помилка';}return;}
+    if(!ok){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=data.message||t('exchangerError');}return;}
     const step2=document.getElementById('exchangeStep2');
     if(step2){
-      step2.innerHTML=`<div class="card-flat" style="padding:10px;"><div style="font-size:12px;color:var(--muted);">Надішли ${Number(data.amount_usdt||amount)} USDT (${esc(data.network||network)}) на адресу:</div><div style="font-size:13px;font-weight:700;color:var(--primary);word-break:break-all;margin:6px 0;">${esc(data.wallet_address||'')}</div><input id="exchTxHash" class="form-input" placeholder="tx hash" style="margin-top:8px;"><button id="exchConfirmBtn" class="btn btn-success btn-block" style="margin-top:8px;">Підтвердити</button></div>`;
+      step2.innerHTML=`<div class="card-flat" style="padding:10px;"><div style="font-size:12px;color:var(--muted);">${t('exchangerSendTo')} ${Number(data.amount_usdt||amount)} USDT (${esc(data.network||network)}) ${t('exchangerToAddress')}</div><div style="font-size:13px;font-weight:700;color:var(--primary);word-break:break-all;margin:6px 0;">${esc(data.wallet_address||'')}</div><input id="exchTxHash" class="form-input" placeholder="tx hash" style="margin-top:8px;"><button id="exchConfirmBtn" class="btn btn-success btn-block" style="margin-top:8px;">${t('exchangerConfirm')}</button></div>`;
       document.getElementById('exchConfirmBtn')?.addEventListener('click',async()=>{
         const txHash=document.getElementById('exchTxHash')?.value?.trim();
         if(!txHash)return;
         const res=await apiFetch(API.cryptoDeposit,{method:'POST',body:JSON.stringify({action:'confirm',deposit_id:data.deposit_id,tx_hash:txHash})});
-        if(!res.ok){toast(res.data.message||'Помилка підтвердження','error');return;}
+        if(!res.ok){toast(res.data.message||t('exchangerConfirmError'),'error');return;}
         await loadWallet();
-        toast(res.data.message||'Депозит підтверджено','success');
+        toast(res.data.message||t('depositDone'),'success');
         navigate('profile');
       });
     }

@@ -51,9 +51,7 @@ try {
 
 function addXp(PDO $pdo, int $userId, int $amount): array
 {
-    // MySQL evaluates SET left-to-right: after xp=xp+:xp, 'xp' already has the new value.
-    // Using FLOOR(xp/1000)+1 correctly calculates level from updated xp,
-    // fixing the previous double-counting bug where :xp was added twice.
+    // xp is updated first (left-to-right in SET), so level calculation uses already-updated xp
     $pdo->prepare('UPDATE users SET xp=xp+:xp, level=LEAST(12, FLOOR(xp/1000)+1) WHERE id=:uid')
         ->execute([':xp' => $amount, ':uid' => $userId]);
     $stmt = $pdo->prepare('SELECT xp, level FROM users WHERE id=:uid');

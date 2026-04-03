@@ -14,47 +14,59 @@ try {
         ? $_GET['period'] : 'all-time';
     $limit  = min(100, max(1, (int)($_GET['limit'] ?? 100)));
 
-    $dateFilter = match($period) {
-        'monthly' => 'AND t.created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH)',
-        'weekly'  => 'AND t.created_at >= DATE_SUB(NOW(), INTERVAL 1 WEEK)',
-        default   => '',
-    };
-    $dateFilterTa = match($period) {
-        'monthly' => 'AND ta.assigned_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH)',
-        'weekly'  => 'AND ta.assigned_at >= DATE_SUB(NOW(), INTERVAL 1 WEEK)',
-        default   => '',
-    };
+    // Try cached leaderboard first (Redis or file cache)
+    $cacheKey = 'leaderboard:' . $period . ':' . $limit;
+    $cached = cache_get($cacheKey);
+    $leaderboard = null;
 
-    $stmt = $pdo->prepare("
-        SELECT
-            u.id, u.name, u.username, u.avatar, u.level, u.xp, u.streak,
-            COALESCE(SUM(CASE WHEN t.type IN ('task_reward') THEN t.amount ELSE 0 END), 0) AS earnings,
-            COUNT(DISTINCT ta.id) AS completed_tasks,
-            (u.level * 1000
-             + COALESCE(SUM(CASE WHEN t.type='task_reward' THEN t.amount ELSE 0 END), 0) * 0.5
-             + COUNT(DISTINCT ta.id) * 10
-             + u.streak * 5
-            ) AS score
-        FROM users u
-        LEFT JOIN transactions t
-            ON t.user_id = u.id AND t.type = 'task_reward' AND t.status = 'completed' $dateFilter
-        LEFT JOIN task_assignments ta
-            ON ta.user_id = u.id AND ta.status = 'completed' $dateFilterTa
-        WHERE u.is_active = TRUE
-        GROUP BY u.id, u.name, u.username, u.avatar, u.level, u.xp, u.streak
-        ORDER BY score DESC
-        LIMIT :limit
-    ");
-    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-    $stmt->execute();
-    $leaderboard = $stmt->fetchAll();
+    if (is_array($cached) && !empty($cached)) {
+        $leaderboard = $cached;
+    } else {
+        $dateFilter = match($period) {
+            'monthly' => 'AND t.created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH)',
+            'weekly'  => 'AND t.created_at >= DATE_SUB(NOW(), INTERVAL 1 WEEK)',
+            default   => '',
+        };
+        $dateFilterTa = match($period) {
+            'monthly' => 'AND ta.assigned_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH)',
+            'weekly'  => 'AND ta.assigned_at >= DATE_SUB(NOW(), INTERVAL 1 WEEK)',
+            default   => '',
+        };
 
-    foreach ($leaderboard as $i => &$entry) {
-        $entry['position']   = $i + 1;
-        $entry['earnings']   = (float)$entry['earnings'];
-        $entry['score']      = (float)$entry['score'];
+        $stmt = $pdo->prepare("
+            SELECT
+                u.id, u.name, u.username, u.avatar, u.level, u.xp, u.streak,
+                COALESCE(SUM(CASE WHEN t.type IN ('task_reward') THEN t.amount ELSE 0 END), 0) AS earnings,
+                COUNT(DISTINCT ta.id) AS completed_tasks,
+                (u.level * 1000
+                 + COALESCE(SUM(CASE WHEN t.type='task_reward' THEN t.amount ELSE 0 END), 0) * 0.5
+                 + COUNT(DISTINCT ta.id) * 10
+                 + u.streak * 5
+                ) AS score
+            FROM users u
+            LEFT JOIN transactions t
+                ON t.user_id = u.id AND t.type = 'task_reward' AND t.status = 'completed' $dateFilter
+            LEFT JOIN task_assignments ta
+                ON ta.user_id = u.id AND ta.status = 'completed' $dateFilterTa
+            WHERE u.is_active = TRUE
+            GROUP BY u.id, u.name, u.username, u.avatar, u.level, u.xp, u.streak
+            ORDER BY score DESC
+            LIMIT :limit
+        ");
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        $leaderboard = $stmt->fetchAll();
+
+        foreach ($leaderboard as $i => &$entry) {
+            $entry['position']   = $i + 1;
+            $entry['earnings']   = (float)$entry['earnings'];
+            $entry['score']      = (float)$entry['score'];
+        }
+        unset($entry);
+
+        // Cache leaderboard for 60 seconds
+        cache_set($cacheKey, $leaderboard, 60);
     }
-    unset($entry);
 
     // Find current user's position
     $userPosition = null;
@@ -66,6 +78,27 @@ try {
             }
         }
         if ($userPosition === null) {
+            $dateFilter = match($period) {
+                'monthly' => 'AND t2.created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH)',
+                'weekly'  => 'AND t2.created_at >= DATE_SUB(NOW(), INTERVAL 1 WEEK)',
+                default   => '',
+            };
+            $dateFilterTa = match($period) {
+                'monthly' => 'AND ta2.assigned_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH)',
+                'weekly'  => 'AND ta2.assigned_at >= DATE_SUB(NOW(), INTERVAL 1 WEEK)',
+                default   => '',
+            };
+            $dateFilter3 = match($period) {
+                'monthly' => 'AND t3.created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH)',
+                'weekly'  => 'AND t3.created_at >= DATE_SUB(NOW(), INTERVAL 1 WEEK)',
+                default   => '',
+            };
+            $dateFilterTa3 = match($period) {
+                'monthly' => 'AND ta3.assigned_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH)',
+                'weekly'  => 'AND ta3.assigned_at >= DATE_SUB(NOW(), INTERVAL 1 WEEK)',
+                default   => '',
+            };
+
             $rankStmt = $pdo->prepare("
                 SELECT COUNT(*) + 1 AS rank FROM (
                     SELECT u2.id,
@@ -85,8 +118,8 @@ try {
                                 + COUNT(DISTINCT ta3.id) * 10
                                 + u3.streak * 5)
                         FROM users u3
-                        LEFT JOIN transactions t3 ON t3.user_id=u3.id $dateFilter
-                        LEFT JOIN task_assignments ta3 ON ta3.user_id=u3.id AND ta3.status='completed' $dateFilterTa
+                        LEFT JOIN transactions t3 ON t3.user_id=u3.id $dateFilter3
+                        LEFT JOIN task_assignments ta3 ON ta3.user_id=u3.id AND ta3.status='completed' $dateFilterTa3
                         WHERE u3.id=:uid AND u3.is_active=TRUE
                         GROUP BY u3.id
                     )

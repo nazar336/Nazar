@@ -126,6 +126,81 @@ function normalize_email(string $e): string {
     return mb_strtolower(trim($e));
 }
 
+/**
+ * Get rate limit config by action name.
+ * Falls back to [5, 15] if action not defined in RATE_LIMITS.
+ */
+function get_rate_limit(string $action): array {
+    $limits = defined('RATE_LIMITS') ? RATE_LIMITS : [];
+    return $limits[$action] ?? [5, 15];
+}
+
+/**
+ * Optional Redis connection (lazy singleton).
+ * Returns a Redis instance or null if unavailable/disabled.
+ */
+function redis(): ?\Redis {
+    static $redis = null;
+    static $tried = false;
+    if ($tried) return $redis;
+    $tried = true;
+
+    $host = defined('REDIS_HOST') ? REDIS_HOST : '';
+    if ($host === '' || !class_exists('Redis')) return null;
+
+    try {
+        $r = new \Redis();
+        $port = defined('REDIS_PORT') ? REDIS_PORT : 6379;
+        if (!$r->connect($host, $port, 2.0)) return null;
+        $prefix = defined('REDIS_PREFIX') ? REDIS_PREFIX : 'lolance:';
+        $r->setOption(\Redis::OPT_PREFIX, $prefix);
+        $redis = $r;
+    } catch (\Throwable $e) {
+        error_log('LOLance Redis connect failed: ' . $e->getMessage());
+    }
+    return $redis;
+}
+
+/**
+ * Cache helper: get from Redis (if available) or file cache.
+ */
+function cache_get(string $key): mixed {
+    // Try Redis first
+    $r = redis();
+    if ($r !== null) {
+        $val = $r->get($key);
+        if ($val !== false) {
+            $decoded = json_decode($val, true);
+            return $decoded !== null ? $decoded : $val;
+        }
+        return null;
+    }
+    // File cache fallback
+    $file = sys_get_temp_dir() . '/lolance_cache_' . md5($key) . '.json';
+    if (!file_exists($file)) return null;
+    $data = json_decode((string)file_get_contents($file), true);
+    if (!is_array($data) || !isset($data['expires']) || $data['expires'] < time()) {
+        @unlink($file);
+        return null;
+    }
+    return $data['value'];
+}
+
+/**
+ * Cache helper: set to Redis (if available) or file cache.
+ */
+function cache_set(string $key, mixed $value, int $ttl = 300): void {
+    $r = redis();
+    if ($r !== null) {
+        $r->setex($key, $ttl, json_encode($value, JSON_UNESCAPED_UNICODE));
+        return;
+    }
+    // File cache fallback
+    $file = sys_get_temp_dir() . '/lolance_cache_' . md5($key) . '.json';
+    $data = ['value' => $value, 'expires' => time() + $ttl];
+    @file_put_contents($file, json_encode($data), LOCK_EX);
+}
+
 function public_user(array $row): array {
     return [
         'id'       => (int)$row['id'],

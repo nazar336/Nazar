@@ -53,26 +53,51 @@ try {
    ══════════════════════════════════════════════════════════════════ */
 function handleList(PDO $pdo, int $userId): never
 {
-    $page  = max(1, (int)($_GET['page'] ?? 1));
-    $limit = min(50, max(1, (int)($_GET['limit'] ?? 20)));
-    $offset = ($page - 1) * $limit;
+    $limit  = min(50, max(1, (int)($_GET['limit'] ?? 20)));
 
-    $stmt = $pdo->prepare("
+    // Cursor-based pagination: use ?before=<post_id> for older posts
+    // This prevents duplicate/missing posts when new content is added
+    $before = isset($_GET['before']) ? (int)$_GET['before'] : 0;
+    $after  = isset($_GET['after'])  ? (int)$_GET['after']  : 0;
+
+    $whereClauses = [];
+    $params = [];
+    if ($before > 0) {
+        $whereClauses[] = 'fp.id < :before';
+        $params[':before'] = $before;
+    }
+    if ($after > 0) {
+        $whereClauses[] = 'fp.id > :after';
+        $params[':after'] = $after;
+    }
+    $whereSQL = $whereClauses ? 'WHERE ' . implode(' AND ', $whereClauses) : '';
+
+    $orderDir = $after > 0 ? 'ASC' : 'DESC';
+
+    $sql = "
         SELECT fp.id, fp.user_id, fp.text, fp.media_url, fp.media_type, fp.post_type,
                fp.likes_count, fp.created_at,
                u.username, u.name, u.level, u.avatar,
                " . ($userId > 0 ? "(SELECT 1 FROM feed_likes fl WHERE fl.post_id=fp.id AND fl.user_id=:uid LIMIT 1)" : "0") . " AS liked_by_me
         FROM feed_posts fp
         JOIN users u ON u.id = fp.user_id
-        ORDER BY fp.created_at DESC
-        LIMIT :lim OFFSET :off
-    ");
+        {$whereSQL}
+        ORDER BY fp.id {$orderDir}
+        LIMIT :lim
+    ";
+    $stmt = $pdo->prepare($sql);
     if ($userId > 0) $stmt->bindValue(':uid', $userId, PDO::PARAM_INT);
     $stmt->bindValue(':lim', $limit, PDO::PARAM_INT);
-    $stmt->bindValue(':off', $offset, PDO::PARAM_INT);
+    foreach ($params as $k => $v) $stmt->bindValue($k, $v, PDO::PARAM_INT);
     $stmt->execute();
 
     $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // If fetching "after" (newer), reverse to keep newest-first order
+    if ($after > 0) {
+        $posts = array_reverse($posts);
+    }
+
     foreach ($posts as &$p) {
         $p['id']          = (int)$p['id'];
         $p['user_id']     = (int)$p['user_id'];
@@ -85,6 +110,10 @@ function handleList(PDO $pdo, int $userId): never
     }
     unset($p);
 
+    // Cursors for next/prev pages
+    $nextCursor = !empty($posts) ? end($posts)['id'] : null;
+    $prevCursor = !empty($posts) ? reset($posts)['id'] : null;
+
     // Today's post count for current user
     $todayPosts = 0;
     if ($userId > 0) {
@@ -96,7 +125,8 @@ function handleList(PDO $pdo, int $userId): never
     json_response([
         'success'      => true,
         'posts'        => $posts,
-        'page'         => $page,
+        'next_cursor'  => $nextCursor,
+        'prev_cursor'  => $prevCursor,
         'today_posts'  => $todayPosts,
         'max_posts_day'=> FEED_MAX_POSTS_PER_DAY,
         'xp_per_post'  => FEED_XP_PER_POST,

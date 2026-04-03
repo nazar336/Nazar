@@ -55,8 +55,9 @@ function handleGetRates(): never {
 
 // ── POST initiate ─────────────────────────────────────────────────
 function handleInitiate(PDO $pdo, int $userId, array $input): never {
-    // Rate limit: max 5 deposit initiations per user per 15 min
-    if (check_rate_limit($pdo, 'deposit:' . $userId, 5, 15))
+    // Rate limit: configurable deposit rate limit
+    $rl = get_rate_limit('deposit');
+    if (check_rate_limit($pdo, 'deposit:' . $userId, $rl[0], $rl[1]))
         json_response(['success' => false, 'message' => 'Too many deposit requests. Please wait.'], 429);
 
     $network = strtoupper(trim((string)($input['network'] ?? 'TRC20')));

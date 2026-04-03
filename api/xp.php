@@ -233,8 +233,9 @@ function handleBuyPoints(PDO $pdo, int $userId, array $input): never
         json_response(['success' => false, 'message' => 'Invalid pack count (1-100)'], 400);
     }
 
-    // Rate limit: max 10 XP purchases per user per 60 min
-    if (check_rate_limit($pdo, 'buy_xp:' . $userId, 10, 60))
+    // Rate limit: configurable XP purchase limit
+    $rl = get_rate_limit('xp');
+    if (check_rate_limit($pdo, 'buy_xp:' . $userId, $rl[0], $rl[1]))
         json_response(['success' => false, 'message' => 'Too many XP purchases. Please wait.'], 429);
     record_rate_limit($pdo, 'buy_xp:' . $userId);
 

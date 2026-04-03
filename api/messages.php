@@ -72,8 +72,9 @@ try {
         if (mb_strlen($content) > 2000)           json_response(['success' => false, 'message' => 'Message too long (max 2000)'], 400);
         if ($recipientId === $userId)             json_response(['success' => false, 'message' => 'Cannot message yourself'], 400);
 
-        // Rate limit: max 30 messages per user per 5 min
-        if (check_rate_limit($pdo, 'msg:' . $userId, 30, 5))
+        // Rate limit: configurable message limit
+        $rl = get_rate_limit('message');
+        if (check_rate_limit($pdo, 'msg:' . $userId, $rl[0], $rl[1]))
             json_response(['success' => false, 'message' => 'You are sending messages too fast. Please wait.'], 429);
 
         $recStmt = $pdo->prepare('SELECT id,is_active FROM users WHERE id=:rid LIMIT 1');

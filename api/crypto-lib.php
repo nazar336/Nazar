@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 function get_crypto_rates(): array
 {
-    $cache    = sys_get_temp_dir() . '/lolance_rates.json';
     $fallback = [
         'USDT' => 1.0,
         'ETH'  => 3200.0,
@@ -16,10 +15,20 @@ function get_crypto_rates(): array
         'SOL'  => 150.0,
     ];
 
-    // Використати кеш якщо свіжий (< 60 сек — захист від спекуляції)
-    if (file_exists($cache) && (time() - filemtime($cache)) < 60) {
-        $data = json_decode((string)file_get_contents($cache), true);
-        if (is_array($data) && isset($data['BTC'])) return $data;
+    $ttl = defined('CRYPTO_RATE_CACHE_TTL') ? CRYPTO_RATE_CACHE_TTL : 300;
+
+    // Try unified cache first (Redis or file)
+    $cached = cache_get('crypto_rates');
+    if (is_array($cached) && isset($cached['BTC'])) return $cached;
+
+    // Legacy file cache compatibility (< 5 min default)
+    $legacyCache = sys_get_temp_dir() . '/lolance_rates.json';
+    if (file_exists($legacyCache) && (time() - filemtime($legacyCache)) < $ttl) {
+        $data = json_decode((string)file_get_contents($legacyCache), true);
+        if (is_array($data) && isset($data['BTC'])) {
+            cache_set('crypto_rates', $data, $ttl);
+            return $data;
+        }
     }
 
     $url = 'https://api.coingecko.com/api/v3/simple/price'
@@ -44,7 +53,10 @@ function get_crypto_rates(): array
         'SOL'  => (float)($parsed['solana']['usd']      ?? $fallback['SOL']),
     ];
 
-    @file_put_contents($cache, json_encode($rates), LOCK_EX);
+    // Store in both Redis/unified cache and legacy file
+    cache_set('crypto_rates', $rates, $ttl);
+    @file_put_contents($legacyCache, json_encode($rates), LOCK_EX);
+
     return $rates;
 }
 

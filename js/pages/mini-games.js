@@ -289,9 +289,7 @@ function renderColorRound(area, state) {
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:320px;margin:0 auto;">
       ${state.options.map((c, i) => `
         <button class="color-btn" data-color="${c.name}"
-          style="height:70px;border-radius:var(--r-sm);border:2px solid rgba(255,255,255,.1);background:${c.bg};cursor:pointer;font-size:24px;transition:all .15s;opacity:0.9;"
-          onmouseenter="this.style.opacity='1';this.style.transform='scale(1.05)'"
-          onmouseleave="this.style.opacity='0.9';this.style.transform='none'">
+          style="height:70px;border-radius:var(--r-sm);border:2px solid rgba(255,255,255,.1);background:${c.bg};cursor:pointer;font-size:24px;transition:all .15s;opacity:0.9;">
           ${c.label}
         </button>
       `).join('')}
@@ -310,6 +308,12 @@ function renderColorRound(area, state) {
   requestAnimationFrame(() => {
     const timerBar = document.getElementById('colorTimer');
     if (timerBar) timerBar.style.width = '0%';
+  });
+
+  // Hover effects for color buttons
+  area.querySelectorAll('.color-btn').forEach(btn => {
+    btn.addEventListener('mouseenter', () => { btn.style.opacity = '1'; btn.style.transform = 'scale(1.05)'; });
+    btn.addEventListener('mouseleave', () => { btn.style.opacity = '0.9'; btn.style.transform = 'none'; });
   });
 
   // Color button clicks

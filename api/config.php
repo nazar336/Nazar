@@ -81,6 +81,7 @@ define('RATE_LIMITS', [
     'message'   => [(int) env('RATE_LIMIT_MSG_MAX', '30'),     (int) env('RATE_LIMIT_MSG_WINDOW', '5')],
     'support'   => [(int) env('RATE_LIMIT_SUPPORT_MAX', '10'), (int) env('RATE_LIMIT_SUPPORT_WINDOW', '60')],
     'register'  => [(int) env('RATE_LIMIT_REGISTER_MAX', '5'), (int) env('RATE_LIMIT_REGISTER_WINDOW', '15')],
+    'minigame'  => [(int) env('RATE_LIMIT_MINIGAME_MAX', '30'), (int) env('RATE_LIMIT_MINIGAME_WINDOW', '60')],
 ]);
 
 // ── Crypto wallets ────────────────────────────────────────────────

@@ -143,6 +143,13 @@ export const i18n = {
     feedCreatePost:'Create Post', feedWriteSomething:'Share something with the community…',
     feedPostSuccess:'Post published!', feedMaxReached:'Daily XP limit reached, but you can still post.',
     feedAddMedia:'Add media', feedSelectType:'Post type',
+    // Mini Games
+    miniGames:'Mini Games', miniGamesDesc:'Play fun games and earn XP! Complete games to level up faster.',
+    memoryMatch:'Memory Match', memoryMatchDesc:'Flip cards and find matching pairs. Fewer moves = more XP!',
+    colorTap:'Color Tap', colorTapDesc:'Tap the correct color before time runs out. Speed matters!',
+    loginToPlay:'Log in to play and earn XP', playAgain:'Play Again',
+    moves:'moves', time:'Time', tapTheColor:'Tap the matching color!',
+    gameComplete:'Well done! 🎉', gameOver:'Game Over!',
   },
   UA:{
     appName:'LOLance', appTag:'Преміум платформа мікрозадач',
@@ -268,6 +275,13 @@ export const i18n = {
     feedCreatePost:'Створити пост', feedWriteSomething:'Поділіться чимось з спільнотою…',
     feedPostSuccess:'Пост опубліковано!', feedMaxReached:'Денний ліміт XP досягнуто, але ви ще можете публікувати.',
     feedAddMedia:'Додати медіа', feedSelectType:'Тип посту',
+    // Міні ігри
+    miniGames:'Міні ігри', miniGamesDesc:'Грай у веселі ігри та заробляй XP! Завершуй ігри, щоб швидше підвищити рівень.',
+    memoryMatch:'Знайди пару', memoryMatchDesc:'Перевертай картки та шукай пари. Менше ходів = більше XP!',
+    colorTap:'Влучний колір', colorTapDesc:'Натисни на правильний колір до закінчення часу. Швидкість важлива!',
+    loginToPlay:'Увійди, щоб грати та заробляти XP', playAgain:'Грати знову',
+    moves:'ходи', time:'Час', tapTheColor:'Натисни на відповідний колір!',
+    gameComplete:'Чудово! 🎉', gameOver:'Гра закінчена!',
   },
   DE:{
     appName:'LOLance', appTag:'Premium Micro-Task Plattform',
@@ -382,6 +396,13 @@ export const i18n = {
     feedCreatePost:'Beitrag erstellen', feedWriteSomething:'Teile etwas mit der Community…',
     feedPostSuccess:'Beitrag veröffentlicht!', feedMaxReached:'Tägliches XP-Limit erreicht.',
     feedAddMedia:'Medien hinzufügen', feedSelectType:'Beitragstyp',
+    // Mini-Spiele
+    miniGames:'Minispiele', miniGamesDesc:'Spiele lustige Spiele und verdiene XP! Schließe Spiele ab, um schneller aufzusteigen.',
+    memoryMatch:'Memory', memoryMatchDesc:'Drehe Karten um und finde Paare. Weniger Züge = mehr XP!',
+    colorTap:'Farbtipp', colorTapDesc:'Tippe auf die richtige Farbe, bevor die Zeit abläuft. Geschwindigkeit zählt!',
+    loginToPlay:'Melde dich an, um zu spielen und XP zu verdienen', playAgain:'Nochmal spielen',
+    moves:'Züge', time:'Zeit', tapTheColor:'Tippe auf die passende Farbe!',
+    gameComplete:'Gut gemacht! 🎉', gameOver:'Spiel vorbei!',
   },
   FR:{
     appName:'LOLance', appTag:'Plateforme Premium de Micro-Tâches',
@@ -495,6 +516,13 @@ export const i18n = {
     feedCreatePost:'Créer un post', feedWriteSomething:'Partagez quelque chose avec la communauté…',
     feedPostSuccess:'Post publié !', feedMaxReached:'Limite quotidienne d\'XP atteinte.',
     feedAddMedia:'Ajouter un média', feedSelectType:'Type de post',
+    // Mini-jeux
+    miniGames:'Mini-jeux', miniGamesDesc:'Jouez à des jeux amusants et gagnez des XP ! Terminez des jeux pour monter de niveau plus vite.',
+    memoryMatch:'Memory', memoryMatchDesc:'Retournez les cartes et trouvez les paires. Moins de coups = plus d\'XP !',
+    colorTap:'Touche Couleur', colorTapDesc:'Appuyez sur la bonne couleur avant la fin du temps. La vitesse compte !',
+    loginToPlay:'Connectez-vous pour jouer et gagner des XP', playAgain:'Rejouer',
+    moves:'coups', time:'Temps', tapTheColor:'Appuyez sur la couleur correspondante !',
+    gameComplete:'Bien joué ! 🎉', gameOver:'Partie terminée !',
   },
   ES:{
     appName:'LOLance', appTag:'Plataforma Premium de Micro-Tareas',
@@ -608,6 +636,13 @@ export const i18n = {
     feedCreatePost:'Crear post', feedWriteSomething:'Comparte algo con la comunidad…',
     feedPostSuccess:'¡Post publicado!', feedMaxReached:'Límite diario de XP alcanzado.',
     feedAddMedia:'Agregar media', feedSelectType:'Tipo de post',
+    // Mini juegos
+    miniGames:'Minijuegos', miniGamesDesc:'¡Juega juegos divertidos y gana XP! Completa juegos para subir de nivel más rápido.',
+    memoryMatch:'Memoria', memoryMatchDesc:'Voltea cartas y encuentra pares. ¡Menos movimientos = más XP!',
+    colorTap:'Toca el Color', colorTapDesc:'¡Toca el color correcto antes de que se acabe el tiempo. La velocidad importa!',
+    loginToPlay:'Inicia sesión para jugar y ganar XP', playAgain:'Jugar de nuevo',
+    moves:'movimientos', time:'Tiempo', tapTheColor:'¡Toca el color correspondiente!',
+    gameComplete:'¡Bien hecho! 🎉', gameOver:'¡Fin del juego!',
   },
   PL:{
     appName:'LOLance', appTag:'Platforma Premium Mikro-Zadań',
@@ -721,6 +756,13 @@ export const i18n = {
     feedCreatePost:'Utwórz post', feedWriteSomething:'Podziel się czymś ze społecznością…',
     feedPostSuccess:'Post opublikowany!', feedMaxReached:'Dzienny limit XP osiągnięty.',
     feedAddMedia:'Dodaj media', feedSelectType:'Typ posta',
+    // Mini gry
+    miniGames:'Mini gry', miniGamesDesc:'Graj w zabawne gry i zdobywaj XP! Kończ gry, aby szybciej awansować.',
+    memoryMatch:'Memory', memoryMatchDesc:'Odwracaj karty i znajdź pary. Mniej ruchów = więcej XP!',
+    colorTap:'Dotknij Kolor', colorTapDesc:'Dotknij właściwego koloru zanim skończy się czas. Liczy się szybkość!',
+    loginToPlay:'Zaloguj się, aby grać i zdobywać XP', playAgain:'Zagraj ponownie',
+    moves:'ruchy', time:'Czas', tapTheColor:'Dotknij pasującego koloru!',
+    gameComplete:'Świetnie! 🎉', gameOver:'Koniec gry!',
   },
 };
 

@@ -11,7 +11,7 @@ export const API = {
   completeTask:'api/complete-task.php',
   cryptoDeposit:'api/crypto-deposit.php', cryptoWithdraw:'api/crypto-withdraw.php', coins:'api/coins.php',
   xp:'api/xp.php', chatRooms:'api/chat-rooms.php', support:'api/support.php',
-  feed:'api/feed.php'
+  feed:'api/feed.php', miniGames:'api/mini-games.php'
 };
 export const CATEGORIES = ['Design','Video','Copy','Social','Community','QA','Localization','Product','Development','Marketing'];
 

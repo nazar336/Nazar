@@ -21,6 +21,7 @@ export function renderShell() {
     { page: 'chat', icon: '💬', label: t('chat') },
     { page: 'support', icon: '🛟', label: t('support') },
     { page: 'leaderboard', icon: '🏆', label: t('leaderboard') },
+    { page: 'miniGames', icon: '🎮', label: t('miniGames') },
   ];
   const mobItems = [
     { page: 'dashboard', icon: '⚡', label: t('dashboard') },

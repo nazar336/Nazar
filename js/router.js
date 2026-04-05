@@ -11,6 +11,7 @@ import { renderChat } from './pages/chat.js';
 import { renderSupport } from './pages/support.js';
 import { renderProfile } from './pages/profile.js';
 import { renderLeaderboard } from './pages/leaderboard.js';
+import { renderMiniGames } from './pages/mini-games.js';
 
 export function initScroll() {
   const bar = document.getElementById('scrollBar');
@@ -37,14 +38,14 @@ export function navigate(page) {
     mc.style.transform = 'none';
     mc.scrollTop = 0;
   }, appState.S.animationsOn ? 100 : 10);
-  const titles = { dashboard: t('dashboard'), tasks: t('tasks'), createTask: t('createTask'), feed: t('feed'), wallet: t('wallet'), chat: t('chat'), support: t('support'), profile: t('profile'), leaderboard: t('leaderboard') };
+  const titles = { dashboard: t('dashboard'), tasks: t('tasks'), createTask: t('createTask'), feed: t('feed'), wallet: t('wallet'), chat: t('chat'), support: t('support'), profile: t('profile'), leaderboard: t('leaderboard'), miniGames: t('miniGames') };
   const tb = document.getElementById('topbarTitle');
   if (tb) tb.textContent = titles[page] || page;
   document.title = `${titles[page] || page} — LOLance`;
 }
 
 export function renderPage(page, el) {
-  const pages = { dashboard: renderDashboard, tasks: renderTasks, createTask: renderCreateTask, feed: renderFeed, wallet: renderWallet, chat: renderChat, support: renderSupport, profile: renderProfile, leaderboard: renderLeaderboard };
+  const pages = { dashboard: renderDashboard, tasks: renderTasks, createTask: renderCreateTask, feed: renderFeed, wallet: renderWallet, chat: renderChat, support: renderSupport, profile: renderProfile, leaderboard: renderLeaderboard, miniGames: renderMiniGames };
 
   // Load data before rendering each page
   if (page === 'dashboard' && !appState.isGuest) {
@@ -63,6 +64,7 @@ export function renderPage(page, el) {
   if (page === 'support' && !appState.isGuest) loadSupport();
   if (page === 'profile' && !appState.isGuest) loadPoints();
   if (page === 'leaderboard') loadLeaderboard();
+  if (page === 'miniGames' && !appState.isGuest) loadPoints();
 
   (pages[page] || renderDashboard)(el);
 }

@@ -60,14 +60,16 @@ describe('VirtualScroll', () => {
 
   it('renderItem callback is called for visible range', () => {
     const renderItem = vi.fn((i) => `<div class="item">${i}</div>`);
+    // Use buffer > 0 since jsdom has clientHeight=0 (no layout engine)
     const vs = new VirtualScroll(container, {
       itemHeight: 50,
-      buffer: 0,
+      buffer: 5,
       totalItems: 20,
       renderItem,
     });
 
-    // renderItem should have been called at least once
+    // With buffer=5 and scrollTop=0, startIdx=0, endIdx=min(20, ceil(0/50)+5)=5
+    // So renderItem should be called for indices 0-4
     expect(renderItem).toHaveBeenCalled();
 
     // All indices passed should be within [0, totalItems)

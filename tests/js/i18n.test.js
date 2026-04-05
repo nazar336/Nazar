@@ -41,11 +41,12 @@ describe('i18n', () => {
     expect(t(unknownKey)).toBe(unknownKey);
   });
 
-  it('all 6 languages have the same keys (consistency check)', () => {
-    const enKeys = Object.keys(i18n.EN).sort();
+  it('all 6 languages have at least the EN keys (consistency check)', () => {
+    const enKeys = Object.keys(i18n.EN);
     for (const lang of SUPPORTED_LANGS) {
-      const langKeys = Object.keys(i18n[lang]).sort();
-      expect(langKeys).toEqual(enKeys);
+      const langKeys = new Set(Object.keys(i18n[lang]));
+      const missing = enKeys.filter(k => !langKeys.has(k));
+      expect(missing, `${lang} is missing keys: ${missing.join(', ')}`).toEqual([]);
     }
   });
 

@@ -8,6 +8,9 @@ import { renderAuth } from './pages/auth.js';
 import { doLogout } from './pages/auth.js';
 import { delegate } from './event-delegation.js';
 
+let _keyboardHandler = null;
+let _outsideClickHandler = null;
+
 export function renderShell() {
   if (!appState.currentUser && !appState.isGuest) { renderAuth(); return; }
   document.body.classList.toggle('animations-off', !appState.S.animationsOn);
@@ -88,7 +91,7 @@ export function renderShell() {
   const np = document.getElementById('notifPanel');
   if (np) {
     np.innerHTML = `
-      <div class="notif-head"><h4>${t('notifications')}</h4><button class="btn btn-ghost btn-xs" id="markReadBtn">${t('markRead')}</button></div>
+      <div class="notif-head"><h4>${t('notifications')}</h4><div class="notif-head-actions"><button class="btn btn-ghost btn-xs" id="clearAllNotifsBtn">${t('clearAll') || 'Clear all'}</button><button class="btn btn-ghost btn-xs" id="markReadBtn">${t('markRead')}</button></div></div>
       <div class="notif-list">${appState.S.notifications.length ? appState.S.notifications.map(n => `<div class="notif-item${n.read ? '' : ' unread'}"><div>${esc(n.text)}</div><div class="notif-time">${fmtAgo(n.timestamp)}</div></div>`).join('') : `<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">${t('noNotifications')}</div>`}</div>`;
   }
 
@@ -105,6 +108,37 @@ export function renderShell() {
   document.getElementById('fullscreenBtn')?.addEventListener('click', toggleFullscreen);
   document.getElementById('notifToggle')?.addEventListener('click', toggleNotif);
   document.getElementById('markReadBtn')?.addEventListener('click', () => { appState.S.notifications.forEach(n => n.read = true); saveState(); updateNotifBadge(); renderShell(); navigate(appState.currentPage); });
+  document.getElementById('clearAllNotifsBtn')?.addEventListener('click', () => { appState.S.notifications = []; saveState(); updateNotifBadge(); renderShell(); navigate(appState.currentPage); });
+
+  // Close notification panel when clicking outside
+  if (_outsideClickHandler) document.removeEventListener('click', _outsideClickHandler, true);
+  _outsideClickHandler = (e) => {
+    if (!appState.notifOpen) return;
+    const panel = document.getElementById('notifPanel');
+    const toggle = document.getElementById('notifToggle');
+    if (panel && !panel.contains(e.target) && toggle && !toggle.contains(e.target)) {
+      toggleNotif();
+    }
+  };
+  document.addEventListener('click', _outsideClickHandler, true);
+
+  // Keyboard shortcuts
+  if (_keyboardHandler) document.removeEventListener('keydown', _keyboardHandler);
+  _keyboardHandler = (e) => {
+    // Ignore if typing in an input/textarea/contenteditable
+    const tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || e.target.isContentEditable) return;
+
+    if (e.key === 'Escape' && appState.notifOpen) {
+      toggleNotif();
+      e.preventDefault();
+    }
+    if (e.key === '/' && appState.currentPage === 'tasks') {
+      const search = document.querySelector('[data-search-tasks], #taskSearch, input[placeholder*="earch"]');
+      if (search) { search.focus(); e.preventDefault(); }
+    }
+  };
+  document.addEventListener('keydown', _keyboardHandler);
 
   if (appState.currentUser && !appState.isGuest) syncProfile();
 

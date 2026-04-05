@@ -1,7 +1,7 @@
 'use strict';
 
 import { appState, saveState, syncProfile } from './state.js';
-import { t } from './i18n.js';
+import { t, setLang } from './i18n.js';
 import { esc, fmtAgo, renderAnimatedBrandLayer, updateNotifBadge } from './utils.js';
 import { navigate } from './router.js';
 import { renderAuth } from './pages/auth.js';
@@ -184,7 +184,7 @@ export function openLangModal() {
   overlay.addEventListener('click', e => {
     const opt = e.target.closest('[data-lang]');
     if (opt) {
-      appState.S.lang = opt.dataset.lang;
+      setLang(opt.dataset.lang);
       saveState();
       overlay.remove();
       renderShell();

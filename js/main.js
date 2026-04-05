@@ -6,6 +6,7 @@ import { API } from './constants.js';
 import { initScroll, initHashRouting } from './router.js';
 import { renderShell } from './shell.js';
 import { renderLanding } from './pages/landing.js';
+import { setLang } from './i18n.js';
 
 function showLoadingSpinner() {
   const app = document.getElementById('app');
@@ -25,6 +26,9 @@ window.addEventListener('unhandledrejection', (e) => {
 async function init() {
   showLoadingSpinner();
   loadState();
+
+  // Sync document language with saved preference
+  setLang(appState.S.lang);
 
   // Check PHP session
   try {

@@ -47,6 +47,7 @@ vi.mock('../../../js/utils.js', () => ({
   showAlert: vi.fn(),
   hideAlert: vi.fn(),
   setLoading: vi.fn(),
+  debounce: vi.fn((fn) => fn),
   renderAnimatedBrandLayer: vi.fn(() => ''),
 }));
 

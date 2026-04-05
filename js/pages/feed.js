@@ -11,6 +11,7 @@ import { renderAuth } from './auth.js';
 
 export function renderFeed(el){
   let feedFilter='all'; // 'all' | 'my'
+  let feedMode=appState.S.feedMode||'tiktok'; // 'classic' | 'tiktok'
   const expandedPosts=new Set();
   const todayPosts = appState.S.feedTodayPosts||0;
   const maxPosts = appState.S.feedMaxPostsDay||3;
@@ -31,37 +32,100 @@ export function renderFeed(el){
       return;
     }
     const isMe=id=>appState.currentUser && Number(id)===Number(appState.currentUser.id);
-    c.innerHTML=list.map(p=>{
-      const expanded=expandedPosts.has(p.id);
-      const textLen=(p.text||'').length;
-      return `
-      <div class="feed-card" style="border-radius:16px;overflow:hidden;">
-        <div class="feed-header">
-          <div class="feed-av">${esc((p.username||'?').charAt(0).toUpperCase())}</div>
-          <div style="flex:1">
-            <div class="feed-author">@${esc(p.username||'user')} ${p.level?`<span style="font-size:11px;color:var(--muted);">Lv${p.level}</span>`:''}</div>
-            <div class="feed-time">${fmtAgo(p.created_at)}</div>
+    const isFriend=id=>(appState.S.friends||[]).includes(Number(id));
+
+    if(feedMode==='tiktok'){
+      c.className='tiktok-feed';
+      c.innerHTML=list.map((p,idx)=>{
+        const expanded=expandedPosts.has(p.id);
+        const textLen=(p.text||'').length;
+        return `
+        <div class="tiktok-feed-card" style="animation-delay:${idx*0.05}s;">
+          <div class="tiktok-feed-inner">
+            <div class="feed-card" style="border-radius:20px;overflow:hidden;">
+              <div class="feed-header">
+                <div class="feed-av">${esc((p.username||'?').charAt(0).toUpperCase())}</div>
+                <div style="flex:1">
+                  <div class="feed-author">@${esc(p.username||'user')} ${p.level?`<span style="font-size:11px;color:var(--muted);">Lv${p.level}</span>`:''}</div>
+                  <div class="feed-time">${fmtAgo(p.created_at)}</div>
+                </div>
+                ${!isMe(p.user_id)?`<button class="friend-btn${isFriend(p.user_id)?' added':''}" data-friend-toggle="${p.user_id}" data-friend-name="${esc(p.username)}">${isFriend(p.user_id)?'✓ '+t('friends'):'+ '+t('addFriend')}</button>`:''}
+                ${isMe(p.user_id)?`<button class="action-btn" data-delete-post="${p.id}" title="${t('deletePost')}" style="color:var(--danger);font-size:14px;">🗑</button>`:''}
+              </div>
+              ${p.media_url?`
+                <div class="feed-media" style="border-radius:12px;overflow:hidden;margin:8px 0;">
+                  ${p.media_type==='video'?`
+                    <video src="${esc(p.media_url)}" controls playsinline preload="metadata"
+                      style="width:100%;max-height:500px;object-fit:contain;background:#000;border-radius:12px;"></video>
+                  `:`
+                    <img src="${esc(p.media_url)}" alt="" loading="lazy"
+                      style="width:100%;max-height:500px;object-fit:cover;border-radius:12px;">
+                  `}
+                </div>
+              `:''}
+              <div class="feed-text" style="${!expanded&&textLen>200?'display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text)}</div>
+              ${textLen>200?`<button class="action-btn" data-expand-post="${p.id}">${expanded?t('showLess'):t('readMore')}</button>`:''}
+              <div class="feed-actions">
+                <button class="action-btn${p.liked_by_me?' liked':''}" data-like-post="${p.id}">❤ ${Number(p.likes_count||0)}</button>
+              </div>
+            </div>
           </div>
-          ${isMe(p.user_id)?`<button class="action-btn" data-delete-post="${p.id}" title="${t('deletePost')}" style="color:var(--danger);font-size:14px;">🗑</button>`:''}
-        </div>
-        ${p.media_url?`
-          <div class="feed-media" style="border-radius:12px;overflow:hidden;margin:8px 0;">
-            ${p.media_type==='video'?`
-              <video src="${esc(p.media_url)}" controls playsinline preload="metadata"
-                style="width:100%;max-height:500px;object-fit:contain;background:#000;border-radius:12px;"></video>
-            `:`
-              <img src="${esc(p.media_url)}" alt="" loading="lazy"
-                style="width:100%;max-height:500px;object-fit:cover;border-radius:12px;">
-            `}
+          <div class="tiktok-feed-actions">
+            <button class="tiktok-action-btn${p.liked_by_me?' liked':''}" data-like-post="${p.id}">
+              <span class="tiktok-icon">❤</span>
+              <span>${Number(p.likes_count||0)}</span>
+            </button>
+            ${!isMe(p.user_id)&&!appState.isGuest?`
+              <button class="tiktok-action-btn" data-friend-toggle="${p.user_id}" data-friend-name="${esc(p.username)}">
+                <span class="tiktok-icon">${isFriend(p.user_id)?'✓':'+'}</span>
+                <span>${isFriend(p.user_id)?t('friends'):t('addFriend')}</span>
+              </button>
+              <button class="tiktok-action-btn" data-dm-user="${p.user_id}" data-dm-name="${esc(p.username)}">
+                <span class="tiktok-icon">✉️</span>
+                <span>${t('chat')}</span>
+              </button>
+            `:''}
           </div>
-        `:''}
-        <div class="feed-text" style="${!expanded&&textLen>200?'display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text)}</div>
-        ${textLen>200?`<button class="action-btn" data-expand-post="${p.id}">${expanded?t('showLess'):t('readMore')}</button>`:''}
-        <div class="feed-actions">
-          <button class="action-btn${p.liked_by_me?' liked':''}" data-like-post="${p.id}">❤ ${Number(p.likes_count||0)}</button>
-        </div>
-      </div>`;
-    }).join('');
+        </div>`;
+      }).join('');
+    } else {
+      c.className='';
+      c.style.display='flex';
+      c.style.flexDirection='column';
+      c.style.gap='14px';
+      c.innerHTML=list.map(p=>{
+        const expanded=expandedPosts.has(p.id);
+        const textLen=(p.text||'').length;
+        return `
+        <div class="feed-card" style="border-radius:16px;overflow:hidden;">
+          <div class="feed-header">
+            <div class="feed-av">${esc((p.username||'?').charAt(0).toUpperCase())}</div>
+            <div style="flex:1">
+              <div class="feed-author">@${esc(p.username||'user')} ${p.level?`<span style="font-size:11px;color:var(--muted);">Lv${p.level}</span>`:''}</div>
+              <div class="feed-time">${fmtAgo(p.created_at)}</div>
+            </div>
+            ${!isMe(p.user_id)&&!appState.isGuest?`<button class="friend-btn${isFriend(p.user_id)?' added':''}" data-friend-toggle="${p.user_id}" data-friend-name="${esc(p.username)}">${isFriend(p.user_id)?'✓ '+t('friends'):'+ '+t('addFriend')}</button>`:''}
+            ${isMe(p.user_id)?`<button class="action-btn" data-delete-post="${p.id}" title="${t('deletePost')}" style="color:var(--danger);font-size:14px;">🗑</button>`:''}
+          </div>
+          ${p.media_url?`
+            <div class="feed-media" style="border-radius:12px;overflow:hidden;margin:8px 0;">
+              ${p.media_type==='video'?`
+                <video src="${esc(p.media_url)}" controls playsinline preload="metadata"
+                  style="width:100%;max-height:500px;object-fit:contain;background:#000;border-radius:12px;"></video>
+              `:`
+                <img src="${esc(p.media_url)}" alt="" loading="lazy"
+                  style="width:100%;max-height:500px;object-fit:cover;border-radius:12px;">
+              `}
+            </div>
+          `:''}
+          <div class="feed-text" style="${!expanded&&textLen>200?'display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text)}</div>
+          ${textLen>200?`<button class="action-btn" data-expand-post="${p.id}">${expanded?t('showLess'):t('readMore')}</button>`:''}
+          <div class="feed-actions">
+            <button class="action-btn${p.liked_by_me?' liked':''}" data-like-post="${p.id}">❤ ${Number(p.likes_count||0)}</button>
+          </div>
+        </div>`;
+      }).join('');
+    }
 
     // Like via delegate
     delegate(c, 'click', '[data-like-post]', async (e, b) => {
@@ -88,17 +152,31 @@ export function renderFeed(el){
       appState.S.feedPosts=(appState.S.feedPosts||[]).filter(x=>x.id!==postId);
       saveState();toast(t('postDeleted'),'success');renderPostCards();
     });
-    // Delete own post
-    c.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',async()=>{
-      const pid=b.dataset.del;
-      try{
-        const {ok}=await apiFetch(API.feed+'?id='+pid,{method:'DELETE'});
-        if(ok){
-          appState.S.feed=appState.S.feed.filter(x=>x.id!==pid);saveState();renderPostCards();
-          toast('Deleted','success');
-        }
-      }catch(e){}
-    }));
+    // Friend toggle via delegate
+    delegate(c, 'click', '[data-friend-toggle]', (e, b) => {
+      if(appState.isGuest){toast(t('guestFeed'),'error');return;}
+      const userId=Number(b.dataset.friendToggle);
+      const username=b.dataset.friendName||'user';
+      if(!appState.S.friends) appState.S.friends=[];
+      if(!appState.S.friendProfiles) appState.S.friendProfiles=[];
+      const idx=appState.S.friends.indexOf(userId);
+      if(idx>=0){
+        appState.S.friends.splice(idx,1);
+        appState.S.friendProfiles=appState.S.friendProfiles.filter(f=>f.id!==userId);
+        toast(t('friendRemoved'),'info');
+      } else {
+        appState.S.friends.push(userId);
+        appState.S.friendProfiles.push({id:userId,username,role:''});
+        toast(t('friendAdded'),'success');
+      }
+      saveState();renderPostCards();
+    });
+    // DM from feed
+    delegate(c, 'click', '[data-dm-user]', (e, b) => {
+      if(appState.isGuest){toast(t('guestFeed'),'error');return;}
+      // Navigate to DM page
+      navigate('dm');
+    });
   }
 
   const feedPriv = typeof getLvlPriv === 'function' ? getLvlPriv(appState.S.level) : {badge:'🌱',feedMedia:'none'};
@@ -147,11 +225,16 @@ export function renderFeed(el){
   el.innerHTML=`
     <div class="fade-up" style="max-width:680px;">
       ${createForm}
+      <div class="feed-mode-toggle" id="feedModeToggle">
+        <button class="feed-mode-btn${feedMode==='tiktok'?' active':''}" data-mode="tiktok">📱 ${t('tiktokView')}</button>
+        <button class="feed-mode-btn${feedMode==='classic'?' active':''}" data-mode="classic">📋 ${t('classicView')}</button>
+      </div>
       <div style="display:flex;gap:8px;margin-bottom:14px;" id="feedFilters">
         <button class="chip active" data-ft="all">${t('all')}</button>
         ${!appState.isGuest?`<button class="chip" data-ft="my">${t('myPosts')}</button>`:''}
       </div>
-      <div style="display:flex;flex-direction:column;gap:14px;" id="feedCards"></div>
+      ${feedMode==='tiktok'?`<div style="text-align:center;font-size:12px;color:var(--muted);margin-bottom:8px;">👆 ${t('feedSwipeHint')}</div>`:''}
+      <div id="feedCards"></div>
       ${appState.S.feedHasMore?`<div style="text-align:center;margin-top:16px;"><button class="btn btn-ghost btn-sm" id="feedLoadMoreBtn">${t('feedLoadMore')}</button></div>`:''}
     </div>`;
 
@@ -159,6 +242,17 @@ export function renderFeed(el){
 
   // Guest register
   document.getElementById('guestRegFeed')?.addEventListener('click',()=>renderAuth('register'));
+
+  // Feed mode toggle
+  document.getElementById('feedModeToggle')?.addEventListener('click',e=>{
+    const btn=e.target.closest('[data-mode]');if(!btn)return;
+    feedMode=btn.dataset.mode;
+    appState.S.feedMode=feedMode;
+    saveState();
+    document.querySelectorAll('#feedModeToggle .feed-mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===feedMode));
+    // Re-render hint
+    navigate('feed');
+  });
 
   // Filter tabs
   document.getElementById('feedFilters')?.addEventListener('click',e=>{

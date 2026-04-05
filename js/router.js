@@ -1,6 +1,6 @@
 'use strict';
 
-import { appState, saveState, loadTasks, loadLeaderboard, loadWallet, loadFeed, loadFeedPosts, loadChatRooms, loadPoints, loadSupport } from './state.js';
+import { appState, saveState, loadTasks, loadLeaderboard, loadWallet, loadFeed, loadFeedPosts, loadChatRooms, loadPoints, loadSupport, loadMessages } from './state.js';
 import { t } from './i18n.js';
 import { renderDashboard } from './pages/dashboard.js';
 import { renderTasks } from './pages/tasks.js';
@@ -12,6 +12,7 @@ import { renderSupport } from './pages/support.js';
 import { renderProfile } from './pages/profile.js';
 import { renderLeaderboard } from './pages/leaderboard.js';
 import { renderMiniGames } from './pages/mini-games.js';
+import { renderDM } from './pages/dm.js';
 
 export function initScroll() {
   const bar = document.getElementById('scrollBar');
@@ -38,14 +39,14 @@ export function navigate(page) {
     mc.style.transform = 'none';
     mc.scrollTop = 0;
   }, appState.S.animationsOn ? 100 : 10);
-  const titles = { dashboard: t('dashboard'), tasks: t('tasks'), createTask: t('createTask'), feed: t('feed'), wallet: t('wallet'), chat: t('chat'), support: t('support'), profile: t('profile'), leaderboard: t('leaderboard'), miniGames: t('miniGames') };
+  const titles = { dashboard: t('dashboard'), tasks: t('tasks'), createTask: t('createTask'), feed: t('feed'), wallet: t('wallet'), chat: t('chat'), support: t('support'), profile: t('profile'), leaderboard: t('leaderboard'), miniGames: t('miniGames'), dm: t('directMessages') };
   const tb = document.getElementById('topbarTitle');
   if (tb) tb.textContent = titles[page] || page;
   document.title = `${titles[page] || page} — LOLance`;
 }
 
 export function renderPage(page, el) {
-  const pages = { dashboard: renderDashboard, tasks: renderTasks, createTask: renderCreateTask, feed: renderFeed, wallet: renderWallet, chat: renderChat, support: renderSupport, profile: renderProfile, leaderboard: renderLeaderboard, miniGames: renderMiniGames };
+  const pages = { dashboard: renderDashboard, tasks: renderTasks, createTask: renderCreateTask, feed: renderFeed, wallet: renderWallet, chat: renderChat, support: renderSupport, profile: renderProfile, leaderboard: renderLeaderboard, miniGames: renderMiniGames, dm: renderDM };
 
   // Load data before rendering each page
   if (page === 'dashboard' && !appState.isGuest) {
@@ -65,6 +66,7 @@ export function renderPage(page, el) {
   if (page === 'profile' && !appState.isGuest) loadPoints();
   if (page === 'leaderboard') loadLeaderboard();
   if (page === 'miniGames' && !appState.isGuest) loadPoints();
+  if (page === 'dm' && !appState.isGuest) loadMessages();
 
   (pages[page] || renderDashboard)(el);
 }

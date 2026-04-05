@@ -35,6 +35,10 @@ export function defaultState() {
     chatRooms: [], activeRoomTier: 1, chatRoomMessages: [],
     leaderboard: [], userPosition: null,
     feedTodayPosts: 0, feedMaxPostsDay: 3, feedXpPerPost: 5,
+    feedMode: 'tiktok',
+    friends: [], friendProfiles: [],
+    profilePosts: [],
+    activeDmThread: null, dmMessages: [],
   };
 }
 

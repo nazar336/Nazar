@@ -3,7 +3,7 @@
 import { appState, saveState, loadFeed } from '../state.js';
 import { t } from '../i18n.js';
 import { apiFetch } from '../api.js';
-import { esc, fmtAgo, toast, setLoading } from '../utils.js';
+import { esc, fmtAgo, fmtDate, toast, setLoading } from '../utils.js';
 import { navigate } from '../router.js';
 import { API, getLvlPriv, feedMediaLabel } from '../constants.js';
 import { delegate } from '../event-delegation.js';
@@ -13,6 +13,7 @@ export function renderFeed(el){
   let feedFilter='all'; // 'all' | 'my'
   let feedMode=appState.S.feedMode||'tiktok'; // 'classic' | 'tiktok'
   const expandedPosts=new Set();
+  const likingPosts=new Set();
   const todayPosts = appState.S.feedTodayPosts||0;
   const maxPosts = appState.S.feedMaxPostsDay||3;
   const postsLeft = Math.max(0, maxPosts - todayPosts);
@@ -21,6 +22,15 @@ export function renderFeed(el){
     const posts=appState.S.feedPosts||[];
     if(feedFilter==='my' && appState.currentUser) return posts.filter(p=>Number(p.user_id)===Number(appState.currentUser.id));
     return posts;
+  }
+
+  function fullDate(iso){
+    if(!iso) return '';
+    try { return new Date(iso).toLocaleString(); } catch(_){ return iso; }
+  }
+
+  function imgErrorHandler(){
+    return `onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'padding:30px;text-align:center;color:var(--muted);background:rgba(255,255,255,.03);border-radius:12px;\\'>🖼️ Image unavailable</div>')"`;
   }
 
   function renderPostCards(){
@@ -47,7 +57,7 @@ export function renderFeed(el){
                 <div class="feed-av">${esc((p.username||'?').charAt(0).toUpperCase())}</div>
                 <div style="flex:1">
                   <div class="feed-author">@${esc(p.username||'user')} ${p.level?`<span style="font-size:11px;color:var(--muted);">Lv${p.level}</span>`:''}</div>
-                  <div class="feed-time">${fmtAgo(p.created_at)}</div>
+                  <div class="feed-time" title="${fullDate(p.created_at)}">${fmtAgo(p.created_at)}</div>
                 </div>
                 ${!isMe(p.user_id)?`<button class="friend-btn${isFriend(p.user_id)?' added':''}" data-friend-toggle="${p.user_id}" data-friend-name="${esc(p.username)}">${isFriend(p.user_id)?'✓ '+t('friends'):'+ '+t('addFriend')}</button>`:''}
                 ${isMe(p.user_id)?`<button class="action-btn" data-delete-post="${p.id}" title="${t('deletePost')}" style="color:var(--danger);font-size:14px;">🗑</button>`:''}
@@ -59,19 +69,19 @@ export function renderFeed(el){
                       style="width:100%;max-height:500px;object-fit:contain;background:#000;border-radius:12px;"></video>
                   `:`
                     <img src="${esc(p.media_url)}" alt="" loading="lazy"
-                      style="width:100%;max-height:500px;object-fit:cover;border-radius:12px;">
+                      style="width:100%;max-height:500px;object-fit:cover;border-radius:12px;" ${imgErrorHandler()}>
                   `}
                 </div>
               `:''}
               <div class="feed-text" style="${!expanded&&textLen>200?'display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text)}</div>
               ${textLen>200?`<button class="action-btn" data-expand-post="${p.id}">${expanded?t('showLess'):t('readMore')}</button>`:''}
               <div class="feed-actions">
-                <button class="action-btn${p.liked_by_me?' liked':''}" data-like-post="${p.id}">❤ ${Number(p.likes_count||0)}</button>
+                <button class="action-btn${p.liked_by_me?' liked':''}" data-like-post="${p.id}"${likingPosts.has(p.id)?' disabled':''}>${likingPosts.has(p.id)?'⏳':''} ❤ ${Number(p.likes_count||0)}</button>
               </div>
             </div>
           </div>
           <div class="tiktok-feed-actions">
-            <button class="tiktok-action-btn${p.liked_by_me?' liked':''}" data-like-post="${p.id}">
+            <button class="tiktok-action-btn${p.liked_by_me?' liked':''}" data-like-post="${p.id}"${likingPosts.has(p.id)?' disabled':''}>
               <span class="tiktok-icon">❤</span>
               <span>${Number(p.likes_count||0)}</span>
             </button>
@@ -102,7 +112,7 @@ export function renderFeed(el){
             <div class="feed-av">${esc((p.username||'?').charAt(0).toUpperCase())}</div>
             <div style="flex:1">
               <div class="feed-author">@${esc(p.username||'user')} ${p.level?`<span style="font-size:11px;color:var(--muted);">Lv${p.level}</span>`:''}</div>
-              <div class="feed-time">${fmtAgo(p.created_at)}</div>
+              <div class="feed-time" title="${fullDate(p.created_at)}">${fmtAgo(p.created_at)}</div>
             </div>
             ${!isMe(p.user_id)&&!appState.isGuest?`<button class="friend-btn${isFriend(p.user_id)?' added':''}" data-friend-toggle="${p.user_id}" data-friend-name="${esc(p.username)}">${isFriend(p.user_id)?'✓ '+t('friends'):'+ '+t('addFriend')}</button>`:''}
             ${isMe(p.user_id)?`<button class="action-btn" data-delete-post="${p.id}" title="${t('deletePost')}" style="color:var(--danger);font-size:14px;">🗑</button>`:''}
@@ -114,14 +124,14 @@ export function renderFeed(el){
                   style="width:100%;max-height:500px;object-fit:contain;background:#000;border-radius:12px;"></video>
               `:`
                 <img src="${esc(p.media_url)}" alt="" loading="lazy"
-                  style="width:100%;max-height:500px;object-fit:cover;border-radius:12px;">
+                  style="width:100%;max-height:500px;object-fit:cover;border-radius:12px;" ${imgErrorHandler()}>
               `}
             </div>
           `:''}
           <div class="feed-text" style="${!expanded&&textLen>200?'display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;':''}">${esc(p.text)}</div>
           ${textLen>200?`<button class="action-btn" data-expand-post="${p.id}">${expanded?t('showLess'):t('readMore')}</button>`:''}
           <div class="feed-actions">
-            <button class="action-btn${p.liked_by_me?' liked':''}" data-like-post="${p.id}">❤ ${Number(p.likes_count||0)}</button>
+            <button class="action-btn${p.liked_by_me?' liked':''}" data-like-post="${p.id}"${likingPosts.has(p.id)?' disabled':''}>${likingPosts.has(p.id)?'⏳':''} ❤ ${Number(p.likes_count||0)}</button>
           </div>
         </div>`;
       }).join('');
@@ -131,8 +141,12 @@ export function renderFeed(el){
     delegate(c, 'click', '[data-like-post]', async (e, b) => {
       if(appState.isGuest){toast(t('guestFeed'),'error');return;}
       const postId=Number(b.dataset.likePost);
+      if(likingPosts.has(postId)) return;
+      likingPosts.add(postId);
+      renderPostCards();
       const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify({action:'like',post_id:postId})});
-      if(!ok){toast(data.message||'Error','error');return;}
+      likingPosts.delete(postId);
+      if(!ok){toast(data.message||'Error','error');renderPostCards();return;}
       const fp=(appState.S.feedPosts||[]).find(x=>x.id===postId);
       if(fp){fp.liked_by_me=data.liked;fp.likes_count=data.likes_count;}
       saveState();renderPostCards();
@@ -205,6 +219,7 @@ export function renderFeed(el){
         <div class="user-av" style="width:38px;height:38px;font-size:14px;flex-shrink:0;">${(appState.currentUser.name||'?').charAt(0).toUpperCase()}</div>
         <div style="flex:1;">
           <textarea id="feedPostText" class="form-textarea" rows="3" maxlength="2000" placeholder="${t('postPlaceholder')}" style="resize:vertical;"></textarea>
+          <div id="feedPostCounter" style="font-size:11px;color:var(--muted);text-align:right;margin-top:2px;">0/2000</div>
           <div id="feedMediaSection" style="display:none;margin-top:8px;">
             <div style="display:flex;gap:8px;margin-bottom:6px;">
               <button class="chip" id="feedMediaImage" data-mt="image">📷 ${t('postImage')}</button>
@@ -224,6 +239,10 @@ export function renderFeed(el){
 
   el.innerHTML=`
     <div class="fade-up" style="max-width:680px;">
+      <!-- Refresh button -->
+      <div style="text-align:center;margin-bottom:12px;">
+        <button class="btn btn-ghost btn-sm" id="feedRefreshBtn">🔄 ${t('refresh') || 'Refresh feed'}</button>
+      </div>
       ${createForm}
       <div class="feed-mode-toggle" id="feedModeToggle">
         <button class="feed-mode-btn${feedMode==='tiktok'?' active':''}" data-mode="tiktok">📱 ${t('tiktokView')}</button>
@@ -242,6 +261,20 @@ export function renderFeed(el){
 
   // Guest register
   document.getElementById('guestRegFeed')?.addEventListener('click',()=>renderAuth('register'));
+
+  // Refresh button
+  document.getElementById('feedRefreshBtn')?.addEventListener('click', async () => {
+    const btn=document.getElementById('feedRefreshBtn');
+    if(btn){btn.disabled=true;btn.textContent='⏳ …';}
+    try { await loadFeed(1, false); } catch(_){}
+    navigate('feed');
+  });
+
+  // Post text character counter
+  document.getElementById('feedPostText')?.addEventListener('input', e => {
+    const counter=document.getElementById('feedPostCounter');
+    if(counter) counter.textContent=`${e.target.value.length}/2000`;
+  });
 
   // Feed mode toggle
   document.getElementById('feedModeToggle')?.addEventListener('click',e=>{
@@ -292,7 +325,7 @@ export function renderFeed(el){
     if(type==='video'){
       prev.innerHTML=`<video src="${esc(url)}" controls preload="metadata" style="width:100%;max-height:200px;border-radius:8px;background:#000;"></video>`;
     } else {
-      prev.innerHTML=`<img src="${esc(url)}" alt="" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;" onerror="this.style.display='none'">`;
+      prev.innerHTML=`<img src="${esc(url)}" alt="" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'padding:16px;text-align:center;color:var(--muted);\\'>🖼️ Image unavailable</div>')">`;
     }
   }
 

@@ -10,7 +10,16 @@ import { renderShell } from '../shell.js';
 import { renderAuth } from './auth.js';
 import { delegate } from '../event-delegation.js';
 
+function _formatNumber(n) {
+  if (n == null || isNaN(n)) return '0';
+  const num = Number(n), abs = Math.abs(num);
+  if (abs >= 1e6) return (num / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+  if (abs >= 1e3) return (num / 1e3).toFixed(1).replace(/\.0$/, '') + 'K';
+  return String(num);
+}
+
 export function renderProfile(el){
+  const fmtNum = _formatNumber;
   const myScore=calcScore({earnings:appState.S.earnings,completedTasks:appState.S.completedTasks,streak:appState.S.streak,level:appState.S.level,xp:appState.S.xp});
   const xpPct=Math.min(100,Math.round(((appState.S.xp||0)%1000)/10));
   const todayStr=new Date().toISOString().slice(0,10);
@@ -54,7 +63,7 @@ export function renderProfile(el){
 
   const rightCol=appState.isGuest
     ? `<div class="card"><div class="section-title">👉 ${t('readyToStartQ')}</div><p style="font-size:14px;color:var(--text-soft);margin-bottom:14px;">${t('readyToStartDesc')}</p><button class="btn btn-primary btn-block" id="guestCreateBtn"><span class="btn-txt">${t('register')}</span></button></div>`
-    : `<div class="card"><div class="section-title">✏️ ${t('editProfileTitle')}</div><form id="profileForm" style="display:flex;flex-direction:column;gap:14px;"><div class="form-group"><label class="form-label">${t('roleTitle')}</label><input type="text" id="pfRole" class="form-input" value="${esc(appState.S.role||'')}" placeholder="${t('rolePlaceholder')}" maxlength="60"></div><div class="form-group"><label class="form-label">${t('bioLabel')}</label><textarea id="pfBio" class="form-textarea" rows="3" maxlength="500" placeholder="${t('bioPlaceholder')}">${esc(appState.S.bio||'')}</textarea></div><div class="form-group"><label class="form-label">${t('skillsLabel')}</label><input type="text" id="pfSkills" class="form-input" value="${esc(appState.S.skills||'')}" placeholder="${t('skillsPlaceholder')}"></div><button type="submit" class="btn btn-primary btn-block"><span class="btn-txt">${t('saveProfile')}</span></button></form></div>`;
+    : `<div class="card"><div class="section-title">✏️ ${t('editProfileTitle')}</div><form id="profileForm" style="display:flex;flex-direction:column;gap:14px;"><div class="form-group"><label class="form-label">${t('roleTitle')}</label><input type="text" id="pfRole" class="form-input" value="${esc(appState.S.role||'')}" placeholder="${t('rolePlaceholder')}" maxlength="60"><div id="pfRoleCounter" style="font-size:11px;color:var(--muted);text-align:right;margin-top:2px;">${(appState.S.role||'').length}/60</div></div><div class="form-group"><label class="form-label">${t('bioLabel')}</label><textarea id="pfBio" class="form-textarea" rows="3" maxlength="500" placeholder="${t('bioPlaceholder')}">${esc(appState.S.bio||'')}</textarea><div id="pfBioCounter" style="font-size:11px;color:var(--muted);text-align:right;margin-top:2px;">${(appState.S.bio||'').length}/500</div></div><div class="form-group"><label class="form-label">${t('skillsLabel')}</label><input type="text" id="pfSkills" class="form-input" value="${esc(appState.S.skills||'')}" placeholder="${t('skillsPlaceholder')}"></div><button type="submit" id="profileSaveBtn" class="btn btn-primary btn-block"><span class="btn-txt">${t('saveProfile')}</span></button></form>${!appState.isGuest&&appState.currentUser?`<button class="btn btn-ghost btn-sm" id="copyProfileLinkBtn" style="margin-top:10px;width:100%;">🔗 ${t('copyProfileLink') || 'Copy profile link'}</button>`:''}</div>`;
 
   const exchanger=appState.isGuest?'':`<div class="card" style="margin-top:20px;"><div class="section-title">🪙 ${t('exchangerTitle')}</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;"><div class="card-flat" style="padding:10px;"><div class="stat-label">Coins</div><div style="font-weight:800;">${Number(appState.S.coinBalance||0).toLocaleString()}</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">Rate</div><div style="font-weight:800;">1 USD = 100 🪙</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">${t('pending')}</div><div style="font-weight:800;">${Number(appState.S.pendingCryptoCount||0)}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><input id="exchAmount" class="form-input" type="number" min="0.0001" step="any" max="10000" placeholder="Amount"><select id="exchNetwork" class="form-select"><option value="TRC20">TRC20 (USDT)</option><option value="BEP20">BEP20 (USDT)</option><option value="ERC20">ERC20 (ETH)</option><option value="BTC">BTC</option><option value="SOL">SOL</option></select></div><div id="exchangeAlert" class="alert" style="margin-top:10px;"></div><button id="exchInitBtn" class="btn btn-primary btn-block" style="margin-top:10px;"><span class="btn-txt">${t('exchangerGetAddress')}</span></button><div id="exchangeStep2" style="margin-top:10px;"></div></div>`;
 
@@ -140,19 +149,53 @@ export function renderProfile(el){
       ${exchanger}
     </div>`;
 
+  let _profileDirty = false;
+  const _markDirty = () => { _profileDirty = true; };
+  const _beforeUnload = (e) => { if (_profileDirty) { e.preventDefault(); e.returnValue = ''; } };
+
   document.getElementById('profileForm')?.addEventListener('submit',async e=>{
     e.preventDefault();
+    const btn=document.getElementById('profileSaveBtn');
     const role=document.getElementById('pfRole').value.trim();
     const bio=document.getElementById('pfBio').value.trim();
     const skills=document.getElementById('pfSkills').value.trim();
+    if(typeof setLoading==='function') setLoading(btn, true);
     const {ok,data}=await apiFetch(API.profile,{method:'POST',body:JSON.stringify({role,bio,skills})});
+    if(typeof setLoading==='function') setLoading(btn, false);
     if(!ok){toast(data.message||'Profile save failed','error');return;}
     appState.S.role=role;
     appState.S.bio=bio;
     appState.S.skills=skills;
     if(data.user){appState.currentUser={...appState.currentUser,...data.user};}
     saveState();
+    _profileDirty = false;
     toast(t('profileSaved'),'success');
+  });
+
+  // Character counters
+  document.getElementById('pfRole')?.addEventListener('input', e => {
+    _markDirty();
+    const c = document.getElementById('pfRoleCounter');
+    if(c) c.textContent = `${e.target.value.length}/60`;
+  });
+  document.getElementById('pfBio')?.addEventListener('input', e => {
+    _markDirty();
+    const c = document.getElementById('pfBioCounter');
+    if(c) c.textContent = `${e.target.value.length}/500`;
+  });
+  document.getElementById('pfSkills')?.addEventListener('input', _markDirty);
+
+  // Unsaved changes warning
+  if (typeof window !== 'undefined') window.addEventListener('beforeunload', _beforeUnload);
+
+  // Copy profile link
+  document.getElementById('copyProfileLinkBtn')?.addEventListener('click', () => {
+    const link = `${location.origin}/#profile/${appState.currentUser?.username||''}`;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(link).then(() => toast(t('copied') || 'Copied!', 'success')).catch(() => toast(link, 'info'));
+    } else {
+      toast(link, 'info');
+    }
   });
   document.getElementById('guestCreateBtn')?.addEventListener('click',()=>renderAuth('register'));
   document.getElementById('profileLangBtn')?.addEventListener('change',e=>{appState.S.lang=e.target.value;saveState();renderShell();navigate('profile');});

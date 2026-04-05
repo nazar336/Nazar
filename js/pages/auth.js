@@ -1,7 +1,7 @@
 'use strict';
 
 import { appState, saveState, loadState } from '../state.js';
-import { t } from '../i18n.js';
+import { t, setLang } from '../i18n.js';
 import { apiFetch } from '../api.js';
 import { renderAnimatedBrandLayer, toast, showAlert, hideAlert, setLoading } from '../utils.js';
 import { API } from '../constants.js';
@@ -276,7 +276,7 @@ export function renderAuth(mode='login'){
   document.getElementById('switchRegister')?.addEventListener('click',()=>renderAuth('register'));
   document.getElementById('loginForm')?.addEventListener('submit',handleLogin);
   document.getElementById('registerForm')?.addEventListener('submit',handleRegister);
-  document.getElementById('authLangSelector')?.addEventListener('change',e=>{appState.S.lang=e.target.value;saveState();renderAuth(mode);});
+  document.getElementById('authLangSelector')?.addEventListener('change',e=>{setLang(e.target.value);saveState();renderAuth(mode);});
 
   if (mode === 'register') setupRegisterValidation();
   else setupLoginValidation();

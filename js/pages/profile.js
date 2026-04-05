@@ -1,7 +1,7 @@
 'use strict';
 
 import { appState, saveState, calcScore, dailyCheckin, buyPointsPack, loadWallet } from '../state.js';
-import { t } from '../i18n.js';
+import { t, setLang } from '../i18n.js';
 import { apiFetch } from '../api.js';
 import { esc, fmtDate, fmtTime, fmtAgo, toast, setLoading } from '../utils.js';
 import { navigate } from '../router.js';
@@ -198,7 +198,7 @@ export function renderProfile(el){
     }
   });
   document.getElementById('guestCreateBtn')?.addEventListener('click',()=>renderAuth('register'));
-  document.getElementById('profileLangBtn')?.addEventListener('change',e=>{appState.S.lang=e.target.value;saveState();renderShell();navigate('profile');});
+  document.getElementById('profileLangBtn')?.addEventListener('change',e=>{setLang(e.target.value);saveState();renderShell();navigate('profile');});
   document.getElementById('animToggleBtn')?.addEventListener('click',()=>{appState.S.animationsOn=!appState.S.animationsOn;document.body.classList.toggle('animations-off',!appState.S.animationsOn);saveState();navigate('profile');});
   document.getElementById('dailyCheckinBtn')?.addEventListener('click',dailyCheckin);
   document.getElementById('buyPointsBtn')?.addEventListener('click',buyPointsPack);

@@ -1,7 +1,7 @@
 'use strict';
 
 import { appState, saveState } from '../state.js';
-import { t } from '../i18n.js';
+import { t, setLang } from '../i18n.js';
 import { renderAnimatedBrandLayer } from '../utils.js';
 import { renderAuth } from './auth.js';
 
@@ -351,5 +351,5 @@ export function renderLanding(){
   document.getElementById('goRegister')?.addEventListener('click',()=>renderAuth('register'));
   document.getElementById('bonusRegister')?.addEventListener('click',()=>renderAuth('register'));
   document.getElementById('ctaRegister')?.addEventListener('click',()=>renderAuth('register'));
-  document.getElementById('landingLangSelector')?.addEventListener('change',e=>{appState.S.lang=e.target.value;saveState();renderLanding();});
+  document.getElementById('landingLangSelector')?.addEventListener('change',e=>{setLang(e.target.value);saveState();renderLanding();});
 }

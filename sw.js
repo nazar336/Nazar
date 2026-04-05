@@ -33,8 +33,12 @@ const STATIC_ASSETS = [
   '/js/pages/profile.js',
   '/js/pages/leaderboard.js',
   '/js/pages/landing.js',
+  '/js/pages/dm.js',
+  '/js/pages/mini-games.js',
   '/assets/favicon.svg',
   '/assets/lolance-logo.svg',
+  '/assets/icon-192.svg',
+  '/assets/icon-512.svg',
   '/manifest.json',
   '/js/focus-trap.js',
 ];

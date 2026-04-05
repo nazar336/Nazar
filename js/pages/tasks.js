@@ -97,7 +97,7 @@ export function renderTasks(el){
     });
   }
 
-  const debouncedSearch = _debounce((val) => { searchQ = val; renderGrid(); }, 300);
+  const debouncedSearch = debounce((val) => { searchQ = val; renderGrid(); }, 300);
 
   el.innerHTML=`
     <div class="fade-up">

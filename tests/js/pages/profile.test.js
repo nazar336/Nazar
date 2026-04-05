@@ -43,6 +43,7 @@ vi.mock('../../../js/state.js', () => ({
 
 vi.mock('../../../js/i18n.js', () => ({
   t: vi.fn((k) => k),
+  setLang: vi.fn(),
   i18n: { EN: {}, UA: {} },
 }));
 

@@ -1,0 +1,7 @@
+# LOLance — Robots.txt
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /tests/
+
+Sitemap: https://lolance.com/sitemap.xml

@@ -9,10 +9,12 @@ header('X-XSS-Protection: 1; mode=block');
 header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'");
 header('Referrer-Policy: strict-origin-when-cross-origin');
 header('Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()');
+header('Cache-Control: private, no-cache, no-store, must-revalidate');
+header('Pragma: no-cache');
 
 // ── HTTPS enforcement ─────────────────────────────────────────────
 if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-    header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
+    header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
 } elseif (APP_ENV === 'production') {
     $httpsUrl = 'https://' . ($_SERVER['HTTP_HOST'] ?? '') . ($_SERVER['REQUEST_URI'] ?? '/');
     header('Location: ' . $httpsUrl, true, 301);

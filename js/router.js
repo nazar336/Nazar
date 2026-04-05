@@ -14,6 +14,14 @@ import { renderLeaderboard } from './pages/leaderboard.js';
 import { renderMiniGames } from './pages/mini-games.js';
 import { renderDM } from './pages/dm.js';
 
+const SKELETON_HTML = `<div class="loading-skeleton" aria-busy="true" style="padding:24px;display:flex;flex-direction:column;gap:16px;">
+  <div style="height:24px;width:40%;border-radius:6px;background:var(--surface,#1a1a2e);animation:pulse 1.2s ease infinite;"></div>
+  <div style="height:80px;border-radius:8px;background:var(--surface,#1a1a2e);animation:pulse 1.2s ease infinite;"></div>
+  <div style="height:16px;width:60%;border-radius:6px;background:var(--surface,#1a1a2e);animation:pulse 1.2s ease infinite;"></div>
+</div>`;
+
+let _hashListenerActive = false;
+
 export function initScroll() {
   const bar = document.getElementById('scrollBar');
   if (!bar) return;
@@ -23,20 +31,44 @@ export function initScroll() {
   }, { passive: true });
 }
 
+export function initHashRouting() {
+  if (_hashListenerActive) return;
+  _hashListenerActive = true;
+  window.addEventListener('hashchange', () => {
+    const page = location.hash.replace('#', '') || 'dashboard';
+    if (page !== appState.currentPage) navigate(page);
+  });
+  // Navigate to initial hash if present
+  const initial = location.hash.replace('#', '');
+  if (initial && initial !== appState.currentPage) navigate(initial);
+}
+
 export function navigate(page) {
   appState.currentPage = page;
+
+  // Sync URL hash
+  if (typeof location !== 'undefined' && location.hash !== '#' + page) {
+    history.replaceState(null, '', '#' + page);
+  }
+
   document.querySelectorAll('.nav-btn[data-page]').forEach(b => b.classList.toggle('active', b.dataset.page === page));
   document.querySelectorAll('.mob-btn[data-page]').forEach(b => b.classList.toggle('active', b.dataset.page === page));
   const mc = document.getElementById('mainContent');
   if (!mc) return;
   mc.style.opacity = '0';
   mc.style.transform = 'translateY(6px)';
+
+  // Show loading skeleton while waiting for transition
+  mc.innerHTML = SKELETON_HTML;
+
   setTimeout(() => {
     mc.innerHTML = '';
     renderPage(page, mc);
-    mc.style.transition = appState.S.animationsOn ? 'opacity .22s ease, transform .22s ease' : 'none';
-    mc.style.opacity = '1';
-    mc.style.transform = 'none';
+    requestAnimationFrame(() => {
+      mc.style.transition = appState.S.animationsOn ? 'opacity .22s ease, transform .22s ease' : 'none';
+      mc.style.opacity = '1';
+      mc.style.transform = 'none';
+    });
     mc.scrollTop = 0;
   }, appState.S.animationsOn ? 100 : 10);
   const titles = { dashboard: t('dashboard'), tasks: t('tasks'), createTask: t('createTask'), feed: t('feed'), wallet: t('wallet'), chat: t('chat'), support: t('support'), profile: t('profile'), leaderboard: t('leaderboard'), miniGames: t('miniGames'), dm: t('directMessages') };
@@ -59,9 +91,8 @@ export function renderPage(page, el) {
     loadTasks('taken');
   }
   if (page === 'wallet' && !appState.isGuest) loadWallet();
-  if (page === 'feed') loadFeed();
+  if (page === 'feed') { loadFeed(); loadFeedPosts(); }
   if (page === 'chat' && !appState.isGuest) { loadChatRooms(); loadPoints(); }
-  if (page === 'feed') loadFeedPosts();
   if (page === 'support' && !appState.isGuest) loadSupport();
   if (page === 'profile' && !appState.isGuest) loadPoints();
   if (page === 'leaderboard') loadLeaderboard();

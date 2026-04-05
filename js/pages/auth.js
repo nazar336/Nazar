@@ -8,6 +8,99 @@ import { API } from '../constants.js';
 import { renderShell } from '../shell.js';
 import { renderVerification } from './verify.js';
 
+function getPasswordStrength(pwd) {
+  if (!pwd) return { level: 0, label: 'weak', color: 'var(--danger)' };
+  let score = 0;
+  if (pwd.length >= 6) score++;
+  if (pwd.length >= 10) score++;
+  if (/[0-9]/.test(pwd)) score++;
+  if (/[^A-Za-z0-9]/.test(pwd)) score++;
+  if (/[A-Z]/.test(pwd) && /[a-z]/.test(pwd)) score++;
+  if (score <= 1) return { level: 20, label: 'weak', color: 'var(--danger)' };
+  if (score <= 3) return { level: 60, label: 'medium', color: 'var(--warning)' };
+  return { level: 100, label: 'strong', color: 'var(--success)' };
+}
+
+function setupRegisterValidation() {
+  const name = document.getElementById('regName');
+  const user = document.getElementById('regUser');
+  const email = document.getElementById('regEmail');
+  const pwd = document.getElementById('regPwd');
+  const terms = document.getElementById('regAcceptTerms');
+  const submit = document.querySelector('#registerForm button[type=submit]');
+  const strengthBar = document.getElementById('pwdStrengthBar');
+  const strengthLabel = document.getElementById('pwdStrengthLabel');
+
+  function checkValid(el, valid) {
+    const fb = document.getElementById(el.id + 'Fb');
+    if (fb) {
+      fb.textContent = el.value ? (valid ? '✓' : '✗') : '';
+      fb.style.color = valid ? 'var(--success)' : 'var(--danger)';
+    }
+    const msg = document.getElementById(el.id + 'Msg');
+    if (msg) {
+      msg.textContent = el.value && !valid ? (el.dataset.errMsg || '') : '';
+    }
+  }
+
+  function updateSubmitState() {
+    if (!submit) return;
+    const allFilled = name?.value.trim() && user?.value.trim() && email?.value.trim() && pwd?.value && terms?.checked;
+    submit.disabled = !allFilled;
+    submit.style.opacity = allFilled ? '1' : '.5';
+  }
+
+  name?.addEventListener('input', () => { checkValid(name, name.value.trim().length >= 1); updateSubmitState(); });
+  user?.addEventListener('input', () => { checkValid(user, /^[a-zA-Z0-9_]{3,32}$/.test(user.value.trim())); updateSubmitState(); });
+  email?.addEventListener('input', () => { checkValid(email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())); updateSubmitState(); });
+  pwd?.addEventListener('input', () => {
+    const s = getPasswordStrength(pwd.value);
+    if (strengthBar) { strengthBar.style.width = s.level + '%'; strengthBar.style.background = s.color; }
+    if (strengthLabel) { strengthLabel.textContent = s.label; strengthLabel.style.color = s.color; }
+    checkValid(pwd, pwd.value.length >= 6);
+    updateSubmitState();
+  });
+  terms?.addEventListener('change', updateSubmitState);
+
+  // Password toggle
+  document.getElementById('pwdToggleBtn')?.addEventListener('click', () => {
+    if (!pwd) return;
+    const isHidden = pwd.type === 'password';
+    pwd.type = isHidden ? 'text' : 'password';
+    const btn = document.getElementById('pwdToggleBtn');
+    if (btn) btn.textContent = isHidden ? '🙈' : '👁';
+  });
+
+  updateSubmitState();
+}
+
+function setupLoginValidation() {
+  const email = document.getElementById('loginEmail');
+  const pwd = document.getElementById('loginPwd');
+  const submit = document.querySelector('#loginForm button[type=submit]');
+
+  function updateSubmitState() {
+    if (!submit) return;
+    const allFilled = email?.value.trim() && pwd?.value;
+    submit.disabled = !allFilled;
+    submit.style.opacity = allFilled ? '1' : '.5';
+  }
+
+  email?.addEventListener('input', updateSubmitState);
+  pwd?.addEventListener('input', updateSubmitState);
+
+  // Password toggle
+  document.getElementById('loginPwdToggleBtn')?.addEventListener('click', () => {
+    if (!pwd) return;
+    const isHidden = pwd.type === 'password';
+    pwd.type = isHidden ? 'text' : 'password';
+    const btn = document.getElementById('loginPwdToggleBtn');
+    if (btn) btn.textContent = isHidden ? '🙈' : '👁';
+  });
+
+  updateSubmitState();
+}
+
 export function renderAuth(mode='login'){
   document.getElementById('app').innerHTML=`
     <div class="auth-landing">
@@ -100,9 +193,12 @@ export function renderAuth(mode='login'){
               </div>
               <div class="form-group">
                 <label class="form-label" for="loginPwd">${t('password')}</label>
-                <input type="password" id="loginPwd" class="form-input" placeholder="••••••••" autocomplete="current-password" aria-label="${t('password')}" required>
+                <div style="position:relative;">
+                  <input type="password" id="loginPwd" class="form-input" style="padding-right:40px;" placeholder="••••••••" autocomplete="current-password" aria-label="${t('password')}" required>
+                  <button type="button" id="loginPwdToggleBtn" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;padding:2px;" aria-label="Toggle password visibility">👁</button>
+                </div>
               </div>
-              <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top:8px;">
+              <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top:8px;opacity:.5;" disabled>
                 <span class="btn-txt">${t('login')}</span>
               </button>
             </form>
@@ -115,19 +211,44 @@ export function renderAuth(mode='login'){
             <form id="registerForm" class="auth-form" novalidate>
               <div class="form-group">
                 <label class="form-label" for="regName">${t('fullName')} *</label>
-                <input type="text" id="regName" class="form-input" placeholder="${t('fullName')}" aria-label="${t('fullName')}" required>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <input type="text" id="regName" class="form-input" style="flex:1;" placeholder="${t('fullName')}" aria-label="${t('fullName')}" aria-describedby="regNameMsg" data-err-msg="${t('required') || 'Required'}" required>
+                  <span id="regNameFb" style="font-size:14px;width:18px;text-align:center;" aria-hidden="true"></span>
+                </div>
+                <div id="regNameMsg" style="font-size:11px;color:var(--danger);min-height:14px;" role="alert"></div>
               </div>
               <div class="form-group">
                 <label class="form-label" for="regUser">Username *</label>
-                <input type="text" id="regUser" class="form-input" placeholder="ivan_dev" pattern="[a-zA-Z0-9_]{3,32}" aria-label="Username" required>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <input type="text" id="regUser" class="form-input" style="flex:1;" placeholder="ivan_dev" pattern="[a-zA-Z0-9_]{3,32}" aria-label="Username" aria-describedby="regUserMsg" data-err-msg="3-32 chars: a-z, 0-9, _" required>
+                  <span id="regUserFb" style="font-size:14px;width:18px;text-align:center;" aria-hidden="true"></span>
+                </div>
+                <div id="regUserMsg" style="font-size:11px;color:var(--danger);min-height:14px;" role="alert"></div>
               </div>
               <div class="form-group">
                 <label class="form-label" for="regEmail">Email *</label>
-                <input type="email" id="regEmail" class="form-input" placeholder="you@example.com" aria-label="Email" required>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <input type="email" id="regEmail" class="form-input" style="flex:1;" placeholder="you@example.com" aria-label="Email" aria-describedby="regEmailMsg" data-err-msg="${t('invalidEmail') || 'Invalid email'}" required>
+                  <span id="regEmailFb" style="font-size:14px;width:18px;text-align:center;" aria-hidden="true"></span>
+                </div>
+                <div id="regEmailMsg" style="font-size:11px;color:var(--danger);min-height:14px;" role="alert"></div>
               </div>
               <div class="form-group">
                 <label class="form-label" for="regPwd">${t('password')} *</label>
-                <input type="password" id="regPwd" class="form-input" placeholder="${t('minChars')}" aria-label="${t('password')}" required>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <div style="position:relative;flex:1;">
+                    <input type="password" id="regPwd" class="form-input" style="padding-right:40px;" placeholder="${t('minChars')}" aria-label="${t('password')}" aria-describedby="regPwdMsg pwdStrengthLabel" data-err-msg="${t('minChars') || 'Min 6 characters'}" required>
+                    <button type="button" id="pwdToggleBtn" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;padding:2px;" aria-label="Toggle password visibility">👁</button>
+                  </div>
+                  <span id="regPwdFb" style="font-size:14px;width:18px;text-align:center;" aria-hidden="true"></span>
+                </div>
+                <div style="margin-top:6px;">
+                  <div style="height:4px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;">
+                    <div id="pwdStrengthBar" style="height:100%;width:0%;transition:width .3s,background .3s;border-radius:2px;"></div>
+                  </div>
+                  <div id="pwdStrengthLabel" style="font-size:11px;margin-top:2px;min-height:14px;"></div>
+                </div>
+                <div id="regPwdMsg" style="font-size:11px;color:var(--danger);min-height:14px;" role="alert"></div>
               </div>
               <div class="form-group" style="margin-top:-2px;">
                 <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.45;color:var(--text-soft);">
@@ -135,7 +256,7 @@ export function renderAuth(mode='login'){
                   <span>Я погоджуюсь з <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Правилами платформи</a> та <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Політикою приватності</a>.</span>
                 </label>
               </div>
-              <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top:8px;">
+              <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top:8px;opacity:.5;" disabled>
                 <span class="btn-txt">${t('register')}</span>
               </button>
             </form>
@@ -156,6 +277,9 @@ export function renderAuth(mode='login'){
   document.getElementById('loginForm')?.addEventListener('submit',handleLogin);
   document.getElementById('registerForm')?.addEventListener('submit',handleRegister);
   document.getElementById('authLangSelector')?.addEventListener('change',e=>{appState.S.lang=e.target.value;saveState();renderAuth(mode);});
+
+  if (mode === 'register') setupRegisterValidation();
+  else setupLoginValidation();
 }
 
 export async function handleLogin(e){

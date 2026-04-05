@@ -1,20 +1,32 @@
 'use strict';
 
-import { appState, calcScore } from '../state.js';
+import { appState, calcScore, loadTasks, loadLeaderboard } from '../state.js';
 import { t } from '../i18n.js';
 import { esc, fmtDate } from '../utils.js';
 import { navigate } from '../router.js';
 import { getLvlPriv, feedMediaLabel, diffLabel } from '../constants.js';
 
+function _formatNumber(n) {
+  if (n == null || isNaN(n)) return '0';
+  const num = Number(n), abs = Math.abs(num);
+  if (abs >= 1e6) return (num / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+  if (abs >= 1e3) return (num / 1e3).toFixed(1).replace(/\.0$/, '') + 'K';
+  return String(num);
+}
+
 export function renderDashboard(el){
+  const fmtNum = _formatNumber;
   const myScore=calcScore({earnings:appState.S.earnings,completedTasks:appState.S.completedTasks,streak:appState.S.streak,level:appState.S.level,xp:appState.S.xp});
   const xpPct=Math.min(100,Math.round(((appState.S.xp||0)%1000)/10));
+  const tasksLoaded=appState.S.tasks!==undefined&&appState.S.tasks!==null;
+  const lbLoaded=appState.S.leaderboard!==undefined&&appState.S.leaderboard!==null;
   const trending=(appState.S.tasks||[]).filter(task=>task.status==='open').slice(0,3);
   const mini=(appState.S.leaderboard||[]).slice(0,3).map(u=>({
     name:u.name||u.username||'User',
     av:(u.name||u.username||'?').charAt(0).toUpperCase(),
     score:Number(u.score||u.xp||0)
   }));
+  const streakVal=appState.S.streak||0;
   el.innerHTML=`
     <div class="fade-up">
       <!-- Hero welcome -->
@@ -26,10 +38,15 @@ export function renderDashboard(el){
             <p style="font-size:14px;color:var(--text-soft);">${appState.isGuest?t('welcomeGuestDesc'):t('dashMotivationDesc')}</p>
           </div>
           <div style="text-align:right;flex-shrink:0;">
-            <div class="streak-badge"><span class="streak-fire">🔥</span>${appState.S.streak||0} ${t('dayStreak')}</div>
+            <div class="streak-badge${streakVal>0?' streak-pulse':''}"${streakVal>0?' style="animation:streak-pulse 2s ease-in-out infinite;"':''}><span class="streak-fire">🔥</span>${streakVal} ${t('dayStreak')}</div>
             <div style="font-size:12px;color:var(--muted);margin-top:4px;">${t('level')} ${appState.S.level||1} · ${appState.S.xp||0} XP</div>
           </div>
         </div>
+      </div>
+
+      <!-- Refresh -->
+      <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+        <button class="btn btn-ghost btn-sm" id="dashRefreshBtn">🔄 ${t('refresh') || 'Refresh'}</button>
       </div>
 
       <!-- Stats -->
@@ -37,7 +54,7 @@ export function renderDashboard(el){
         <div class="stat-card"><div class="stat-glow stat-glow-green"></div><div class="stat-label">${t('balance')}</div><div class="stat-value" style="color:var(--primary)">${Number(appState.S.balance||0).toLocaleString()} <span style="font-size:12px;">coins</span></div><div class="stat-sub">${t('available')}</div></div>
         <div class="stat-card"><div class="stat-glow stat-glow-blue"></div><div class="stat-label">${t('earnings')}</div><div class="stat-value">${Number(appState.S.earnings||0).toLocaleString()} <span style="font-size:12px;">coins</span></div><div class="stat-sub">${t('totalEarned')}</div></div>
         <div class="stat-card"><div class="stat-glow stat-glow-purple"></div><div class="stat-label">${t('completed')}</div><div class="stat-value">${appState.S.completedTasks||0}</div><div class="stat-sub">${t('tasksDone')}</div></div>
-        <div class="stat-card"><div class="stat-glow stat-glow-orange"></div><div class="stat-label">${t('level')} / ${t('score')}</div><div class="stat-value">${appState.S.level||1}</div><div class="stat-sub">${myScore.toLocaleString()} ${t('pts')}</div></div>
+        <div class="stat-card"><div class="stat-glow stat-glow-orange"></div><div class="stat-label">${t('level')} / ${t('score')}</div><div class="stat-value">${appState.S.level||1}</div><div class="stat-sub">${fmtNum(myScore)} ${t('pts')}</div></div>
       </div>
 
       <!-- XP bar -->
@@ -127,7 +144,7 @@ export function renderDashboard(el){
         <div>
           <div class="section-title">📋 ${t('trendingTasks')} <span class="count">${trending.length}</span></div>
           <div style="display:flex;flex-direction:column;gap:10px;">
-            ${trending.map(task=>`
+            ${!tasksLoaded?`<div class="card card-sm" style="text-align:center;padding:20px;color:var(--muted);"><span class="btn-loading" style="display:inline-block;width:18px;height:18px;vertical-align:middle;margin-right:6px;"></span>${t('loading') || 'Loading…'}</div>`:trending.length===0?`<div class="card card-sm" style="text-align:center;padding:20px;"><div style="font-size:28px;margin-bottom:6px;">📭</div><div style="font-size:13px;color:var(--muted);">${t('noTrendingTasks') || 'No trending tasks right now'}</div></div>`:trending.map(task=>`
               <div class="card card-sm" style="cursor:pointer;" data-nav="tasks">
                 <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
                   <div>
@@ -146,7 +163,7 @@ export function renderDashboard(el){
         <!-- Mini leaderboard -->
         <div>
           <div class="section-title">🏆 ${t('miniLeaderboard')}</div>
-          <div class="card" style="padding:0;">
+          ${!lbLoaded?`<div class="card" style="text-align:center;padding:20px;color:var(--muted);"><span class="btn-loading" style="display:inline-block;width:18px;height:18px;vertical-align:middle;margin-right:6px;"></span>${t('loading') || 'Loading…'}</div>`:mini.length===0?`<div class="card" style="text-align:center;padding:20px;"><div style="font-size:28px;margin-bottom:6px;">🏅</div><div style="font-size:13px;color:var(--muted);">${t('noLeaderboard') || 'Leaderboard is empty'}</div></div>`:`<div class="card" style="padding:0;">
             ${mini.map((u,i)=>`
               <div style="display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:${i<mini.length-1?'1px solid var(--line)':'none'};">
                 <div style="font-size:13px;font-weight:800;color:var(--muted);width:16px;">${i+1}</div>
@@ -154,7 +171,7 @@ export function renderDashboard(el){
                 <div style="flex:1"><div style="font-size:13px;font-weight:700;">${esc(u.name)}</div><div style="font-size:11px;color:var(--muted);">${u.score.toLocaleString()} pts</div></div>
                 ${i===0?'<span style="font-size:18px;">👑</span>':i===1?'<span style="color:var(--primary);font-size:12px;font-weight:700;">🥈</span>':'<span style="color:var(--info);font-size:12px;font-weight:700;">🥉</span>'}
               </div>`).join('')}
-          </div>
+          </div>`}
         </div>
       </div>
     </div>`;
@@ -165,5 +182,16 @@ export function renderDashboard(el){
     if(page) {
       elem.addEventListener('click', () => navigate(page));
     }
+  });
+
+  // Refresh button
+  document.getElementById('dashRefreshBtn')?.addEventListener('click', async () => {
+    const btn = document.getElementById('dashRefreshBtn');
+    if(btn) { btn.disabled = true; btn.textContent = '⏳ …'; }
+    try {
+      if(typeof loadTasks === 'function') await loadTasks('open');
+      if(typeof loadLeaderboard === 'function') await loadLeaderboard();
+    } catch(_){}
+    renderDashboard(el);
   });
 }

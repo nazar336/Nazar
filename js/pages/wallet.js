@@ -25,10 +25,38 @@ export function renderWallet(el){
     return;
   }
 
+  let txSortNewest = true;
+  let txShowAll = false;
+  const TX_PAGE_SIZE = 10;
+
+  function getSortedTransactions() {
+    const txs = [...(appState.S.transactions || [])];
+    txs.sort((a, b) => {
+      const ta = new Date(a.ts || a.created_at || 0).getTime();
+      const tb = new Date(b.ts || b.created_at || 0).getTime();
+      return txSortNewest ? tb - ta : ta - tb;
+    });
+    return txs;
+  }
+
   function renderTxList(){
     const tbody=document.getElementById('txBody');
     if(!tbody)return;
-    tbody.innerHTML=(appState.S.transactions||[]).map(tx=>{
+    const allTxs = getSortedTransactions();
+
+    if (!allTxs.length) {
+      tbody.innerHTML = `<tr><td colspan="4" style="padding:32px;text-align:center;color:var(--muted);">
+        <div style="font-size:36px;margin-bottom:8px;">📭</div>
+        <div style="font-size:14px;font-weight:600;">${t('noTransactions') || 'No transactions yet'}</div>
+        <div style="font-size:12px;margin-top:4px;">${t('noTransactionsDesc') || 'Your transaction history will appear here.'}</div>
+      </td></tr>`;
+      const showMoreWrap = document.getElementById('txShowMoreWrap');
+      if (showMoreWrap) showMoreWrap.style.display = 'none';
+      return;
+    }
+
+    const visible = txShowAll ? allTxs : allTxs.slice(0, TX_PAGE_SIZE);
+    tbody.innerHTML=visible.map(tx=>{
       const amount=Number(tx.amount||0);
       const type=String(tx.type||'');
       const label=tx.label||tx.description||type;
@@ -42,6 +70,42 @@ export function renderWallet(el){
         <td style="font-size:12px;color:var(--muted);">${ts?fmtAgo(ts):'—'}</td>
       </tr>`;
     }).join('');
+
+    const showMoreWrap = document.getElementById('txShowMoreWrap');
+    if (showMoreWrap) {
+      showMoreWrap.style.display = allTxs.length > TX_PAGE_SIZE ? 'block' : 'none';
+      const showMoreBtn = document.getElementById('txShowMoreBtn');
+      if (showMoreBtn) showMoreBtn.textContent = txShowAll ? `▲ ${t('showLess') || 'Show less'}` : `▼ ${t('showMore') || 'Show more'} (${allTxs.length - TX_PAGE_SIZE})`;
+    }
+  }
+
+  function renderTxSummary() {
+    const wrap = document.getElementById('txSummary');
+    if (!wrap) return;
+    const txs = appState.S.transactions || [];
+    let totalDeposits = 0, totalWithdrawals = 0;
+    txs.forEach(tx => {
+      const amount = Number(tx.amount || 0);
+      const type = String(tx.type || '');
+      const positive = ['deposit','transfer_received','task_reward'].includes(type) || amount > 0;
+      if (positive) totalDeposits += Math.abs(amount);
+      else totalWithdrawals += Math.abs(amount);
+    });
+    wrap.innerHTML = `
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:120px;padding:12px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:var(--r-sm);text-align:center;">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.06em;">↗ ${t('totalDeposits') || 'Total Deposits'}</div>
+          <div style="font-size:20px;font-weight:800;color:var(--success);margin-top:4px;">+${totalDeposits.toLocaleString()} 🪙</div>
+        </div>
+        <div style="flex:1;min-width:120px;padding:12px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:var(--r-sm);text-align:center;">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.06em;">↘ ${t('totalWithdrawals') || 'Total Withdrawals'}</div>
+          <div style="font-size:20px;font-weight:800;color:var(--danger);margin-top:4px;">-${totalWithdrawals.toLocaleString()} 🪙</div>
+        </div>
+        <div style="flex:1;min-width:120px;padding:12px;background:rgba(184,255,92,.06);border:1px solid rgba(184,255,92,.15);border-radius:var(--r-sm);text-align:center;">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.06em;">⚖ ${t('netFlow') || 'Net Flow'}</div>
+          <div style="font-size:20px;font-weight:800;color:var(--primary);margin-top:4px;">${(totalDeposits - totalWithdrawals) >= 0 ? '+' : ''}${(totalDeposits - totalWithdrawals).toLocaleString()} 🪙</div>
+        </div>
+      </div>`;
   }
 
   function renderCryptoHistory(){
@@ -118,6 +182,12 @@ export function renderWallet(el){
 
   el.innerHTML=`
     <div class="fade-up">
+      <!-- Top bar with refresh -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div class="section-title" style="margin:0;">💰 ${t('wallet')}</div>
+        <button class="btn btn-ghost btn-sm" id="walletRefreshBtn">🔄 ${t('refresh') || 'Refresh'}</button>
+      </div>
+
       <!-- Hero balance -->
       <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:16px;margin-bottom:20px;">
         <div class="wallet-hero" style="margin-bottom:0;">
@@ -166,9 +236,15 @@ export function renderWallet(el){
         <div id="withdrawHistory" style="padding:14px;display:flex;flex-direction:column;gap:10px;"></div>
       </div>
 
+      <!-- Summary card -->
+      <div class="card" style="margin-bottom:20px;" id="txSummary"></div>
+
       <!-- Tx history -->
       <div class="card" style="padding:0;">
-        <div style="padding:16px 20px;border-bottom:1px solid var(--line);font-size:14px;font-weight:700;">${t('txHistory')}</div>
+        <div style="padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-size:14px;font-weight:700;">${t('txHistory')}</div>
+          <button class="btn btn-ghost btn-xs" id="txSortToggle" style="font-size:12px;">⇅ ${t('newest') || 'Newest'}</button>
+        </div>
         <div class="table-wrap" style="overflow-x:auto;">
           <table style="width:100%;border-collapse:collapse;font-size:14px;">
             <thead><tr>
@@ -180,17 +256,37 @@ export function renderWallet(el){
             <tbody id="txBody"></tbody>
           </table>
         </div>
+        <div id="txShowMoreWrap" style="padding:12px;text-align:center;border-top:1px solid var(--line);display:none;">
+          <button class="btn btn-ghost btn-sm" id="txShowMoreBtn">▼ ${t('showMore') || 'Show more'}</button>
+        </div>
       </div>
     </div>`;
 
   renderTxList();
+  renderTxSummary();
   renderCryptoHistory();
   renderCoinHistory();
   renderWithdrawHistory();
 
+  document.getElementById('walletRefreshBtn')?.addEventListener('click',async()=>{
+    const btn=document.getElementById('walletRefreshBtn');
+    if(btn)btn.disabled=true;
+    await loadWallet();
+    navigate('wallet');
+  });
   document.getElementById('buyCoinsBtn')?.addEventListener('click',()=>showWalletModal('crypto'));
   document.getElementById('withdrawCoinsBtn')?.addEventListener('click',()=>showWithdrawModal());
   document.getElementById('refreshCoinsBtn')?.addEventListener('click',async()=>{await loadWallet();navigate('wallet');});
+  document.getElementById('txSortToggle')?.addEventListener('click',()=>{
+    txSortNewest=!txSortNewest;
+    const btn=document.getElementById('txSortToggle');
+    if(btn)btn.textContent=txSortNewest?`⇅ ${t('newest')||'Newest'}`:`⇅ ${t('oldest')||'Oldest'}`;
+    renderTxList();
+  });
+  document.getElementById('txShowMoreBtn')?.addEventListener('click',()=>{
+    txShowAll=!txShowAll;
+    renderTxList();
+  });
 }
 
 const NET_CURRENCY={TRC20:'USDT',BEP20:'USDT',ERC20:'ETH',BTC:'BTC',SOL:'SOL'};

@@ -40,14 +40,74 @@ export function renderAnimatedBrandLayer(scope = 'default') {
     </div>`;
 }
 
+const MAX_VISIBLE_TOASTS = 3;
+const TOAST_DEDUP_MS = 2000;
+let _lastToastMsg = '';
+let _lastToastTime = 0;
+
 export function toast(msg, type = 'info') {
   const root = document.getElementById('toastRoot');
   if (!root) return;
+
+  // Deduplicate: skip if same message was shown recently
+  const now = Date.now();
+  if (msg === _lastToastMsg && now - _lastToastTime < TOAST_DEDUP_MS) return;
+  _lastToastMsg = msg;
+  _lastToastTime = now;
+
+  // Enforce max visible toasts — remove oldest if at limit
+  const visible = root.querySelectorAll('.toast:not(.hiding)');
+  if (visible.length >= MAX_VISIBLE_TOASTS) {
+    const oldest = visible[0];
+    oldest.classList.add('hiding');
+    setTimeout(() => oldest.remove(), 300);
+  }
+
   const el = document.createElement('div');
   el.className = `toast toast-${type}`;
   el.innerHTML = `<span>${esc(msg)}</span>`;
   root.appendChild(el);
   setTimeout(() => { el.classList.add('hiding'); setTimeout(() => el.remove(), 300); }, 3200);
+}
+
+// Expose for testing/reset
+export function _resetToastState() {
+  _lastToastMsg = '';
+  _lastToastTime = 0;
+}
+
+export function debounce(fn, delay) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+
+export function throttle(fn, limit) {
+  let waiting = false;
+  let lastArgs = null;
+  return function (...args) {
+    if (!waiting) {
+      fn.apply(this, args);
+      waiting = true;
+      setTimeout(() => {
+        waiting = false;
+        if (lastArgs) { fn.apply(this, lastArgs); lastArgs = null; }
+      }, limit);
+    } else {
+      lastArgs = args;
+    }
+  };
+}
+
+export function formatNumber(n) {
+  if (n == null || isNaN(n)) return '0';
+  const num = Number(n);
+  const abs = Math.abs(num);
+  if (abs >= 1e6) return (num / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+  if (abs >= 1e3) return (num / 1e3).toFixed(1).replace(/\.0$/, '') + 'K';
+  return String(num);
 }
 
 export function showAlert(id, msg, type = 'error') {

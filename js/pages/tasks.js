@@ -3,15 +3,10 @@
 import { appState, saveState, loadTasks, syncProfile, loadWallet } from '../state.js';
 import { t } from '../i18n.js';
 import { apiFetch } from '../api.js';
-import { esc, fmtDate, toast, addNotif, setLoading } from '../utils.js';
+import { esc, fmtDate, toast, addNotif, setLoading, debounce } from '../utils.js';
 import { navigate } from '../router.js';
 import { CATEGORIES, API, getLvlPriv } from '../constants.js';
 import { delegate } from '../event-delegation.js';
-
-function _debounce(fn, delay) {
-  let timer;
-  return function (...args) { clearTimeout(timer); timer = setTimeout(() => fn.apply(this, args), delay); };
-}
 
 export function renderTasks(el){
   let filterStatus='all', filterCat='all', searchQ='';
@@ -139,9 +134,10 @@ export function renderTasks(el){
 
   renderGrid();
   document.getElementById('openCreateTaskBtn')?.addEventListener('click',()=>navigate('createTask'));
+  const debouncedRender = debounce(() => renderGrid(), 300);
   document.getElementById('taskSearch')?.addEventListener('input',e=>{
-    searchQ=e.target.value;renderGrid();
-    debouncedSearch(e.target.value);
+    searchQ=e.target.value;
+    debouncedRender();
   });
   document.getElementById('taskStatusFilter')?.addEventListener('change',e=>{filterStatus=e.target.value;renderGrid();});
   document.getElementById('catChips')?.addEventListener('click',e=>{

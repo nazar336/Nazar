@@ -106,7 +106,8 @@ describe('renderDashboard', () => {
   it('displays balance, earnings, completed tasks, and level', () => {
     renderDashboard(el);
     const html = el.innerHTML;
-    expect(html).toContain('1200');
+    // Balance 1200 may be formatted as "1,200" by toLocaleString
+    expect(html).toMatch(/1[,.]?200/);
     expect(html).toContain('500');
     expect(html).toContain('12');
   });

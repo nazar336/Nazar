@@ -12,8 +12,8 @@ vi.mock('../../../js/state.js', () => ({
       xp: 300,
       tasks: [
         { id: 1, title: 'Design Logo', description: 'Make a logo', status: 'open', reward: 100, category: 'Design', difficulty: 'easy', slots: 3, takenBy: [], created_at: '2025-01-01', deadline: '2025-06-01', creator_id: 99, creator_username: 'alice' },
-        { id: 2, title: 'Edit Video', description: 'Cut a clip', status: 'taken', reward: 200, category: 'Video', difficulty: 'medium', slots: 1, takenBy: [{ user_id: 1 }], created_at: '2025-01-02', deadline: '2025-06-02', creator_id: 99, creator_username: 'bob' },
-        { id: 3, title: 'QA Test', description: 'Test the app', status: 'done', reward: 300, category: 'QA', difficulty: 'hard', slots: 2, takenBy: [], created_at: '2025-01-03', deadline: '2025-06-03', creator_id: 1, creator_username: 'tester' },
+        { id: 2, title: 'Edit Video', description: 'Cut a clip', status: 'in_progress', reward: 200, category: 'Video', difficulty: 'medium', slots: 1, taken_slots: 1, slotsLeft: 0, my_assignment_status: 'taken', created_at: '2025-01-02', deadline: '2025-06-02', creator_id: 99, creator_username: 'bob' },
+        { id: 3, title: 'QA Test', description: 'Test the app', status: 'completed', reward: 300, category: 'QA', difficulty: 'hard', slots: 2, takenBy: [], created_at: '2025-01-03', deadline: '2025-06-03', creator_id: 1, creator_username: 'tester' },
       ],
       notifications: [],
     },
@@ -99,9 +99,9 @@ beforeEach(() => {
   appState.currentUser = { id: 1, name: 'Test User', username: 'tester', level: 5 };
   appState.isGuest = false;
   appState.S.tasks = [
-    { id: 1, title: 'Design Logo', description: 'Make a logo', status: 'open', reward: 100, category: 'Design', difficulty: 'easy', slots: 3, takenBy: [], created_at: '2025-01-01', deadline: '2025-06-01', creator_id: 99, creator_username: 'alice' },
-    { id: 2, title: 'Edit Video', description: 'Cut a clip', status: 'taken', reward: 200, category: 'Video', difficulty: 'medium', slots: 1, takenBy: [{ user_id: 1 }], created_at: '2025-01-02', deadline: '2025-06-02', creator_id: 99, creator_username: 'bob' },
-    { id: 3, title: 'QA Test', description: 'Test the app', status: 'done', reward: 300, category: 'QA', difficulty: 'hard', slots: 2, takenBy: [], created_at: '2025-01-03', deadline: '2025-06-03', creator_id: 1, creator_username: 'tester' },
+    { id: 1, title: 'Design Logo', description: 'Make a logo', status: 'open', reward: 100, category: 'Design', difficulty: 'easy', slots: 3, taken_slots: 0, slotsLeft: 3, created_at: '2025-01-01', deadline: '2025-06-01', creator_id: 99, owner: 'alice' },
+    { id: 2, title: 'Edit Video', description: 'Cut a clip', status: 'in_progress', reward: 200, category: 'Video', difficulty: 'medium', slots: 1, taken_slots: 1, slotsLeft: 0, my_assignment_status: 'taken', created_at: '2025-01-02', deadline: '2025-06-02', creator_id: 99, owner: 'bob' },
+    { id: 3, title: 'QA Test', description: 'Test the app', status: 'completed', reward: 300, category: 'QA', difficulty: 'hard', slots: 2, taken_slots: 2, slotsLeft: 0, created_at: '2025-01-03', deadline: '2025-06-03', creator_id: 1, owner: 'tester' },
   ];
 });
 
@@ -154,7 +154,7 @@ describe('renderTasks', () => {
   it('status filter filters tasks by status', () => {
     renderTasks(el);
     const filter = el.querySelector('#taskStatusFilter');
-    filter.value = 'done';
+    filter.value = 'completed';
     filter.dispatchEvent(new Event('change'));
     const grid = el.querySelector('#tasksGrid');
     if (grid) {

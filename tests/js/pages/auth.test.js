@@ -130,10 +130,10 @@ describe('renderAuth', () => {
     renderAuth('register');
     const form = document.querySelector('#registerForm');
     expect(form.querySelector('#regName')).not.toBeNull();
-    expect(form.querySelector('#regUsername')).not.toBeNull();
+    expect(form.querySelector('#regUser')).not.toBeNull();
     expect(form.querySelector('#regEmail')).not.toBeNull();
-    expect(form.querySelector('#regPassword')).not.toBeNull();
-    expect(form.querySelector('#regTerms')).not.toBeNull();
+    expect(form.querySelector('#regPwd')).not.toBeNull();
+    expect(form.querySelector('#regAcceptTerms')).not.toBeNull();
   });
 
   it('tab switch buttons render correct mode', () => {
@@ -164,19 +164,23 @@ describe('handleLogin', () => {
 
   beforeEach(() => {
     renderAuth('login');
-    fakeEvent = { preventDefault: vi.fn() };
+    const form = document.querySelector('#loginForm');
+    fakeEvent = {
+      preventDefault: vi.fn(),
+      target: form,
+    };
   });
 
   it('shows error for empty email or password', async () => {
     document.querySelector('#loginEmail').value = '';
-    document.querySelector('#loginPassword').value = '';
+    document.querySelector('#loginPwd').value = '';
     await handleLogin(fakeEvent);
     expect(showAlert).toHaveBeenCalled();
   });
 
   it('calls apiFetch with correct endpoint and POST method', async () => {
     document.querySelector('#loginEmail').value = 'a@b.com';
-    document.querySelector('#loginPassword').value = 'secret';
+    document.querySelector('#loginPwd').value = 'secret';
     apiFetch.mockResolvedValueOnce({ ok: true, data: { user: { id: 1, name: 'T' } } });
     await handleLogin(fakeEvent);
     expect(apiFetch).toHaveBeenCalledWith(
@@ -187,7 +191,7 @@ describe('handleLogin', () => {
 
   it('on success sets currentUser and calls renderShell', async () => {
     document.querySelector('#loginEmail').value = 'a@b.com';
-    document.querySelector('#loginPassword').value = 'secret';
+    document.querySelector('#loginPwd').value = 'secret';
     const user = { id: 1, name: 'Test' };
     apiFetch.mockResolvedValueOnce({ ok: true, data: { user } });
     await handleLogin(fakeEvent);
@@ -197,7 +201,7 @@ describe('handleLogin', () => {
 
   it('on failure shows alert', async () => {
     document.querySelector('#loginEmail').value = 'a@b.com';
-    document.querySelector('#loginPassword').value = 'secret';
+    document.querySelector('#loginPwd').value = 'secret';
     apiFetch.mockResolvedValueOnce({ ok: false, data: { error: 'bad creds' } });
     await handleLogin(fakeEvent);
     expect(showAlert).toHaveBeenCalled();
@@ -211,44 +215,48 @@ describe('handleRegister', () => {
 
   beforeEach(() => {
     renderAuth('register');
-    fakeEvent = { preventDefault: vi.fn() };
+    const form = document.querySelector('#registerForm');
+    fakeEvent = {
+      preventDefault: vi.fn(),
+      target: form,
+    };
   });
 
   it('shows error for empty required fields', async () => {
     document.querySelector('#regName').value = '';
-    document.querySelector('#regUsername').value = '';
+    document.querySelector('#regUser').value = '';
     document.querySelector('#regEmail').value = '';
-    document.querySelector('#regPassword').value = '';
+    document.querySelector('#regPwd').value = '';
     await handleRegister(fakeEvent);
     expect(showAlert).toHaveBeenCalled();
   });
 
   it('shows error for invalid email format', async () => {
     document.querySelector('#regName').value = 'Test';
-    document.querySelector('#regUsername').value = 'tester';
+    document.querySelector('#regUser').value = 'tester';
     document.querySelector('#regEmail').value = 'not-an-email';
-    document.querySelector('#regPassword').value = 'pass123';
-    document.querySelector('#regTerms').checked = true;
+    document.querySelector('#regPwd').value = 'pass123';
+    document.querySelector('#regAcceptTerms').checked = true;
     await handleRegister(fakeEvent);
     expect(showAlert).toHaveBeenCalled();
   });
 
   it('shows error when terms not accepted', async () => {
     document.querySelector('#regName').value = 'Test';
-    document.querySelector('#regUsername').value = 'tester';
+    document.querySelector('#regUser').value = 'tester';
     document.querySelector('#regEmail').value = 'a@b.com';
-    document.querySelector('#regPassword').value = 'pass123';
-    document.querySelector('#regTerms').checked = false;
+    document.querySelector('#regPwd').value = 'pass123';
+    document.querySelector('#regAcceptTerms').checked = false;
     await handleRegister(fakeEvent);
     expect(showAlert).toHaveBeenCalled();
   });
 
   it('calls apiFetch with register endpoint', async () => {
     document.querySelector('#regName').value = 'Test';
-    document.querySelector('#regUsername').value = 'tester';
+    document.querySelector('#regUser').value = 'tester';
     document.querySelector('#regEmail').value = 'a@b.com';
-    document.querySelector('#regPassword').value = 'pass123';
-    document.querySelector('#regTerms').checked = true;
+    document.querySelector('#regPwd').value = 'pass123';
+    document.querySelector('#regAcceptTerms').checked = true;
     apiFetch.mockResolvedValueOnce({ ok: true, data: { user_id: 99 } });
     await handleRegister(fakeEvent);
     expect(apiFetch).toHaveBeenCalledWith(
@@ -259,10 +267,10 @@ describe('handleRegister', () => {
 
   it('on success calls renderVerification', async () => {
     document.querySelector('#regName').value = 'Test';
-    document.querySelector('#regUsername').value = 'tester';
+    document.querySelector('#regUser').value = 'tester';
     document.querySelector('#regEmail').value = 'a@b.com';
-    document.querySelector('#regPassword').value = 'pass123';
-    document.querySelector('#regTerms').checked = true;
+    document.querySelector('#regPwd').value = 'pass123';
+    document.querySelector('#regAcceptTerms').checked = true;
     apiFetch.mockResolvedValueOnce({ ok: true, data: { user_id: 99 } });
     await handleRegister(fakeEvent);
     expect(renderVerification).toHaveBeenCalled();

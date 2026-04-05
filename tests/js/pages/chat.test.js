@@ -11,14 +11,13 @@ vi.mock('../../../js/state.js', () => ({
       level: 5,
       xp: 300,
       chatRooms: [
-        { tier: 1, name: 'General', has_access: true, messages: [
-          { id: 1, user_id: 1, username: 'tester', text: 'Hi room!', created_at: '2025-01-01T10:00:00Z' },
-          { id: 2, user_id: 2, username: 'alice', text: 'Hello!', created_at: '2025-01-01T10:01:00Z' },
-        ]},
-        { tier: 2, name: 'Pro', has_access: false, level_required: 8, messages: [] },
+        { tier: 1, name: 'General', emoji: '🌐', has_access: true, is_global: true, online: 5 },
+        { tier: 2, name: 'Pro', emoji: '🟡', has_access: false, min_level: 8, online: 0, pass_coins: 500 },
       ],
-      globalMessages: [
-        { id: 10, user_id: 3, username: 'bob', text: 'Global msg', created_at: '2025-01-01T09:00:00Z' },
+      activeRoomTier: 1,
+      chatRoomMessages: [
+        { id: 1, user_id: 1, username: 'tester', message: 'Hi room!', created_at: '2025-01-01T10:00:00Z' },
+        { id: 2, user_id: 2, username: 'alice', message: 'Hello!', created_at: '2025-01-01T10:01:00Z' },
       ],
       notifications: [],
     },

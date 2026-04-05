@@ -161,7 +161,7 @@ export const i18n = {
     // Profile posts
     profilePosts:'My Posts', writeOnProfile:'Write something on your profile…', profilePostPlaceholder:'Share something about yourself…', postOnProfile:'Post',
     // DM / Private chat
-    directMessages:'Messages', dmSearch:'Search users…', dmEmpty:'Select a conversation or start a new one', dmNewChat:'New Chat', dmPlaceholder:'Write a message…', dmSend:'Send', noConversations:'No conversations yet', startChatWith:'Start a chat', dmSent:'Message sent',
+    directMessages:'Messages', dmSearch:'Search users…', dmEmpty:'Select a conversation or start a new one', dmNewChat:'New Chat', dmPlaceholder:'Write a message…', dmSend:'Send', noConversations:'No conversations yet', startChatWith:'Start a chat', dmSent:'Message sent', noResults:'No results found',
   },
   UA:{
     appName:'LOLance', appTag:'Преміум платформа мікрозадач',
@@ -305,7 +305,7 @@ export const i18n = {
     // Profile posts
     profilePosts:'Мої пости', writeOnProfile:'Напишіть щось у свій профіль…', profilePostPlaceholder:'Розкажіть щось про себе…', postOnProfile:'Опублікувати',
     // DM / Private chat
-    directMessages:'Повідомлення', dmSearch:'Шукати користувачів…', dmEmpty:'Оберіть розмову або почніть нову', dmNewChat:'Нова розмова', dmPlaceholder:'Написати повідомлення…', dmSend:'Відправити', noConversations:'Розмов поки немає', startChatWith:'Почати чат', dmSent:'Повідомлення відправлено',
+    directMessages:'Повідомлення', dmSearch:'Шукати користувачів…', dmEmpty:'Оберіть розмову або почніть нову', dmNewChat:'Нова розмова', dmPlaceholder:'Написати повідомлення…', dmSend:'Відправити', noConversations:'Розмов поки немає', startChatWith:'Почати чат', dmSent:'Повідомлення відправлено', noResults:'Нічого не знайдено',
   },
   DE:{
     appName:'LOLance', appTag:'Premium Micro-Task Plattform',
@@ -438,7 +438,7 @@ export const i18n = {
     // Profile posts
     profilePosts:'Meine Beiträge', writeOnProfile:'Schreibe etwas in dein Profil…', profilePostPlaceholder:'Teile etwas über dich…', postOnProfile:'Veröffentlichen',
     // DM / Private chat
-    directMessages:'Nachrichten', dmSearch:'Benutzer suchen…', dmEmpty:'Wähle eine Konversation oder starte eine neue', dmNewChat:'Neuer Chat', dmPlaceholder:'Nachricht schreiben…', dmSend:'Senden', noConversations:'Noch keine Konversationen', startChatWith:'Chat starten', dmSent:'Nachricht gesendet',
+    directMessages:'Nachrichten', dmSearch:'Benutzer suchen…', dmEmpty:'Wähle eine Konversation oder starte eine neue', dmNewChat:'Neuer Chat', dmPlaceholder:'Nachricht schreiben…', dmSend:'Senden', noConversations:'Noch keine Konversationen', startChatWith:'Chat starten', dmSent:'Nachricht gesendet', noResults:'Keine Ergebnisse gefunden',
   },
   FR:{
     appName:'LOLance', appTag:'Plateforme Premium de Micro-Tâches',
@@ -570,7 +570,7 @@ export const i18n = {
     // Profile posts
     profilePosts:'Mes publications', writeOnProfile:'Écrivez quelque chose sur votre profil…', profilePostPlaceholder:'Partagez quelque chose sur vous…', postOnProfile:'Publier',
     // DM / Private chat
-    directMessages:'Messages', dmSearch:'Rechercher des utilisateurs…', dmEmpty:'Sélectionnez une conversation ou commencez-en une nouvelle', dmNewChat:'Nouveau chat', dmPlaceholder:'Écrire un message…', dmSend:'Envoyer', noConversations:'Pas encore de conversations', startChatWith:'Démarrer un chat', dmSent:'Message envoyé',
+    directMessages:'Messages', dmSearch:'Rechercher des utilisateurs…', dmEmpty:'Sélectionnez une conversation ou commencez-en une nouvelle', dmNewChat:'Nouveau chat', dmPlaceholder:'Écrire un message…', dmSend:'Envoyer', noConversations:'Pas encore de conversations', startChatWith:'Démarrer un chat', dmSent:'Message envoyé', noResults:'Aucun résultat trouvé',
   },
   ES:{
     appName:'LOLance', appTag:'Plataforma Premium de Micro-Tareas',
@@ -702,7 +702,7 @@ export const i18n = {
     // Profile posts
     profilePosts:'Mis publicaciones', writeOnProfile:'Escribe algo en tu perfil…', profilePostPlaceholder:'Comparte algo sobre ti…', postOnProfile:'Publicar',
     // DM / Private chat
-    directMessages:'Mensajes', dmSearch:'Buscar usuarios…', dmEmpty:'Selecciona una conversación o inicia una nueva', dmNewChat:'Nuevo chat', dmPlaceholder:'Escribe un mensaje…', dmSend:'Enviar', noConversations:'Aún no hay conversaciones', startChatWith:'Iniciar chat', dmSent:'Mensaje enviado',
+    directMessages:'Mensajes', dmSearch:'Buscar usuarios…', dmEmpty:'Selecciona una conversación o inicia una nueva', dmNewChat:'Nuevo chat', dmPlaceholder:'Escribe un mensaje…', dmSend:'Enviar', noConversations:'Aún no hay conversaciones', startChatWith:'Iniciar chat', dmSent:'Mensaje enviado', noResults:'No se encontraron resultados',
   },
   PL:{
     appName:'LOLance', appTag:'Platforma Premium Mikro-Zadań',
@@ -834,7 +834,7 @@ export const i18n = {
     // Profile posts
     profilePosts:'Moje posty', writeOnProfile:'Napisz coś na swoim profilu…', profilePostPlaceholder:'Podziel się czymś o sobie…', postOnProfile:'Opublikuj',
     // DM / Private chat
-    directMessages:'Wiadomości', dmSearch:'Szukaj użytkowników…', dmEmpty:'Wybierz rozmowę lub rozpocznij nową', dmNewChat:'Nowy czat', dmPlaceholder:'Napisz wiadomość…', dmSend:'Wyślij', noConversations:'Brak rozmów', startChatWith:'Rozpocznij czat', dmSent:'Wiadomość wysłana',
+    directMessages:'Wiadomości', dmSearch:'Szukaj użytkowników…', dmEmpty:'Wybierz rozmowę lub rozpocznij nową', dmNewChat:'Nowy czat', dmPlaceholder:'Napisz wiadomość…', dmSend:'Wyślij', noConversations:'Brak rozmów', startChatWith:'Rozpocznij czat', dmSent:'Wiadomość wysłana', noResults:'Nie znaleziono wyników',
   },
 };
 

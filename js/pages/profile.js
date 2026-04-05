@@ -3,11 +3,12 @@
 import { appState, saveState, calcScore, dailyCheckin, buyPointsPack, loadWallet } from '../state.js';
 import { t } from '../i18n.js';
 import { apiFetch } from '../api.js';
-import { esc, fmtDate, fmtTime, toast } from '../utils.js';
+import { esc, fmtDate, fmtTime, fmtAgo, toast, setLoading } from '../utils.js';
 import { navigate } from '../router.js';
 import { API } from '../constants.js';
 import { renderShell } from '../shell.js';
 import { renderAuth } from './auth.js';
+import { delegate } from '../event-delegation.js';
 
 export function renderProfile(el){
   const myScore=calcScore({earnings:appState.S.earnings,completedTasks:appState.S.completedTasks,streak:appState.S.streak,level:appState.S.level,xp:appState.S.xp});
@@ -57,6 +58,9 @@ export function renderProfile(el){
 
   const exchanger=appState.isGuest?'':`<div class="card" style="margin-top:20px;"><div class="section-title">🪙 ${t('exchangerTitle')}</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;"><div class="card-flat" style="padding:10px;"><div class="stat-label">Coins</div><div style="font-weight:800;">${Number(appState.S.coinBalance||0).toLocaleString()}</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">Rate</div><div style="font-weight:800;">1 USD = 100 🪙</div></div><div class="card-flat" style="padding:10px;"><div class="stat-label">${t('pending')}</div><div style="font-weight:800;">${Number(appState.S.pendingCryptoCount||0)}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><input id="exchAmount" class="form-input" type="number" min="0.0001" step="any" max="10000" placeholder="Amount"><select id="exchNetwork" class="form-select"><option value="TRC20">TRC20 (USDT)</option><option value="BEP20">BEP20 (USDT)</option><option value="ERC20">ERC20 (ETH)</option><option value="BTC">BTC</option><option value="SOL">SOL</option></select></div><div id="exchangeAlert" class="alert" style="margin-top:10px;"></div><button id="exchInitBtn" class="btn btn-primary btn-block" style="margin-top:10px;"><span class="btn-txt">${t('exchangerGetAddress')}</span></button><div id="exchangeStep2" style="margin-top:10px;"></div></div>`;
 
+  const friendsCount = (appState.S.friends||[]).length;
+  const profilePosts = appState.S.profilePosts || [];
+
   el.innerHTML=`
     <div class="fade-up" style="max-width:800px;">
       <div class="card" style="margin-bottom:20px;">
@@ -66,6 +70,10 @@ export function renderProfile(el){
             <div style="font-size:20px;font-weight:900;">${appState.isGuest?t('guestAccount'):esc(appState.currentUser.name||appState.currentUser.username)}</div>
             <div style="font-size:14px;color:var(--muted);">${appState.isGuest?t('browseWithout'):'@'+esc(appState.currentUser.username)+' · '+esc(appState.S.role||t('defaultRole'))}</div>
             ${!appState.isGuest&&appState.S.bio?`<div style="font-size:14px;color:var(--text-soft);margin-top:6px;">${esc(appState.S.bio)}</div>`:''}
+            ${!appState.isGuest?`<div style="display:flex;gap:16px;margin-top:8px;font-size:13px;">
+              <span style="color:var(--primary);font-weight:700;">👥 ${friendsCount} ${t('friends')}</span>
+              <span style="color:var(--muted);">📝 ${profilePosts.length} ${t('profilePosts')}</span>
+            </div>`:''}
           </div>
           <div style="text-align:right">
             <div class="streak-badge"><span class="streak-fire">🔥</span>${appState.S.streak} ${t('dayStreak')}</div>
@@ -97,6 +105,36 @@ export function renderProfile(el){
         </div>
         ${rightCol}
       </div>
+
+      ${!appState.isGuest?`
+      <div class="card" style="margin-top:20px;">
+        <div class="section-title">📝 ${t('profilePosts')}</div>
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;">
+          <div class="user-av" style="width:36px;height:36px;font-size:14px;flex-shrink:0;">${(appState.currentUser.name||'?').charAt(0).toUpperCase()}</div>
+          <div style="flex:1;">
+            <textarea id="profilePostText" class="form-textarea" rows="2" maxlength="500" placeholder="${t('profilePostPlaceholder')}" style="resize:vertical;"></textarea>
+            <div style="text-align:right;margin-top:8px;">
+              <button class="btn btn-primary btn-sm" id="profilePostBtn">${t('postOnProfile')}</button>
+            </div>
+          </div>
+        </div>
+        <div class="profile-posts" id="profilePostsList">
+          ${profilePosts.length?profilePosts.map(p=>`
+            <div class="profile-post-card">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                <div class="user-av" style="width:28px;height:28px;font-size:11px;">${(appState.currentUser.name||'?').charAt(0).toUpperCase()}</div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:600;">@${esc(appState.currentUser.username)}</div>
+                  <div style="font-size:11px;color:var(--muted);">${fmtAgo(p.created_at)}</div>
+                </div>
+                <button class="action-btn" data-delete-profile-post="${p.id}" style="color:var(--danger);font-size:13px;">🗑</button>
+              </div>
+              <div style="font-size:14px;line-height:1.6;">${esc(p.text)}</div>
+            </div>
+          `).join(''):`<div style="text-align:center;padding:16px;color:var(--muted);font-size:13px;">${t('writeOnProfile')}</div>`}
+        </div>
+      </div>
+      `:''}
 
       ${calendarHtml}
       ${exchanger}
@@ -145,4 +183,28 @@ export function renderProfile(el){
       });
     }
   });
+
+  // Profile posts
+  document.getElementById('profilePostBtn')?.addEventListener('click',()=>{
+    const text=(document.getElementById('profilePostText')?.value||'').trim();
+    if(!text){toast(t('required'),'error');return;}
+    if(!appState.S.profilePosts) appState.S.profilePosts=[];
+    const newPost={id:Date.now(),text,created_at:new Date().toISOString()};
+    appState.S.profilePosts=[newPost,...appState.S.profilePosts];
+    saveState();
+    toast(t('postCreated'),'success');
+    navigate('profile');
+  });
+
+  // Delete profile posts via delegate
+  const postsList=document.getElementById('profilePostsList');
+  if(postsList){
+    delegate(postsList,'click','[data-delete-profile-post]',(e,b)=>{
+      const postId=Number(b.dataset.deleteProfilePost);
+      appState.S.profilePosts=(appState.S.profilePosts||[]).filter(p=>p.id!==postId);
+      saveState();
+      toast(t('postDeleted'),'success');
+      navigate('profile');
+    });
+  }
 }

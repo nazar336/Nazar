@@ -150,6 +150,18 @@ export const i18n = {
     loginToPlay:'Log in to play and earn XP', playAgain:'Play Again',
     moves:'moves', time:'Time', tapTheColor:'Tap the matching color!',
     gameComplete:'Well done! 🎉', gameOver:'Game Over!',
+    // Fullscreen
+    fullscreen:'Fullscreen', exitFullscreen:'Exit Fullscreen',
+    // Language modal
+    chooseLanguage:'Choose Language',
+    // Feed modes
+    classicView:'Classic', tiktokView:'Feed', feedSwipeHint:'Swipe up to see more',
+    // Friends
+    friends:'Friends', addFriend:'Add Friend', removeFriend:'Remove', friendAdded:'Friend added!', friendRemoved:'Friend removed', noFriends:'No friends yet', friendsList:'Friends List', pendingFriends:'Pending',
+    // Profile posts
+    profilePosts:'My Posts', writeOnProfile:'Write something on your profile…', profilePostPlaceholder:'Share something about yourself…', postOnProfile:'Post',
+    // DM / Private chat
+    directMessages:'Messages', dmSearch:'Search users…', dmEmpty:'Select a conversation or start a new one', dmNewChat:'New Chat', dmPlaceholder:'Write a message…', dmSend:'Send', noConversations:'No conversations yet', startChatWith:'Start a chat', dmSent:'Message sent', noResults:'No results found',
   },
   UA:{
     appName:'LOLance', appTag:'Преміум платформа мікрозадач',
@@ -282,6 +294,18 @@ export const i18n = {
     loginToPlay:'Увійди, щоб грати та заробляти XP', playAgain:'Грати знову',
     moves:'ходи', time:'Час', tapTheColor:'Натисни на відповідний колір!',
     gameComplete:'Чудово! 🎉', gameOver:'Гра закінчена!',
+    // Fullscreen
+    fullscreen:'Повний екран', exitFullscreen:'Вийти з повного екрану',
+    // Language modal
+    chooseLanguage:'Оберіть мову',
+    // Feed modes
+    classicView:'Класичний', tiktokView:'Стрічка', feedSwipeHint:'Гортайте вгору щоб побачити більше',
+    // Friends
+    friends:'Друзі', addFriend:'Додати друга', removeFriend:'Видалити', friendAdded:'Друга додано!', friendRemoved:'Друга видалено', noFriends:'Друзів поки немає', friendsList:'Список друзів', pendingFriends:'Очікують',
+    // Profile posts
+    profilePosts:'Мої пости', writeOnProfile:'Напишіть щось у свій профіль…', profilePostPlaceholder:'Розкажіть щось про себе…', postOnProfile:'Опублікувати',
+    // DM / Private chat
+    directMessages:'Повідомлення', dmSearch:'Шукати користувачів…', dmEmpty:'Оберіть розмову або почніть нову', dmNewChat:'Нова розмова', dmPlaceholder:'Написати повідомлення…', dmSend:'Відправити', noConversations:'Розмов поки немає', startChatWith:'Почати чат', dmSent:'Повідомлення відправлено', noResults:'Нічого не знайдено',
   },
   DE:{
     appName:'LOLance', appTag:'Premium Micro-Task Plattform',
@@ -403,6 +427,18 @@ export const i18n = {
     loginToPlay:'Melde dich an, um zu spielen und XP zu verdienen', playAgain:'Nochmal spielen',
     moves:'Züge', time:'Zeit', tapTheColor:'Tippe auf die passende Farbe!',
     gameComplete:'Gut gemacht! 🎉', gameOver:'Spiel vorbei!',
+    // Fullscreen
+    fullscreen:'Vollbild', exitFullscreen:'Vollbild beenden',
+    // Language modal
+    chooseLanguage:'Sprache wählen',
+    // Feed modes
+    classicView:'Klassisch', tiktokView:'Feed', feedSwipeHint:'Nach oben wischen für mehr',
+    // Friends
+    friends:'Freunde', addFriend:'Freund hinzufügen', removeFriend:'Entfernen', friendAdded:'Freund hinzugefügt!', friendRemoved:'Freund entfernt', noFriends:'Noch keine Freunde', friendsList:'Freundesliste', pendingFriends:'Ausstehend',
+    // Profile posts
+    profilePosts:'Meine Beiträge', writeOnProfile:'Schreibe etwas in dein Profil…', profilePostPlaceholder:'Teile etwas über dich…', postOnProfile:'Veröffentlichen',
+    // DM / Private chat
+    directMessages:'Nachrichten', dmSearch:'Benutzer suchen…', dmEmpty:'Wähle eine Konversation oder starte eine neue', dmNewChat:'Neuer Chat', dmPlaceholder:'Nachricht schreiben…', dmSend:'Senden', noConversations:'Noch keine Konversationen', startChatWith:'Chat starten', dmSent:'Nachricht gesendet', noResults:'Keine Ergebnisse gefunden',
   },
   FR:{
     appName:'LOLance', appTag:'Plateforme Premium de Micro-Tâches',
@@ -523,6 +559,18 @@ export const i18n = {
     loginToPlay:'Connectez-vous pour jouer et gagner des XP', playAgain:'Rejouer',
     moves:'coups', time:'Temps', tapTheColor:'Appuyez sur la couleur correspondante !',
     gameComplete:'Bien joué ! 🎉', gameOver:'Partie terminée !',
+    // Fullscreen
+    fullscreen:'Plein écran', exitFullscreen:'Quitter le plein écran',
+    // Language modal
+    chooseLanguage:'Choisir la langue',
+    // Feed modes
+    classicView:'Classique', tiktokView:'Fil', feedSwipeHint:'Glissez vers le haut pour voir plus',
+    // Friends
+    friends:'Amis', addFriend:'Ajouter un ami', removeFriend:'Supprimer', friendAdded:'Ami ajouté !', friendRemoved:'Ami supprimé', noFriends:'Pas encore d\'amis', friendsList:'Liste d\'amis', pendingFriends:'En attente',
+    // Profile posts
+    profilePosts:'Mes publications', writeOnProfile:'Écrivez quelque chose sur votre profil…', profilePostPlaceholder:'Partagez quelque chose sur vous…', postOnProfile:'Publier',
+    // DM / Private chat
+    directMessages:'Messages', dmSearch:'Rechercher des utilisateurs…', dmEmpty:'Sélectionnez une conversation ou commencez-en une nouvelle', dmNewChat:'Nouveau chat', dmPlaceholder:'Écrire un message…', dmSend:'Envoyer', noConversations:'Pas encore de conversations', startChatWith:'Démarrer un chat', dmSent:'Message envoyé', noResults:'Aucun résultat trouvé',
   },
   ES:{
     appName:'LOLance', appTag:'Plataforma Premium de Micro-Tareas',
@@ -643,6 +691,18 @@ export const i18n = {
     loginToPlay:'Inicia sesión para jugar y ganar XP', playAgain:'Jugar de nuevo',
     moves:'movimientos', time:'Tiempo', tapTheColor:'¡Toca el color correspondiente!',
     gameComplete:'¡Bien hecho! 🎉', gameOver:'¡Fin del juego!',
+    // Fullscreen
+    fullscreen:'Pantalla completa', exitFullscreen:'Salir de pantalla completa',
+    // Language modal
+    chooseLanguage:'Elegir idioma',
+    // Feed modes
+    classicView:'Clásico', tiktokView:'Feed', feedSwipeHint:'Desliza hacia arriba para ver más',
+    // Friends
+    friends:'Amigos', addFriend:'Añadir amigo', removeFriend:'Eliminar', friendAdded:'¡Amigo añadido!', friendRemoved:'Amigo eliminado', noFriends:'Aún no hay amigos', friendsList:'Lista de amigos', pendingFriends:'Pendientes',
+    // Profile posts
+    profilePosts:'Mis publicaciones', writeOnProfile:'Escribe algo en tu perfil…', profilePostPlaceholder:'Comparte algo sobre ti…', postOnProfile:'Publicar',
+    // DM / Private chat
+    directMessages:'Mensajes', dmSearch:'Buscar usuarios…', dmEmpty:'Selecciona una conversación o inicia una nueva', dmNewChat:'Nuevo chat', dmPlaceholder:'Escribe un mensaje…', dmSend:'Enviar', noConversations:'Aún no hay conversaciones', startChatWith:'Iniciar chat', dmSent:'Mensaje enviado', noResults:'No se encontraron resultados',
   },
   PL:{
     appName:'LOLance', appTag:'Platforma Premium Mikro-Zadań',
@@ -763,6 +823,18 @@ export const i18n = {
     loginToPlay:'Zaloguj się, aby grać i zdobywać XP', playAgain:'Zagraj ponownie',
     moves:'ruchy', time:'Czas', tapTheColor:'Dotknij pasującego koloru!',
     gameComplete:'Świetnie! 🎉', gameOver:'Koniec gry!',
+    // Fullscreen
+    fullscreen:'Pełny ekran', exitFullscreen:'Wyjdź z pełnego ekranu',
+    // Language modal
+    chooseLanguage:'Wybierz język',
+    // Feed modes
+    classicView:'Klasyczny', tiktokView:'Feed', feedSwipeHint:'Przesuń w górę, aby zobaczyć więcej',
+    // Friends
+    friends:'Znajomi', addFriend:'Dodaj znajomego', removeFriend:'Usuń', friendAdded:'Znajomy dodany!', friendRemoved:'Znajomy usunięty', noFriends:'Brak znajomych', friendsList:'Lista znajomych', pendingFriends:'Oczekujący',
+    // Profile posts
+    profilePosts:'Moje posty', writeOnProfile:'Napisz coś na swoim profilu…', profilePostPlaceholder:'Podziel się czymś o sobie…', postOnProfile:'Opublikuj',
+    // DM / Private chat
+    directMessages:'Wiadomości', dmSearch:'Szukaj użytkowników…', dmEmpty:'Wybierz rozmowę lub rozpocznij nową', dmNewChat:'Nowy czat', dmPlaceholder:'Napisz wiadomość…', dmSend:'Wyślij', noConversations:'Brak rozmów', startChatWith:'Rozpocznij czat', dmSent:'Wiadomość wysłana', noResults:'Nie znaleziono wyników',
   },
 };
 

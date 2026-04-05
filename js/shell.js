@@ -22,13 +22,14 @@ export function renderShell() {
     { page: 'support', icon: '🛟', label: t('support') },
     { page: 'leaderboard', icon: '🏆', label: t('leaderboard') },
     { page: 'miniGames', icon: '🎮', label: t('miniGames') },
+    { page: 'dm', icon: '✉️', label: t('directMessages') },
   ];
   const mobItems = [
     { page: 'dashboard', icon: '⚡', label: t('dashboard') },
     { page: 'tasks', icon: '📋', label: t('tasks') },
     { page: 'profile', icon: '👤', label: t('profile') },
-    { page: 'createTask', icon: '✚', label: t('createTask') },
-    { page: 'wallet', icon: '💎', label: t('wallet') },
+    { page: 'feed', icon: '📡', label: t('feed') },
+    { page: 'dm', icon: '✉️', label: t('directMessages') },
   ];
   const unreadCount = (appState.S.notifications || []).filter(n => !n.read).length;
   const app = document.getElementById('app');
@@ -67,14 +68,10 @@ export function renderShell() {
             <button class="btn btn-ghost btn-sm btn-icon" id="notifToggle" aria-label="${t('notifications')}" aria-haspopup="true" aria-expanded="false" style="position:relative;">
               🔔<span class="nav-badge" id="notifBadge" style="position:absolute;top:2px;right:2px;display:${unreadCount ? 'flex' : 'none'};font-size:9px;min-width:14px;height:14px;">${unreadCount || ''}</span>
             </button>
-            <select id="langToggle" class="btn btn-ghost btn-sm" style="padding:7px 10px;font-size:13px;border-radius:var(--r-sm);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);cursor:pointer;">
-              <option value="UA" ${appState.S.lang === 'UA' ? 'selected' : ''}>🇺🇦 Українська</option>
-              <option value="EN" ${appState.S.lang === 'EN' ? 'selected' : ''}>🇬🇧 English</option>
-              <option value="DE" ${appState.S.lang === 'DE' ? 'selected' : ''}>🇩🇪 Deutsch</option>
-              <option value="FR" ${appState.S.lang === 'FR' ? 'selected' : ''}>🇫🇷 Français</option>
-              <option value="ES" ${appState.S.lang === 'ES' ? 'selected' : ''}>🇪🇸 Español</option>
-              <option value="PL" ${appState.S.lang === 'PL' ? 'selected' : ''}>🇵🇱 Polski</option>
-            </select>
+            <button class="btn btn-ghost btn-sm btn-fullscreen" id="fullscreenBtn" aria-label="${t('fullscreen')}" title="${t('fullscreen')}">⛶</button>
+            <button class="btn btn-ghost btn-sm" id="langToggleBtn" style="padding:7px 12px;font-size:13px;gap:6px;">
+              ${{UA:'🇺🇦',EN:'🇬🇧',DE:'🇩🇪',FR:'🇫🇷',ES:'🇪🇸',PL:'🇵🇱'}[appState.S.lang]||'🌐'} ${appState.S.lang}
+            </button>
             ${appState.isGuest ? `<button class="btn btn-primary btn-sm" id="guestLoginBtn">${t('login')}</button>` : `<button class="btn btn-danger btn-sm" id="logoutBtn">${t('logout')}</button>`}
           </div>
         </header>
@@ -104,7 +101,8 @@ export function renderShell() {
   } else {
     document.getElementById('logoutBtn')?.addEventListener('click', doLogout);
   }
-  document.getElementById('langToggle')?.addEventListener('change', e => { appState.S.lang = e.target.value; saveState(); renderShell(); navigate(appState.currentPage); });
+  document.getElementById('langToggleBtn')?.addEventListener('click', openLangModal);
+  document.getElementById('fullscreenBtn')?.addEventListener('click', toggleFullscreen);
   document.getElementById('notifToggle')?.addEventListener('click', toggleNotif);
   document.getElementById('markReadBtn')?.addEventListener('click', () => { appState.S.notifications.forEach(n => n.read = true); saveState(); updateNotifBadge(); renderShell(); navigate(appState.currentPage); });
 
@@ -120,4 +118,53 @@ export function toggleNotif() {
   const btn = document.getElementById('notifToggle');
   if (p) { p.classList.toggle('open', appState.notifOpen); p.setAttribute('aria-hidden', String(!appState.notifOpen)); }
   if (btn) btn.setAttribute('aria-expanded', String(appState.notifOpen));
+}
+
+const LANGS = [
+  { code: 'UA', flag: '🇺🇦', name: 'Українська' },
+  { code: 'EN', flag: '🇬🇧', name: 'English' },
+  { code: 'DE', flag: '🇩🇪', name: 'Deutsch' },
+  { code: 'FR', flag: '🇫🇷', name: 'Français' },
+  { code: 'ES', flag: '🇪🇸', name: 'Español' },
+  { code: 'PL', flag: '🇵🇱', name: 'Polski' },
+];
+
+export function openLangModal() {
+  const existing = document.getElementById('langModalOverlay');
+  if (existing) { existing.remove(); return; }
+  const overlay = document.createElement('div');
+  overlay.id = 'langModalOverlay';
+  overlay.className = 'lang-modal-overlay';
+  overlay.innerHTML = `
+    <div class="lang-modal">
+      <div class="lang-modal-title">🌐 ${t('chooseLanguage')}</div>
+      ${LANGS.map(l => `
+        <button class="lang-option${appState.S.lang === l.code ? ' active' : ''}" data-lang="${l.code}">
+          <span class="lang-flag">${l.flag}</span>
+          <span class="lang-name">${l.name}</span>
+          <span class="lang-check">✓</span>
+        </button>
+      `).join('')}
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => {
+    const opt = e.target.closest('[data-lang]');
+    if (opt) {
+      appState.S.lang = opt.dataset.lang;
+      saveState();
+      overlay.remove();
+      renderShell();
+      navigate(appState.currentPage);
+    } else if (e.target === overlay) {
+      overlay.remove();
+    }
+  });
+}
+
+export function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
 }

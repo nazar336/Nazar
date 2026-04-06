@@ -33,23 +33,49 @@ const SECURITY_HEADERS = {
   'Permissions-Policy':     'camera=(), microphone=(), geolocation=(), payment=()',
 };
 
+/** Blocked filename patterns (basename match) */
+const BLOCKED_EXTENSIONS = /\.(sql|log|env|bak|zip|gz|tar)$/i;
+const BLOCKED_BASENAMES = new Set(['.env', '.gitignore', '.htaccess', 'config.php']);
+
+/** Allowed URL characters — reject anything suspicious early */
+const SAFE_URL_CHARS = /^[a-zA-Z0-9_.~:/?#[\]@!$&'()*+,;=%-]+$/;
+
 /**
  * Resolve a URL pathname to a safe file path under ROOT.
  * Returns null if the path escapes ROOT (directory traversal).
  */
 function safePath(urlPath) {
-  const decoded = decodeURIComponent(urlPath.split('?')[0]);
-  const resolved = path.resolve(ROOT, '.' + decoded);
+  const raw = urlPath.split('?')[0];
+  if (!SAFE_URL_CHARS.test(raw)) return null;
+  const decoded = decodeURIComponent(raw);
+  // Reject paths with null bytes or explicit traversal
+  if (decoded.includes('\0') || decoded.includes('..')) return null;
+  const normalized = path.normalize(decoded);
+  const resolved = path.join(ROOT, normalized);
   if (!resolved.startsWith(ROOT + path.sep) && resolved !== ROOT) return null;
   return resolved;
+}
+
+/**
+ * Check if a file path should be blocked from serving.
+ */
+function isBlocked(filePath) {
+  const base = path.basename(filePath);
+  return BLOCKED_EXTENSIONS.test(base) || BLOCKED_BASENAMES.has(base);
+}
+
+function cacheHeader(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  if (ext === '.html' || filePath.endsWith('sw.js')) return 'no-cache';
+  if (filePath.startsWith(path.join(ROOT, 'assets') + path.sep)) {
+    return 'public, max-age=31536000, immutable';
+  }
+  return 'public, max-age=86400';
 }
 
 function serveFile(res, filePath, statusCode) {
   const ext = path.extname(filePath).toLowerCase();
   const contentType = MIME_TYPES[ext] || 'application/octet-stream';
-  const cacheControl = ext === '.html' || filePath.endsWith('sw.js')
-    ? 'no-cache'
-    : 'public, max-age=86400';
 
   fs.readFile(filePath, (err, data) => {
     if (err) {
@@ -60,11 +86,14 @@ function serveFile(res, filePath, statusCode) {
     res.writeHead(statusCode, {
       ...SECURITY_HEADERS,
       'Content-Type': contentType,
-      'Cache-Control': cacheControl,
+      'Cache-Control': cacheHeader(filePath),
     });
     res.end(data);
   });
 }
+
+/** Path to the index.html file (constant, not user-derived) */
+const INDEX_HTML = path.join(ROOT, 'index.html');
 
 const server = http.createServer((req, res) => {
   // Only allow GET and HEAD for a static server
@@ -82,7 +111,7 @@ const server = http.createServer((req, res) => {
   }
 
   // Block sensitive files
-  if (/\.(sql|log|env|bak|zip|gz|tar)$/i.test(filePath) || filePath.endsWith('config.php')) {
+  if (isBlocked(filePath)) {
     res.writeHead(403, { ...SECURITY_HEADERS, 'Content-Type': 'text/plain' });
     res.end('Forbidden');
     return;
@@ -101,15 +130,14 @@ const server = http.createServer((req, res) => {
         if (!err2) {
           serveFile(res, indexFile, 200);
         } else {
-          // SPA fallback
-          serveFile(res, path.join(ROOT, 'index.html'), 200);
+          serveFile(res, INDEX_HTML, 200);
         }
       });
       return;
     }
 
     // SPA fallback: serve index.html for any unmatched route
-    serveFile(res, path.join(ROOT, 'index.html'), 200);
+    serveFile(res, INDEX_HTML, 200);
   });
 });
 

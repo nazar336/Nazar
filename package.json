@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "npx serve . -s -l tcp://0.0.0.0:3000",
+    "dev": "node server.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "npx playwright test",

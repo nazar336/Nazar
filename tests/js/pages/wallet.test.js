@@ -148,7 +148,7 @@ describe('renderWallet', () => {
 
   it('shows coin balance section', () => {
     renderWallet(el);
-    expect(el.innerHTML).toContain('Game Coins');
+    expect(el.innerHTML).toContain('Game LOL');
     expect(el.innerHTML).toContain('500');
     expect(el.innerHTML).toContain('Purchased');
     expect(el.innerHTML).toContain('Spent');
@@ -205,7 +205,7 @@ describe('renderWallet', () => {
 
   it('shows coin spending history', () => {
     renderWallet(el);
-    expect(el.innerHTML).toContain('Coin Spending');
+    expect(el.innerHTML).toContain('LOL Spending');
     const coinHistory = document.getElementById('coinHistory');
     expect(coinHistory).toBeTruthy();
     expect(coinHistory.innerHTML).toContain('Pack');

@@ -12,15 +12,21 @@ export function renderMiniGames(el) {
   const level = appState.S.level || 1;
 
   el.innerHTML = `<div class="fade-up" style="max-width:900px;margin:0 auto;">
-    <div class="card card-sm" style="margin-bottom:18px;">
-      <div class="section-title">🎮 ${t('miniGames')}</div>
-      <p style="color:var(--muted);font-size:14px;margin:0 0 12px;">
-        ${t('miniGamesDesc')}
-      </p>
-      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-        <div class="card-flat" style="flex:1;min-width:100px;"><div class="stat-label">XP</div><div>${xp}</div></div>
-        <div class="card-flat" style="flex:1;min-width:100px;"><div class="stat-label">${t('level')}</div><div>${level}</div></div>
+    <!-- Page header -->
+    <div class="page-header card" style="margin-bottom:18px;">
+      <div>
+        <div class="page-header-label">🎮 ${t('miniGames')}</div>
+        <h1 class="page-header-title">${t('miniGames')}</h1>
+        <p class="page-header-desc">${t('miniGamesInfo')}</p>
       </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid" style="margin-bottom:18px;">
+      <div class="stat-card"><div class="stat-glow stat-glow-green"></div><div class="stat-label">XP</div><div class="stat-value" style="font-size:20px;">${xp}</div></div>
+      <div class="stat-card"><div class="stat-glow stat-glow-blue"></div><div class="stat-label">${t('level')}</div><div class="stat-value" style="font-size:20px;">${level}</div></div>
+      <div class="stat-card"><div class="stat-glow stat-glow-purple"></div><div class="stat-label">${t('bestScore')}</div><div class="stat-value" style="font-size:20px;">${appState.S.bestGameScore||0}</div></div>
+      <div class="stat-card"><div class="stat-glow stat-glow-orange"></div><div class="stat-label">${t('gamesPlayed')}</div><div class="stat-value" style="font-size:20px;">${appState.S.gamesPlayed||0}</div></div>
     </div>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:18px;">

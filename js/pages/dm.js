@@ -33,6 +33,14 @@ export function renderDM(el) {
 
   el.innerHTML = `
     <div class="fade-up">
+      <!-- Page header -->
+      <div class="page-header card" style="margin-bottom:16px;">
+        <div>
+          <div class="page-header-label">✉️ ${t('directMessages')}</div>
+          <h1 class="page-header-title">${t('directMessages')}</h1>
+          <p class="page-header-desc">${t('dmPageDesc')}</p>
+        </div>
+      </div>
       <div class="dm-layout">
         <div class="dm-sidebar" id="dmSidebar">
           <div class="dm-sidebar-head">

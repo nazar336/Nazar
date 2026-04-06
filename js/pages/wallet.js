@@ -182,10 +182,16 @@ export function renderWallet(el){
 
   el.innerHTML=`
     <div class="fade-up">
-      <!-- Top bar with refresh -->
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-        <div class="section-title" style="margin:0;">💰 ${t('wallet')}</div>
-        <button class="btn btn-ghost btn-sm" id="walletRefreshBtn">🔄 ${t('refresh') || 'Refresh'}</button>
+      <!-- Page header -->
+      <div class="page-header card" style="margin-bottom:18px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+          <div>
+            <div class="page-header-label">💎 ${t('wallet')}</div>
+            <h1 class="page-header-title">${t('wallet')}</h1>
+            <p class="page-header-desc">${t('walletPageDesc')}</p>
+          </div>
+          <div><button class="btn btn-ghost btn-sm" id="walletRefreshBtn">🔄 ${t('refresh') || 'Refresh'}</button></div>
+        </div>
       </div>
 
       <!-- Hero balance -->

@@ -67,6 +67,32 @@ export function renderDashboard(el){
       </div>
 
       <!-- Level Privileges -->
+      ${(appState.S.completedTasks||0)<5&&!appState.isGuest?`
+      <!-- Getting Started -->
+      <div class="card" style="margin-bottom:20px;border-color:rgba(125,215,255,.15);background:rgba(125,215,255,.03);">
+        <div class="section-title">🚀 ${t('getStarted')}</div>
+        <p style="font-size:13px;color:var(--text-soft);margin-bottom:14px;">${t('getStartedDesc')}</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div class="card-flat" style="padding:10px 14px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:16px;">${appState.S.bio?'✅':'⬜'}</span>
+            <span style="font-size:13px;${appState.S.bio?'text-decoration:line-through;color:var(--muted);':''}">${t('step1Complete')}</span>
+          </div>
+          <div class="card-flat" style="padding:10px 14px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:16px;">${(appState.S.completedTasks||0)>0?'✅':'⬜'}</span>
+            <span style="font-size:13px;${(appState.S.completedTasks||0)>0?'text-decoration:line-through;color:var(--muted);':''}">${t('step2Browse')}</span>
+          </div>
+          <div class="card-flat" style="padding:10px 14px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:16px;">${(appState.S.feedPosts||[]).length>0?'✅':'⬜'}</span>
+            <span style="font-size:13px;${(appState.S.feedPosts||[]).length>0?'text-decoration:line-through;color:var(--muted);':''}">${t('step3Post')}</span>
+          </div>
+          <div class="card-flat" style="padding:10px 14px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:16px;">${appState.S.doneCheckinToday?'✅':'⬜'}</span>
+            <span style="font-size:13px;${appState.S.doneCheckinToday?'text-decoration:line-through;color:var(--muted);':''}">${t('step4Checkin')}</span>
+          </div>
+        </div>
+      </div>
+      `:''}
+      <!-- Level Privileges -->
       ${(()=>{
         const priv=getLvlPriv(appState.S.level);
         const next=appState.S.level<12?getLvlPriv(appState.S.level+1):null;

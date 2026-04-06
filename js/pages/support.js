@@ -8,20 +8,57 @@ import { navigate } from '../router.js';
 import { API } from '../constants.js';
 import { renderAuth } from './auth.js';
 
-const seedFaqs = [];
-
 export function renderSupport(el){
+  const faqs = [
+    { q: t('faqQ1'), a: t('faqA1') },
+    { q: t('faqQ2'), a: t('faqA2') },
+    { q: t('faqQ3'), a: t('faqA3') },
+    { q: t('faqQ4'), a: t('faqA4') },
+    { q: t('faqQ5'), a: t('faqA5') },
+  ];
+
   el.innerHTML=`
     <div class="fade-up" style="max-width:740px;">
+      <!-- Page header -->
+      <div class="page-header card" style="margin-bottom:20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+          <div>
+            <div class="page-header-label">🛟 ${t('support')}</div>
+            <h1 class="page-header-title">${t('support')}</h1>
+            <p class="page-header-desc">${t('supportDesc')}</p>
+          </div>
+          <div class="badge badge-success" style="font-size:12px;padding:6px 12px;">${t('responseTime')}</div>
+        </div>
+      </div>
+
       <!-- FAQ -->
       <div class="card" style="margin-bottom:20px;">
         <div class="section-title">❓ ${t('faq')}</div>
         <div id="faqList">
-          ${seedFaqs.map((f,i)=>`
+          ${faqs.map((f,i)=>`
             <div class="faq-item" data-fi="${i}">
               <button class="faq-q">${esc(f.q)}<span class="arrow">▾</span></button>
               <div class="faq-a">${esc(f.a)}</div>
             </div>`).join('')}
+        </div>
+      </div>
+
+      <!-- Knowledge Base -->
+      <div class="card" style="margin-bottom:20px;">
+        <div class="section-title">📚 ${t('knowledgeBase')}</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="card-flat" style="padding:12px;display:flex;align-items:flex-start;gap:10px;">
+            <span style="font-size:20px;flex-shrink:0;">💡</span>
+            <div style="font-size:13px;color:var(--text-soft);line-height:1.6;">${t('kbTip1')}</div>
+          </div>
+          <div class="card-flat" style="padding:12px;display:flex;align-items:flex-start;gap:10px;">
+            <span style="font-size:20px;flex-shrink:0;">🔥</span>
+            <div style="font-size:13px;color:var(--text-soft);line-height:1.6;">${t('kbTip2')}</div>
+          </div>
+          <div class="card-flat" style="padding:12px;display:flex;align-items:flex-start;gap:10px;">
+            <span style="font-size:20px;flex-shrink:0;">🚀</span>
+            <div style="font-size:13px;color:var(--text-soft);line-height:1.6;">${t('kbTip3')}</div>
+          </div>
         </div>
       </div>
 
@@ -71,6 +108,19 @@ export function renderSupport(el){
           </tr>`).join('')}</tbody>
         </table>`:`<div class="empty"><h3>${t('noTicketsYet')}</h3><p>${t('createTicketHelp')}</p></div>`}
       </div>
+
+      <!-- Contact info -->
+      ${!appState.isGuest?`
+      <div class="card" style="margin-top:20px;background:rgba(125,215,255,.04);border-color:rgba(125,215,255,.12);">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="font-size:28px;">📧</span>
+          <div>
+            <div style="font-size:14px;font-weight:700;margin-bottom:2px;">${t('contactInfo')}</div>
+            <div style="font-size:12px;color:var(--muted);">${t('responseTime')}</div>
+          </div>
+        </div>
+      </div>
+      `:''}
     </div>`;
 
   // FAQ accordion

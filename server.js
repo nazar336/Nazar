@@ -53,6 +53,8 @@ function safePath(urlPath) {
   const normalized = path.normalize(decoded);
   const resolved = path.join(ROOT, normalized);
   if (!resolved.startsWith(ROOT + path.sep) && resolved !== ROOT) return null;
+  // When ROOT itself is requested, serve the index
+  if (resolved === ROOT) return path.join(ROOT, 'index.html');
   return resolved;
 }
 
@@ -66,7 +68,7 @@ function isBlocked(filePath) {
 
 function cacheHeader(filePath) {
   const ext = path.extname(filePath).toLowerCase();
-  if (ext === '.html' || filePath.endsWith('sw.js')) return 'no-cache';
+  if (ext === '.html' || path.basename(filePath) === 'sw.js') return 'no-cache';
   if (filePath.startsWith(path.join(ROOT, 'assets') + path.sep)) {
     return 'public, max-age=31536000, immutable';
   }

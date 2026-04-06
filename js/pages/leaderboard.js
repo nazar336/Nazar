@@ -41,6 +41,7 @@ export function renderLeaderboard(el){
 
       <!-- Podium -->
       <div class="card" style="margin-bottom:20px;">
+        <div class="section-title" style="margin-bottom:14px;">🏆 ${t('leaderboard')}</div>
         <div class="podium">
           ${medalOrder.map((idx,pos)=>{
             const u=top3[idx];if(!u)return '';

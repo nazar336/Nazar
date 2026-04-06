@@ -51,8 +51,8 @@ export function renderDashboard(el){
 
       <!-- Stats -->
       <div class="stats-grid" style="margin-bottom:20px;">
-        <div class="stat-card"><div class="stat-glow stat-glow-green"></div><div class="stat-label">${t('balance')}</div><div class="stat-value" style="color:var(--primary)">${Number(appState.S.balance||0).toLocaleString()} <span style="font-size:12px;">coins</span></div><div class="stat-sub">${t('available')}</div></div>
-        <div class="stat-card"><div class="stat-glow stat-glow-blue"></div><div class="stat-label">${t('earnings')}</div><div class="stat-value">${Number(appState.S.earnings||0).toLocaleString()} <span style="font-size:12px;">coins</span></div><div class="stat-sub">${t('totalEarned')}</div></div>
+        <div class="stat-card"><div class="stat-glow stat-glow-green"></div><div class="stat-label">${t('balance')}</div><div class="stat-value" style="color:var(--primary)">${Number(appState.S.balance||0).toLocaleString()} <span style="font-size:12px;">LOL</span></div><div class="stat-sub">${t('available')}</div></div>
+        <div class="stat-card"><div class="stat-glow stat-glow-blue"></div><div class="stat-label">${t('earnings')}</div><div class="stat-value">${Number(appState.S.earnings||0).toLocaleString()} <span style="font-size:12px;">LOL</span></div><div class="stat-sub">${t('totalEarned')}</div></div>
         <div class="stat-card"><div class="stat-glow stat-glow-purple"></div><div class="stat-label">${t('completed')}</div><div class="stat-value">${appState.S.completedTasks||0}</div><div class="stat-sub">${t('tasksDone')}</div></div>
         <div class="stat-card"><div class="stat-glow stat-glow-orange"></div><div class="stat-label">${t('level')} / ${t('score')}</div><div class="stat-value">${appState.S.level||1}</div><div class="stat-sub">${fmtNum(myScore)} ${t('pts')}</div></div>
       </div>
@@ -114,7 +114,7 @@ export function renderDashboard(el){
           </div>
           <div class="card-flat" style="padding:12px;">
             <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">💰 ${t('lvlMaxReward')}</div>
-            <div style="font-size:14px;font-weight:700;color:var(--info);">${priv.canCreate?priv.maxReward.toLocaleString()+' coins':'—'}</div>
+            <div style="font-size:14px;font-weight:700;color:var(--info);">${priv.canCreate?priv.maxReward.toLocaleString()+' LOL':'—'}</div>
           </div>
           <div class="card-flat" style="padding:12px;">
             <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">⚔️ ${t('lvlDifficulty')}</div>

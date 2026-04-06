@@ -90,7 +90,6 @@ define('CRYPTO_WALLETS', [
     'BEP20' => env('CRYPTO_WALLET_BEP20'),
     'ERC20' => env('CRYPTO_WALLET_ERC20'),
     'BTC'   => env('CRYPTO_WALLET_BTC'),
-    'SOL'   => env('CRYPTO_WALLET_SOL'),
 ]);
 
 // Мережа → валюта (для відображення)
@@ -99,7 +98,6 @@ define('NETWORK_CURRENCY', [
     'BEP20' => 'USDT',
     'ERC20' => 'ETH',
     'BTC'   => 'BTC',
-    'SOL'   => 'SOL',
 ]);
 
 // Coins per 1 USD

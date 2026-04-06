@@ -107,7 +107,7 @@ try {
                     ")->execute([
                         ':uid'  => $userId,
                         ':amt'  => (float)$deposit['amount_usdt'],
-                        ':desc' => 'Auto-verified crypto deposit (' . $network . '): +' . $amountCoins . ' coins',
+                        ':desc' => 'Auto-verified crypto deposit (' . $network . '): +' . $amountCoins . ' LOL',
                     ]);
 
                     // Notification

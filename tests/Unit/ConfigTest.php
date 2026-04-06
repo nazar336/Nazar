@@ -22,7 +22,6 @@ class ConfigTest extends TestCase
             putenv('CRYPTO_WALLET_BEP20=0x0000000000000000000000000000000000000001');
             putenv('CRYPTO_WALLET_ERC20=0x0000000000000000000000000000000000000002');
             putenv('CRYPTO_WALLET_BTC=1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa');
-            putenv('CRYPTO_WALLET_SOL=11111111111111111111111111111111');
 
             if (!defined('APP_ENV')) {
                 require_once __DIR__ . '/../../api/config.php';

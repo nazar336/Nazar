@@ -66,7 +66,7 @@ export function renderWallet(el){
       <tr>
         <td><span class="badge badge-${positive?'open':'in_progress'}">${esc(type)}</span></td>
         <td style="font-size:13px;">${esc(label)}</td>
-        <td style="font-weight:700;color:${positive?'var(--success)':'var(--danger)'};">${positive?'+':'-'}${Math.abs(amount).toLocaleString()} coins</td>
+        <td style="font-weight:700;color:${positive?'var(--success)':'var(--danger)'};">${positive?'+':'-'}${Math.abs(amount).toLocaleString()} LOL</td>
         <td style="font-size:12px;color:var(--muted);">${ts?fmtAgo(ts):'—'}</td>
       </tr>`;
     }).join('');
@@ -115,7 +115,7 @@ export function renderWallet(el){
     wrap.innerHTML=deposits.length?deposits.map(dep=>`
       <div class="card-flat" style="padding:14px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start;">
         <div>
-          <div style="font-size:14px;font-weight:700;">${Number(dep.amount_native||dep.amount_usdt||0).toLocaleString()} ${esc(dep.currency||'USDT')} → ${Number(dep.amount_coins||0).toLocaleString()} coins</div>
+          <div style="font-size:14px;font-weight:700;">${Number(dep.amount_native||dep.amount_usdt||0).toLocaleString()} ${esc(dep.currency||'USDT')} → ${Number(dep.amount_coins||0).toLocaleString()} LOL</div>
           <div style="font-size:12px;color:var(--muted);margin-top:4px;">${esc(dep.network||'TRC20')} · ${dep.created_at?fmtDate(dep.created_at)+' '+fmtTime(dep.created_at):''}</div>
           <div style="font-size:12px;color:var(--muted);margin-top:6px;word-break:break-all;">${esc(dep.transaction_hash||dep.wallet_address||'')}</div>
         </div>
@@ -131,13 +131,13 @@ export function renderWallet(el){
     wrap.innerHTML=items.length?items.map(item=>`
       <div class="card-flat" style="padding:14px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start;">
         <div>
-          <div style="font-size:14px;font-weight:700;">-${Number(item.amount||0).toLocaleString()} coins</div>
+          <div style="font-size:14px;font-weight:700;">-${Number(item.amount||0).toLocaleString()} LOL</div>
           <div style="font-size:12px;color:var(--muted);margin-top:4px;">${esc(item.description||item.type||'')}</div>
           <div style="font-size:12px;color:var(--muted);margin-top:6px;">${item.created_at?fmtDate(item.created_at)+' '+fmtTime(item.created_at):''}</div>
         </div>
         <span class="badge badge-info">${esc(item.type||'spend')}</span>
       </div>
-    `).join(''):`<div class="card-flat" style="padding:14px;color:var(--muted);">Витрат монет ще не було.</div>`;
+    `).join(''):`<div class="card-flat" style="padding:14px;color:var(--muted);">Витрат LOL ще не було.</div>`;
   }
 
   function renderWithdrawHistory(){
@@ -150,8 +150,8 @@ export function renderWallet(el){
       return `
       <div class="card-flat" style="padding:14px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start;">
         <div style="flex:1;">
-          <div style="font-size:14px;font-weight:700;">${Number(w.amount_coins||0).toLocaleString()} coins → ${Number(w.amount_native||0)} ${esc(w.currency||'USDT')}</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:4px;">${esc(w.network||'TRC20')} · ${t('withdrawFee')}: ${Number(w.fee_coins||0).toLocaleString()} coins</div>
+          <div style="font-size:14px;font-weight:700;">${Number(w.amount_coins||0).toLocaleString()} LOL → ${Number(w.amount_native||0)} ${esc(w.currency||'USDT')}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px;">${esc(w.network||'TRC20')} · ${t('withdrawFee')}: ${Number(w.fee_coins||0).toLocaleString()} LOL</div>
           <div style="font-size:12px;color:var(--muted);margin-top:4px;word-break:break-all;">→ ${esc(w.wallet_address||'')}</div>
           ${w.transaction_hash?`<div style="font-size:11px;color:var(--success);margin-top:4px;">tx: ${esc(w.transaction_hash)}</div>`:''}
           ${w.admin_note?`<div style="font-size:11px;color:var(--warning);margin-top:4px;">📝 ${esc(w.admin_note)}</div>`:''}
@@ -213,7 +213,7 @@ export function renderWallet(el){
 
         <div class="card" style="padding:20px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;">
           <div>
-            <div class="wallet-balance-label">Game Coins</div>
+            <div class="wallet-balance-label">Game LOL</div>
             <div class="wallet-balance" style="font-size:36px;"><sup>🪙</sup>${Number(appState.S.coinBalance||0).toLocaleString()}</div>
             <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;">
               <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">Purchased</div><div style="font-size:16px;font-weight:800;color:var(--info);">${Number(appState.S.coinsPurchased||0).toLocaleString()}</div></div>
@@ -221,7 +221,7 @@ export function renderWallet(el){
               <div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;">Pending</div><div style="font-size:16px;font-weight:800;color:var(--primary);">${Number(appState.S.pendingCryptoCount||0).toLocaleString()} crypto</div></div>
             </div>
           </div>
-          <div class="card-flat" style="padding:12px;font-size:13px;color:var(--muted);">Rate: <strong style="color:var(--primary);">1 USD = 100 coins</strong></div>
+          <div class="card-flat" style="padding:12px;font-size:13px;color:var(--muted);">Rate: <strong style="color:var(--primary);">1 USD = 100 LOL</strong></div>
         </div>
       </div>
 
@@ -231,7 +231,7 @@ export function renderWallet(el){
           <div id="cryptoHistory" style="padding:14px;display:flex;flex-direction:column;gap:10px;"></div>
         </div>
         <div class="card" style="padding:0;">
-          <div style="padding:16px 20px;border-bottom:1px solid var(--line);font-size:14px;font-weight:700;">Coin Spending</div>
+          <div style="padding:16px 20px;border-bottom:1px solid var(--line);font-size:14px;font-weight:700;">LOL Spending</div>
           <div id="coinHistory" style="padding:14px;display:flex;flex-direction:column;gap:10px;"></div>
         </div>
       </div>
@@ -295,7 +295,7 @@ export function renderWallet(el){
   });
 }
 
-const NET_CURRENCY={TRC20:'USDT',BEP20:'USDT',ERC20:'ETH',BTC:'BTC',SOL:'SOL'};
+const NET_CURRENCY={TRC20:'USDT',BEP20:'USDT',ERC20:'ETH',BTC:'BTC'};
 
 export function showWalletModal(type){
   const isCrypto=type==='crypto';
@@ -305,12 +305,12 @@ export function showWalletModal(type){
   modBg.innerHTML=`
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <button class="modal-close" id="modalCloseBtn" aria-label="Close">✕</button>
-      <div class="modal-title" id="modalTitle">Buy Coins with Crypto</div>
+      <div class="modal-title" id="modalTitle">Buy LOL with Crypto</div>
       <div id="walletModalAlert" class="alert" style="margin-bottom:12px;"></div>
       <div style="display:flex;flex-direction:column;gap:14px;">
-        <div class="form-group"><label class="form-label">Network</label><select id="cryptoNetwork" class="form-select"><option value="TRC20">TRC20 (USDT)</option><option value="BEP20">BEP20 (USDT)</option><option value="ERC20">ERC20 (ETH)</option><option value="BTC">BTC</option><option value="SOL">SOL</option></select></div>
+        <div class="form-group"><label class="form-label">Network</label><select id="cryptoNetwork" class="form-select"><option value="TRC20">TRC20 (USDT)</option><option value="BEP20">BEP20 (USDT)</option><option value="ERC20">ERC20 (ETH)</option><option value="BTC">BTC</option></select></div>
         <div class="form-group"><label class="form-label" id="cryptoAmountLabel">${t('amountCol')} (USDT)</label><input type="number" id="wAmount" class="form-input" min="0.0001" step="any" placeholder="100"></div>
-        <div class="card-flat" style="padding:12px;font-size:13px;color:var(--muted);" id="cryptoRateInfo">Rate: <strong style="color:var(--primary);">1 USDT ≈ 100 coins</strong></div><div id="cryptoStep2"></div>
+        <div class="card-flat" style="padding:12px;font-size:13px;color:var(--muted);" id="cryptoRateInfo">Rate: <strong style="color:var(--primary);">1 USDT ≈ 100 LOL</strong></div><div id="cryptoStep2"></div>
         <button class="btn btn-primary btn-block" id="wConfirmBtn"><span class="btn-txt">${t('confirm')}</span></button>
       </div>
     </div>`;
@@ -327,10 +327,10 @@ export function showWalletModal(type){
     const cur=NET_CURRENCY[net]||'USDT';
     if(amountLabel)amountLabel.textContent=t('amountCol')+' ('+cur+')';
     if(cur==='USDT'){
-      if(rateInfo)rateInfo.innerHTML='Rate: <strong style="color:var(--primary);">1 USDT ≈ 100 coins</strong>';
+      if(rateInfo)rateInfo.innerHTML='Rate: <strong style="color:var(--primary);">1 USDT ≈ 100 LOL</strong>';
       if(amountInput){amountInput.placeholder='100';amountInput.min='1';amountInput.step='1';}
     }else{
-      if(rateInfo)rateInfo.innerHTML='Rate: <strong style="color:var(--primary);">'+esc(cur)+' → USD → coins (100 coins/USD)</strong>';
+      if(rateInfo)rateInfo.innerHTML='Rate: <strong style="color:var(--primary);">'+esc(cur)+' → USD → LOL (100 LOL/USD)</strong>';
       if(amountInput){amountInput.placeholder=cur==='BTC'?'0.001':cur==='ETH'?'0.05':'1';amountInput.min='0.0001';amountInput.step='any';}
     }
   }
@@ -361,7 +361,7 @@ export function showWalletModal(type){
             <div style="font-size:12px;color:var(--muted);">Send exactly <strong style="color:var(--text);">${displayAmount.toLocaleString(undefined,{maximumFractionDigits:8})} ${esc(displayCurrency)}</strong> via <strong style="color:var(--text);">${esc(data.network||network)}</strong></div>
             <div style="font-size:12px;color:var(--muted);">Wallet address</div>
             <div style="word-break:break-all;font-size:13px;font-weight:700;color:var(--primary);">${esc(data.wallet_address||'')}</div>
-            <div style="font-size:12px;color:var(--muted);">You will receive <strong style="color:var(--success);">${Number(data.amount_coins||0).toLocaleString()} coins</strong>${data.amount_usdt?' (~$'+Number(data.amount_usdt).toLocaleString()+' USD)':''}</div>
+          <div style="font-size:12px;color:var(--muted);">You will receive <strong style="color:var(--success);">${Number(data.amount_coins||0).toLocaleString()} LOL</strong>${data.amount_usdt?' (~$'+Number(data.amount_usdt).toLocaleString()+' USD)':''}</div>
             <div style="font-size:12px;color:var(--muted);">Expires: ${data.expires_at?fmtDate(data.expires_at)+' '+fmtTime(data.expires_at):'—'}</div>
             <div class="form-group" style="margin-top:8px;"><label class="form-label">Transaction hash</label><input type="text" id="cryptoTxHash" class="form-input" placeholder="Paste blockchain tx hash"></div>
             <button class="btn btn-success btn-block" id="cryptoFinalConfirm">I paid, confirm deposit</button>
@@ -376,7 +376,7 @@ export function showWalletModal(type){
             const confirmRes=await apiFetch(API.cryptoDeposit,{method:'POST',body:JSON.stringify({action:'confirm',deposit_id:data.deposit_id,tx_hash:txHash})});
             if(!confirmRes.ok){showAlert('walletModalAlert',confirmRes.data.message||'Confirmation failed');return;}
             await loadWallet();
-            toast(confirmRes.data.message||'Coins credited','success');
+            toast(confirmRes.data.message||'LOL credited','success');
             close();
             navigate('wallet');
           }finally{
@@ -402,14 +402,14 @@ export function showWithdrawModal(){
       <div id="wdModalAlert" class="alert" style="margin-bottom:12px;"></div>
       <div style="display:flex;flex-direction:column;gap:14px;">
         <div class="card-flat" style="padding:12px;font-size:13px;">
-          ${t('balance')}: <strong style="color:var(--primary);">${balance.toLocaleString()} coins</strong>
+          ${t('balance')}: <strong style="color:var(--primary);">${balance.toLocaleString()} LOL</strong>
           <span style="margin-left:12px;color:var(--muted);">${t('withdrawMin')}</span>
         </div>
         <div class="form-group"><label class="form-label">${t('withdrawCoins')}</label><input type="number" id="wdAmount" class="form-input" min="500" max="${balance}" placeholder="500"></div>
-        <div class="form-group"><label class="form-label">${t('withdrawNetwork')}</label><select id="wdNetwork" class="form-select"><option value="TRC20">TRC20 (USDT)</option><option value="BEP20">BEP20 (USDT)</option><option value="ERC20">ERC20 (ETH)</option><option value="BTC">BTC</option><option value="SOL">SOL</option></select></div>
-        <div class="form-group"><label class="form-label">${t('withdrawWallet')}</label><input type="text" id="wdWalletAddr" class="form-input" placeholder="T..., 0x..., bc1..., ..."></div>
+        <div class="form-group"><label class="form-label">${t('withdrawNetwork')}</label><select id="wdNetwork" class="form-select"><option value="TRC20">TRC20 (USDT)</option><option value="BEP20">BEP20 (USDT)</option><option value="ERC20">ERC20 (ETH)</option><option value="BTC">BTC</option></select></div>
+        <div class="form-group"><label class="form-label">${t('withdrawWallet')}</label><input type="text" id="wdWalletAddr" class="form-input" placeholder="T..., 0x..., bc1..."></div>
         <div id="wdPreview" class="card-flat" style="padding:12px;font-size:13px;display:none;">
-          <div>${t('withdrawFee')}: <strong id="wdFeeDisplay">0</strong> coins</div>
+          <div>${t('withdrawFee')}: <strong id="wdFeeDisplay">0</strong> LOL</div>
           <div style="margin-top:4px;">${t('withdrawNet')}: <strong id="wdNetDisplay" style="color:var(--success);">0</strong></div>
         </div>
         <button class="btn btn-success btn-block" id="wdConfirmBtn"><span class="btn-txt">${t('withdrawConfirm')}</span></button>

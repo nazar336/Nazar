@@ -12,7 +12,6 @@ function get_crypto_rates(): array
         'ETH'  => 3200.0,
         'BTC'  => 85000.0,
         'BNB'  => 580.0,
-        'SOL'  => 150.0,
     ];
 
     $ttl = defined('CRYPTO_RATE_CACHE_TTL') ? CRYPTO_RATE_CACHE_TTL : 300;
@@ -32,7 +31,7 @@ function get_crypto_rates(): array
     }
 
     $url = 'https://api.coingecko.com/api/v3/simple/price'
-         . '?ids=bitcoin,ethereum,binancecoin,solana,tether'
+         . '?ids=bitcoin,ethereum,binancecoin,tether'
          . '&vs_currencies=usd';
     $ctx  = stream_context_create(['http' => ['timeout' => 5, 'ignore_errors' => true]]);
     $body = @file_get_contents($url, false, $ctx);
@@ -50,7 +49,6 @@ function get_crypto_rates(): array
         'ETH'  => (float)($parsed['ethereum']['usd']    ?? $fallback['ETH']),
         'BTC'  => (float)($parsed['bitcoin']['usd']     ?? $fallback['BTC']),
         'BNB'  => (float)($parsed['binancecoin']['usd'] ?? $fallback['BNB']),
-        'SOL'  => (float)($parsed['solana']['usd']      ?? $fallback['SOL']),
     ];
 
     // Store in both Redis/unified cache and legacy file
@@ -70,7 +68,6 @@ function get_address_patterns(): array
         'BEP20' => '/^0x[0-9a-fA-F]{40}$/',                   // BSC (EVM), 0x + 40 hex
         'ERC20' => '/^0x[0-9a-fA-F]{40}$/',                   // Ethereum (EVM), 0x + 40 hex
         'BTC'   => '/^(1[1-9A-HJ-NP-Za-km-z]{25,34}|3[1-9A-HJ-NP-Za-km-z]{25,34}|bc1[0-9a-z]{39,59})$/',  // Legacy, P2SH, Bech32
-        'SOL'   => '/^[1-9A-HJ-NP-Za-km-z]{32,44}$/',        // Solana base58, 32-44 chars
     ];
 }
 
@@ -97,7 +94,6 @@ function get_rpc_endpoints(): array
         'BEP20' => 'https://bsc-dataseed1.binance.org',
         'ERC20' => 'https://eth.llamarpc.com',
         'BTC'   => 'https://blockstream.info/api',
-        'SOL'   => 'https://api.mainnet-beta.solana.com',
     ];
 }
 
@@ -182,32 +178,6 @@ function verify_transaction_rpc(string $txHash, string $network): array
                     if (!empty($data['txid'])) {
                         $result['verified'] = true;
                         $result['confirmations'] = isset($data['status']['confirmed']) && $data['status']['confirmed'] ? 1 : 0;
-                    }
-                }
-                break;
-
-            case 'SOL':
-                $payload = json_encode([
-                    'jsonrpc' => '2.0',
-                    'id'      => 1,
-                    'method'  => 'getTransaction',
-                    'params'  => [$txHash, ['encoding' => 'json', 'maxSupportedTransactionVersion' => 0]],
-                ]);
-                $ctx = stream_context_create([
-                    'http' => [
-                        'method'  => 'POST',
-                        'timeout' => 10,
-                        'ignore_errors' => true,
-                        'header'  => "Content-Type: application/json\r\n",
-                        'content' => $payload,
-                    ],
-                ]);
-                $resp = @file_get_contents('https://api.mainnet-beta.solana.com', false, $ctx);
-                if ($resp) {
-                    $data = json_decode($resp, true);
-                    if (!empty($data['result'])) {
-                        $result['verified'] = true;
-                        $result['confirmations'] = isset($data['result']['slot']) ? 1 : 0;
                     }
                 }
                 break;

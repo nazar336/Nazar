@@ -54,7 +54,7 @@ export function renderTasks(el){
             <span class="badge badge-${task.status}">${task.status==='open'?t('open'):task.status==='in_progress'?t('inProgress'):task.status==='completed'?t('completed'):t('cancelled')}</span>
             <span class="badge badge-${task.difficulty}">${t(task.difficulty)}${!diffAllowed?' 🔒':''}</span>
           </div>
-          <div class="task-reward">${task.reward}<span>coins</span></div>
+          <div class="task-reward">${task.reward}<span>LOL</span></div>
         </div>
         <div class="task-title">${esc(task.title)}</div>
         <div class="task-desc">${esc(task.description)}</div>
@@ -195,7 +195,7 @@ export async function completeTask(tid,action='submit'){
   if(action==='submit'){
     toast(t('taskCompleted'),'success');
   }else{
-    addNotif(`Completed "${task?.title||('#'+tid)}" · +${Number(data.reward||0)} coins!`,'success');
+    addNotif(`Completed "${task?.title||('#'+tid)}" · +${Number(data.reward||0)} LOL!`,'success');
     toast(data.message||t('confirm'),'success');
     await syncProfile();
     await loadWallet();

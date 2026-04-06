@@ -90,7 +90,7 @@ if ($method === 'POST') {
 
         // Transaction log
         $pdo->prepare("INSERT INTO transactions (user_id,type,amount,status,description) VALUES (:uid,'deposit',:amt,'completed',:desc)")
-            ->execute([':uid' => $userId, ':amt' => $deposit['amount_usdt'], ':desc' => 'Crypto deposit (' . $deposit['network'] . '): +' . $amountCoins . ' coins']);
+            ->execute([':uid' => $userId, ':amt' => $deposit['amount_usdt'], ':desc' => 'Crypto deposit (' . $deposit['network'] . '): +' . $amountCoins . ' LOL']);
 
         // Notify user
         $pdo->prepare("INSERT INTO notifications (user_id,type,title,content) VALUES (:uid,'payment','Депозит підтверджено! ✅',:content)")
@@ -105,7 +105,7 @@ if ($method === 'POST') {
 
         json_response([
             'success'        => true,
-            'message'        => 'Deposit approved. ' . $amountCoins . ' coins credited.',
+            'message'        => 'Deposit approved. ' . $amountCoins . ' LOL credited.',
             'deposit_id'     => $depositId,
             'user_id'        => $userId,
             'coins_credited' => $amountCoins,

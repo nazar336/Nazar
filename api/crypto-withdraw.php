@@ -71,9 +71,9 @@ function handleWithdrawInitiate(PDO $pdo, int $userId, array $input): never {
 
     // Validation
     if ($amountCoins < MIN_WITHDRAW_COINS)
-        json_response(['success' => false, 'message' => 'Мінімальна сума: ' . MIN_WITHDRAW_COINS . ' coins'], 400);
+        json_response(['success' => false, 'message' => 'Мінімальна сума: ' . MIN_WITHDRAW_COINS . ' LOL'], 400);
     if ($amountCoins > MAX_WITHDRAW_COINS)
-        json_response(['success' => false, 'message' => 'Максимальна сума: ' . MAX_WITHDRAW_COINS . ' coins'], 400);
+        json_response(['success' => false, 'message' => 'Максимальна сума: ' . MAX_WITHDRAW_COINS . ' LOL'], 400);
     if (!array_key_exists($network, CRYPTO_WALLETS))
         json_response(['success' => false, 'message' => 'Unsupported network: ' . $network], 400);
     if (strlen($walletAddress) < 10 || strlen($walletAddress) > 128)
@@ -142,7 +142,7 @@ function handleWithdrawInitiate(PDO $pdo, int $userId, array $input): never {
         ')->execute([
             ':uid'  => $userId,
             ':amt'  => $amountCoins,
-            ':desc' => 'Withdrawal request: ' . $amountCoins . ' coins → ' . $amountNative . ' ' . $currency . ' (' . $network . ')',
+            ':desc' => 'Withdrawal request: ' . $amountCoins . ' LOL → ' . $amountNative . ' ' . $currency . ' (' . $network . ')',
         ]);
 
         // Create withdrawal record
@@ -188,7 +188,7 @@ function handleWithdrawInitiate(PDO $pdo, int $userId, array $input): never {
             'network'        => $network,
             'wallet_address' => $walletAddress,
             'new_balance'    => $newBalance,
-            'message'        => "Запит на вивід створено. {$netCoins} coins → ~{$amountNative} {$currency} ({$network}). Буде оброблено протягом 1–24 годин.",
+            'message'        => "Запит на вивід створено. {$netCoins} LOL → ~{$amountNative} {$currency} ({$network}). Буде оброблено протягом 1–24 годин.",
         ]);
 
     } catch (\Exception $e) {
@@ -243,14 +243,14 @@ function handleWithdrawCancel(PDO $pdo, int $userId, array $input): never {
         ')->execute([
             ':uid'  => $userId,
             ':amt'  => -$refundCoins,
-            ':desc' => 'Withdrawal cancelled — refund ' . $refundCoins . ' coins',
+            ':desc' => 'Withdrawal cancelled — refund ' . $refundCoins . ' LOL',
         ]);
 
         $pdo->commit();
 
         json_response([
             'success' => true,
-            'message' => 'Запит на вивід скасовано. ' . $refundCoins . ' coins повернено на баланс.',
+            'message' => 'Запит на вивід скасовано. ' . $refundCoins . ' LOL повернено на баланс.',
             'refunded_coins' => $refundCoins,
         ]);
 

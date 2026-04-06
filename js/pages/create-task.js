@@ -49,7 +49,7 @@ export function renderCreateTask(el){
           <div class="card-flat" style="padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);">
             <span>${priv.badge} Lv ${appState.S.level}</span>
             <span>·</span>
-            <span>${t('lvlMaxReward')}: <b style="color:var(--primary);">${priv.maxReward.toLocaleString()} coins</b></span>
+            <span>${t('lvlMaxReward')}: <b style="color:var(--primary);">${priv.maxReward.toLocaleString()} LOL</b></span>
           </div>` : '';
       })()}
       <div class="two-col">
@@ -65,7 +65,7 @@ export function renderCreateTask(el){
                 <select id="ctDiff" class="form-select form-input"><option value="easy"${draft.diff==='easy'?' selected':''}>${t('easy')}</option><option value="medium"${(!draft.diff||draft.diff==='medium')?' selected':''}>${t('medium')}</option><option value="hard"${draft.diff==='hard'?' selected':''}>${t('hard')}</option></select></div>
             </div>
             <div class="form-row">
-              <div class="form-group"><label class="form-label">${t('reward')} (coins)</label><input type="number" id="ctReward" class="form-input" min="1" max="${priv.canCreate?priv.maxReward:99999}" placeholder="100" value="${draft.reward||''}"><div id="ctRewardWarning" style="font-size:11px;min-height:14px;margin-top:2px;"></div></div>
+              <div class="form-group"><label class="form-label">${t('reward')} (LOL)</label><input type="number" id="ctReward" class="form-input" min="1" max="${priv.canCreate?priv.maxReward:99999}" placeholder="100" value="${draft.reward||''}"><div id="ctRewardWarning" style="font-size:11px;min-height:14px;margin-top:2px;"></div></div>
               <div class="form-group"><label class="form-label">${t('slots')}</label><input type="number" id="ctSlots" class="form-input" min="1" max="20" value="${draft.slots||'2'}"></div>
             </div>
             <div class="form-group"><label class="form-label">${t('deadline')}</label><input type="date" id="ctDeadline" class="form-input" value="${draft.deadline||''}"><div id="ctDeadlineWarning" style="font-size:11px;min-height:14px;margin-top:2px;"></div></div>
@@ -79,7 +79,7 @@ export function renderCreateTask(el){
             <div class="task-title" id="pvTitle" style="color:var(--muted);">${t('previewTitlePh')}</div>
             <div class="task-desc" id="pvDesc" style="color:var(--muted-2);">${t('previewDescPh')}</div>
             <div class="task-meta"><span class="chip" id="pvCat" style="cursor:default;font-size:11px;">${t('category')}</span><span class="text-xs text-muted" id="pvSlots">2 ${t('slots')}</span></div>
-            <div class="task-footer"><span class="text-xs text-muted" id="pvDeadline">${t('noDeadline')}</span><div class="task-reward" id="pvReward">0<span>coins</span></div></div>
+            <div class="task-footer"><span class="text-xs text-muted" id="pvDeadline">${t('noDeadline')}</span><div class="task-reward" id="pvReward">0<span>LOL</span></div></div>
             <div id="pvTotalCost" style="font-size:12px;color:var(--muted);margin-top:6px;text-align:right;"></div>
           </div>
         </div>
@@ -99,13 +99,13 @@ export function renderCreateTask(el){
     document.getElementById('pvDesc').textContent=descVal||t('previewDescPh');
     document.getElementById('pvCat').textContent=catVal||t('category');
     document.getElementById('pvSlots').textContent=slotsVal+' '+t('slots');
-    document.getElementById('pvReward').innerHTML=`${rewardVal}<span>coins</span>`;
+    document.getElementById('pvReward').innerHTML=`${rewardVal}<span>LOL</span>`;
     document.getElementById('pvDeadline').textContent=dl?'📅 '+fmtDate(dl):t('noDeadline');
 
     // Estimated total cost
     const total=Number(rewardVal||0)*Number(slotsVal||1);
     const pvCost=document.getElementById('pvTotalCost');
-    if(pvCost) pvCost.textContent=total>0?`💰 ${t('total')||'Total'}: ${total.toLocaleString()} coins`:'';
+    if(pvCost) pvCost.textContent=total>0?`💰 ${t('total')||'Total'}: ${total.toLocaleString()} LOL`:'';
 
     // Title counter
     const titleCounter=document.getElementById('ctTitleCounter');
@@ -119,7 +119,7 @@ export function renderCreateTask(el){
     const rw=document.getElementById('ctRewardWarning');
     if(rw && priv.canCreate){
       const rv=Number(rewardVal||0);
-      if(rv>priv.maxReward) { rw.textContent=`⚠️ ${t('lvlMaxReward')||'Max reward'}: ${priv.maxReward.toLocaleString()} coins (Lv ${appState.S.level})`; rw.style.color='var(--warning)'; }
+      if(rv>priv.maxReward) { rw.textContent=`⚠️ ${t('lvlMaxReward')||'Max reward'}: ${priv.maxReward.toLocaleString()} LOL (Lv ${appState.S.level})`; rw.style.color='var(--warning)'; }
       else { rw.textContent=''; }
     }
 
@@ -154,7 +154,7 @@ export function renderCreateTask(el){
     if(reward<=0||slots<=0){showAlert('ctAlert',t('invalidAmount'));return;}
 
     // Validate reward against level cap
-    if(priv.canCreate && reward>priv.maxReward){showAlert('ctAlert',(t('lvlMaxReward')||'Max reward')+': '+priv.maxReward.toLocaleString()+' coins');return;}
+    if(priv.canCreate && reward>priv.maxReward){showAlert('ctAlert',(t('lvlMaxReward')||'Max reward')+': '+priv.maxReward.toLocaleString()+' LOL');return;}
 
     // Validate deadline in the future
     if(deadline && new Date(deadline) <= new Date()){showAlert('ctAlert',t('deadlinePast')||'Deadline must be in the future');return;}

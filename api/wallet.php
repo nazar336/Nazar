@@ -101,7 +101,7 @@ try{
     // Use /api/crypto-deposit.php for all fund operations.
     json_response([
       'success'=>false,
-      'message'=>'This endpoint is disabled. Use /api/crypto-deposit.php to deposit USDT, ETH, BTC or SOL.'
+      'message'=>'This endpoint is disabled. Use /api/crypto-deposit.php to deposit USDT, ETH or BTC.'
     ],410);
     exit;
   }

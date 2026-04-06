@@ -108,7 +108,7 @@ function handleProcess(PDO $pdo, array $input): never {
                 VALUES (:uid, 'payment', 'Withdrawal completed ✅', :c)
             ")->execute([
                 ':uid' => $userId,
-                ':c'   => 'Your withdrawal of ' . $amountCoins . ' coins has been processed.',
+                ':c'   => 'Your withdrawal of ' . $amountCoins . ' LOL has been processed.',
             ]);
 
         } else {
@@ -135,7 +135,7 @@ function handleProcess(PDO $pdo, array $input): never {
             ')->execute([
                 ':uid'  => $userId,
                 ':amt'  => $amountCoins,
-                ':desc' => 'Withdrawal rejected — refund ' . $amountCoins . ' coins',
+                ':desc' => 'Withdrawal rejected — refund ' . $amountCoins . ' LOL',
             ]);
 
             // Notification
@@ -144,7 +144,7 @@ function handleProcess(PDO $pdo, array $input): never {
                 VALUES (:uid, 'payment', 'Withdrawal rejected ❌', :c)
             ")->execute([
                 ':uid' => $userId,
-                ':c'   => 'Your withdrawal of ' . $amountCoins . ' coins was rejected.' . ($adminNote ? ' Reason: ' . $adminNote : ''),
+                ':c'   => 'Your withdrawal of ' . $amountCoins . ' LOL was rejected.' . ($adminNote ? ' Reason: ' . $adminNote : ''),
             ]);
         }
 

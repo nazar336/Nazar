@@ -27,9 +27,21 @@ export function renderLeaderboard(el){
 
   el.innerHTML=`
     <div class="fade-up">
+      <!-- Page header -->
+      <div class="page-header card" style="margin-bottom:20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+          <div>
+            <div class="page-header-label">🏆 ${t('leaderboard')}</div>
+            <h1 class="page-header-title">${t('leaderboard')}</h1>
+            <p class="page-header-desc">${t('leaderboardDesc')}</p>
+          </div>
+          <div class="badge badge-info" style="font-size:12px;padding:6px 12px;">${t('seasonInfo')}</div>
+        </div>
+      </div>
+
       <!-- Podium -->
       <div class="card" style="margin-bottom:20px;">
-        <div class="section-title">🏆 ${t('leaderboard')}</div>
+        <div class="section-title" style="margin-bottom:14px;">🏆 ${t('leaderboard')}</div>
         <div class="podium">
           ${medalOrder.map((idx,pos)=>{
             const u=top3[idx];if(!u)return '';
@@ -92,6 +104,12 @@ export function renderLeaderboard(el){
           <div><div style="font-size:11px;color:var(--muted);">${t('level')}</div><div style="font-size:18px;font-weight:800;">${appState.S.level}</div></div>
           <div><div style="font-size:11px;color:var(--muted);">${t('streak')}</div><div style="font-size:18px;font-weight:800;">🔥 ${appState.S.streak}</div></div>
         </div>
+      </div>
+
+      <!-- Tip -->
+      <div class="card-flat" style="margin-top:16px;padding:12px 16px;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:18px;">💡</span>
+        <span style="font-size:13px;color:var(--text-soft);">${t('leaderboardTip')}</span>
       </div>
     </div>`;
 }

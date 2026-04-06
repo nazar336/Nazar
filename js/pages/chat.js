@@ -42,14 +42,25 @@ export function renderChat(el){
 
   el.innerHTML=`
     <div class="fade-up">
-      <div class="card" style="margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
-        <div>
-          <div class="section-title" style="margin-bottom:4px;">💬 ${t('chatRooms')}</div>
-          <div style="font-size:13px;color:var(--muted);">XP / LVL: <b>${Number(appState.S.xp||0).toLocaleString()} XP · Lv ${Number(appState.S.level||1)}</b></div>
+      <!-- Page header -->
+      <div class="page-header card" style="margin-bottom:14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+          <div>
+            <div class="page-header-label">💬 ${t('chatRooms')}</div>
+            <h1 class="page-header-title">${t('chatRooms')}</h1>
+            <p class="page-header-desc">${t('chatPageDesc')}</p>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">XP: <b>${Number(appState.S.xp||0).toLocaleString()}</b> · Lv <b>${Number(appState.S.level||1)}</b></div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <input id="buyPointsPacksChat" type="number" min="1" max="100" value="1" class="form-input" style="width:90px;">
+              <button id="buyPointsBtn" class="btn btn-ghost btn-sm">${t('buyPoints')}</button>
+            </div>
+          </div>
         </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <input id="buyPointsPacksChat" type="number" min="1" max="100" value="1" class="form-input" style="width:90px;">          <button id="buyPointsBtn" class="btn btn-ghost btn-sm">${t('buyPoints')}</button>
-        </div>
+      </div>
+      <div class="tip-bar" style="margin-bottom:14px;">
+        <span>💡</span> ${t('chatTip')}
       </div>
 
       <div class="chat-wrap">

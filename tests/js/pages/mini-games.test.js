@@ -86,7 +86,7 @@ describe('renderMiniGames', () => {
   it('renders mini games page with game cards', () => {
     renderMiniGames(el);
     expect(el.innerHTML).toContain('miniGames');
-    expect(el.innerHTML).toContain('miniGamesDesc');
+    expect(el.innerHTML).toContain('miniGamesInfo');
     expect(el.querySelectorAll('.game-card').length).toBe(2);
   });
 

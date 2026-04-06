@@ -25,7 +25,14 @@ export function renderCreateTask(el){
 
   el.innerHTML=`
     <div class="fade-up" style="max-width:900px;">
-      <h1 style="font-size:20px;font-weight:900;margin-bottom:20px;">${t('createTask')}</h1>
+      <!-- Page header -->
+      <div class="page-header card" style="margin-bottom:18px;">
+        <div>
+          <div class="page-header-label">✚ ${t('createTask')}</div>
+          <h1 class="page-header-title">${t('createTask')}</h1>
+          <p class="page-header-desc">${t('createTaskTip')}</p>
+        </div>
+      </div>
       ${(()=>{
         if(!appState.isGuest && !priv.canCreate) return `
           <div class="card" style="margin-bottom:20px;background:rgba(255,100,100,.06);border-color:rgba(255,100,100,.2);">

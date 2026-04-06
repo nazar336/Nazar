@@ -239,9 +239,19 @@ export function renderFeed(el){
 
   el.innerHTML=`
     <div class="fade-up" style="max-width:680px;">
-      <!-- Refresh button -->
-      <div style="text-align:center;margin-bottom:12px;">
-        <button class="btn btn-ghost btn-sm" id="feedRefreshBtn">🔄 ${t('refresh') || 'Refresh feed'}</button>
+      <!-- Page header -->
+      <div class="page-header card" style="margin-bottom:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+          <div>
+            <div class="page-header-label">📡 ${t('feed')}</div>
+            <h1 class="page-header-title">${t('feed')}</h1>
+            <p class="page-header-desc">${t('feedPageDesc')}</p>
+          </div>
+          <div><button class="btn btn-ghost btn-sm" id="feedRefreshBtn">🔄 ${t('refresh') || 'Refresh'}</button></div>
+        </div>
+      </div>
+      <div class="tip-bar" style="margin-bottom:14px;">
+        <span>📜</span> ${t('communityGuidelines')}
       </div>
       ${createForm}
       <div class="feed-mode-toggle" id="feedModeToggle">

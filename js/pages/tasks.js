@@ -101,16 +101,23 @@ export function renderTasks(el){
 
   el.innerHTML=`
     <div class="fade-up">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <h1 style="font-size:20px;font-weight:900;">${t('tasks')}</h1>
-          <span id="tasksCount" style="font-size:12px;color:var(--muted);font-weight:600;">${(appState.S.tasks||[]).length}/${(appState.S.tasks||[]).length}</span>
+      <!-- Page header -->
+      <div class="page-header card" style="margin-bottom:18px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+          <div>
+            <div class="page-header-label">📋 ${t('tasks')}</div>
+            <h1 class="page-header-title">${t('tasks')} <span style="font-size:14px;color:var(--muted);font-weight:600;" id="tasksCount">${(appState.S.tasks||[]).length}/${(appState.S.tasks||[]).length}</span></h1>
+            <p class="page-header-desc">${t('tasksPageDesc')}</p>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-ghost btn-sm" id="refreshTasksBtn" aria-label="${t('refresh') || 'Refresh'}">🔄 ${t('refresh') || 'Refresh'}</button>
+            <span style="font-size:12px;color:var(--muted);">${getLvlPriv(appState.S.level).badge} Lv ${appState.S.level}</span>
+            <button class="btn btn-primary btn-sm" id="openCreateTaskBtn" ${!appState.isGuest&&!getLvlPriv(appState.S.level).canCreate?'style="opacity:.5;"':''}>${getLvlPriv(appState.S.level).canCreate?'+ '+t('createTask'):'🔒 Lv 3'}</button>
+          </div>
         </div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <button class="btn btn-ghost btn-sm" id="refreshTasksBtn" aria-label="${t('refresh') || 'Refresh'}">🔄 ${t('refresh') || 'Refresh'}</button>
-          <span style="font-size:12px;color:var(--muted);">${getLvlPriv(appState.S.level).badge} Lv ${appState.S.level} · ${t('lvlMaxTasks')}: ${getLvlPriv(appState.S.level).maxTasks>=999?'∞':getLvlPriv(appState.S.level).maxTasks}</span>
-          <button class="btn btn-primary btn-sm" id="openCreateTaskBtn" ${!appState.isGuest&&!getLvlPriv(appState.S.level).canCreate?'style="opacity:.5;"':''}>${getLvlPriv(appState.S.level).canCreate?'+ '+t('createTask'):'🔒 Lv 3'}</button>
-        </div>
+      </div>
+      <div class="tip-bar" style="margin-bottom:14px;">
+        <span>💡</span> ${t('tasksTip')}
       </div>
       <!-- Search + filters -->
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">

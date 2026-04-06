@@ -72,6 +72,14 @@ export function renderProfile(el){
 
   el.innerHTML=`
     <div class="fade-up" style="max-width:800px;">
+      <!-- Page header -->
+      <div class="page-header card" style="margin-bottom:16px;">
+        <div>
+          <div class="page-header-label">👤 ${t('profile')}</div>
+          <h1 class="page-header-title">${appState.isGuest?t('guestMode'):t('profile')}</h1>
+          <p class="page-header-desc">${t('profilePageDesc')}</p>
+        </div>
+      </div>
       <div class="card" style="margin-bottom:20px;">
         <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
           <div class="user-av lg" style="border:2px solid rgba(184,255,92,.3);">${appState.isGuest?'🎭':(appState.currentUser.name||'?').charAt(0).toUpperCase()}</div>

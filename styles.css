@@ -2611,3 +2611,25 @@ h1,h2,h3,h4,h5,h6 { line-height:1.25; }
   .tiktok-feed-actions { right:8px; }
   .tiktok-action-btn .tiktok-icon { width:40px; height:40px; font-size:18px; }
 }
+
+/* ── Professional page headers ───────────────────────────── */
+.page-header {
+  background: linear-gradient(135deg, rgba(184,255,92,.08), rgba(125,215,255,.04));
+  border-color: rgba(184,255,92,.15);
+}
+.page-header-label {
+  font-size: 12px; font-weight: 700; color: var(--primary);
+  text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px;
+}
+.page-header-title {
+  font-size: clamp(18px, 3vw, 22px); font-weight: 900; margin-bottom: 4px;
+}
+.page-header-desc {
+  font-size: 14px; color: var(--text-soft); max-width: 480px; margin: 0;
+}
+.tip-bar {
+  padding: 10px 14px; display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--text-soft);
+  background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.06);
+  border-radius: var(--r-sm);
+}

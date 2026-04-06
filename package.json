@@ -3,11 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "description": "LOLance Premium Micro-Task Platform",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "npx playwright test",
     "lint": "find js/ -name '*.js' -exec node --check {} \\;"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1",

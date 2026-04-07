@@ -228,24 +228,35 @@ function rollPrize(caseData) {
 
 function showCaseResult(area, caseData, prize, data) {
   const isCoins = prize.type === 'coins';
+
+  // First show opening animation
   area.innerHTML = `<div class="card card-sm" style="text-align:center;">
-    <div style="font-size:56px;margin-bottom:12px;">${caseData.emoji}</div>
-    <div style="font-size:20px;font-weight:700;margin-bottom:8px;">${t('caseOpened')}</div>
-    <div style="font-size:36px;font-weight:700;color:var(--accent);margin-bottom:8px;">
-      ${isCoins ? '🪙' : '⭐'} ${prize.amount} ${isCoins ? t('wonCoins') : t('wonXp')}
-    </div>
-    <div style="color:var(--muted);font-size:13px;margin-bottom:16px;">
-      ${t('caseCost')}: ${caseData.cost} 🪙
-    </div>
-    <button class="btn btn-primary btn-sm" id="backToCases">🔄 ${t('playAgain')}</button>
+    <div class="case-opening-anim" style="font-size:72px;margin:24px 0;">${caseData.emoji}</div>
+    <div style="font-size:16px;color:var(--muted);">${t('caseOpening')}...</div>
   </div>`;
 
-  document.getElementById('backToCases')?.addEventListener('click', () => renderCaseOpening(area));
+  // After animation, show result
+  setTimeout(() => {
+    area.innerHTML = `<div class="card card-sm" style="text-align:center;position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 30%, ${isCoins ? 'rgba(184,255,92,.08)' : 'rgba(192,132,252,.08)'}, transparent 70%);pointer-events:none;"></div>
+      <div class="case-result-anim" style="font-size:64px;margin-bottom:12px;">${caseData.emoji}</div>
+      <div class="case-result-anim" style="font-size:22px;font-weight:800;margin-bottom:10px;color:var(--primary);">${t('caseOpened')}</div>
+      <div class="prize-glow" style="font-size:40px;font-weight:800;color:var(--accent);margin-bottom:10px;">
+        ${isCoins ? '🪙' : '⭐'} +${prize.amount} ${isCoins ? t('wonCoins') : t('wonXp')}
+      </div>
+      <div style="color:var(--muted);font-size:13px;margin-bottom:18px;">
+        ${t('caseCost')}: ${caseData.cost} 🪙
+      </div>
+      <button class="btn btn-primary btn-sm" id="backToCases">🔄 ${t('playAgain')}</button>
+    </div>`;
 
-  const coinsEl = document.getElementById('mgCoins');
-  if (coinsEl) coinsEl.textContent = String(appState.S.coinBalance || 0);
+    document.getElementById('backToCases')?.addEventListener('click', () => renderCaseOpening(area));
 
-  toast(`${isCoins ? '🪙' : '⭐'} +${prize.amount} ${isCoins ? t('wonCoins') : t('wonXp')}`, 'success');
+    const coinsEl = document.getElementById('mgCoins');
+    if (coinsEl) coinsEl.textContent = String(appState.S.coinBalance || 0);
+
+    toast(`${isCoins ? '🪙' : '⭐'} +${prize.amount} ${isCoins ? t('wonCoins') : t('wonXp')}`, 'success');
+  }, 1300);
 }
 
 /* ═══════════════════════════════════════════════
@@ -357,7 +368,7 @@ function drawChart(canvas, data) {
   const range = max - min || 0.01;
 
   // Draw grid
-  ctx.strokeStyle = 'rgba(255,255,255,.05)';
+  ctx.strokeStyle = 'rgba(184,255,92,.06)';
   ctx.lineWidth = 1;
   for (let i = 0; i < 5; i++) {
     const y = (h / 5) * i;
@@ -369,8 +380,10 @@ function drawChart(canvas, data) {
 
   // Draw price line
   const isUp = data[data.length - 1] >= data[0];
-  ctx.strokeStyle = isUp ? '#22c55e' : '#ef4444';
-  ctx.lineWidth = 2;
+  ctx.strokeStyle = isUp ? '#5cff8a' : '#ff6b6b';
+  ctx.lineWidth = 2.5;
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
   ctx.beginPath();
   data.forEach((price, i) => {
     const x = (i / (data.length - 1)) * w;
@@ -380,9 +393,25 @@ function drawChart(canvas, data) {
   });
   ctx.stroke();
 
+  // Glow effect on line
+  ctx.save();
+  ctx.globalAlpha = 0.3;
+  ctx.strokeStyle = isUp ? '#5cff8a' : '#ff6b6b';
+  ctx.lineWidth = 6;
+  ctx.filter = 'blur(4px)';
+  ctx.beginPath();
+  data.forEach((price, i) => {
+    const x = (i / (data.length - 1)) * w;
+    const y = h - ((price - min) / range) * h * 0.85 - h * 0.075;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  ctx.restore();
+
   // Fill gradient under line
   const gradient = ctx.createLinearGradient(0, 0, 0, h);
-  gradient.addColorStop(0, isUp ? 'rgba(34,197,94,.15)' : 'rgba(239,68,68,.15)');
+  gradient.addColorStop(0, isUp ? 'rgba(92,255,138,.18)' : 'rgba(255,107,107,.18)');
   gradient.addColorStop(1, 'rgba(0,0,0,0)');
   ctx.lineTo(w, h);
   ctx.lineTo(0, h);
@@ -392,10 +421,22 @@ function drawChart(canvas, data) {
 
   // Current price label
   const currentPrice = data[data.length - 1];
-  ctx.fillStyle = isUp ? '#22c55e' : '#ef4444';
+  ctx.fillStyle = isUp ? '#5cff8a' : '#ff6b6b';
   ctx.font = 'bold 14px Inter,sans-serif';
   ctx.textAlign = 'right';
   ctx.fillText(`$${currentPrice.toFixed(4)}`, w - 8, 20);
+
+  // Pulsing dot at last price
+  const lastX = w;
+  const lastY = h - ((currentPrice - min) / range) * h * 0.85 - h * 0.075;
+  ctx.beginPath();
+  ctx.arc(lastX - 2, lastY, 4, 0, Math.PI * 2);
+  ctx.fillStyle = isUp ? '#5cff8a' : '#ff6b6b';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(lastX - 2, lastY, 7, 0, Math.PI * 2);
+  ctx.fillStyle = isUp ? 'rgba(92,255,138,.3)' : 'rgba(255,107,107,.3)';
+  ctx.fill();
 }
 
 /* ── Prediction Logic ── */
@@ -482,23 +523,24 @@ async function startPrediction(area, direction) {
 function showPredictionResult(area, result) {
   const { direction, startPrice, endPrice, isCorrect, bet, payout, tf } = result;
 
-  area.innerHTML = `<div class="card card-sm" style="text-align:center;">
-    <div style="font-size:48px;margin-bottom:12px;">${isCorrect ? '🎉' : '📉'}</div>
-    <div style="font-size:20px;font-weight:700;margin-bottom:12px;color:${isCorrect ? 'var(--accent)' : 'var(--danger)'};">
+  area.innerHTML = `<div class="card card-sm" style="text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 30%, ${isCorrect ? 'rgba(92,255,138,.08)' : 'rgba(255,107,107,.06)'}, transparent 70%);pointer-events:none;"></div>
+    <div class="case-result-anim" style="font-size:56px;margin-bottom:12px;">${isCorrect ? '🎉' : '📉'}</div>
+    <div class="case-result-anim ${isCorrect ? 'pred-correct' : 'pred-wrong'}" style="font-size:22px;font-weight:800;margin-bottom:14px;">
       ${isCorrect ? t('predictionCorrect') : t('predictionWrong')}
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:300px;margin:0 auto 16px;font-size:14px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:320px;margin:0 auto 18px;font-size:14px;">
       <div style="color:var(--muted);">${t('yourPrediction')}:</div>
-      <div style="font-weight:600;">${direction === 'up' ? t('predictUp') : t('predictDown')}</div>
+      <div style="font-weight:600;">${direction === 'up' ? '📈 ' + t('predictUp') : '📉 ' + t('predictDown')}</div>
       <div style="color:var(--muted);">${t('result')}:</div>
-      <div style="font-weight:600;color:${endPrice > startPrice ? '#22c55e' : '#ef4444'};">
+      <div style="font-weight:600;color:${endPrice > startPrice ? 'var(--success)' : 'var(--danger)'};">
         $${startPrice.toFixed(4)} → $${endPrice.toFixed(4)}
       </div>
       <div style="color:var(--muted);">${t('yourBet')}:</div>
       <div style="font-weight:600;">${bet} 🪙</div>
       ${isCorrect ? `
         <div style="color:var(--muted);">${t('payout')} (${tf.payoutPct}%):</div>
-        <div style="font-weight:700;color:var(--accent);">+${payout} 🪙</div>
+        <div class="prize-glow" style="font-weight:800;color:var(--success);">+${payout} 🪙</div>
       ` : `
         <div style="color:var(--muted);">Lost:</div>
         <div style="font-weight:700;color:var(--danger);">-${bet} 🪙</div>

@@ -22,6 +22,10 @@ const SKELETON_HTML = `<div class="loading-skeleton" aria-busy="true" style="pad
 
 let _hashListenerActive = false;
 
+function _pageTitles() {
+  return { dashboard: t('dashboard'), tasks: t('tasks'), createTask: t('createTask'), feed: t('feed'), wallet: t('wallet'), chat: t('chat'), support: t('support'), profile: t('profile'), leaderboard: t('leaderboard'), miniGames: t('miniGames'), dm: t('directMessages') };
+}
+
 export function initScroll() {
   const bar = document.getElementById('scrollBar');
   if (!bar) return;
@@ -52,7 +56,7 @@ export function initHashRouting() {
       }
       document.querySelectorAll('.nav-btn[data-page]').forEach(b => b.classList.toggle('active', b.dataset.page === page));
       document.querySelectorAll('.mob-btn[data-page]').forEach(b => b.classList.toggle('active', b.dataset.page === page));
-      const titles = { dashboard: t('dashboard'), tasks: t('tasks'), createTask: t('createTask'), feed: t('feed'), wallet: t('wallet'), chat: t('chat'), support: t('support'), profile: t('profile'), leaderboard: t('leaderboard'), miniGames: t('miniGames'), dm: t('directMessages') };
+      const titles = _pageTitles();
       const tb = document.getElementById('topbarTitle');
       if (tb) tb.textContent = titles[page] || page;
       document.title = `${titles[page] || page} — Lolanceizi`;
@@ -98,7 +102,7 @@ export function navigate(page) {
     });
     mc.scrollTop = 0;
   }, appState.S.animationsOn ? 100 : 10);
-  const titles = { dashboard: t('dashboard'), tasks: t('tasks'), createTask: t('createTask'), feed: t('feed'), wallet: t('wallet'), chat: t('chat'), support: t('support'), profile: t('profile'), leaderboard: t('leaderboard'), miniGames: t('miniGames'), dm: t('directMessages') };
+  const titles = _pageTitles();
   const tb = document.getElementById('topbarTitle');
   if (tb) tb.textContent = titles[page] || page;
   document.title = `${titles[page] || page} — Lolanceizi`;
@@ -126,5 +130,6 @@ export function renderPage(page, el) {
   if (page === 'miniGames' && !appState.isGuest) loadPoints();
   if (page === 'dm' && !appState.isGuest) loadMessages();
 
-  (pages[page] || renderDashboard)(el);
+  const renderer = Object.prototype.hasOwnProperty.call(pages, page) ? pages[page] : renderDashboard;
+  renderer(el);
 }

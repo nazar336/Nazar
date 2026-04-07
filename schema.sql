@@ -358,4 +358,12 @@ CREATE TABLE IF NOT EXISTS crypto_withdrawals (
     KEY idx_status (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- ── LOGIN ATTEMPTS / RATE LIMITING ──
+CREATE TABLE IF NOT EXISTS login_attempts (
+    id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    identifier   VARCHAR(255) NOT NULL COMMENT 'email or IP',
+    attempted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    KEY idx_identifier_time (identifier, attempted_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- NOTE: feed_posts and feed_likes tables are already defined above (lines 310-336)

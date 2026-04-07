@@ -40,7 +40,7 @@ function env(string $key, ?string $default = null): string {
 
 // ── Environment ───────────────────────────────────────────────────
 define('APP_ENV',    env('APP_ENV', 'production'));
-define('APP_DOMAIN', env('APP_DOMAIN', 'lolanceizi.com'));
+define('APP_DOMAIN', env('APP_DOMAIN', 'lolanceizi.online'));
 
 // ── Database ──────────────────────────────────────────────────────
 define('DB_HOST', env('DB_HOST', '127.0.0.1'));
@@ -52,7 +52,7 @@ define('DB_PASS', env('DB_PASS'));
 define('SESSION_NAME', env('SESSION_NAME', 'lolanceizi_session'));
 
 // ── Email / SMTP ──────────────────────────────────────────────────
-define('MAIL_FROM',      env('MAIL_FROM', 'noreply@lolanceizi.com'));
+define('MAIL_FROM',      env('MAIL_FROM', 'noreply@lolanceizi.online'));
 define('MAIL_FROM_NAME', env('MAIL_FROM_NAME', 'Lolanceizi'));
 define('SMTP_HOST',      env('SMTP_HOST', 'smtp.gmail.com'));
 define('SMTP_PORT',      (int) env('SMTP_PORT', '587'));

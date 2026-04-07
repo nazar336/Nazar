@@ -262,7 +262,7 @@ mysql -u root -p lolanceizi < migration-indexes.sql
 ```env
 # Базове
 APP_ENV=production
-APP_DOMAIN=lolanceizi.com
+APP_DOMAIN=lolanceizi.online
 
 # БД
 DB_HOST=127.0.0.1

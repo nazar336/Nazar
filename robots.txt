@@ -4,4 +4,4 @@ Allow: /
 Disallow: /api/
 Disallow: /tests/
 
-Sitemap: https://lolanceizi.com/sitemap.xml
+Sitemap: https://lolanceizi.online/sitemap.xml

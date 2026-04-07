@@ -426,7 +426,7 @@ fetch('/api/session.php').then(r=>r.json()).then(console.log)
 ## 📌 Важливі нотатки
 
 ### Оновлення домену в файлах
-Якщо твій домен НЕ `lolanceizi.com`, оновлюй URL в:
+Якщо твій домен НЕ `lolanceizi.online`, оновлюй URL в:
 - `index.html` — рядки 10, 15, 16, 23 (canonical, og:url, og:image)
 - `robots.txt` — рядок 7 (Sitemap URL)
 - `sitemap.xml` — рядки 4, 9, 14 (всі `<loc>` URL)

@@ -34,10 +34,37 @@ export function initScroll() {
 export function initHashRouting() {
   if (_hashListenerActive) return;
   _hashListenerActive = true;
+
+  // Handle browser back/forward buttons
+  window.addEventListener('popstate', () => {
+    const page = location.hash.replace('#', '') || 'dashboard';
+    if (page !== appState.currentPage) {
+      appState.currentPage = page;
+      const mc = document.getElementById('mainContent');
+      if (mc) {
+        mc.innerHTML = '';
+        renderPage(page, mc);
+        requestAnimationFrame(() => {
+          mc.style.transition = appState.S.animationsOn ? 'opacity .22s ease, transform .22s ease' : 'none';
+          mc.style.opacity = '1';
+          mc.style.transform = 'none';
+        });
+      }
+      document.querySelectorAll('.nav-btn[data-page]').forEach(b => b.classList.toggle('active', b.dataset.page === page));
+      document.querySelectorAll('.mob-btn[data-page]').forEach(b => b.classList.toggle('active', b.dataset.page === page));
+      const titles = { dashboard: t('dashboard'), tasks: t('tasks'), createTask: t('createTask'), feed: t('feed'), wallet: t('wallet'), chat: t('chat'), support: t('support'), profile: t('profile'), leaderboard: t('leaderboard'), miniGames: t('miniGames'), dm: t('directMessages') };
+      const tb = document.getElementById('topbarTitle');
+      if (tb) tb.textContent = titles[page] || page;
+      document.title = `${titles[page] || page} — Lolanceizi`;
+    }
+  });
+
+  // Handle hash changes from other sources
   window.addEventListener('hashchange', () => {
     const page = location.hash.replace('#', '') || 'dashboard';
     if (page !== appState.currentPage) navigate(page);
   });
+
   // Navigate to initial hash if present
   const initial = location.hash.replace('#', '');
   if (initial && initial !== appState.currentPage) navigate(initial);
@@ -46,9 +73,9 @@ export function initHashRouting() {
 export function navigate(page) {
   appState.currentPage = page;
 
-  // Sync URL hash
+  // Sync URL hash — use pushState so browser back/forward works
   if (typeof location !== 'undefined' && location.hash !== '#' + page) {
-    history.replaceState(null, '', '#' + page);
+    history.pushState({ page }, '', '#' + page);
   }
 
   document.querySelectorAll('.nav-btn[data-page]').forEach(b => b.classList.toggle('active', b.dataset.page === page));

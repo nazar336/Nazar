@@ -40,16 +40,22 @@ async function init() {
   try {
     const { ok, data } = await apiFetch(API.session);
     if (ok && data.user) {
-      appState.currentUser = data.user;
-      appState.isGuest = data.user.is_guest || false;
+      // Only treat as logged-in user if NOT a guest
+      if (data.user.is_guest) {
+        appState.currentUser = null;
+        appState.isGuest = true;
+      } else {
+        appState.currentUser = data.user;
+        appState.isGuest = false;
+      }
     }
     // Store CSRF token from session response
     if (data && data.csrf_token) {
       appState.csrfToken = data.csrf_token;
     }
-  } catch (e) { /* no PHP available, render auth */ }
+  } catch (e) { /* no PHP available, render landing */ }
 
-  if (appState.currentUser) { renderShell(); }
+  if (appState.currentUser && !appState.isGuest) { renderShell(); }
   else if (document.querySelector('.landing-page') === null) { renderLanding(); }
 
   if (appState.currentUser && !appState.isGuest) {

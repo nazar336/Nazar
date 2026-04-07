@@ -246,7 +246,7 @@ describe('handleRegister', () => {
     document.querySelector('#regName').value = 'Test';
     document.querySelector('#regUser').value = 'tester';
     document.querySelector('#regEmail').value = 'a@b.com';
-    document.querySelector('#regPwd').value = 'pass123';
+    document.querySelector('#regPwd').value = 'password1';
     document.querySelector('#regAcceptTerms').checked = false;
     await handleRegister(fakeEvent);
     expect(showAlert).toHaveBeenCalled();
@@ -256,7 +256,7 @@ describe('handleRegister', () => {
     document.querySelector('#regName').value = 'Test';
     document.querySelector('#regUser').value = 'tester';
     document.querySelector('#regEmail').value = 'a@b.com';
-    document.querySelector('#regPwd').value = 'pass123';
+    document.querySelector('#regPwd').value = 'password1';
     document.querySelector('#regAcceptTerms').checked = true;
     apiFetch.mockResolvedValueOnce({ ok: true, data: { user_id: 99 } });
     await handleRegister(fakeEvent);
@@ -270,7 +270,7 @@ describe('handleRegister', () => {
     document.querySelector('#regName').value = 'Test';
     document.querySelector('#regUser').value = 'tester';
     document.querySelector('#regEmail').value = 'a@b.com';
-    document.querySelector('#regPwd').value = 'pass123';
+    document.querySelector('#regPwd').value = 'password1';
     document.querySelector('#regAcceptTerms').checked = true;
     apiFetch.mockResolvedValueOnce({ ok: true, data: { user_id: 99 } });
     await handleRegister(fakeEvent);

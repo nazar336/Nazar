@@ -27,23 +27,16 @@ $check->execute(['e' => $email, 'u' => $username]);
 if ($check->fetch())
     json_response(['success' => false, 'message' => 'Користувач з таким email або username вже існує.'], 409);
 
-// Record rate limit only after passing validation (so invalid requests don't eat up the quota)
-record_rate_limit($pdo, 'register:' . $ip);
-
 $hash             = password_hash($password, PASSWORD_DEFAULT);
 $verificationCode = str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-$mailSent         = send_verification_email($email, $name, $verificationCode);
 
-if (!$mailSent && APP_ENV === 'production')
-    json_response(['success' => false, 'message' => 'Не вдалося відправити код верифікації. Перевір email або спробуй пізніше.'], 503);
-
+// Create user first, then attempt to send email
 $pdo->beginTransaction();
 try {
     $stmt = $pdo->prepare('INSERT INTO users (name,username,email,password_hash,is_active) VALUES (:n,:u,:e,:h,FALSE)');
     $stmt->execute(['n' => $name, 'u' => $username, 'e' => $email, 'h' => $hash]);
     $userId = (int)$pdo->lastInsertId();
 
-    $ip        = substr((string)($_SERVER['REMOTE_ADDR'] ?? ''), 0, 45);
     $userAgent = substr((string)($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 255);
 
     $legalStmt = $pdo->prepare('INSERT INTO legal_acceptances (user_id,doc_type,doc_version,accepted_ip,user_agent) VALUES (:uid,:type,:ver,:ip,:ua)');
@@ -55,10 +48,21 @@ try {
 
     $pdo->commit();
 
+    // Record rate limit only after successful user creation
+    record_rate_limit($pdo, 'register:' . $ip);
+
+    // Try to send verification email (non-blocking — user is already created)
+    $mailSent = send_verification_email($email, $name, $verificationCode);
+
     $response = ['success' => true, 'message' => 'Реєстрація успішна. Код верифікації надіслано на email.', 'user_id' => $userId];
-    if (!$mailSent && APP_ENV === 'development') {
-        $response['message'] = 'DEV MODE: mail не відправлено, код записано в лог сервера.';
-        error_log('Lolanceizi DEV: verification code for user ' . $userId . ': ' . $verificationCode . ' (dev mode only, never expose in response)');
+    if (!$mailSent) {
+        error_log('Lolanceizi: verification email failed for user ' . $userId . ' (' . $email . ')');
+        if (APP_ENV === 'development') {
+            $response['message'] = 'DEV MODE: mail не відправлено, код записано в лог сервера.';
+            error_log('Lolanceizi DEV: verification code for user ' . $userId . ': ' . $verificationCode);
+        } else {
+            $response['message'] = 'Реєстрація успішна, але email не відправлено. Зверніться в підтримку для активації акаунту.';
+        }
     }
     json_response($response);
 } catch (\Exception $e) {

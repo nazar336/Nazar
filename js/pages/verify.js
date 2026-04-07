@@ -29,7 +29,7 @@ export function renderVerification(userId, email){
       <div class="auth-container">
         <div class="auth-hero">
           <div class="auth-hero-content">
-            <div class="auth-logo-large">LOL<em>ance</em></div>
+            <div class="auth-logo-large">lolance<em>izi</em></div>
             <h1 class="auth-title">${t('verifyEmail')}</h1>
             <p class="auth-subtitle">${t('codeSentTo')} ${email}</p>
             

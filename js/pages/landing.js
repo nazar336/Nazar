@@ -24,7 +24,7 @@ export function renderLanding(){
         <div class="landing-header">
           <div class="landing-logo">
             <img src="assets/lolanceizi-logo.svg" alt="Lolanceizi logo" class="landing-logo-image">
-            <div>LOL<em>ance</em></div>
+            <div>lolance<em>izi</em></div>
           </div>
           <div class="landing-header-right">
             <select id="landingLangSelector" class="landing-lang-select" aria-label="Language">

@@ -45,7 +45,7 @@ export function renderShell() {
         <div class="sidebar-logo">
           <div class="logo-mark">L</div>
           <div>
-            <div class="logo-text">LOL<em>ance</em></div>
+            <div class="logo-text">lolance<em>izi</em></div>
             <div class="logo-tag">${t('appTag')}</div>
           </div>
         </div>

@@ -38,8 +38,20 @@ if (!$user || !password_verify($password, $user['password_hash'])) {
     json_response(['success' => false, 'message' => 'Невірний email або пароль.'], 401);
 }
 
-if (!(bool)$user['is_active'])
-    json_response(['success' => false, 'message' => 'Акаунт не активовано. Перевір email для верифікації.'], 403);
+if (!(bool)$user['is_active']) {
+    // Check if there's a pending verification
+    $vStmt = $pdo->prepare('SELECT id FROM email_verifications WHERE user_id=:uid AND is_verified=FALSE LIMIT 1');
+    $vStmt->execute(['uid' => (int)$user['id']]);
+    $hasPendingVerification = (bool)$vStmt->fetch();
+
+    json_response([
+        'success' => false,
+        'message' => 'Акаунт не активовано. Перевір email для верифікації.',
+        'needs_verification' => $hasPendingVerification,
+        'user_id' => (int)$user['id'],
+        'email' => $user['email'],
+    ], 403);
+}
 
 // ── Clean old attempts on success ─────────────────────────────────
 $pdo->prepare('DELETE FROM login_attempts WHERE identifier=:id')->execute([':id' => $email]);

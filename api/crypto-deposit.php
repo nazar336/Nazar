@@ -50,6 +50,7 @@ function handleGetRates(): never {
         'wallets'         => CRYPTO_WALLETS,
         'min_deposit_usd' => MIN_DEPOSIT_USD,
         'max_deposit_usd' => MAX_DEPOSIT_USD,
+        'deposit_fee_pct' => DEPOSIT_FEE_PCT,
     ]);
 }
 
@@ -84,8 +85,10 @@ function handleInitiate(PDO $pdo, int $userId, array $input): never {
     if ($amountUsd > MAX_DEPOSIT_USD)
         json_response(['success' => false, 'message' => 'Максимальний депозит: $' . MAX_DEPOSIT_USD . ' USD'], 400);
 
-    // Coins to credit
+    // Coins to credit (before fee — fee applied on confirmation)
     $amountCoins = round($amountUsd * COINS_PER_USD, 2);
+    $feeCoins    = round($amountCoins * DEPOSIT_FEE_PCT / 100, 2);
+    $netCoins    = $amountCoins - $feeCoins;
     $walletAddr  = $wallets[$network];
     $expiresAt   = date('Y-m-d H:i:s', strtotime('+' . DEPOSIT_EXPIRE_MINUTES . ' minutes'));
 
@@ -145,10 +148,13 @@ function handleInitiate(PDO $pdo, int $userId, array $input): never {
         'amount_native'  => $amountNative,
         'amount_usdt'    => round($amountUsd, 2),
         'amount_coins'   => $amountCoins,
+        'fee_coins'      => $feeCoins,
+        'net_coins'      => $netCoins,
+        'deposit_fee_pct'=> DEPOSIT_FEE_PCT,
         'usd_rate'       => $usdRate,
         'coins_per_usd'  => COINS_PER_USD,
         'expires_at'     => $expiresAt,
-        'message'        => "Надішли {$amountNative} {$currency} ({$network}) на адресу нижче. Після відправки вкажи хеш транзакції.",
+        'message'        => "Надішли {$amountNative} {$currency} ({$network}) на адресу нижче. Після відправки вкажи хеш транзакції. Комісія: " . DEPOSIT_FEE_PCT . "% ({$feeCoins} LOL).",
     ]);
 }
 
@@ -253,6 +259,7 @@ function handleGetHistory(PDO $pdo, int $userId): never {
         'networks'        => array_keys(CRYPTO_WALLETS),
         'min_deposit_usd' => MIN_DEPOSIT_USD,
         'max_deposit_usd' => MAX_DEPOSIT_USD,
+        'deposit_fee_pct' => DEPOSIT_FEE_PCT,
     ]);
 }
 

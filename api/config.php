@@ -112,6 +112,12 @@ define('DEPOSIT_EXPIRE_MINUTES', (int) env('DEPOSIT_EXPIRE_MINUTES', '60'));
 // Crypto rate cache TTL in seconds (default 300s = 5 min; shorter = more API calls)
 define('CRYPTO_RATE_CACHE_TTL', (int) env('CRYPTO_RATE_CACHE_TTL', '300'));
 
+// ── Platform commission fees (%) ──────────────────────────────────
+define('DEPOSIT_FEE_PCT',       (float) env('DEPOSIT_FEE_PCT', '3.0'));       // 3% on deposits
+define('TASK_CREATE_FEE_PCT',   (float) env('TASK_CREATE_FEE_PCT', '2.5'));   // 2.5% on task creation
+define('TASK_COMPLETE_FEE_PCT', (float) env('TASK_COMPLETE_FEE_PCT', '4.0')); // 4% on task completion (worker)
+define('MINIGAME_FEE_PCT',      (float) env('MINIGAME_FEE_PCT', '0.1'));      // 0.1% per game play
+
 // ── Redis (optional, falls back to file/memory cache) ─────────────
 define('REDIS_HOST',    env('REDIS_HOST', ''));
 define('REDIS_PORT',    (int) env('REDIS_PORT', '6379'));

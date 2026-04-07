@@ -147,9 +147,18 @@ function handleCaseOpen(PDO $pdo, int $userId, array $input): never
             json_response(['success' => false, 'message' => 'Insufficient coins'], 400);
         }
 
-        // Deduct cost
+        // Calculate platform game fee
+        $gameFee = round($cost * MINIGAME_FEE_PCT / 100, 2);
+        $totalCost = $cost + $gameFee;
+
+        if ($balance < $totalCost) {
+            $pdo->rollBack();
+            json_response(['success' => false, 'message' => 'Insufficient coins (including ' . MINIGAME_FEE_PCT . '% game fee)'], 400);
+        }
+
+        // Deduct cost + fee
         $pdo->prepare('UPDATE users SET coin_balance=coin_balance-:cost WHERE id=:uid')
-            ->execute([':cost' => $cost, ':uid' => $userId]);
+            ->execute([':cost' => $totalCost, ':uid' => $userId]);
 
         // Award prize
         if ($prizeType === 'coins') {
@@ -180,6 +189,8 @@ function handleCaseOpen(PDO $pdo, int $userId, array $input): never
         'xp'           => (int)$updated['xp'],
         'level'        => (int)$updated['level'],
         'case_id'      => $caseId,
+        'game_fee'     => $gameFee,
+        'fee_pct'      => MINIGAME_FEE_PCT,
     ]);
 }
 
@@ -235,6 +246,18 @@ function handlePricePredict(PDO $pdo, int $userId, array $input): never
             json_response(['success' => false, 'message' => 'Insufficient coins'], 400);
         }
 
+        // Calculate platform game fee
+        $gameFee = round($bet * MINIGAME_FEE_PCT / 100, 2);
+
+        if ($balance < $bet + $gameFee) {
+            $pdo->rollBack();
+            json_response(['success' => false, 'message' => 'Insufficient coins (including ' . MINIGAME_FEE_PCT . '% game fee)'], 400);
+        }
+
+        // Always deduct the game fee
+        $pdo->prepare('UPDATE users SET coin_balance=coin_balance-:fee WHERE id=:uid')
+            ->execute([':fee' => $gameFee, ':uid' => $userId]);
+
         if ($isCorrect) {
             // Win: user keeps their bet and receives additional payout (70-90% of bet)
             $pdo->prepare('UPDATE users SET coin_balance=coin_balance+:payout WHERE id=:uid')
@@ -264,5 +287,7 @@ function handlePricePredict(PDO $pdo, int $userId, array $input): never
         'coin_balance' => (int)$updated['coin_balance'],
         'xp'           => (int)$updated['xp'],
         'level'        => (int)$updated['level'],
+        'game_fee'     => $gameFee,
+        'fee_pct'      => MINIGAME_FEE_PCT,
     ]);
 }

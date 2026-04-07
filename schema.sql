@@ -298,7 +298,7 @@ CREATE TABLE IF NOT EXISTS coin_spending (
     user_id     INT UNSIGNED NOT NULL,
     task_id     INT UNSIGNED,
     amount      DECIMAL(16,2) NOT NULL,
-    type        ENUM('task_payment','tip','premium','withdraw') DEFAULT 'task_payment',
+    type        ENUM('task_payment','tip','premium','withdraw','platform_fee') DEFAULT 'task_payment',
     description VARCHAR(255),
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,

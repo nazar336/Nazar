@@ -34,26 +34,26 @@ function env(string $key, ?string $default = null): string {
     $val = getenv($key);
     if ($val !== false && $val !== '') return $val;
     if ($default !== null) return $default;
-    error_log("LOLance config: missing required env var {$key}");
+    error_log("Lolanceizi config: missing required env var {$key}");
     return '';
 }
 
 // ── Environment ───────────────────────────────────────────────────
 define('APP_ENV',    env('APP_ENV', 'production'));
-define('APP_DOMAIN', env('APP_DOMAIN', 'lolance.com'));
+define('APP_DOMAIN', env('APP_DOMAIN', 'lolanceizi.com'));
 
 // ── Database ──────────────────────────────────────────────────────
 define('DB_HOST', env('DB_HOST', '127.0.0.1'));
-define('DB_NAME', env('DB_NAME', 'lolance'));
+define('DB_NAME', env('DB_NAME', 'lolanceizi'));
 define('DB_USER', env('DB_USER'));
 define('DB_PASS', env('DB_PASS'));
 
 // ── Session ───────────────────────────────────────────────────────
-define('SESSION_NAME', env('SESSION_NAME', 'lolance_session'));
+define('SESSION_NAME', env('SESSION_NAME', 'lolanceizi_session'));
 
 // ── Email / SMTP ──────────────────────────────────────────────────
-define('MAIL_FROM',      env('MAIL_FROM', 'noreply@lolance.com'));
-define('MAIL_FROM_NAME', env('MAIL_FROM_NAME', 'LOLance'));
+define('MAIL_FROM',      env('MAIL_FROM', 'noreply@lolanceizi.com'));
+define('MAIL_FROM_NAME', env('MAIL_FROM_NAME', 'Lolanceizi'));
 define('SMTP_HOST',      env('SMTP_HOST', 'smtp.gmail.com'));
 define('SMTP_PORT',      (int) env('SMTP_PORT', '587'));
 define('SMTP_USER',      env('SMTP_USER'));
@@ -115,4 +115,4 @@ define('CRYPTO_RATE_CACHE_TTL', (int) env('CRYPTO_RATE_CACHE_TTL', '300'));
 // ── Redis (optional, falls back to file/memory cache) ─────────────
 define('REDIS_HOST',    env('REDIS_HOST', ''));
 define('REDIS_PORT',    (int) env('REDIS_PORT', '6379'));
-define('REDIS_PREFIX',  env('REDIS_PREFIX', 'lolance:'));
+define('REDIS_PREFIX',  env('REDIS_PREFIX', 'lolanceizi:'));

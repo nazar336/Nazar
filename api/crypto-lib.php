@@ -21,7 +21,7 @@ function get_crypto_rates(): array
     if (is_array($cached) && isset($cached['BTC'])) return $cached;
 
     // Legacy file cache compatibility (< 5 min default)
-    $legacyCache = sys_get_temp_dir() . '/lolance_rates.json';
+    $legacyCache = sys_get_temp_dir() . '/lolanceizi_rates.json';
     if (file_exists($legacyCache) && (time() - filemtime($legacyCache)) < $ttl) {
         $data = json_decode((string)file_get_contents($legacyCache), true);
         if (is_array($data) && isset($data['BTC'])) {
@@ -37,7 +37,7 @@ function get_crypto_rates(): array
     $body = @file_get_contents($url, false, $ctx);
 
     if (!$body) {
-        error_log('LOLance: CoinGecko unavailable, using fallback rates');
+        error_log('Lolanceizi: CoinGecko unavailable, using fallback rates');
         return $fallback;
     }
 
@@ -186,7 +186,7 @@ function verify_transaction_rpc(string $txHash, string $network): array
                 $result['error'] = 'Unsupported network for RPC verification';
         }
     } catch (\Throwable $e) {
-        error_log('LOLance RPC verify error (' . $network . '): ' . $e->getMessage());
+        error_log('Lolanceizi RPC verify error (' . $network . '): ' . $e->getMessage());
         $result['error'] = 'RPC verification temporarily unavailable';
     }
 

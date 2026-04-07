@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS lolance CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE lolance;
+CREATE DATABASE IF NOT EXISTS lolanceizi CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE lolanceizi;
 
 -- ── USERS ──
 CREATE TABLE IF NOT EXISTS users (

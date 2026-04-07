@@ -91,7 +91,7 @@ describe('navigate', () => {
 
   it('updates document.title', () => {
     navigate('tasks');
-    expect(document.title).toContain('LOLance');
+    expect(document.title).toContain('Lolanceizi');
     expect(document.title).toContain('tasks');
   });
 

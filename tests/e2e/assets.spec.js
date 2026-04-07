@@ -51,7 +51,7 @@ test.describe('Static Assets', () => {
   });
 
   test('logo loads', async ({ request }) => {
-    const resp = await request.get('/assets/lolance-logo.svg');
+    const resp = await request.get('/assets/lolanceizi-logo.svg');
     expect(resp.ok()).toBeTruthy();
   });
 

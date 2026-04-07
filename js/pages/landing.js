@@ -23,7 +23,7 @@ export function renderLanding(){
         <!-- Header -->
         <div class="landing-header">
           <div class="landing-logo">
-            <img src="assets/lolance-logo.svg" alt="LOLance logo" class="landing-logo-image">
+            <img src="assets/lolanceizi-logo.svg" alt="Lolanceizi logo" class="landing-logo-image">
             <div>LOL<em>ance</em></div>
           </div>
           <div class="landing-header-right">
@@ -341,7 +341,7 @@ export function renderLanding(){
             <a href="privacy.html" class="footer-link" target="_blank">${t('privacyLink')}</a>
             <a href="#" class="footer-link">${t('contactLink')}</a>
           </div>
-          <div class="footer-text">© 2026 LOLance. ${t('allRights')}</div>
+          <div class="footer-text">© 2026 Lolanceizi. ${t('allRights')}</div>
         </div>
       </div>
     </div>`;

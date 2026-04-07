@@ -86,14 +86,14 @@ describe('loadState()', () => {
   });
 
   it('loads saved state from localStorage', () => {
-    localStorage.setItem('lolance_state_v5', JSON.stringify({ lang: 'EN', level: 5 }));
+    localStorage.setItem('lolanceizi_state_v5', JSON.stringify({ lang: 'EN', level: 5 }));
     loadState();
     expect(appState.S.lang).toBe('EN');
     expect(appState.S.level).toBe(5);
   });
 
   it('merges saved state with defaults', () => {
-    localStorage.setItem('lolance_state_v5', JSON.stringify({ lang: 'DE' }));
+    localStorage.setItem('lolanceizi_state_v5', JSON.stringify({ lang: 'DE' }));
     loadState();
     expect(appState.S.lang).toBe('DE');
     expect(appState.S.balance).toBe(0); // From defaults
@@ -104,7 +104,7 @@ describe('saveState()', () => {
   it('saves state to localStorage', () => {
     appState.S = { lang: 'FR', balance: 100 };
     saveState();
-    const saved = JSON.parse(localStorage.getItem('lolance_state_v5'));
+    const saved = JSON.parse(localStorage.getItem('lolanceizi_state_v5'));
     expect(saved.lang).toBe('FR');
     expect(saved.balance).toBe(100);
   });

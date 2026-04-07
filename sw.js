@@ -1,7 +1,7 @@
-/* ── LOLance Service Worker — Offline Support ─────────────────── */
+/* ── Lolanceizi Service Worker — Offline Support ─────────────────── */
 'use strict';
 
-const CACHE_VERSION = 'lolance-v1';
+const CACHE_VERSION = 'lolanceizi-v1';
 const STATIC_CACHE = CACHE_VERSION + '-static';
 const API_CACHE = CACHE_VERSION + '-api';
 
@@ -36,7 +36,7 @@ const STATIC_ASSETS = [
   '/js/pages/dm.js',
   '/js/pages/mini-games.js',
   '/assets/favicon.svg',
-  '/assets/lolance-logo.svg',
+  '/assets/lolanceizi-logo.svg',
   '/assets/icon-192.svg',
   '/assets/icon-512.svg',
   '/manifest.json',
@@ -58,7 +58,7 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((keys) => {
       return Promise.all(
         keys
-          .filter((key) => key.startsWith('lolance-') && key !== STATIC_CACHE && key !== API_CACHE)
+          .filter((key) => key.startsWith('lolanceizi-') && key !== STATIC_CACHE && key !== API_CACHE)
           .map((key) => caches.delete(key))
       );
     }).then(() => self.clients.claim())

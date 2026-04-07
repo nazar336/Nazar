@@ -2,7 +2,7 @@
 
 import { t } from './i18n.js';
 
-export const STORAGE_KEY = 'lolance_state_v5';
+export const STORAGE_KEY = 'lolanceizi_state_v5';
 export const API = {
   session:'api/session.php', login:'api/login.php', register:'api/register.php',
   verify:'api/verify.php', logout:'api/logout.php',

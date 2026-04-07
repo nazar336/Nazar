@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Landing Page', () => {
   test('should load the landing page', async ({ page }) => {
     await page.goto('/');
-    await expect(page).toHaveTitle('LOLance');
+    await expect(page).toHaveTitle('Lolanceizi');
   });
 
   test('should have proper meta tags', async ({ page }) => {
@@ -70,7 +70,7 @@ test.describe('Static Pages', () => {
 
   test('privacy page loads', async ({ page }) => {
     await page.goto('/privacy.html');
-    await expect(page.locator('body')).toContainText('LOLance');
+    await expect(page.locator('body')).toContainText('Lolanceizi');
   });
 });
 
@@ -79,7 +79,7 @@ test.describe('PWA Assets', () => {
     const resp = await request.get('/manifest.json');
     expect(resp.ok()).toBeTruthy();
     const json = await resp.json();
-    expect(json.name).toContain('LOLance');
+    expect(json.name).toContain('Lolanceizi');
     expect(json.display).toBe('standalone');
     expect(json.theme_color).toBe('#b8ff43');
   });

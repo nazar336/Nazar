@@ -1,7 +1,7 @@
--- LOLance migration 2026-04-02
+-- Lolanceizi migration 2026-04-02
 -- Run this on your existing DB (safe to run multiple times)
 
-USE lolance;
+USE lolanceizi;
 
 -- ── Rate limiting for login ────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS login_attempts (

@@ -4,7 +4,7 @@ declare(strict_types=1);
 // Ensure test environment
 putenv('APP_ENV=testing');
 putenv('DB_HOST=127.0.0.1');
-putenv('DB_NAME=lolance_test');
+putenv('DB_NAME=lolanceizi_test');
 putenv('DB_USER=test');
 putenv('DB_PASS=test');
 putenv('ADMIN_SECRET=test_secret_key_for_testing');

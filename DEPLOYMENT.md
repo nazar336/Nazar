@@ -1,6 +1,6 @@
-# 🚀 LOLance — Деплой на Hostinger (Business план)
+# 🚀 Lolanceizi — Деплой на Hostinger (Business план)
 
-> Покрокова інструкція для розгортання LOLance на Hostinger shared hosting через hPanel.
+> Покрокова інструкція для розгортання Lolanceizi на Hostinger shared hosting через hPanel.
 
 ---
 
@@ -38,7 +38,7 @@
 
 ### 1.3 Framework Preset
 > ⚠️ Коли Hostinger питає "Framework preset" — обирай **"PHP"** або **"None / Other"**.
-> LOLance НЕ використовує Laravel, WordPress, React чи будь-який інший фреймворк.
+> Lolanceizi НЕ використовує Laravel, WordPress, React чи будь-який інший фреймворк.
 
 ---
 
@@ -85,8 +85,8 @@
 ### 3.1 Створити базу даних
 1. hPanel → ліва панель → **Бази даних** (Databases) → **MySQL Databases**
 2. Заповни форму:
-   - **Назва бази**: `lolance` → стане `u123456789_lolance` (Hostinger додає префікс)
-   - **Ім'я користувача**: `lolance_user` → стане `u123456789_lolance_user`
+   - **Назва бази**: `lolanceizi` → стане `u123456789_lolanceizi` (Hostinger додає префікс)
+   - **Ім'я користувача**: `lolanceizi_user` → стане `u123456789_lolanceizi_user`
    - **Пароль**: придумай **сильний** пароль (збережи його!)
 3. Натисни **Створити** (Create)
 
@@ -101,19 +101,19 @@
 2. Скопіюй вміст `schema.sql` — **АЛЕ ВИДАЛИ** перші 2 рядки:
    ```sql
    -- ВИДАЛИ ЦІ ДВА РЯДКИ:
-   -- CREATE DATABASE IF NOT EXISTS lolance CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-   -- USE lolance;
+   -- CREATE DATABASE IF NOT EXISTS lolanceizi CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+   -- USE lolanceizi;
    ```
 3. Вставити решту SQL → натисни **Виконати** (Execute/Go)
 
 #### Крок B: Міграція
 1. Знову вкладка **SQL**
-2. Скопіюй вміст `migration-2026-04-02.sql` — **ВИДАЛИ** рядок `USE lolance;`
+2. Скопіюй вміст `migration-2026-04-02.sql` — **ВИДАЛИ** рядок `USE lolanceizi;`
 3. Натисни **Виконати** (Execute/Go)
 
 #### Крок C: Індекси
 1. Знову вкладка **SQL**
-2. Скопіюй вміст `migration-indexes.sql` — **ВИДАЛИ** рядок `USE lolance;`
+2. Скопіюй вміст `migration-indexes.sql` — **ВИДАЛИ** рядок `USE lolanceizi;`
 3. Натисни **Виконати** (Execute/Go)
 
 ### 3.3 Перевірка
@@ -195,7 +195,7 @@ public_html/
 3. Вставити наступний вміст (заміни значення):
 
 ```env
-# ── LOLance Production Configuration ──
+# ── Lolanceizi Production Configuration ──
 
 # Environment
 APP_ENV=production
@@ -203,16 +203,16 @@ APP_DOMAIN=ТВІЙ_ДОМЕН.com
 
 # Database (ВАЖЛИВО: підстав значення з кроку 3!)
 DB_HOST=localhost
-DB_NAME=u123456789_lolance
-DB_USER=u123456789_lolance_user
+DB_NAME=u123456789_lolanceizi
+DB_USER=u123456789_lolanceizi_user
 DB_PASS=ТВІЙ_ПАРОЛЬ_БАЗИ_ДАНИХ
 
 # Session
-SESSION_NAME=lolance_session
+SESSION_NAME=lolanceizi_session
 
 # Email / SMTP (Gmail App Password — дивись крок 7)
 MAIL_FROM=твій-email@gmail.com
-MAIL_FROM_NAME=LOLance
+MAIL_FROM_NAME=Lolanceizi
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=твій-email@gmail.com
@@ -268,7 +268,7 @@ RATE_LIMIT_REGISTER_WINDOW=15
 # Redis (залиш пустим — на shared hosting нема Redis)
 REDIS_HOST=
 REDIS_PORT=6379
-REDIS_PREFIX=lolance:
+REDIS_PREFIX=lolanceizi:
 ```
 
 ### 5.2 Перевірка безпеки .env
@@ -296,14 +296,14 @@ REDIS_PREFIX=lolance:
 
 ## 7. Налаштування SMTP (email)
 
-LOLance використовує SMTP для верифікації email при реєстрації.
+Lolanceizi використовує SMTP для верифікації email при реєстрації.
 
 ### Варіант A: Gmail App Password (рекомендовано)
 
 1. Відкрий https://myaccount.google.com/
 2. **Security** → **2-Step Verification** → увімкни (якщо ще не)
 3. **Security** → **App passwords** (внизу сторінки 2-Step Verification)
-4. **Select app**: Mail → **Select device**: Other → введи "LOLance"
+4. **Select app**: Mail → **Select device**: Other → введи "Lolanceizi"
 5. Натисни **Generate** → скопіюй 16-значний код
 6. Встав цей код в `.env` як `SMTP_PASS`
 
@@ -329,7 +329,7 @@ MAIL_FROM=noreply@ДОМЕН.com
 
 ## 8. Cron Jobs
 
-LOLance потребує cron job для автоматичної верифікації крипто-депозитів.
+Lolanceizi потребує cron job для автоматичної верифікації крипто-депозитів.
 
 ### 8.1 Налаштування cron
 1. hPanel → ліва панель → **Розширені** (Advanced) → **Cron Jobs**
@@ -359,7 +359,7 @@ LOLance потребує cron job для автоматичної верифік
 
 | # | Перевірка | URL | Очікуваний результат |
 |---|-----------|-----|---------------------|
-| 1 | Головна сторінка | `https://ДОМЕН.com/` | Показує landing page LOLance |
+| 1 | Головна сторінка | `https://ДОМЕН.com/` | Показує landing page Lolanceizi |
 | 2 | HTTPS redirect | `http://ДОМЕН.com/` | Переправляє на https |
 | 3 | API session | `https://ДОМЕН.com/api/session.php` | JSON: `{"success":true/false,...}` |
 | 4 | .env захищений | `https://ДОМЕН.com/.env` | 403 Forbidden |
@@ -392,7 +392,7 @@ fetch('/api/session.php').then(r=>r.json()).then(console.log)
 ### ❌ "Database unavailable"
 1. Перевір `.env` — правильні `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`
 2. `DB_HOST` на Hostinger = `localhost` (НЕ `127.0.0.1`)
-3. Перевір що назва БД має префікс Hostinger (наприклад `u123456789_lolance`)
+3. Перевір що назва БД має префікс Hostinger (наприклад `u123456789_lolanceizi`)
 
 ### ❌ API повертає 404
 1. Перевір що `api/` папка є в `public_html/`
@@ -426,7 +426,7 @@ fetch('/api/session.php').then(r=>r.json()).then(console.log)
 ## 📌 Важливі нотатки
 
 ### Оновлення домену в файлах
-Якщо твій домен НЕ `lolance.com`, оновлюй URL в:
+Якщо твій домен НЕ `lolanceizi.com`, оновлюй URL в:
 - `index.html` — рядки 10, 15, 16, 23 (canonical, og:url, og:image)
 - `robots.txt` — рядок 7 (Sitemap URL)
 - `sitemap.xml` — рядки 4, 9, 14 (всі `<loc>` URL)

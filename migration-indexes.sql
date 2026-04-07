@@ -1,7 +1,7 @@
--- LOLance migration — Performance indexes
+-- Lolanceizi migration — Performance indexes
 -- Run this on your existing DB (safe to run multiple times — uses IF NOT EXISTS)
 
-USE lolance;
+USE lolanceizi;
 
 -- ── tasks: composite indexes for filtered listings ────────────────
 ALTER TABLE tasks ADD INDEX IF NOT EXISTS idx_status_created (status, created_at DESC);

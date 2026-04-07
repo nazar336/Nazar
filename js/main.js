@@ -24,11 +24,17 @@ window.addEventListener('unhandledrejection', (e) => {
 });
 
 async function init() {
-  showLoadingSpinner();
   loadState();
 
   // Sync document language with saved preference
   setLang(appState.S.lang);
+
+  // Render landing immediately if no stored user (avoid waiting for API)
+  if (!appState.currentUser) {
+    renderLanding();
+  } else {
+    showLoadingSpinner();
+  }
 
   // Check PHP session
   try {
@@ -44,7 +50,7 @@ async function init() {
   } catch (e) { /* no PHP available, render auth */ }
 
   if (appState.currentUser) { renderShell(); }
-  else { renderLanding(); }
+  else if (document.querySelector('.landing-page') === null) { renderLanding(); }
 
   if (appState.currentUser && !appState.isGuest) {
     // Load daily_visit and points in parallel

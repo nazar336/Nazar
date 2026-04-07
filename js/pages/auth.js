@@ -253,7 +253,7 @@ export function renderAuth(mode='login'){
               <div class="form-group" style="margin-top:-2px;">
                 <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.45;color:var(--text-soft);">
                   <input type="checkbox" id="regAcceptTerms" style="margin-top:2px;" aria-label="Accept terms and privacy policy" required>
-                  <span>Я погоджуюсь з <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Правилами платформи</a> та <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">Політикою приватності</a>.</span>
+                  <span>${t('acceptTermsText')} <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">${t('platformRules')}</a> ${t('andText')} <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color:var(--primary);text-decoration:underline;">${t('privacyPolicy')}</a>${t('acceptTermsSuffix') ? ' ' + t('acceptTermsSuffix') : ''}.</span>
                 </label>
               </div>
               <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top:8px;opacity:.5;" disabled>
@@ -306,7 +306,7 @@ export async function handleRegister(e){
   const acceptPrivacy=acceptTerms;
   if(!name||!username||!email||!password){showAlert('authAlert',t('required'));return;}
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showAlert('authAlert',t('invalidEmail')||'Email некоректний.');return;}
-  if(!acceptTerms){showAlert('authAlert','Потрібно погодитись з Правилами платформи та Політикою приватності.');return;}
+  if(!acceptTerms){showAlert('authAlert',t('acceptTermsRequired'));return;}
   hideAlert('authAlert');setLoading(btn,true);
   const {ok,data}=await apiFetch(API.register,{method:'POST',body:JSON.stringify({name,username,email,password,accept_terms:acceptTerms,accept_privacy:acceptPrivacy})});
   setLoading(btn,false);

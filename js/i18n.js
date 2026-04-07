@@ -1019,12 +1019,12 @@ export const i18n = {
 };
 
 export function t(k) {
-  return (i18n[appState.S.lang] || i18n.UA)[k] || k;
+  return (i18n[appState.S.lang] || i18n.EN)[k] || k;
 }
 
 const LANG_TO_LOCALE = { UA:'uk', EN:'en', DE:'de', FR:'fr', ES:'es', PL:'pl' };
 
 export function setLang(code) {
   appState.S.lang = code;
-  document.documentElement.lang = LANG_TO_LOCALE[code] || 'uk';
+  document.documentElement.lang = LANG_TO_LOCALE[code] || 'en';
 }

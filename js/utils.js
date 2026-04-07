@@ -13,13 +13,13 @@ export function esc(s) {
 
 export function fmtDate(s) {
   if (!s) return '—';
-  const loc = { UA: 'uk-UA', EN: 'en-US', DE: 'de-DE', FR: 'fr-FR', ES: 'es-ES', PL: 'pl-PL' }[appState.S.lang] || 'uk-UA';
+  const loc = { UA: 'uk-UA', EN: 'en-US', DE: 'de-DE', FR: 'fr-FR', ES: 'es-ES', PL: 'pl-PL' }[appState.S.lang] || 'en-US';
   return new Date(s).toLocaleDateString(loc, { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
 export function fmtTime(s) {
   if (!s) return '';
-  const loc = { UA: 'uk-UA', EN: 'en-US', DE: 'de-DE', FR: 'fr-FR', ES: 'es-ES', PL: 'pl-PL' }[appState.S.lang] || 'uk-UA';
+  const loc = { UA: 'uk-UA', EN: 'en-US', DE: 'de-DE', FR: 'fr-FR', ES: 'es-ES', PL: 'pl-PL' }[appState.S.lang] || 'en-US';
   return new Date(s).toLocaleTimeString(loc, { hour: '2-digit', minute: '2-digit' });
 }
 

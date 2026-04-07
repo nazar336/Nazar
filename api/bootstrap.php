@@ -84,9 +84,8 @@ function db(): PDO {
         }
         $response = ['success' => false, 'message' => $msg];
         if ($hint !== '') {
-            $response['hint'] = $hint;
+            $response['hint'] = $hint . ' Відкрий /api/db-check.php для діагностики.';
         }
-        $response['check_url'] = '/api/db-check.php?secret=YOUR_ADMIN_SECRET';
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
         exit;
     }

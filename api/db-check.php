@@ -27,7 +27,7 @@ if ($secret === '' || !defined('ADMIN_SECRET') || ADMIN_SECRET === '' || $secret
 $envStatus = [
     'DB_HOST'  => DB_HOST !== '' ? DB_HOST : '(empty!)',
     'DB_NAME'  => DB_NAME !== '' ? DB_NAME : '(empty!)',
-    'DB_USER'  => DB_USER !== '' ? substr(DB_USER, 0, 3) . '***' : '(empty!)',
+    'DB_USER'  => DB_USER !== '' ? '***set***' : '(empty!)',
     'DB_PASS'  => DB_PASS !== '' ? '***set***' : '(EMPTY — this is the problem!)',
     'APP_ENV'  => APP_ENV,
 ];
@@ -97,7 +97,7 @@ if ($action === 'setup' && $_SERVER['REQUEST_METHOD'] === 'POST' && $pdo !== nul
             } catch (PDOException $e) {
                 // Ignore "table already exists" errors
                 if (strpos($e->getMessage(), 'already exists') === false) {
-                    $errors[] = substr($e->getMessage(), 0, 200);
+                    $errors[] = 'SQL error on statement #' . $created;
                 }
             }
         }
@@ -154,7 +154,7 @@ if ($dbError !== null) {
     
     if (count($missingTables) > 0) {
         $result['action_needed'] = 'Таблиці відсутні! Відправ POST запит з ?action=setup щоб створити їх автоматично.';
-        $result['setup_command'] = 'curl -X POST "https://' . APP_DOMAIN . '/api/db-check.php?secret=YOUR_SECRET&action=setup"';
+        $result['setup_command'] = 'curl -X POST "https://' . APP_DOMAIN . '/api/db-check.php?secret=YOUR_ADMIN_SECRET&action=setup"';
     } else {
         $result['status'] = '✅ Всі ' . count($requiredTables) . ' таблиць на місці. База даних готова!';
     }

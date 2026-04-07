@@ -17,7 +17,7 @@ export const appState = {
 
 export function defaultState() {
   return {
-    lang: 'UA', animationsOn: true,
+    lang: 'EN', animationsOn: true,
     balance: 0, earnings: 0, spent: 0, pending: 0, pendingBalance: 0,
     level: 1, xp: 0, streak: 0, completedTasks: 0, activeTasks: 0,
     achievements: [],

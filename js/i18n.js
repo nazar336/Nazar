@@ -144,12 +144,22 @@ export const i18n = {
     feedPostSuccess:'Post published!', feedMaxReached:'Daily XP limit reached, but you can still post.',
     feedAddMedia:'Add media', feedSelectType:'Post type',
     // Mini Games
-    miniGames:'Mini Games', miniGamesDesc:'Play fun games and earn XP! Complete games to level up faster.',
-    memoryMatch:'Memory Match', memoryMatchDesc:'Flip cards and find matching pairs. Fewer moves = more XP!',
-    colorTap:'Color Tap', colorTapDesc:'Tap the correct color before time runs out. Speed matters!',
-    loginToPlay:'Log in to play and earn XP', playAgain:'Play Again',
-    moves:'moves', time:'Time', tapTheColor:'Tap the matching color!',
-    gameComplete:'Well done! 🎉', gameOver:'Game Over!',
+    miniGames:'Mini Games', miniGamesDesc:'Open cases and predict prices to earn coins and XP!',
+    loginToPlay:'Log in to play', playAgain:'Play Again',
+    time:'Time', gameComplete:'Well done! 🎉', gameOver:'Game Over!',
+    // Case Opening
+    caseOpening:'Case Opening', caseOpeningDesc:'Buy cases with coins. The more expensive the case, the better the prizes!',
+    openCase:'Open Case', caseCost:'Cost', caseOpened:'Case opened!',
+    caseBronze:'Bronze Case', caseSilver:'Silver Case', caseGold:'Gold Case', casePlatinum:'Platinum Case', caseDiamond:'Diamond Case',
+    wonCoins:'coins won', wonXp:'XP won', prize:'Prize', yourBet:'Your bet',
+    insufficientCoins:'Not enough coins to open this case.',
+    // Price Prediction
+    pricePrediction:'Price Prediction', pricePredictionDesc:'Predict if the LOL coin price goes UP or DOWN. Win 70–90% of your bet!',
+    predictUp:'📈 UP', predictDown:'📉 DOWN', placeBet:'Place Bet', betAmount:'Bet amount',
+    selectTimeframe:'Select timeframe', tf5s:'5 sec (90%)', tf15s:'15 sec (80%)', tf30s:'30 sec (70%)',
+    waitingResult:'Waiting for result…', predictionCorrect:'Correct prediction! 🎉', predictionWrong:'Wrong prediction!',
+    payout:'Payout', yourPrediction:'Your prediction', result:'Result',
+    minBet:'Minimum bet: 10 coins', maxBet:'Maximum bet: 5000 coins', invalidBet:'Enter a valid bet amount.',
     // Fullscreen
     fullscreen:'Fullscreen', exitFullscreen:'Exit Fullscreen',
     // Language modal
@@ -176,7 +186,7 @@ export const i18n = {
     responseTime:'Avg. response: < 24h',
     leaderboardDesc:'Top performers ranked by score. Climb the ranks by completing tasks and maintaining streaks.',
     seasonInfo:'All-Time Rankings', leaderboardTip:'Complete more tasks and maintain your streak to climb higher.',
-    miniGamesInfo:'Play games to earn bonus XP. Your best scores are tracked.',
+    miniGamesInfo:'Open cases for random rewards or predict price movements to win coins.',
     bestScore:'Best Score', gamesPlayed:'Games Played',
     chatPageDesc:'Connect with the community in real-time. Unlock premium rooms as you level up.',
     chatTip:'Shift+Enter for a new line. Higher levels unlock premium rooms.',
@@ -318,12 +328,22 @@ export const i18n = {
     feedPostSuccess:'Пост опубліковано!', feedMaxReached:'Денний ліміт XP досягнуто, але ви ще можете публікувати.',
     feedAddMedia:'Додати медіа', feedSelectType:'Тип посту',
     // Міні ігри
-    miniGames:'Міні ігри', miniGamesDesc:'Грай у веселі ігри та заробляй XP! Завершуй ігри, щоб швидше підвищити рівень.',
-    memoryMatch:'Знайди пару', memoryMatchDesc:'Перевертай картки та шукай пари. Менше ходів = більше XP!',
-    colorTap:'Влучний колір', colorTapDesc:'Натисни на правильний колір до закінчення часу. Швидкість важлива!',
-    loginToPlay:'Увійди, щоб грати та заробляти XP', playAgain:'Грати знову',
-    moves:'ходи', time:'Час', tapTheColor:'Натисни на відповідний колір!',
-    gameComplete:'Чудово! 🎉', gameOver:'Гра закінчена!',
+    miniGames:'Міні ігри', miniGamesDesc:'Відкривай кейси та прогнозуй ціни, щоб заробляти монети та XP!',
+    loginToPlay:'Увійди, щоб грати', playAgain:'Грати знову',
+    time:'Час', gameComplete:'Чудово! 🎉', gameOver:'Гра закінчена!',
+    // Відкриття кейсів
+    caseOpening:'Відкриття кейсів', caseOpeningDesc:'Купуй кейси за монети. Чим дорожчий кейс, тим кращі призи!',
+    openCase:'Відкрити кейс', caseCost:'Ціна', caseOpened:'Кейс відкрито!',
+    caseBronze:'Бронзовий кейс', caseSilver:'Срібний кейс', caseGold:'Золотий кейс', casePlatinum:'Платиновий кейс', caseDiamond:'Діамантовий кейс',
+    wonCoins:'монет виграно', wonXp:'XP виграно', prize:'Приз', yourBet:'Ваша ставка',
+    insufficientCoins:'Недостатньо монет для відкриття цього кейсу.',
+    // Прогноз ціни
+    pricePrediction:'Прогноз ціни', pricePredictionDesc:'Вгадай куди рухатиметься ціна монети LOL — ВГОРУ чи ВНИЗ. Виграш 70–90% від ставки!',
+    predictUp:'📈 ВГОРУ', predictDown:'📉 ВНИЗ', placeBet:'Зробити ставку', betAmount:'Сума ставки',
+    selectTimeframe:'Виберіть таймфрейм', tf5s:'5 сек (90%)', tf15s:'15 сек (80%)', tf30s:'30 сек (70%)',
+    waitingResult:'Очікування результату…', predictionCorrect:'Вірний прогноз! 🎉', predictionWrong:'Невірний прогноз!',
+    payout:'Виплата', yourPrediction:'Ваш прогноз', result:'Результат',
+    minBet:'Мінімальна ставка: 10 монет', maxBet:'Максимальна ставка: 5000 монет', invalidBet:'Введіть коректну суму ставки.',
     // Fullscreen
     fullscreen:'Повний екран', exitFullscreen:'Вийти з повного екрану',
     // Language modal
@@ -350,7 +370,7 @@ export const i18n = {
     responseTime:'Час відповіді: < 24г',
     leaderboardDesc:'Топ-гравці за балами. Піднімайтесь виконуючи задачі та підтримуючи серії.',
     seasonInfo:'Загальний рейтинг', leaderboardTip:'Виконуйте більше задач та підтримуйте серію, щоб піднятись вище.',
-    miniGamesInfo:'Грайте в ігри, щоб отримати бонусний XP.',
+    miniGamesInfo:'Відкривай кейси за монети або прогнозуй рух ціни.',
     bestScore:'Найкращий рахунок', gamesPlayed:'Ігор зіграно',
     chatPageDesc:'Спілкуйтесь з комʼюніті в реальному часі. Відкривайте преміум-кімнати підвищуючи рівень.',
     chatTip:'Shift+Enter — новий рядок. Вищі рівні відкривають преміум-кімнати.',
@@ -481,12 +501,20 @@ export const i18n = {
     feedPostSuccess:'Beitrag veröffentlicht!', feedMaxReached:'Tägliches XP-Limit erreicht.',
     feedAddMedia:'Medien hinzufügen', feedSelectType:'Beitragstyp',
     // Mini-Spiele
-    miniGames:'Minispiele', miniGamesDesc:'Spiele lustige Spiele und verdiene XP! Schließe Spiele ab, um schneller aufzusteigen.',
-    memoryMatch:'Memory', memoryMatchDesc:'Drehe Karten um und finde Paare. Weniger Züge = mehr XP!',
-    colorTap:'Farbtipp', colorTapDesc:'Tippe auf die richtige Farbe, bevor die Zeit abläuft. Geschwindigkeit zählt!',
-    loginToPlay:'Melde dich an, um zu spielen und XP zu verdienen', playAgain:'Nochmal spielen',
-    moves:'Züge', time:'Zeit', tapTheColor:'Tippe auf die passende Farbe!',
-    gameComplete:'Gut gemacht! 🎉', gameOver:'Spiel vorbei!',
+    miniGames:'Minispiele', miniGamesDesc:'Öffne Cases und sage Preise vorher, um Münzen und XP zu verdienen!',
+    loginToPlay:'Anmelden zum Spielen', playAgain:'Nochmal spielen',
+    time:'Zeit', gameComplete:'Gut gemacht! 🎉', gameOver:'Spiel vorbei!',
+    caseOpening:'Case-Öffnung', caseOpeningDesc:'Kaufe Cases mit Münzen. Je teurer der Case, desto besser die Preise!',
+    openCase:'Case öffnen', caseCost:'Kosten', caseOpened:'Case geöffnet!',
+    caseBronze:'Bronze-Case', caseSilver:'Silber-Case', caseGold:'Gold-Case', casePlatinum:'Platin-Case', caseDiamond:'Diamant-Case',
+    wonCoins:'Münzen gewonnen', wonXp:'XP gewonnen', prize:'Preis', yourBet:'Dein Einsatz',
+    insufficientCoins:'Nicht genug Münzen für diesen Case.',
+    pricePrediction:'Preisvorhersage', pricePredictionDesc:'Sage vorher ob der LOL-Preis STEIGT oder FÄLLT. Gewinne 70–90% deines Einsatzes!',
+    predictUp:'📈 HOCH', predictDown:'📉 RUNTER', placeBet:'Wette platzieren', betAmount:'Einsatzbetrag',
+    selectTimeframe:'Zeitrahmen wählen', tf5s:'5 Sek (90%)', tf15s:'15 Sek (80%)', tf30s:'30 Sek (70%)',
+    waitingResult:'Warte auf Ergebnis…', predictionCorrect:'Richtige Vorhersage! 🎉', predictionWrong:'Falsche Vorhersage!',
+    payout:'Auszahlung', yourPrediction:'Deine Vorhersage', result:'Ergebnis',
+    minBet:'Mindesteinsatz: 10 Münzen', maxBet:'Maximaleinsatz: 5000 Münzen', invalidBet:'Gib einen gültigen Einsatz ein.',
     // Fullscreen
     fullscreen:'Vollbild', exitFullscreen:'Vollbild beenden',
     // Language modal
@@ -513,7 +541,7 @@ export const i18n = {
     responseTime:'Antwortzeit: < 24h',
     leaderboardDesc:'Top-Spieler nach Punkten. Steige auf durch Aufgaben und Streaks.',
     seasonInfo:'Allzeit-Rangliste', leaderboardTip:'Erledige mehr Aufgaben und halte deinen Streak, um aufzusteigen.',
-    miniGamesInfo:'Spiele Spiele, um Bonus-XP zu verdienen.',
+    miniGamesInfo:'Öffne Cases oder sage Preisbewegungen vorher, um Münzen zu gewinnen.',
     bestScore:'Bestleistung', gamesPlayed:'Spiele gespielt',
     chatPageDesc:'Verbinde dich in Echtzeit mit der Community. Schalte Premium-Räume frei.',
     chatTip:'Shift+Enter für neue Zeile. Höhere Level schalten Premium-Räume frei.',
@@ -643,12 +671,20 @@ export const i18n = {
     feedPostSuccess:'Post publié !', feedMaxReached:'Limite quotidienne d\'XP atteinte.',
     feedAddMedia:'Ajouter un média', feedSelectType:'Type de post',
     // Mini-jeux
-    miniGames:'Mini-jeux', miniGamesDesc:'Jouez à des jeux amusants et gagnez des XP ! Terminez des jeux pour monter de niveau plus vite.',
-    memoryMatch:'Memory', memoryMatchDesc:'Retournez les cartes et trouvez les paires. Moins de coups = plus d\'XP !',
-    colorTap:'Touche Couleur', colorTapDesc:'Appuyez sur la bonne couleur avant la fin du temps. La vitesse compte !',
-    loginToPlay:'Connectez-vous pour jouer et gagner des XP', playAgain:'Rejouer',
-    moves:'coups', time:'Temps', tapTheColor:'Appuyez sur la couleur correspondante !',
-    gameComplete:'Bien joué ! 🎉', gameOver:'Partie terminée !',
+    miniGames:'Mini-jeux', miniGamesDesc:'Ouvrez des caisses et prédisez les prix pour gagner des pièces et XP !',
+    loginToPlay:'Connectez-vous pour jouer', playAgain:'Rejouer',
+    time:'Temps', gameComplete:'Bien joué ! 🎉', gameOver:'Partie terminée !',
+    caseOpening:'Ouverture de caisses', caseOpeningDesc:'Achetez des caisses avec des pièces. Plus la caisse est chère, meilleurs sont les prix !',
+    openCase:'Ouvrir la caisse', caseCost:'Coût', caseOpened:'Caisse ouverte !',
+    caseBronze:'Caisse Bronze', caseSilver:'Caisse Argent', caseGold:'Caisse Or', casePlatinum:'Caisse Platine', caseDiamond:'Caisse Diamant',
+    wonCoins:'pièces gagnées', wonXp:'XP gagnés', prize:'Prix', yourBet:'Votre mise',
+    insufficientCoins:'Pas assez de pièces pour cette caisse.',
+    pricePrediction:'Prédiction de prix', pricePredictionDesc:'Prédisez si le prix du LOL monte ou descend. Gagnez 70–90% de votre mise !',
+    predictUp:'📈 HAUSSE', predictDown:'📉 BAISSE', placeBet:'Parier', betAmount:'Montant du pari',
+    selectTimeframe:'Choisir la durée', tf5s:'5 sec (90%)', tf15s:'15 sec (80%)', tf30s:'30 sec (70%)',
+    waitingResult:'En attente du résultat…', predictionCorrect:'Bonne prédiction ! 🎉', predictionWrong:'Mauvaise prédiction !',
+    payout:'Gain', yourPrediction:'Votre prédiction', result:'Résultat',
+    minBet:'Mise minimum : 10 pièces', maxBet:'Mise maximum : 5000 pièces', invalidBet:'Entrez un montant valide.',
     // Fullscreen
     fullscreen:'Plein écran', exitFullscreen:'Quitter le plein écran',
     // Language modal
@@ -675,7 +711,7 @@ export const i18n = {
     responseTime:'Temps de réponse : < 24h',
     leaderboardDesc:'Meilleurs joueurs par score. Montez en accomplissant des tâches et maintenant des séries.',
     seasonInfo:'Classement général', leaderboardTip:'Accomplissez plus de tâches et maintenez votre série pour monter.',
-    miniGamesInfo:'Jouez pour gagner des XP bonus.',
+    miniGamesInfo:'Ouvrez des caisses ou prédisez les mouvements de prix pour gagner des pièces.',
     bestScore:'Meilleur score', gamesPlayed:'Parties jouées',
     chatPageDesc:'Connectez-vous en temps réel avec la communauté. Débloquez des salons premium.',
     chatTip:'Shift+Enter pour nouvelle ligne. Les niveaux supérieurs débloquent les salons premium.',
@@ -805,12 +841,20 @@ export const i18n = {
     feedPostSuccess:'¡Post publicado!', feedMaxReached:'Límite diario de XP alcanzado.',
     feedAddMedia:'Agregar media', feedSelectType:'Tipo de post',
     // Mini juegos
-    miniGames:'Minijuegos', miniGamesDesc:'¡Juega juegos divertidos y gana XP! Completa juegos para subir de nivel más rápido.',
-    memoryMatch:'Memoria', memoryMatchDesc:'Voltea cartas y encuentra pares. ¡Menos movimientos = más XP!',
-    colorTap:'Toca el Color', colorTapDesc:'¡Toca el color correcto antes de que se acabe el tiempo. La velocidad importa!',
-    loginToPlay:'Inicia sesión para jugar y ganar XP', playAgain:'Jugar de nuevo',
-    moves:'movimientos', time:'Tiempo', tapTheColor:'¡Toca el color correspondiente!',
-    gameComplete:'¡Bien hecho! 🎉', gameOver:'¡Fin del juego!',
+    miniGames:'Minijuegos', miniGamesDesc:'¡Abre cajas y predice precios para ganar monedas y XP!',
+    loginToPlay:'Inicia sesión para jugar', playAgain:'Jugar de nuevo',
+    time:'Tiempo', gameComplete:'¡Bien hecho! 🎉', gameOver:'¡Fin del juego!',
+    caseOpening:'Apertura de cajas', caseOpeningDesc:'¡Compra cajas con monedas. Cuanto más cara la caja, mejores los premios!',
+    openCase:'Abrir caja', caseCost:'Costo', caseOpened:'¡Caja abierta!',
+    caseBronze:'Caja Bronce', caseSilver:'Caja Plata', caseGold:'Caja Oro', casePlatinum:'Caja Platino', caseDiamond:'Caja Diamante',
+    wonCoins:'monedas ganadas', wonXp:'XP ganados', prize:'Premio', yourBet:'Tu apuesta',
+    insufficientCoins:'No tienes suficientes monedas para esta caja.',
+    pricePrediction:'Predicción de precio', pricePredictionDesc:'¡Predice si el precio del LOL sube o baja. Gana 70–90% de tu apuesta!',
+    predictUp:'📈 SUBE', predictDown:'📉 BAJA', placeBet:'Apostar', betAmount:'Monto de apuesta',
+    selectTimeframe:'Seleccionar plazo', tf5s:'5 seg (90%)', tf15s:'15 seg (80%)', tf30s:'30 seg (70%)',
+    waitingResult:'Esperando resultado…', predictionCorrect:'¡Predicción correcta! 🎉', predictionWrong:'¡Predicción incorrecta!',
+    payout:'Pago', yourPrediction:'Tu predicción', result:'Resultado',
+    minBet:'Apuesta mínima: 10 monedas', maxBet:'Apuesta máxima: 5000 monedas', invalidBet:'Ingresa un monto válido.',
     // Fullscreen
     fullscreen:'Pantalla completa', exitFullscreen:'Salir de pantalla completa',
     // Language modal
@@ -837,7 +881,7 @@ export const i18n = {
     responseTime:'Tiempo de respuesta: < 24h',
     leaderboardDesc:'Mejores jugadores por puntuación. Sube completando tareas y manteniendo rachas.',
     seasonInfo:'Clasificación general', leaderboardTip:'Completa más tareas y mantén tu racha para subir.',
-    miniGamesInfo:'Juega juegos para ganar XP bonus.',
+    miniGamesInfo:'Abre cajas o predice movimientos de precio para ganar monedas.',
     bestScore:'Mejor puntuación', gamesPlayed:'Partidas jugadas',
     chatPageDesc:'Conéctate con la comunidad en tiempo real. Desbloquea salas premium subiendo de nivel.',
     chatTip:'Shift+Enter para nueva línea. Niveles más altos desbloquean salas premium.',
@@ -967,12 +1011,20 @@ export const i18n = {
     feedPostSuccess:'Post opublikowany!', feedMaxReached:'Dzienny limit XP osiągnięty.',
     feedAddMedia:'Dodaj media', feedSelectType:'Typ posta',
     // Mini gry
-    miniGames:'Mini gry', miniGamesDesc:'Graj w zabawne gry i zdobywaj XP! Kończ gry, aby szybciej awansować.',
-    memoryMatch:'Memory', memoryMatchDesc:'Odwracaj karty i znajdź pary. Mniej ruchów = więcej XP!',
-    colorTap:'Dotknij Kolor', colorTapDesc:'Dotknij właściwego koloru zanim skończy się czas. Liczy się szybkość!',
-    loginToPlay:'Zaloguj się, aby grać i zdobywać XP', playAgain:'Zagraj ponownie',
-    moves:'ruchy', time:'Czas', tapTheColor:'Dotknij pasującego koloru!',
-    gameComplete:'Świetnie! 🎉', gameOver:'Koniec gry!',
+    miniGames:'Mini gry', miniGamesDesc:'Otwieraj skrzynki i przewiduj ceny, aby zdobywać monety i XP!',
+    loginToPlay:'Zaloguj się, aby grać', playAgain:'Zagraj ponownie',
+    time:'Czas', gameComplete:'Świetnie! 🎉', gameOver:'Koniec gry!',
+    caseOpening:'Otwieranie skrzynek', caseOpeningDesc:'Kupuj skrzynki za monety. Im droższa skrzynka, tym lepsze nagrody!',
+    openCase:'Otwórz skrzynkę', caseCost:'Koszt', caseOpened:'Skrzynka otwarta!',
+    caseBronze:'Brązowa skrzynka', caseSilver:'Srebrna skrzynka', caseGold:'Złota skrzynka', casePlatinum:'Platynowa skrzynka', caseDiamond:'Diamentowa skrzynka',
+    wonCoins:'monet wygranych', wonXp:'XP wygranych', prize:'Nagroda', yourBet:'Twój zakład',
+    insufficientCoins:'Nie masz wystarczająco monet na tę skrzynkę.',
+    pricePrediction:'Przewidywanie ceny', pricePredictionDesc:'Przewiduj czy cena LOL pójdzie W GÓRĘ czy W DÓŁ. Wygraj 70–90% swojego zakładu!',
+    predictUp:'📈 W GÓRĘ', predictDown:'📉 W DÓŁ', placeBet:'Postaw zakład', betAmount:'Kwota zakładu',
+    selectTimeframe:'Wybierz okres', tf5s:'5 sek (90%)', tf15s:'15 sek (80%)', tf30s:'30 sek (70%)',
+    waitingResult:'Oczekiwanie na wynik…', predictionCorrect:'Prawidłowa prognoza! 🎉', predictionWrong:'Błędna prognoza!',
+    payout:'Wypłata', yourPrediction:'Twoja prognoza', result:'Wynik',
+    minBet:'Minimalny zakład: 10 monet', maxBet:'Maksymalny zakład: 5000 monet', invalidBet:'Wprowadź prawidłową kwotę zakładu.',
     // Fullscreen
     fullscreen:'Pełny ekran', exitFullscreen:'Wyjdź z pełnego ekranu',
     // Language modal
@@ -999,7 +1051,7 @@ export const i18n = {
     responseTime:'Czas odpowiedzi: < 24h',
     leaderboardDesc:'Najlepsi gracze wg punktów. Awansuj wykonując zadania i utrzymując serie.',
     seasonInfo:'Ranking ogólny', leaderboardTip:'Wykonuj więcej zadań i utrzymuj serię, aby awansować.',
-    miniGamesInfo:'Graj w gry, aby zdobyć bonusowe XP.',
+    miniGamesInfo:'Otwieraj skrzynki lub przewiduj ruchy cen, aby zdobywać monety.',
     bestScore:'Najlepszy wynik', gamesPlayed:'Rozegrane gry',
     chatPageDesc:'Łącz się ze społecznością w czasie rzeczywistym. Odblokuj pokoje premium.',
     chatTip:'Shift+Enter dla nowej linii. Wyższe poziomy odblokowują pokoje premium.',
@@ -1019,12 +1071,12 @@ export const i18n = {
 };
 
 export function t(k) {
-  return (i18n[appState.S.lang] || i18n.UA)[k] || k;
+  return (i18n[appState.S.lang] || i18n.EN)[k] || k;
 }
 
 const LANG_TO_LOCALE = { UA:'uk', EN:'en', DE:'de', FR:'fr', ES:'es', PL:'pl' };
 
 export function setLang(code) {
   appState.S.lang = code;
-  document.documentElement.lang = LANG_TO_LOCALE[code] || 'uk';
+  document.documentElement.lang = LANG_TO_LOCALE[code] || 'en';
 }

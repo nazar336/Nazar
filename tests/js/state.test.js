@@ -24,8 +24,8 @@ describe('defaultState()', () => {
     expect(state).not.toBeNull();
   });
 
-  it('has default language UA', () => {
-    expect(defaultState().lang).toBe('UA');
+  it('has default language EN', () => {
+    expect(defaultState().lang).toBe('EN');
   });
 
   it('has zero balance by default', () => {
@@ -81,7 +81,7 @@ describe('loadState()', () => {
 
   it('sets default state when localStorage is empty', () => {
     loadState();
-    expect(appState.S.lang).toBe('UA');
+    expect(appState.S.lang).toBe('EN');
     expect(appState.S.level).toBe(1);
   });
 

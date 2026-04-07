@@ -9,6 +9,7 @@ vi.mock('../../../js/state.js', () => ({
       lang: 'EN',
       xp: 500,
       level: 3,
+      coinBalance: 1000,
       notifications: [],
     },
     currentUser: { id: 1, name: 'Test User', username: 'tester' },
@@ -28,7 +29,7 @@ vi.mock('../../../js/i18n.js', () => ({
 }));
 
 vi.mock('../../../js/api.js', () => ({
-  apiFetch: vi.fn(() => Promise.resolve({ ok: true, data: { xp_earned: 5, xp: 505, level: 3 } })),
+  apiFetch: vi.fn(() => Promise.resolve({ ok: true, data: { coin_balance: 950, xp: 505, level: 3 } })),
 }));
 
 vi.mock('../../../js/utils.js', () => ({
@@ -76,6 +77,7 @@ beforeEach(() => {
   appState.currentUser = { id: 1, name: 'Test User', username: 'tester' };
   appState.S.xp = 500;
   appState.S.level = 3;
+  appState.S.coinBalance = 1000;
 });
 
 afterEach(() => { document.body.innerHTML = ''; });
@@ -90,30 +92,31 @@ describe('renderMiniGames', () => {
     expect(el.querySelectorAll('.game-card').length).toBe(2);
   });
 
-  it('shows memory match game card', () => {
+  it('shows case opening game card', () => {
     renderMiniGames(el);
-    expect(el.innerHTML).toContain('🧠');
-    expect(el.innerHTML).toContain('memoryMatch');
-    expect(el.innerHTML).toContain('memoryMatchDesc');
-    const memoryCard = el.querySelector('[data-game="memory"]');
-    expect(memoryCard).toBeTruthy();
+    expect(el.innerHTML).toContain('📦');
+    expect(el.innerHTML).toContain('caseOpening');
+    expect(el.innerHTML).toContain('caseOpeningDesc');
+    const casesCard = el.querySelector('[data-game="cases"]');
+    expect(casesCard).toBeTruthy();
   });
 
-  it('shows color tap game card', () => {
+  it('shows price prediction game card', () => {
     renderMiniGames(el);
-    expect(el.innerHTML).toContain('🎨');
-    expect(el.innerHTML).toContain('colorTap');
-    expect(el.innerHTML).toContain('colorTapDesc');
-    const colorCard = el.querySelector('[data-game="colortap"]');
-    expect(colorCard).toBeTruthy();
+    expect(el.innerHTML).toContain('📊');
+    expect(el.innerHTML).toContain('pricePrediction');
+    expect(el.innerHTML).toContain('pricePredictionDesc');
+    const predictCard = el.querySelector('[data-game="predict"]');
+    expect(predictCard).toBeTruthy();
   });
 
-  it('shows XP and level info', () => {
+  it('shows coin balance and level info', () => {
     renderMiniGames(el);
     expect(el.innerHTML).toContain('XP');
     expect(el.innerHTML).toContain('500');
     expect(el.innerHTML).toContain('level');
     expect(el.innerHTML).toContain('3');
+    expect(el.innerHTML).toContain('1000');
   });
 
   it('guest mode shows error toast when trying to play', () => {
@@ -125,42 +128,36 @@ describe('renderMiniGames', () => {
     const gameClickCall = delegate.mock.calls.find(c => c[2] === '[data-game]');
     expect(gameClickCall).toBeTruthy();
     const callback = gameClickCall[3];
-    const fakeBtn = { dataset: { game: 'memory' } };
+    const fakeBtn = { dataset: { game: 'cases' } };
     callback({}, fakeBtn);
     expect(toast).toHaveBeenCalledWith('loginToPlay', 'error');
   });
 
-  it('clicking memory card starts memory game (creates memory grid)', () => {
+  it('clicking cases card starts case opening (shows case cards)', () => {
     renderMiniGames(el);
     const gameClickCall = delegate.mock.calls.find(c => c[2] === '[data-game]');
     const callback = gameClickCall[3];
-    const fakeBtn = { dataset: { game: 'memory' } };
+    const fakeBtn = { dataset: { game: 'cases' } };
     callback({}, fakeBtn);
     const gameArea = document.getElementById('gameArea');
     expect(gameArea).toBeTruthy();
-    expect(gameArea.innerHTML).toContain('memory-grid');
-    expect(gameArea.querySelectorAll('.memory-card').length).toBe(12);
+    expect(gameArea.innerHTML).toContain('caseBronze');
+    expect(gameArea.innerHTML).toContain('caseDiamond');
+    expect(gameArea.querySelectorAll('.open-case-btn').length).toBe(5);
   });
 
-  it('clicking color tap card starts color tap game (creates color buttons)', () => {
+  it('clicking predict card starts price prediction (shows chart and controls)', () => {
     renderMiniGames(el);
     const gameClickCall = delegate.mock.calls.find(c => c[2] === '[data-game]');
     const callback = gameClickCall[3];
-    const fakeBtn = { dataset: { game: 'colortap' } };
+    const fakeBtn = { dataset: { game: 'predict' } };
     callback({}, fakeBtn);
     const gameArea = document.getElementById('gameArea');
     expect(gameArea).toBeTruthy();
-    expect(gameArea.querySelectorAll('.color-btn').length).toBe(4);
-  });
-
-  it('memory game has restart button', () => {
-    renderMiniGames(el);
-    const gameClickCall = delegate.mock.calls.find(c => c[2] === '[data-game]');
-    const callback = gameClickCall[3];
-    const fakeBtn = { dataset: { game: 'memory' } };
-    callback({}, fakeBtn);
-    const restartBtn = document.getElementById('memoryRestart');
-    expect(restartBtn).toBeTruthy();
-    expect(restartBtn.textContent).toContain('playAgain');
+    expect(gameArea.innerHTML).toContain('predCanvas');
+    expect(document.getElementById('predUpBtn')).toBeTruthy();
+    expect(document.getElementById('predDownBtn')).toBeTruthy();
+    expect(document.getElementById('predBet')).toBeTruthy();
+    expect(document.getElementById('predTimeframe')).toBeTruthy();
   });
 });

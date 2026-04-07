@@ -35,3 +35,5 @@ Thumbs.db
 # Test artifacts
 test-results/
 playwright-report/
+.phpunit.cache/
+.phpunit.result.cache

@@ -422,7 +422,7 @@ export const i18n = {
     preview:'Live-Vorschau', category:'Kategorie',
     guestMode:'Gastmodus', createAccount:'Konto erstellen',
     password:'Passwort', orText:'oder', browseAsGuest:'Als Gast durchsuchen', noAccount:'Kein Konto?', haveAccount:'Bereits ein Konto?', fullName:'Vollständiger Name', minChars:'Min. 8 Zeichen',
-    acceptTermsText:'Ich akzeptiere die', platformRules:'Plattformregeln', andText:'und die', privacyPolicy:'Datenschutzrichtlinie',
+    acceptTermsText:'Ich akzeptiere die', platformRules:'Plattformregeln', andText:'und', privacyPolicy:'die Datenschutzrichtlinie',
     earnOnTasks:'Verdienen Sie mit Micro-Tasks', authSubtitle:'Premium-Plattform für Freiberufler und Unternehmen. Aufgaben erledigen, wachsen und verdienen.',
     quickEarnings:'Schnelle Einnahmen', quickEarningsDesc:'Erstes Geld pro Stunde', levelsAchievements:'Level & Erfolge', levelsAchievementsDesc:'Wachsen und Rekorde aufstellen', premiumFeatures:'Premium-Funktionen', premiumFeaturesDesc:'Alle Funktionen freigeschaltet', globalCommunity:'Globale Gemeinschaft', globalCommunityDesc:'Weltweit zusammenarbeiten', activeStat:'Aktiv', paidOut:'On-chain Volumen',
     verifyEmail:'E-Mail bestätigen', codeSentTo:'Wir haben einen 6-stelligen Code gesendet an', solveCaptcha:'Captcha lösen', enterAnswer:'Antwort eingeben', verifyCaptcha:'Prüfen', wrongAnswer:'Falsche Antwort', verificationCode:'Verifizierungscode', showCode:'Anzeigen', hideCode:'Verbergen', enterCodeScreen:'Code vom Bildschirm eingeben', sixDigits:'6 Ziffern', confirmBtn:'Bestätigen', backToLogin:'Zurück zum Login', verifySuccess:'Super! Sie sind eingeloggt 🎉', wrongCode:'Falscher Code', invalidCode:'Gültigen 6-stelligen Code eingeben',

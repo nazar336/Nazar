@@ -72,7 +72,22 @@ function db(): PDO {
     } catch (PDOException $e) {
         error_log('Lolanceizi DB error: ' . $e->getMessage());
         http_response_code(503);
-        echo json_encode(['success' => false, 'message' => 'Database unavailable']);
+        $msg = 'Database unavailable';
+        $hint = '';
+        $errMsg = $e->getMessage();
+        if (str_contains($errMsg, 'Access denied')) {
+            $hint = 'Перевірте DB_USER та DB_PASS в .env файлі.';
+        } elseif (str_contains($errMsg, 'Unknown database')) {
+            $hint = 'База даних "' . DB_NAME . '" не існує. Створіть її в phpMyAdmin.';
+        } elseif (str_contains($errMsg, 'Connection refused') || str_contains($errMsg, 'No such file')) {
+            $hint = 'MySQL не відповідає. На Hostinger DB_HOST має бути "localhost".';
+        }
+        $response = ['success' => false, 'message' => $msg];
+        if ($hint !== '') {
+            $response['hint'] = $hint;
+        }
+        $response['check_url'] = '/api/db-check.php?secret=YOUR_ADMIN_SECRET';
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
         exit;
     }
     return $pdo;

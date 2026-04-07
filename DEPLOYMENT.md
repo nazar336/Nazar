@@ -404,9 +404,15 @@ fetch('/api/session.php').then(r=>r.json()).then(console.log)
 3. Подивись логи: hPanel → **Розширені** → **Error logs**
 
 ### ❌ "Database unavailable"
-1. Перевір `.env` — правильні `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`
-2. `DB_HOST` на Hostinger = `localhost` (НЕ `127.0.0.1`)
-3. Перевір що назва БД має префікс Hostinger (наприклад `u310037570_lolanceizi`)
+1. **Автодіагностика**: відкрий `https://yourdomain.com/api/db-check.php?secret=YOUR_ADMIN_SECRET`
+   - Покаже стан .env, підключення до БД, які таблиці є/відсутні
+2. **Автостворення таблиць**: 
+   ```bash
+   curl -X POST "https://yourdomain.com/api/db-check.php?secret=YOUR_ADMIN_SECRET&action=setup"
+   ```
+3. Перевір `.env` — правильні `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`
+4. `DB_HOST` на Hostinger = `localhost` (НЕ `127.0.0.1`)
+5. Перевір що назва БД має префікс Hostinger (наприклад `u310037570_lolanceizi`)
 
 ### ❌ API повертає 404
 1. Перевір що `api/` папка є в `public_html/`

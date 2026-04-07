@@ -34,9 +34,9 @@ export function fmtAgo(s) {
 export function renderAnimatedBrandLayer(scope = 'default') {
   return `
     <div class="brand-sprites brand-sprites-${scope}" aria-hidden="true">
-      <img src="assets/lolance-logo.svg" alt="" class="brand-sprite sprite-a">
-      <img src="assets/lolance-logo.svg" alt="" class="brand-sprite sprite-b">
-      <img src="assets/lolance-logo.svg" alt="" class="brand-sprite sprite-c">
+      <img src="assets/lolanceizi-logo.svg" alt="" class="brand-sprite sprite-a">
+      <img src="assets/lolanceizi-logo.svg" alt="" class="brand-sprite sprite-b">
+      <img src="assets/lolanceizi-logo.svg" alt="" class="brand-sprite sprite-c">
     </div>`;
 }
 

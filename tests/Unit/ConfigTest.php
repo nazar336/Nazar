@@ -13,7 +13,7 @@ class ConfigTest extends TestCase
             // Set env vars before loading config
             putenv('APP_ENV=testing');
             putenv('DB_HOST=127.0.0.1');
-            putenv('DB_NAME=lolance_test');
+            putenv('DB_NAME=lolanceizi_test');
             putenv('DB_USER=test');
             putenv('DB_PASS=test');
             putenv('ADMIN_SECRET=test_secret_key');
@@ -65,7 +65,7 @@ class ConfigTest extends TestCase
     public function testSessionNameDefined(): void
     {
         $this->assertTrue(defined('SESSION_NAME'));
-        $this->assertSame('lolance_session', SESSION_NAME);
+        $this->assertSame('lolanceizi_session', SESSION_NAME);
     }
 
     public function testCryptoWalletsDefined(): void

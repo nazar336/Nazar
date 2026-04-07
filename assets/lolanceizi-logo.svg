@@ -16,7 +16,7 @@
   <path d="M57 48V24H65V48H57Z" fill="url(#g1)"/>
 
   <g filter="url(#glow)">
-    <text x="82" y="51" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="900" letter-spacing="-1" fill="#EAF7ED">LOL</text>
-    <text x="142" y="51" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="900" letter-spacing="-1" fill="url(#g1)">ance</text>
+    <text x="82" y="51" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="900" letter-spacing="-1" fill="#EAF7ED">lolance</text>
+    <text x="175" y="51" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="900" letter-spacing="-1" fill="url(#g1)">izi</text>
   </g>
 </svg>

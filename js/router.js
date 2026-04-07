@@ -74,7 +74,7 @@ export function navigate(page) {
   const titles = { dashboard: t('dashboard'), tasks: t('tasks'), createTask: t('createTask'), feed: t('feed'), wallet: t('wallet'), chat: t('chat'), support: t('support'), profile: t('profile'), leaderboard: t('leaderboard'), miniGames: t('miniGames'), dm: t('directMessages') };
   const tb = document.getElementById('topbarTitle');
   if (tb) tb.textContent = titles[page] || page;
-  document.title = `${titles[page] || page} — LOLance`;
+  document.title = `${titles[page] || page} — Lolanceizi`;
 }
 
 export function renderPage(page, el) {

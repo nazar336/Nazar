@@ -7,7 +7,7 @@ import { fmtDate, toast, showAlert, hideAlert, addNotif, setLoading } from '../u
 import { navigate } from '../router.js';
 import { CATEGORIES, API, getLvlPriv } from '../constants.js';
 
-const DRAFT_KEY = 'lolance_task_draft';
+const DRAFT_KEY = 'lolanceizi_task_draft';
 
 function loadDraft() {
   try { return JSON.parse(localStorage.getItem(DRAFT_KEY)) || {}; } catch(_) { return {}; }

@@ -1,8 +1,8 @@
 {
-  "name": "lolance",
+  "name": "lolanceizi",
   "version": "1.0.0",
   "private": true,
-  "description": "LOLance Premium Micro-Task Platform",
+  "description": "Lolanceizi Premium Micro-Task Platform",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

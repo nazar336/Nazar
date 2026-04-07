@@ -35,7 +35,7 @@ vi.mock('../../../js/utils.js', () => ({
 }));
 
 vi.mock('../../../js/constants.js', () => ({
-  STORAGE_KEY: 'lolance_state_v5',
+  STORAGE_KEY: 'lolanceizi_state_v5',
   API: {
     session: 'api/session.php',
     login: 'api/login.php',

@@ -113,7 +113,7 @@ export function renderAuth(mode='login'){
         <!-- Left: Hero + Benefits -->
         <div class="auth-hero">
           <div class="auth-hero-content">
-            <div class="auth-logo-large">LOL<em>ance</em></div>
+            <div class="auth-logo-large">lolance<em>izi</em></div>
             <h1 class="auth-title">${t('earnOnTasks')}</h1>
             <p class="auth-subtitle">${t('authSubtitle')}</p>
             

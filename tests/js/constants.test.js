@@ -17,7 +17,7 @@ describe('STORAGE_KEY', () => {
   });
 
   it('includes version identifier', () => {
-    expect(STORAGE_KEY).toMatch(/lolance_state_v\d+/);
+    expect(STORAGE_KEY).toMatch(/lolanceizi_state_v\d+/);
   });
 });
 

@@ -1,4 +1,4 @@
-# ── LOLance — Apache Security & Performance Configuration ──────────
+# ── Lolanceizi — Apache Security & Performance Configuration ──────────
 
 # ── HTTPS Enforcement ──────────────────────────────────────────────
 RewriteEngine On

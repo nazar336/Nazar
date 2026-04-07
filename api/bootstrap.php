@@ -70,7 +70,7 @@ function db(): PDO {
             PDO::ATTR_EMULATE_PREPARES   => false,
         ]);
     } catch (PDOException $e) {
-        error_log('LOLance DB error: ' . $e->getMessage());
+        error_log('Lolanceizi DB error: ' . $e->getMessage());
         http_response_code(503);
         echo json_encode(['success' => false, 'message' => 'Database unavailable']);
         exit;
@@ -154,11 +154,11 @@ function redis(): ?\Redis {
         $r = new \Redis();
         $port = defined('REDIS_PORT') ? REDIS_PORT : 6379;
         if (!$r->connect($host, $port, 2.0)) return null;
-        $prefix = defined('REDIS_PREFIX') ? REDIS_PREFIX : 'lolance:';
+        $prefix = defined('REDIS_PREFIX') ? REDIS_PREFIX : 'lolanceizi:';
         $r->setOption(\Redis::OPT_PREFIX, $prefix);
         $redis = $r;
     } catch (\Throwable $e) {
-        error_log('LOLance Redis connect failed: ' . $e->getMessage());
+        error_log('Lolanceizi Redis connect failed: ' . $e->getMessage());
     }
     return $redis;
 }
@@ -178,7 +178,7 @@ function cache_get(string $key): mixed {
         return null;
     }
     // File cache fallback
-    $file = sys_get_temp_dir() . '/lolance_cache_' . md5($key) . '.json';
+    $file = sys_get_temp_dir() . '/lolanceizi_cache_' . md5($key) . '.json';
     if (!file_exists($file)) return null;
     $data = json_decode((string)file_get_contents($file), true);
     if (!is_array($data) || !isset($data['expires']) || $data['expires'] < time()) {
@@ -198,7 +198,7 @@ function cache_set(string $key, mixed $value, int $ttl = 300): void {
         return;
     }
     // File cache fallback
-    $file = sys_get_temp_dir() . '/lolance_cache_' . md5($key) . '.json';
+    $file = sys_get_temp_dir() . '/lolanceizi_cache_' . md5($key) . '.json';
     $data = ['value' => $value, 'expires' => time() + $ttl];
     @file_put_contents($file, json_encode($data), LOCK_EX);
 }
@@ -237,9 +237,9 @@ function validate_registration(array $data): array {
 // ── SMTP Mailer ───────────────────────────────────────────────────
 
 function send_verification_email(string $toEmail, string $toName, string $code): bool {
-    $subject = 'LOLance — код верифікації';
+    $subject = 'Lolanceizi — код верифікації';
     $name    = trim($toName) !== '' ? $toName : 'User';
-    $body    = "Привіт, {$name}!\n\nТвій код верифікації LOLance: {$code}\n\nКод дійсний 15 хвилин.\n\nЯкщо ти не реєструвався — проігноруй цей лист.";
+    $body    = "Привіт, {$name}!\n\nТвій код верифікації Lolanceizi: {$code}\n\nКод дійсний 15 хвилин.\n\nЯкщо ти не реєструвався — проігноруй цей лист.";
 
     return smtp_send(SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, MAIL_FROM, MAIL_FROM_NAME, $toEmail, $name, $subject, $body);
 }
@@ -336,7 +336,7 @@ function smtp_send(
         return true;
 
     } catch (\Throwable $e) {
-        error_log('LOLance SMTP error: ' . $e->getMessage());
+        error_log('Lolanceizi SMTP error: ' . $e->getMessage());
         if (is_resource($sock)) fclose($sock);
         return false;
     }

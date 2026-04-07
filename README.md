@@ -1,4 +1,4 @@
-# LOLance — Premium Micro-Task Platform
+# Lolanceizi — Premium Micro-Task Platform
 
 > Повноцінна веб-платформа для мікрозадач з криптоплатежами, гейміфікацією та спільнотою.
 
@@ -206,16 +206,16 @@
 
 ```bash
 # 1. Створити БД:
-mysql -u root -p -e "CREATE DATABASE lolance CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+mysql -u root -p -e "CREATE DATABASE lolanceizi CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
 # 2. Основна схема (22 таблиці):
-mysql -u root -p lolance < schema.sql
+mysql -u root -p lolanceizi < schema.sql
 
 # 3. Міграція (feed, crypto, withdrawals):
-mysql -u root -p lolance < migration-2026-04-02.sql
+mysql -u root -p lolanceizi < migration-2026-04-02.sql
 
 # 4. Індекси продуктивності:
-mysql -u root -p lolance < migration-indexes.sql
+mysql -u root -p lolanceizi < migration-indexes.sql
 ```
 
 ---
@@ -246,9 +246,9 @@ cp .env.example .env
 # Відредагувати .env — встановити DB, SMTP, ADMIN_SECRET, crypto wallets
 
 # 4. Застосувати БД
-mysql -u root -p lolance < schema.sql
-mysql -u root -p lolance < migration-2026-04-02.sql
-mysql -u root -p lolance < migration-indexes.sql
+mysql -u root -p lolanceizi < schema.sql
+mysql -u root -p lolanceizi < migration-2026-04-02.sql
+mysql -u root -p lolanceizi < migration-indexes.sql
 
 # 5. (Опціонально) Налаштувати cron для on-chain верифікації
 # Кожні 3 хвилини:
@@ -262,12 +262,12 @@ mysql -u root -p lolance < migration-indexes.sql
 ```env
 # Базове
 APP_ENV=production
-APP_DOMAIN=lolance.com
+APP_DOMAIN=lolanceizi.online
 
 # БД
 DB_HOST=127.0.0.1
-DB_NAME=lolance
-DB_USER=lolance_user
+DB_NAME=lolanceizi
+DB_USER=lolanceizi_user
 DB_PASS=strong_password
 
 # SMTP (Gmail App Password)
@@ -298,13 +298,13 @@ RATE_LIMIT_TASK_WINDOW=60
 # Redis (опціонально — якщо пусто, використовується file-cache)
 REDIS_HOST=
 REDIS_PORT=6379
-REDIS_PREFIX=lolance:
+REDIS_PREFIX=lolanceizi:
 ```
 
 ### Gmail App Password
 
 1. https://myaccount.google.com → Security → 2-Step Verification → увімкнути
-2. Security → App passwords → Mail → Other → "LOLance" → Generate
+2. Security → App passwords → Mail → Other → "Lolanceizi" → Generate
 3. Скопіювати 16-значний код у `SMTP_PASS`
 
 ---
@@ -504,4 +504,4 @@ GitHub Actions pipeline (`.github/workflows/ci.yml`) — 4 jobs:
 
 ## Ліцензія
 
-Proprietary — LOLance © 2026
+Proprietary — Lolanceizi © 2026

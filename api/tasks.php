@@ -103,9 +103,56 @@ try {
             json_response(['success' => false, 'message' => 'Max reward at level ' . $userLevel . ' is ' . number_format($maxReward) . ' coins. Level up to increase limit!'], 400);
         }
 
-        $stmt = $pdo->prepare('INSERT INTO tasks(title,description,category,difficulty,reward,slots,deadline,status,creator_id) VALUES(:t,:d,:c,:diff,:r,:s,:dl,"open",:cb)');
-        $stmt->execute([':t' => $title, ':d' => $description, ':c' => $category, ':diff' => $difficulty, ':r' => $reward, ':s' => $slots, ':dl' => $deadline, ':cb' => $userId]);
-        json_response(['success' => true, 'task_id' => (int)$pdo->lastInsertId(), 'message' => 'Task created']);
+        // ── Platform fee for task creation ──
+        $totalRewardCost = $reward * $slots;
+        $creationFee = round($totalRewardCost * TASK_CREATE_FEE_PCT / 100, 2);
+        if ($creationFee > 0) {
+            $pdo->beginTransaction();
+            try {
+                $pdo->prepare('INSERT IGNORE INTO user_coins (user_id) VALUES (:uid)')->execute([':uid' => $userId]);
+                $balStmt = $pdo->prepare('SELECT coin_balance FROM user_coins WHERE user_id=:uid FOR UPDATE');
+                $balStmt->execute([':uid' => $userId]);
+                $balRow = $balStmt->fetch(PDO::FETCH_ASSOC);
+                $balance = (float)($balRow['coin_balance'] ?? 0);
+
+                if ($balance < $creationFee) {
+                    $pdo->rollBack();
+                    json_response([
+                        'success' => false,
+                        'message' => 'Недостатньо монет для комісії за створення задачі. Потрібно: ' . $creationFee . ' LOL (' . TASK_CREATE_FEE_PCT . '% від ' . $totalRewardCost . ' LOL). Баланс: ' . $balance,
+                        'fee'     => $creationFee,
+                        'balance' => $balance,
+                    ], 400);
+                }
+
+                // Deduct fee
+                $pdo->prepare('
+                    UPDATE user_coins SET coin_balance = coin_balance - :amt, total_spent = total_spent + :amt2, updated_at = NOW()
+                    WHERE user_id = :uid
+                ')->execute([':amt' => $creationFee, ':amt2' => $creationFee, ':uid' => $userId]);
+
+                // Log fee
+                $pdo->prepare("
+                    INSERT INTO coin_spending (user_id, amount, type, description)
+                    VALUES (:uid, :amt, 'platform_fee', :desc)
+                ")->execute([':uid' => $userId, ':amt' => $creationFee, ':desc' => 'Task creation fee ' . TASK_CREATE_FEE_PCT . '% on reward ' . $totalRewardCost . ' LOL']);
+
+                // Create the task inside the same transaction
+                $stmt = $pdo->prepare('INSERT INTO tasks(title,description,category,difficulty,reward,slots,deadline,status,creator_id) VALUES(:t,:d,:c,:diff,:r,:s,:dl,"open",:cb)');
+                $stmt->execute([':t' => $title, ':d' => $description, ':c' => $category, ':diff' => $difficulty, ':r' => $reward, ':s' => $slots, ':dl' => $deadline, ':cb' => $userId]);
+                $taskId = (int)$pdo->lastInsertId();
+
+                $pdo->commit();
+                json_response(['success' => true, 'task_id' => $taskId, 'message' => 'Task created', 'creation_fee' => $creationFee, 'fee_pct' => TASK_CREATE_FEE_PCT]);
+            } catch (\Exception $e) {
+                if ($pdo->inTransaction()) $pdo->rollBack();
+                throw $e;
+            }
+        } else {
+            $stmt = $pdo->prepare('INSERT INTO tasks(title,description,category,difficulty,reward,slots,deadline,status,creator_id) VALUES(:t,:d,:c,:diff,:r,:s,:dl,"open",:cb)');
+            $stmt->execute([':t' => $title, ':d' => $description, ':c' => $category, ':diff' => $difficulty, ':r' => $reward, ':s' => $slots, ':dl' => $deadline, ':cb' => $userId]);
+            json_response(['success' => true, 'task_id' => (int)$pdo->lastInsertId(), 'message' => 'Task created', 'creation_fee' => 0, 'fee_pct' => TASK_CREATE_FEE_PCT]);
+        }
 
     } elseif ($method === 'PUT') {
         $input  = read_json();

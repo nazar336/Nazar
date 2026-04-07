@@ -74,11 +74,15 @@ if ($method === 'POST') {
         $amountCoins = (float)$deposit['amount_coins'];
         $userId      = (int)$deposit['user_id'];
 
+        // Apply deposit fee
+        $feeCoins = round($amountCoins * DEPOSIT_FEE_PCT / 100, 2);
+        $netCoins = $amountCoins - $feeCoins;
+
         // Update deposit
         $pdo->prepare("UPDATE crypto_deposits SET status='confirmed', admin_verified=TRUE, confirmed_at=NOW(), admin_note=:note WHERE id=:id")
             ->execute([':note' => $note ?: 'Verified by admin', ':id' => $depositId]);
 
-        // Credit coins
+        // Credit coins (net after fee)
         $pdo->prepare("
             INSERT INTO user_coins (user_id, coin_balance, total_purchased)
             VALUES (:uid, :coins, :coins)
@@ -86,15 +90,23 @@ if ($method === 'POST') {
                 coin_balance    = coin_balance + :coins2,
                 total_purchased = total_purchased + :coins3,
                 updated_at      = NOW()
-        ")->execute([':uid' => $userId, ':coins' => $amountCoins, ':coins2' => $amountCoins, ':coins3' => $amountCoins]);
+        ")->execute([':uid' => $userId, ':coins' => $netCoins, ':coins2' => $netCoins, ':coins3' => $netCoins]);
 
         // Transaction log
         $pdo->prepare("INSERT INTO transactions (user_id,type,amount,status,description) VALUES (:uid,'deposit',:amt,'completed',:desc)")
-            ->execute([':uid' => $userId, ':amt' => $deposit['amount_usdt'], ':desc' => 'Crypto deposit (' . $deposit['network'] . '): +' . $amountCoins . ' LOL']);
+            ->execute([':uid' => $userId, ':amt' => $deposit['amount_usdt'], ':desc' => 'Crypto deposit (' . $deposit['network'] . '): +' . $netCoins . ' LOL (fee ' . $feeCoins . ' LOL, ' . DEPOSIT_FEE_PCT . '%)']);
+
+        // Log platform fee
+        if ($feeCoins > 0) {
+            $pdo->prepare("
+                INSERT INTO coin_spending (user_id, amount, type, description)
+                VALUES (:uid, :amt, 'platform_fee', :desc)
+            ")->execute([':uid' => $userId, ':amt' => $feeCoins, ':desc' => 'Deposit fee ' . DEPOSIT_FEE_PCT . '%: ' . $feeCoins . ' LOL']);
+        }
 
         // Notify user
         $pdo->prepare("INSERT INTO notifications (user_id,type,title,content) VALUES (:uid,'payment','Депозит підтверджено! ✅',:content)")
-            ->execute([':uid' => $userId, ':content' => $amountCoins . ' монет зараховано за депозит ' . $deposit['amount_native'] . ' ' . $deposit['currency'] . ' (' . $deposit['network'] . ').']);
+            ->execute([':uid' => $userId, ':content' => $netCoins . ' монет зараховано за депозит ' . $deposit['amount_native'] . ' ' . $deposit['currency'] . ' (' . $deposit['network'] . '). Комісія: ' . $feeCoins . ' LOL (' . DEPOSIT_FEE_PCT . '%).']);
 
         $pdo->commit();
 
@@ -105,10 +117,12 @@ if ($method === 'POST') {
 
         json_response([
             'success'        => true,
-            'message'        => 'Deposit approved. ' . $amountCoins . ' LOL credited.',
+            'message'        => 'Deposit approved. ' . $netCoins . ' LOL credited (fee: ' . $feeCoins . ' LOL).',
             'deposit_id'     => $depositId,
             'user_id'        => $userId,
-            'coins_credited' => $amountCoins,
+            'coins_credited' => $netCoins,
+            'fee_coins'      => $feeCoins,
+            'fee_pct'        => DEPOSIT_FEE_PCT,
             'new_balance'    => $newBalance,
         ]);
 

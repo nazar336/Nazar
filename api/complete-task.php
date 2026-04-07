@@ -145,6 +145,33 @@ try {
     // Mark transaction completed
     $pdo->prepare("UPDATE transactions SET status='completed' WHERE id=:id")->execute([':id' => $txId]);
 
+    // ── Platform fee for task completion (charged to worker) ──
+    $completionFee = round($reward * TASK_COMPLETE_FEE_PCT / 100, 2);
+    $netReward     = $reward;
+
+    if ($completionFee > 0) {
+        // Try to deduct fee from worker's coin_balance first
+        $pdo->prepare('INSERT IGNORE INTO user_coins (user_id) VALUES (:uid)')->execute([':uid' => $workerId]);
+        $wBalStmt = $pdo->prepare('SELECT coin_balance FROM user_coins WHERE user_id=:uid FOR UPDATE');
+        $wBalStmt->execute([':uid' => $workerId]);
+        $wBal = (float)($wBalStmt->fetch(PDO::FETCH_ASSOC)['coin_balance'] ?? 0);
+
+        if ($wBal >= $completionFee) {
+            // Deduct fee from coin_balance
+            $pdo->prepare('UPDATE user_coins SET coin_balance = coin_balance - :fee, total_spent = total_spent + :fee2, updated_at = NOW() WHERE user_id = :uid')
+                ->execute([':fee' => $completionFee, ':fee2' => $completionFee, ':uid' => $workerId]);
+        } else {
+            // Not enough coins — deduct fee from earned reward
+            $netReward = $reward - $completionFee;
+        }
+
+        // Log the platform fee
+        $pdo->prepare("
+            INSERT INTO coin_spending (user_id, task_id, amount, type, description)
+            VALUES (:uid, :tid, :amt, 'platform_fee', :desc)
+        ")->execute([':uid' => $workerId, ':tid' => $taskId, ':amt' => $completionFee, ':desc' => 'Task completion fee ' . TASK_COMPLETE_FEE_PCT . '% on reward ' . $reward . ' LOL']);
+    }
+
     // XP for difficulty
     $diffXp = ['easy' => 20, 'medium' => 35, 'hard' => 50];
     $bonusXp = $diffXp[$task['difficulty'] ?? 'medium'] ?? 35;
@@ -169,11 +196,12 @@ try {
             streak          = ' . ($resetStreak ? '1' : 'streak + 1') . ',
             level           = LEAST(12, FLOOR(xp / 1000) + 1)
         WHERE id = :uid
-    ')->execute([':reward' => $reward, ':xp' => $totalXp, ':uid' => $workerId]);
+    ')->execute([':reward' => $netReward, ':xp' => $totalXp, ':uid' => $workerId]);
 
     // Notify worker
+    $feeMsg = $completionFee > 0 ? ' (комісія: ' . $completionFee . ' LOL, ' . TASK_COMPLETE_FEE_PCT . '%)' : '';
     $pdo->prepare("INSERT INTO notifications(user_id,type,title,content,related_id) VALUES(:uid,'payment','Задачу схвалено! 🎉',:content,:rid)")
-        ->execute([':uid' => $workerId, ':content' => 'Нараховано ' . $reward . ' монет та ' . $totalXp . ' XP за: ' . $task['title'], ':rid' => $taskId]);
+        ->execute([':uid' => $workerId, ':content' => 'Нараховано ' . $netReward . ' монет та ' . $totalXp . ' XP за: ' . $task['title'] . $feeMsg, ':rid' => $taskId]);
 
     // Update task status
     $approvedStmt = $pdo->prepare("SELECT COUNT(*) FROM transactions WHERE task_id=:tid AND type='task_reward' AND status='completed'");
@@ -193,12 +221,14 @@ try {
     $pdo->commit();
 
     json_response([
-        'success'   => true,
-        'message'   => 'Роботу схвалено. Нараховано винагороду.',
-        'reward'    => $reward,
-        'xp_earned' => $totalXp,
-        'worker_id' => $workerId,
-        'task_id'   => $taskId,
+        'success'        => true,
+        'message'        => 'Роботу схвалено. Нараховано винагороду.',
+        'reward'         => $netReward,
+        'completion_fee' => $completionFee,
+        'fee_pct'        => TASK_COMPLETE_FEE_PCT,
+        'xp_earned'      => $totalXp,
+        'worker_id'      => $workerId,
+        'task_id'        => $taskId,
     ]);
 
 } catch (\Exception $e) {

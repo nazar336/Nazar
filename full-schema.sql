@@ -1,7 +1,22 @@
-CREATE DATABASE IF NOT EXISTS lolanceizi CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE lolanceizi;
+-- ══════════════════════════════════════════════════════════════════
+-- Lolanceizi — Full Database Schema (consolidated)
+-- Version: 2026-04-07
+-- 
+-- This file contains ALL tables, columns, and indexes in one file.
+-- Use this for FRESH database setup on Hostinger.
+--
+-- IMPORTANT for Hostinger:
+--   1. Do NOT run the first 2 lines (CREATE DATABASE / USE) — 
+--      Hostinger creates the DB for you
+--   2. In phpMyAdmin: select your database → SQL tab → paste ALL 
+--      content BELOW the "USE" line → Execute
+-- ══════════════════════════════════════════════════════════════════
 
--- ── USERS ──
+-- (Remove these 2 lines on Hostinger — the DB already exists with prefix)
+-- CREATE DATABASE IF NOT EXISTS lolanceizi CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- USE lolanceizi;
+
+-- ── USERS ──────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS users (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name          VARCHAR(80)  NOT NULL,
@@ -28,7 +43,7 @@ CREATE TABLE IF NOT EXISTS users (
     KEY idx_email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ── LEGAL ACCEPTANCES (Terms/Privacy consent log) ──
+-- ── LEGAL ACCEPTANCES ─────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS legal_acceptances (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id       INT UNSIGNED NOT NULL,
@@ -42,7 +57,7 @@ CREATE TABLE IF NOT EXISTS legal_acceptances (
     KEY idx_user_doc (user_id, doc_type)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ── EMAIL VERIFICATION ──
+-- ── EMAIL VERIFICATION ────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS email_verifications (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id       INT UNSIGNED NOT NULL,
@@ -56,7 +71,7 @@ CREATE TABLE IF NOT EXISTS email_verifications (
     UNIQUE KEY unique_user_verification (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ── TASKS ──
+-- ── TASKS ──────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS tasks (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     creator_id    INT UNSIGNED NOT NULL,
@@ -73,10 +88,15 @@ CREATE TABLE IF NOT EXISTS tasks (
     updated_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE CASCADE,
     KEY idx_status (status),
-    KEY idx_creator_id (creator_id)
+    KEY idx_creator_id (creator_id),
+    KEY idx_status_created (status, created_at DESC),
+    KEY idx_category (category),
+    KEY idx_difficulty (difficulty),
+    KEY idx_deadline (deadline),
+    KEY idx_creator_status (creator_id, status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ── TASK ASSIGNMENTS (who took what task) ──
+-- ── TASK ASSIGNMENTS ──────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS task_assignments (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     task_id       INT UNSIGNED NOT NULL,
@@ -88,10 +108,12 @@ CREATE TABLE IF NOT EXISTS task_assignments (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     UNIQUE KEY unique_task_user (task_id, user_id),
     KEY idx_user_id (user_id),
-    KEY idx_status (status)
+    KEY idx_status (status),
+    KEY idx_task_status (task_id, status),
+    KEY idx_user_status (user_id, status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ── WALLET / TRANSACTIONS ──
+-- ── TRANSACTIONS ──────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS transactions (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id       INT UNSIGNED NOT NULL,
@@ -109,10 +131,12 @@ CREATE TABLE IF NOT EXISTS transactions (
     FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE SET NULL,
     KEY idx_user_id (user_id),
     KEY idx_created_at (created_at),
-    KEY idx_user_status (user_id, status)
+    KEY idx_user_status (user_id, status),
+    KEY idx_type (type),
+    KEY idx_user_type (user_id, type, created_at DESC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ── MESSAGE THREADS (створити ЕРШ ніж messages!) ──
+-- ── MESSAGE THREADS ───────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS message_threads (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user1_id      INT UNSIGNED NOT NULL,
@@ -128,7 +152,7 @@ CREATE TABLE IF NOT EXISTS message_threads (
     KEY idx_user2_id (user2_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ── MESSAGES / CHAT ──
+-- ── MESSAGES ──────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS messages (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     thread_id     INT UNSIGNED NOT NULL,
@@ -139,10 +163,11 @@ CREATE TABLE IF NOT EXISTS messages (
     FOREIGN KEY (thread_id) REFERENCES message_threads(id) ON DELETE CASCADE,
     FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
     KEY idx_thread_id (thread_id),
-    KEY idx_sender_id (sender_id)
+    KEY idx_sender_id (sender_id),
+    KEY idx_thread_created (thread_id, created_at DESC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ── NOTIFICATIONS ──
+-- ── NOTIFICATIONS ─────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS notifications (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id       INT UNSIGNED NOT NULL,
@@ -154,10 +179,12 @@ CREATE TABLE IF NOT EXISTS notifications (
     created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     KEY idx_user_id (user_id),
-    KEY idx_created_at (created_at)
+    KEY idx_created_at (created_at),
+    KEY idx_user_read (user_id, read_at),
+    KEY idx_user_created (user_id, created_at DESC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ── SUPPORT TICKETS ──
+-- ── SUPPORT TICKETS ───────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS support_tickets (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id       INT UNSIGNED NOT NULL,
@@ -170,10 +197,11 @@ CREATE TABLE IF NOT EXISTS support_tickets (
     updated_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     KEY idx_user_id (user_id),
-    KEY idx_status (status)
+    KEY idx_status (status),
+    KEY idx_user_status (user_id, status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ── TICKET RESPONSES ──
+-- ── TICKET RESPONSES ──────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS ticket_responses (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     ticket_id     INT UNSIGNED NOT NULL,
@@ -186,7 +214,7 @@ CREATE TABLE IF NOT EXISTS ticket_responses (
     KEY idx_ticket_id (ticket_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ── ACHIEVEMENTS ──
+-- ── ACHIEVEMENTS ──────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS achievements (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id       INT UNSIGNED NOT NULL,
@@ -197,7 +225,7 @@ CREATE TABLE IF NOT EXISTS achievements (
     KEY idx_user_id (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ── TASK FEEDBACK / REVIEWS ──
+-- ── TASK REVIEWS ──────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS task_reviews (
     id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     task_id       INT UNSIGNED NOT NULL,
@@ -213,7 +241,7 @@ CREATE TABLE IF NOT EXISTS task_reviews (
     KEY idx_reviewee_id (reviewee_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ── КРИПТО ГАМАНЕЦЬ / МОНЕТИ ──
+-- ── USER COINS ────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS user_coins (
     id              INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id         INT UNSIGNED NOT NULL,
@@ -226,7 +254,7 @@ CREATE TABLE IF NOT EXISTS user_coins (
     UNIQUE KEY unique_user_coins (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ── КРИПТО ДЕПОЗИТИ ──
+-- ── CRYPTO DEPOSITS ───────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS crypto_deposits (
     id               INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id          INT UNSIGNED NOT NULL,
@@ -248,99 +276,12 @@ CREATE TABLE IF NOT EXISTS crypto_deposits (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     KEY idx_user_id (user_id),
     KEY idx_status (status),
-    UNIQUE KEY idx_tx_hash (transaction_hash)
+    UNIQUE KEY idx_tx_hash (transaction_hash),
+    KEY idx_user_network_status (user_id, network, status),
+    KEY idx_expires (expires_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ── ЩОДЕННИЙ CHECK-IN (30-денний календар) ──
-CREATE TABLE IF NOT EXISTS daily_checkins (
-    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id       INT UNSIGNED NOT NULL,
-    checkin_date  DATE         NOT NULL,
-    points_earned INT          DEFAULT 10,
-    UNIQUE KEY uniq_user_date (user_id, checkin_date),
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    KEY idx_user_date (user_id, checkin_date)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- ── ЩОДЕННИЙ ВІЗИТ (окремо від check-in, дає XP) ──
-CREATE TABLE IF NOT EXISTS daily_visits (
-    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id       INT UNSIGNED NOT NULL,
-    visit_date    DATE         NOT NULL,
-    points_earned INT          DEFAULT 5,
-    UNIQUE KEY uniq_user_visit (user_id, visit_date),
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    KEY idx_user_visit (user_id, visit_date)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- ── ПАСИ ДЛЯ ДОСТУПУ ДО ЧАТУ (куплені за монети) ──
-CREATE TABLE IF NOT EXISTS chat_room_passes (
-    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id       INT UNSIGNED NOT NULL,
-    room_tier     TINYINT      NOT NULL  COMMENT '2=silver,3=gold,4=diamond',
-    coins_paid    INT          NOT NULL,
-    expires_at    DATETIME     NOT NULL,
-    created_at    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    KEY idx_user_tier (user_id, room_tier)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- ── ПОВІДОМЛЕННЯ В ПУБЛІЧНИХ ЧАТ-КІМНАТАХ ──
-CREATE TABLE IF NOT EXISTS chat_room_messages (
-    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    room_tier     TINYINT      NOT NULL,
-    user_id       INT UNSIGNED NOT NULL,
-    username      VARCHAR(32)  NOT NULL,
-    message       TEXT         NOT NULL,
-    created_at    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    KEY idx_room_time (room_tier, created_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- ── ВИТРАТИ МОНЕТ ──
-CREATE TABLE IF NOT EXISTS coin_spending (
-    id          INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id     INT UNSIGNED NOT NULL,
-    task_id     INT UNSIGNED,
-    amount      DECIMAL(16,2) NOT NULL,
-    type        ENUM('task_payment','tip','premium','withdraw','platform_fee') DEFAULT 'task_payment',
-    description VARCHAR(255),
-    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE SET NULL,
-    KEY idx_user_id (user_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- ── FEED POSTS (контент стрічки з XP нагородами) ──
-CREATE TABLE IF NOT EXISTS feed_posts (
-    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id       INT UNSIGNED NOT NULL,
-    text          TEXT         NOT NULL,
-    media_url     VARCHAR(500),
-    media_type    ENUM('image','video') DEFAULT NULL,
-    post_type     ENUM('text','task','achievement','wallet') DEFAULT 'text',
-    likes_count   INT UNSIGNED DEFAULT 0,
-    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    KEY idx_user_id (user_id),
-    KEY idx_created_at (created_at),
-    KEY idx_user_date (user_id, created_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- ── FEED LIKES (лайки з захистом від дублів) ──
-CREATE TABLE IF NOT EXISTS feed_likes (
-    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    post_id       INT UNSIGNED NOT NULL,
-    user_id       INT UNSIGNED NOT NULL,
-    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (post_id) REFERENCES feed_posts(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    UNIQUE KEY uniq_post_user (post_id, user_id),
-    KEY idx_post_id (post_id),
-    KEY idx_user_id (user_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- ── КРИПТО ВИВОДИ ──
+-- ── CRYPTO WITHDRAWALS ────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS crypto_withdrawals (
     id               INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id          INT UNSIGNED NOT NULL,
@@ -360,10 +301,105 @@ CREATE TABLE IF NOT EXISTS crypto_withdrawals (
     created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     KEY idx_user_id (user_id),
-    KEY idx_status (status)
+    KEY idx_status (status),
+    KEY idx_user_status_combo (user_id, status),
+    KEY idx_created (created_at DESC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ── LOGIN ATTEMPTS / RATE LIMITING ──
+-- ── DAILY CHECK-INS ───────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS daily_checkins (
+    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id       INT UNSIGNED NOT NULL,
+    checkin_date  DATE         NOT NULL,
+    points_earned INT          DEFAULT 10,
+    UNIQUE KEY uniq_user_date (user_id, checkin_date),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    KEY idx_user_date (user_id, checkin_date)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ── DAILY VISITS ──────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS daily_visits (
+    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id       INT UNSIGNED NOT NULL,
+    visit_date    DATE         NOT NULL,
+    points_earned INT          DEFAULT 5,
+    UNIQUE KEY uniq_user_visit (user_id, visit_date),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    KEY idx_user_visit (user_id, visit_date)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ── CHAT ROOM PASSES ──────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS chat_room_passes (
+    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id       INT UNSIGNED NOT NULL,
+    room_tier     TINYINT      NOT NULL  COMMENT '2=silver,3=gold,4=diamond',
+    coins_paid    INT          NOT NULL,
+    expires_at    DATETIME     NOT NULL,
+    created_at    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    KEY idx_user_tier (user_id, room_tier),
+    KEY idx_expires (expires_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ── CHAT ROOM MESSAGES ────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS chat_room_messages (
+    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    room_tier     TINYINT      NOT NULL,
+    user_id       INT UNSIGNED NOT NULL,
+    username      VARCHAR(32)  NOT NULL,
+    message       TEXT         NOT NULL,
+    created_at    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    KEY idx_room_time (room_tier, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ── COIN SPENDING ─────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS coin_spending (
+    id          INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id     INT UNSIGNED NOT NULL,
+    task_id     INT UNSIGNED,
+    amount      DECIMAL(16,2) NOT NULL,
+    type        ENUM('task_payment','tip','premium','withdraw','platform_fee') DEFAULT 'task_payment',
+    description VARCHAR(255),
+    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE SET NULL,
+    KEY idx_user_id (user_id),
+    KEY idx_user_created (user_id, created_at DESC),
+    KEY idx_type (type)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ── FEED POSTS ────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS feed_posts (
+    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id       INT UNSIGNED NOT NULL,
+    text          TEXT         NOT NULL,
+    media_url     VARCHAR(500),
+    media_type    ENUM('image','video') DEFAULT NULL,
+    post_type     ENUM('text','task','achievement','wallet') DEFAULT 'text',
+    likes_count   INT UNSIGNED DEFAULT 0,
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    KEY idx_user_id (user_id),
+    KEY idx_created_at (created_at),
+    KEY idx_user_date (user_id, created_at),
+    KEY idx_post_type (post_type)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ── FEED LIKES ────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS feed_likes (
+    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    post_id       INT UNSIGNED NOT NULL,
+    user_id       INT UNSIGNED NOT NULL,
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES feed_posts(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY uniq_post_user (post_id, user_id),
+    KEY idx_post_id (post_id),
+    KEY idx_user_id (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ── LOGIN ATTEMPTS / RATE LIMITING ────────────────────────────────
 CREATE TABLE IF NOT EXISTS login_attempts (
     id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     identifier   VARCHAR(255) NOT NULL COMMENT 'email or IP',
@@ -371,4 +407,7 @@ CREATE TABLE IF NOT EXISTS login_attempts (
     KEY idx_identifier_time (identifier, attempted_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- NOTE: feed_posts and feed_likes tables are already defined above (lines 310-336)
+-- ══════════════════════════════════════════════════════════════════
+-- Total: 24 tables
+-- Ready for production deployment!
+-- ══════════════════════════════════════════════════════════════════

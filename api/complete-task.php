@@ -163,6 +163,9 @@ try {
         } else {
             // Not enough coins — deduct fee from earned reward
             $netReward = $reward - $completionFee;
+            // Still track the fee in user_coins.total_spent for consistency
+            $pdo->prepare('UPDATE user_coins SET total_spent = total_spent + :fee, updated_at = NOW() WHERE user_id = :uid')
+                ->execute([':fee' => $completionFee, ':uid' => $workerId]);
         }
 
         // Log the platform fee

@@ -9,6 +9,11 @@ import { renderShell } from '../shell.js';
 import { renderAuth } from './auth.js';
 
 export function renderVerification(userId, email){
+  // Persist verification state in localStorage so it survives page refresh
+  if (userId && email) {
+    try { localStorage.setItem('lolanceizi_verify', JSON.stringify({ userId, email })); } catch(e) {}
+  }
+
   // Generate random math puzzle
   const num1 = Math.floor(Math.random() * 50) + 1;
   const num2 = Math.floor(Math.random() * 50) + 1;
@@ -71,6 +76,8 @@ export function renderVerification(userId, email){
           </form>
 
           <div class="auth-footer" style="margin-top:24px;text-align:center;">
+            <button type="button" id="resendCodeBtn" class="link-btn" style="margin-bottom:8px;">${t('resendCode') || 'Надіслати код повторно'}</button>
+            <div id="resendStatus" style="font-size:12px;min-height:18px;color:var(--text-soft);"></div>
             <button type="button" id="backToAuth" class="link-btn">${t('backToLogin')}</button>
           </div>
         </div>
@@ -107,7 +114,34 @@ export function renderVerification(userId, email){
     if(e.key === 'Enter') solveCaptchaBtn.click();
   });
   document.getElementById('verifyForm')?.addEventListener('submit', (e) => handleVerify(e, userId));
-  document.getElementById('backToAuth')?.addEventListener('click', () => renderAuth('login'));
+  document.getElementById('backToAuth')?.addEventListener('click', () => {
+    try { localStorage.removeItem('lolanceizi_verify'); } catch(e) {}
+    renderAuth('login');
+  });
+  
+  // Resend code handler
+  document.getElementById('resendCodeBtn')?.addEventListener('click', async () => {
+    const resendBtn = document.getElementById('resendCodeBtn');
+    const resendStatus = document.getElementById('resendStatus');
+    if (resendBtn) { resendBtn.disabled = true; resendBtn.style.opacity = '.5'; }
+    if (resendStatus) resendStatus.textContent = t('sending') || 'Відправляємо...';
+    
+    const {ok, data} = await apiFetch(API.verify, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'resend', user_id: userId, email })
+    });
+    
+    if (resendStatus) {
+      resendStatus.textContent = data.message || (ok ? (t('codeSent') || 'Код відправлено!') : (t('resendFailed') || 'Помилка.'));
+      resendStatus.style.color = ok ? 'var(--success)' : 'var(--danger)';
+    }
+    
+    // Re-enable after 60 seconds (cooldown)
+    setTimeout(() => {
+      if (resendBtn) { resendBtn.disabled = false; resendBtn.style.opacity = '1'; }
+      if (resendStatus) resendStatus.textContent = '';
+    }, 60000);
+  });
   
   // Auto-focus
   captchaInput?.focus();
@@ -137,6 +171,7 @@ export async function handleVerify(e, userId){
   setLoading(btn, false);
   
   if(ok){
+    try { localStorage.removeItem('lolanceizi_verify'); } catch(e) {}
     appState.currentUser = data.user;
     appState.isGuest = false;
     loadState();

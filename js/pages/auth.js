@@ -292,7 +292,15 @@ export async function handleLogin(e){
   const {ok,data}=await apiFetch(API.login,{method:'POST',body:JSON.stringify({email,password})});
   setLoading(btn,false);
   if(ok){appState.currentUser=data.user;appState.isGuest=false;loadState();toast(t('loginSuccess'),'success');renderShell();}
-  else showAlert('authAlert',data.message||'Login failed.');
+  else {
+    // If the account needs verification, redirect to verification page
+    if(data.needs_verification && data.user_id){
+      toast(data.message||t('needsVerification'),'info');
+      renderVerification(data.user_id, email);
+    } else {
+      showAlert('authAlert',data.message||'Login failed.');
+    }
+  }
 }
 
 export async function handleRegister(e){

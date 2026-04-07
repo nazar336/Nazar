@@ -56,7 +56,18 @@ async function init() {
   } catch (e) { /* no PHP available, render landing */ }
 
   if (appState.currentUser && !appState.isGuest) { renderShell(); }
-  else if (document.querySelector('.landing-page') === null) { renderLanding(); }
+  else {
+    // Check if user was in the middle of verification (page refresh recovery)
+    let verifyState = null;
+    try { const raw = localStorage.getItem('lolanceizi_verify'); if (raw) verifyState = JSON.parse(raw); } catch(e) {}
+    
+    if (verifyState && verifyState.userId && verifyState.email) {
+      const { renderVerification } = await import('./pages/verify.js');
+      renderVerification(verifyState.userId, verifyState.email);
+    } else if (document.querySelector('.landing-page') === null) {
+      renderLanding();
+    }
+  }
 
   if (appState.currentUser && !appState.isGuest) {
     // Load daily_visit and points in parallel

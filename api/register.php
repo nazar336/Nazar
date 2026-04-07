@@ -22,10 +22,29 @@ $rl = get_rate_limit('register');
 if (check_rate_limit($pdo, 'register:' . $ip, $rl[0], $rl[1]))
     json_response(['success' => false, 'message' => 'Забагато спроб реєстрації. Спробуй через 15 хвилин.'], 429);
 
-$check = $pdo->prepare('SELECT id FROM users WHERE email=:e OR username=:u LIMIT 1');
+$check = $pdo->prepare('SELECT id, email, username, is_active FROM users WHERE email=:e OR username=:u LIMIT 1');
 $check->execute(['e' => $email, 'u' => $username]);
-if ($check->fetch())
-    json_response(['success' => false, 'message' => 'Користувач з таким email або username вже існує.'], 409);
+$existing = $check->fetch();
+
+if ($existing) {
+    // If the existing account is active, block re-registration
+    if ((bool)$existing['is_active']) {
+        json_response(['success' => false, 'message' => 'Користувач з таким email або username вже існує.'], 409);
+    }
+
+    // Inactive account: check if verification code has expired
+    $vStmt = $pdo->prepare('SELECT expires_at FROM email_verifications WHERE user_id=:uid AND is_verified=FALSE LIMIT 1');
+    $vStmt->execute(['uid' => (int)$existing['id']]);
+    $vRow = $vStmt->fetch();
+
+    if ($vRow && strtotime($vRow['expires_at']) > time()) {
+        // Code is still valid — don't allow re-registration, tell user to verify
+        json_response(['success' => false, 'message' => 'Акаунт вже створено. Перевір email для коду верифікації або зачекай поки код закінчить дію.'], 409);
+    }
+
+    // Expired or no verification — clean up the old inactive account so user can re-register
+    $pdo->prepare('DELETE FROM users WHERE id=:id AND is_active=FALSE')->execute(['id' => (int)$existing['id']]);
+}
 
 $hash             = password_hash($password, PASSWORD_DEFAULT);
 $verificationCode = str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);

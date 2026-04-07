@@ -15,24 +15,24 @@ export function renderShell() {
   if (!appState.currentUser && !appState.isGuest) { renderAuth(); return; }
   document.body.classList.toggle('animations-off', !appState.S.animationsOn);
   const navItems = [
-    { page: 'dashboard', icon: '⚡', label: t('dashboard') },
-    { page: 'tasks', icon: '📋', label: t('tasks') },
+    { page: 'dashboard', icon: '◆', label: t('dashboard') },
+    { page: 'tasks', icon: '☰', label: t('tasks') },
     { page: 'createTask', icon: '✚', label: t('createTask') },
-    { page: 'feed', icon: '📡', label: t('feed') },
-    { page: 'profile', icon: '👤', label: t('profile') },
-    { page: 'wallet', icon: '💎', label: t('wallet') },
-    { page: 'chat', icon: '💬', label: t('chat') },
-    { page: 'support', icon: '🛟', label: t('support') },
-    { page: 'leaderboard', icon: '🏆', label: t('leaderboard') },
-    { page: 'miniGames', icon: '🎮', label: t('miniGames') },
-    { page: 'dm', icon: '✉️', label: t('directMessages') },
+    { page: 'feed', icon: '◉', label: t('feed') },
+    { page: 'profile', icon: '○', label: t('profile') },
+    { page: 'wallet', icon: '◇', label: t('wallet') },
+    { page: 'chat', icon: '▸', label: t('chat') },
+    { page: 'support', icon: '?', label: t('support') },
+    { page: 'leaderboard', icon: '△', label: t('leaderboard') },
+    { page: 'miniGames', icon: '▷', label: t('miniGames') },
+    { page: 'dm', icon: '✉', label: t('directMessages') },
   ];
   const mobItems = [
-    { page: 'dashboard', icon: '⚡', label: t('dashboard') },
-    { page: 'tasks', icon: '📋', label: t('tasks') },
-    { page: 'profile', icon: '👤', label: t('profile') },
-    { page: 'feed', icon: '📡', label: t('feed') },
-    { page: 'dm', icon: '✉️', label: t('directMessages') },
+    { page: 'dashboard', icon: '◆', label: t('dashboard') },
+    { page: 'tasks', icon: '☰', label: t('tasks') },
+    { page: 'profile', icon: '○', label: t('profile') },
+    { page: 'feed', icon: '◉', label: t('feed') },
+    { page: 'dm', icon: '✉', label: t('directMessages') },
   ];
   const unreadCount = (appState.S.notifications || []).filter(n => !n.read).length;
   const app = document.getElementById('app');
@@ -57,7 +57,7 @@ export function renderShell() {
             <div class="user-av" aria-hidden="true">${(appState.currentUser.name || '?').charAt(0).toUpperCase()}</div>
             <div><div class="user-name">${esc(appState.currentUser.name || appState.currentUser.username)}</div><div class="user-handle">@${esc(appState.currentUser.username)}</div></div>
           ` : `
-            <div class="user-av" aria-hidden="true">🎭</div>
+            <div class="user-av" aria-hidden="true">G</div>
             <div><div class="user-name">${t('guest')}</div><div class="user-handle">@guest</div></div>
           `}
         </div>
@@ -69,7 +69,7 @@ export function renderShell() {
           <div class="topbar-right">
             <div id="notifPanel" class="notif-panel" aria-hidden="true"></div>
             <button class="btn btn-ghost btn-sm btn-icon" id="notifToggle" aria-label="${t('notifications')}" aria-haspopup="true" aria-expanded="false" style="position:relative;">
-              🔔<span class="nav-badge" id="notifBadge" style="position:absolute;top:2px;right:2px;display:${unreadCount ? 'flex' : 'none'};font-size:9px;min-width:14px;height:14px;">${unreadCount || ''}</span>
+              ●<span class="nav-badge" id="notifBadge" style="position:absolute;top:2px;right:2px;display:${unreadCount ? 'flex' : 'none'};font-size:9px;min-width:14px;height:14px;">${unreadCount || ''}</span>
             </button>
             <button class="btn btn-ghost btn-sm btn-fullscreen" id="fullscreenBtn" aria-label="${t('fullscreen')}" title="${t('fullscreen')}">⛶</button>
             <button class="btn btn-ghost btn-sm" id="langToggleBtn" style="padding:7px 12px;font-size:13px;gap:6px;">
@@ -78,7 +78,7 @@ export function renderShell() {
             ${appState.isGuest ? `<button class="btn btn-primary btn-sm" id="guestLoginBtn">${t('login')}</button>` : `<button class="btn btn-danger btn-sm" id="logoutBtn">${t('logout')}</button>`}
           </div>
         </header>
-        ${appState.isGuest ? `<div style="background:linear-gradient(90deg,rgba(184,255,92,.05),rgba(125,215,255,.05));border-bottom:1px solid rgba(184,255,92,.1);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px;"><span>🎭 ${t('guestMode')} — ${t('welcomeGuestDesc')}</span><button class="btn btn-primary btn-xs" id="guestCreateBtn">${t('createAccount')}</button></div>` : ''}
+        ${appState.isGuest ? `<div style="background:linear-gradient(90deg,rgba(184,255,92,.05),rgba(125,215,255,.05));border-bottom:1px solid rgba(184,255,92,.1);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px;"><span>${t('guestMode')} — ${t('welcomeGuestDesc')}</span><button class="btn btn-primary btn-xs" id="guestCreateBtn">${t('createAccount')}</button></div>` : ''}
         <main class="main-content" id="mainContent" tabindex="-1"></main>
       </div>
       <nav class="mobile-nav" aria-label="Mobile navigation">

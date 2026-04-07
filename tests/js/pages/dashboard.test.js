@@ -163,13 +163,13 @@ describe('renderDashboard', () => {
   it('shows streak badge', () => {
     renderDashboard(el);
     const html = el.innerHTML;
-    expect(html).toContain('🔥');
+    expect(html).toContain('dayStreak');
   });
 
   it('shows achievements section', () => {
     renderDashboard(el);
     const html = el.innerHTML;
-    // achievements or trophy-related content
-    expect(html).toContain('🏆');
+    // achievements section
+    expect(html).toContain('achievements');
   });
 });

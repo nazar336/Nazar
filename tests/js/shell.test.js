@@ -116,7 +116,7 @@ describe('renderShell', () => {
     renderShell();
     const btn = document.getElementById('notifToggle');
     expect(btn).toBeTruthy();
-    expect(btn.innerHTML).toContain('🔔');
+    expect(btn.innerHTML).toContain('●');
   });
 
   it('has fullscreen button', () => {

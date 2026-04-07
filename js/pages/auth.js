@@ -57,7 +57,7 @@ function setupRegisterValidation() {
     const s = getPasswordStrength(pwd.value);
     if (strengthBar) { strengthBar.style.width = s.level + '%'; strengthBar.style.background = s.color; }
     if (strengthLabel) { strengthLabel.textContent = s.label; strengthLabel.style.color = s.color; }
-    checkValid(pwd, pwd.value.length >= 8);
+    checkValid(pwd, pwd.value.length >= 8 && /[A-Za-z]/.test(pwd.value) && /\d/.test(pwd.value));
     updateSubmitState();
   });
   terms?.addEventListener('change', updateSubmitState);
@@ -237,7 +237,7 @@ export function renderAuth(mode='login'){
                 <label class="form-label" for="regPwd">${t('password')} *</label>
                 <div style="display:flex;align-items:center;gap:6px;">
                   <div style="position:relative;flex:1;">
-                    <input type="password" id="regPwd" class="form-input" style="padding-right:40px;" placeholder="${t('minChars')}" aria-label="${t('password')}" aria-describedby="regPwdMsg pwdStrengthLabel" data-err-msg="${t('minChars') || 'Min 6 characters'}" required>
+                    <input type="password" id="regPwd" class="form-input" style="padding-right:40px;" placeholder="${t('minChars')}" aria-label="${t('password')}" aria-describedby="regPwdMsg pwdStrengthLabel" data-err-msg="${t('minChars') || 'Min 8 characters (letters + digits)'}" required>
                     <button type="button" id="pwdToggleBtn" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;padding:2px;" aria-label="Toggle password visibility">👁</button>
                   </div>
                   <span id="regPwdFb" style="font-size:14px;width:18px;text-align:center;" aria-hidden="true"></span>
@@ -306,6 +306,7 @@ export async function handleRegister(e){
   const acceptPrivacy=acceptTerms;
   if(!name||!username||!email||!password){showAlert('authAlert',t('required'));return;}
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showAlert('authAlert',t('invalidEmail')||'Email некоректний.');return;}
+  if(password.length<8||!/[A-Za-z]/.test(password)||!/\d/.test(password)){showAlert('authAlert',t('minChars')||'Min 8 characters (letters + digits)');return;}
   if(!acceptTerms){showAlert('authAlert',t('acceptTermsRequired'));return;}
   hideAlert('authAlert');setLoading(btn,true);
   const {ok,data}=await apiFetch(API.register,{method:'POST',body:JSON.stringify({name,username,email,password,accept_terms:acceptTerms,accept_privacy:acceptPrivacy})});

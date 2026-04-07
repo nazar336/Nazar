@@ -1,6 +1,6 @@
-<svg width="240" height="80" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="260" height="80" viewBox="0 0 260 80" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="g1" x1="0" y1="0" x2="240" y2="80" gradientUnits="userSpaceOnUse">
+    <linearGradient id="g1" x1="0" y1="0" x2="260" y2="80" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#B8FF43"/>
       <stop offset="0.5" stop-color="#7DF9FF"/>
       <stop offset="1" stop-color="#C084FC"/>
@@ -9,7 +9,7 @@
       <stop offset="0" stop-color="#B8FF43"/>
       <stop offset="1" stop-color="#89FF92"/>
     </linearGradient>
-    <linearGradient id="g3" x1="0" y1="0" x2="240" y2="0" gradientUnits="userSpaceOnUse">
+    <linearGradient id="g3" x1="0" y1="0" x2="260" y2="0" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#B8FF43"/>
       <stop offset="0.6" stop-color="#7DF9FF"/>
       <stop offset="1" stop-color="#C084FC"/>
@@ -23,7 +23,7 @@
     </filter>
   </defs>
 
-  <rect x="1" y="1" width="238" height="78" rx="14" fill="#070B08" stroke="url(#g3)" stroke-width="1.5" stroke-opacity="0.4"/>
+  <rect x="1" y="1" width="258" height="78" rx="14" fill="#070B08" stroke="url(#g3)" stroke-width="1.5" stroke-opacity="0.4"/>
   <rect x="10" y="10" width="60" height="60" rx="12" fill="#0D1610"/>
   <rect x="10" y="10" width="60" height="60" rx="12" fill="none" stroke="url(#g2)" stroke-width="1" stroke-opacity="0.3"/>
 
@@ -34,7 +34,7 @@
   </g>
 
   <g filter="url(#glow)">
-    <text x="82" y="51" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="900" letter-spacing="-1" fill="#EAF7ED">lolance</text>
-    <text x="175" y="51" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="900" letter-spacing="-1" fill="url(#g1)">izi</text>
+    <text x="82" y="51" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="900" letter-spacing="-0.5" fill="#EAF7ED">lolance</text>
+    <text x="192" y="51" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="900" letter-spacing="-0.5" fill="url(#g1)">izi</text>
   </g>
 </svg>

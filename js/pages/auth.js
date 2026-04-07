@@ -294,9 +294,9 @@ export async function handleLogin(e){
   if(ok){appState.currentUser=data.user;appState.isGuest=false;loadState();toast(t('loginSuccess'),'success');renderShell();}
   else {
     // If the account needs verification, redirect to verification page
-    if(data.needs_verification && data.user_id && data.email){
+    if(data.needs_verification && data.user_id){
       toast(data.message||t('needsVerification'),'info');
-      renderVerification(data.user_id, data.email);
+      renderVerification(data.user_id, email);
     } else {
       showAlert('authAlert',data.message||'Login failed.');
     }

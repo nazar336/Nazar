@@ -37,7 +37,7 @@ if ($existing) {
     $vStmt->execute(['uid' => (int)$existing['id']]);
     $vRow = $vStmt->fetch();
 
-    if ($vRow && strtotime($vRow['expires_at']) >= time()) {
+    if ($vRow && strtotime($vRow['expires_at']) > time()) {
         // Code is still valid — don't allow re-registration, tell user to verify
         json_response(['success' => false, 'message' => 'Акаунт вже створено. Перевір email для коду верифікації або зачекай поки код закінчить дію.'], 409);
     }

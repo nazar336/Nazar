@@ -49,7 +49,6 @@ if (!(bool)$user['is_active']) {
         'message' => 'Акаунт не активовано. Перевір email для верифікації.',
         'needs_verification' => $hasPendingVerification,
         'user_id' => (int)$user['id'],
-        'email' => $user['email'],
     ], 403);
 }
 

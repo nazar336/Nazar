@@ -43,9 +43,10 @@ if ($action === 'resend') {
             ->execute(['uid' => $userId, 'code' => $newCode]);
         $pdo->commit();
 
-        record_rate_limit($pdo, 'verify:' . $ip);
-
         $mailSent = send_verification_email($user['email'], $user['name'], $newCode);
+
+        // Only record rate limit after successful operation
+        record_rate_limit($pdo, 'verify:' . $ip);
 
         $response = ['success' => true, 'message' => 'Новий код верифікації надіслано на email.'];
         if (!$mailSent) {

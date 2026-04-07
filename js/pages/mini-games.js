@@ -7,11 +7,92 @@ import { toast, setLoading } from '../utils.js';
 import { API } from '../constants.js';
 import { delegate } from '../event-delegation.js';
 
+/* ═══════════════════════════════════════════════
+   CASE DEFINITIONS
+   5 cases from cheap to expensive.
+   Each case has a unique prize table with weighted odds.
+   Prizes: coins or XP. More expensive = better prizes but not overly generous.
+   ═══════════════════════════════════════════════ */
+const CASES = [
+  {
+    id: 'bronze', cost: 50, emoji: '🥉', nameKey: 'caseBronze',
+    prizes: [
+      { type: 'coins', amount: 5,   weight: 35 },
+      { type: 'coins', amount: 15,  weight: 25 },
+      { type: 'xp',    amount: 3,   weight: 20 },
+      { type: 'coins', amount: 40,  weight: 12 },
+      { type: 'xp',    amount: 8,   weight: 5  },
+      { type: 'coins', amount: 80,  weight: 3  },
+    ]
+  },
+  {
+    id: 'silver', cost: 150, emoji: '🥈', nameKey: 'caseSilver',
+    prizes: [
+      { type: 'coins', amount: 20,  weight: 30 },
+      { type: 'coins', amount: 50,  weight: 25 },
+      { type: 'xp',    amount: 5,   weight: 18 },
+      { type: 'coins', amount: 120, weight: 15 },
+      { type: 'xp',    amount: 15,  weight: 8  },
+      { type: 'coins', amount: 250, weight: 4  },
+    ]
+  },
+  {
+    id: 'gold', cost: 500, emoji: '🥇', nameKey: 'caseGold',
+    prizes: [
+      { type: 'coins', amount: 50,  weight: 28 },
+      { type: 'coins', amount: 150, weight: 24 },
+      { type: 'xp',    amount: 10,  weight: 18 },
+      { type: 'coins', amount: 350, weight: 16 },
+      { type: 'xp',    amount: 25,  weight: 9  },
+      { type: 'coins', amount: 700, weight: 5  },
+    ]
+  },
+  {
+    id: 'platinum', cost: 1500, emoji: '💠', nameKey: 'casePlatinum',
+    prizes: [
+      { type: 'coins', amount: 150,  weight: 28 },
+      { type: 'coins', amount: 400,  weight: 22 },
+      { type: 'xp',    amount: 20,   weight: 18 },
+      { type: 'coins', amount: 900,  weight: 16 },
+      { type: 'xp',    amount: 50,   weight: 10 },
+      { type: 'coins', amount: 2000, weight: 6  },
+    ]
+  },
+  {
+    id: 'diamond', cost: 5000, emoji: '💎', nameKey: 'caseDiamond',
+    prizes: [
+      { type: 'coins', amount: 500,  weight: 25 },
+      { type: 'coins', amount: 1200, weight: 22 },
+      { type: 'xp',    amount: 40,   weight: 18 },
+      { type: 'coins', amount: 3000, weight: 17 },
+      { type: 'xp',    amount: 80,   weight: 10 },
+      { type: 'coins', amount: 6500, weight: 8  },
+    ]
+  },
+];
+
+/* ═══════════════════════════════════════════════
+   PRICE PREDICTION TIMEFRAMES
+   Shorter timeframe = higher payout %
+   ═══════════════════════════════════════════════ */
+const TIMEFRAMES = [
+  { id: '5s',  seconds: 5,  payoutPct: 90, labelKey: 'tf5s' },
+  { id: '15s', seconds: 15, payoutPct: 80, labelKey: 'tf15s' },
+  { id: '30s', seconds: 30, payoutPct: 70, labelKey: 'tf30s' },
+];
+
+const MIN_BET = 10;
+const MAX_BET = 5000;
+
+/* ═══════════════════════════════════════════════
+   MAIN RENDER
+   ═══════════════════════════════════════════════ */
 export function renderMiniGames(el) {
+  const coins = appState.S.coinBalance || 0;
   const xp = appState.S.xp || 0;
   const level = appState.S.level || 1;
 
-  el.innerHTML = `<div class="fade-up" style="max-width:900px;margin:0 auto;">
+  el.innerHTML = `<div class="fade-up" style="max-width:960px;margin:0 auto;">
     <!-- Page header -->
     <div class="page-header card" style="margin-bottom:18px;">
       <div>
@@ -23,24 +104,25 @@ export function renderMiniGames(el) {
 
     <!-- Stats -->
     <div class="stats-grid" style="margin-bottom:18px;">
-      <div class="stat-card"><div class="stat-glow stat-glow-green"></div><div class="stat-label">XP</div><div class="stat-value" style="font-size:20px;">${xp}</div></div>
-      <div class="stat-card"><div class="stat-glow stat-glow-blue"></div><div class="stat-label">${t('level')}</div><div class="stat-value" style="font-size:20px;">${level}</div></div>
-      <div class="stat-card"><div class="stat-glow stat-glow-purple"></div><div class="stat-label">${t('bestScore')}</div><div class="stat-value" style="font-size:20px;">${appState.S.bestGameScore||0}</div></div>
+      <div class="stat-card"><div class="stat-glow stat-glow-green"></div><div class="stat-label">🪙 Coins</div><div class="stat-value" style="font-size:20px;" id="mgCoins">${coins}</div></div>
+      <div class="stat-card"><div class="stat-glow stat-glow-blue"></div><div class="stat-label">XP</div><div class="stat-value" style="font-size:20px;">${xp}</div></div>
+      <div class="stat-card"><div class="stat-glow stat-glow-purple"></div><div class="stat-label">${t('level')}</div><div class="stat-value" style="font-size:20px;">${level}</div></div>
       <div class="stat-card"><div class="stat-glow stat-glow-orange"></div><div class="stat-label">${t('gamesPlayed')}</div><div class="stat-value" style="font-size:20px;">${appState.S.gamesPlayed||0}</div></div>
     </div>
 
+    <!-- Game cards -->
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:18px;">
-      <div class="card card-sm game-card" style="cursor:pointer;" data-game="memory">
-        <div style="font-size:32px;text-align:center;margin-bottom:8px;">🧠</div>
-        <div style="font-weight:600;text-align:center;font-size:16px;margin-bottom:6px;">${t('memoryMatch')}</div>
-        <p style="color:var(--muted);font-size:13px;text-align:center;margin:0 0 10px;">${t('memoryMatchDesc')}</p>
-        <div style="text-align:center;"><span class="badge badge-success">+3–15 XP</span></div>
+      <div class="card card-sm game-card" style="cursor:pointer;" data-game="cases">
+        <div style="font-size:32px;text-align:center;margin-bottom:8px;">📦</div>
+        <div style="font-weight:600;text-align:center;font-size:16px;margin-bottom:6px;">${t('caseOpening')}</div>
+        <p style="color:var(--muted);font-size:13px;text-align:center;margin:0 0 10px;">${t('caseOpeningDesc')}</p>
+        <div style="text-align:center;"><span class="badge badge-success">50–5000 🪙</span></div>
       </div>
-      <div class="card card-sm game-card" style="cursor:pointer;" data-game="colortap">
-        <div style="font-size:32px;text-align:center;margin-bottom:8px;">🎨</div>
-        <div style="font-weight:600;text-align:center;font-size:16px;margin-bottom:6px;">${t('colorTap')}</div>
-        <p style="color:var(--muted);font-size:13px;text-align:center;margin:0 0 10px;">${t('colorTapDesc')}</p>
-        <div style="text-align:center;"><span class="badge badge-success">+2–20 XP</span></div>
+      <div class="card card-sm game-card" style="cursor:pointer;" data-game="predict">
+        <div style="font-size:32px;text-align:center;margin-bottom:8px;">📊</div>
+        <div style="font-weight:600;text-align:center;font-size:16px;margin-bottom:6px;">${t('pricePrediction')}</div>
+        <p style="color:var(--muted);font-size:13px;text-align:center;margin:0 0 10px;">${t('pricePredictionDesc')}</p>
+        <div style="text-align:center;"><span class="badge badge-success">70–90% ${t('payout')}</span></div>
       </div>
     </div>
 
@@ -52,332 +134,381 @@ export function renderMiniGames(el) {
     if (appState.isGuest) { toast(t('loginToPlay'), 'error'); return; }
     const area = document.getElementById('gameArea');
     if (!area) return;
-    if (game === 'memory') startMemoryGame(area);
-    else if (game === 'colortap') startColorTapGame(area);
+    if (game === 'cases') renderCaseOpening(area);
+    else if (game === 'predict') renderPricePrediction(area);
   });
 }
 
 /* ═══════════════════════════════════════════════
-   GAME 1: Memory Match
+   GAME 1: CASE OPENING
    ═══════════════════════════════════════════════ */
-const MEMORY_EMOJIS = ['🐶','🐱','🦊','🐸','🐵','🦁','🐼','🐨','🐯','🐰','🐻','🦄'];
-
-function startMemoryGame(area) {
-  const pairCount = 6;
-  const emojis = MEMORY_EMOJIS.slice(0, pairCount);
-  const cards = [...emojis, ...emojis]
-    .sort(() => Math.random() - 0.5)
-    .map((emoji, i) => ({ id: i, emoji, flipped: false, matched: false }));
-
-  const state = {
-    cards,
-    flipped: [],
-    matched: 0,
-    moves: 0,
-    startTime: Date.now(),
-    locked: false,
-    totalPairs: pairCount
-  };
-
-  renderMemoryBoard(area, state);
-}
-
-function renderMemoryBoard(area, state) {
-  const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
+function renderCaseOpening(area) {
+  const coins = appState.S.coinBalance || 0;
 
   area.innerHTML = `<div class="card card-sm">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
-      <div class="section-title" style="margin:0;">🧠 ${t('memoryMatch')}</div>
-      <div style="display:flex;gap:14px;font-size:13px;color:var(--muted);">
-        <span>🎯 ${state.matched}/${state.totalPairs}</span>
-        <span>👆 ${state.moves} ${t('moves')}</span>
-        <span id="memoryTimer">⏱ ${elapsed}s</span>
-      </div>
-    </div>
-    <div class="memory-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:400px;margin:0 auto;">
-      ${state.cards.map((c, i) => `
-        <button class="memory-card${c.flipped || c.matched ? ' flipped' : ''}${c.matched ? ' matched' : ''}"
-          data-idx="${i}"
-          style="aspect-ratio:1;border-radius:var(--r-sm);border:2px solid ${c.matched ? 'var(--accent)' : 'rgba(255,255,255,.1)'};background:${c.flipped || c.matched ? 'rgba(184,255,92,.08)' : 'rgba(255,255,255,.04)'};font-size:28px;cursor:${c.matched ? 'default' : 'pointer'};transition:all .2s;display:flex;align-items:center;justify-content:center;min-height:60px;"
-          ${c.matched ? 'disabled' : ''}>
-          ${c.flipped || c.matched ? c.emoji : '❓'}
-        </button>
+    <div class="section-title" style="margin-bottom:14px;">📦 ${t('caseOpening')}</div>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">${t('caseOpeningDesc')}</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;">
+      ${CASES.map(c => `
+        <div class="card card-sm" style="text-align:center;cursor:pointer;border:2px solid ${coins >= c.cost ? 'rgba(184,255,92,.3)' : 'rgba(255,255,255,.06)'};transition:all .2s;" data-case-id="${c.id}">
+          <div style="font-size:36px;margin-bottom:6px;">${c.emoji}</div>
+          <div style="font-weight:600;font-size:14px;margin-bottom:4px;">${t(c.nameKey)}</div>
+          <div style="color:var(--accent);font-weight:700;font-size:15px;margin-bottom:8px;">${c.cost} 🪙</div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">
+            ${c.prizes.map(p => {
+              const pct = Math.round(p.weight / c.prizes.reduce((s, x) => s + x.weight, 0) * 100);
+              return `${p.type === 'coins' ? '🪙' : '⭐'} ${p.amount} (${pct}%)`;
+            }).join('<br>')}
+          </div>
+          <button class="btn btn-primary btn-sm open-case-btn" data-case="${c.id}" ${coins < c.cost ? 'disabled' : ''}>
+            ${t('openCase')}
+          </button>
+        </div>
       `).join('')}
-    </div>
-    <div style="text-align:center;margin-top:14px;">
-      <button class="btn btn-ghost btn-sm" id="memoryRestart">🔄 ${t('playAgain')}</button>
     </div>
   </div>`;
 
-  // Timer update
-  if (state.matched < state.totalPairs) {
-    state._timer = setInterval(() => {
-      const el = document.getElementById('memoryTimer');
-      if (el) el.textContent = `⏱ ${Math.floor((Date.now() - state.startTime) / 1000)}s`;
-      else clearInterval(state._timer);
-    }, 1000);
-  }
+  delegate(area, 'click', '.open-case-btn', async (e, btn) => {
+    if (btn.disabled) return;
+    const caseId = btn.dataset.case;
+    const caseData = CASES.find(c => c.id === caseId);
+    if (!caseData) return;
 
-  // Card click handler
-  delegate(area, 'click', '.memory-card:not(.matched)', (e, btn) => {
-    if (state.locked) return;
-    const idx = parseInt(btn.dataset.idx, 10);
-    const card = state.cards[idx];
-    if (card.flipped || card.matched) return;
-
-    card.flipped = true;
-    state.flipped.push(idx);
-    btn.textContent = card.emoji;
-    btn.style.background = 'rgba(184,255,92,.08)';
-
-    if (state.flipped.length === 2) {
-      state.moves++;
-      state.locked = true;
-      const [a, b] = state.flipped;
-
-      if (state.cards[a].emoji === state.cards[b].emoji) {
-        state.cards[a].matched = true;
-        state.cards[b].matched = true;
-        state.matched++;
-        state.flipped = [];
-        state.locked = false;
-
-        // Mark matched cards visually
-        area.querySelectorAll(`[data-idx="${a}"],[data-idx="${b}"]`).forEach(el => {
-          el.style.border = '2px solid var(--accent)';
-          el.classList.add('matched');
-          el.disabled = true;
-        });
-
-        if (state.matched === state.totalPairs) {
-          clearInterval(state._timer);
-          const duration = Math.floor((Date.now() - state.startTime) / 1000);
-          finishMemoryGame(area, state, duration);
-        }
-      } else {
-        setTimeout(() => {
-          state.cards[a].flipped = false;
-          state.cards[b].flipped = false;
-          state.flipped = [];
-          state.locked = false;
-          area.querySelectorAll(`[data-idx="${a}"],[data-idx="${b}"]`).forEach(el => {
-            el.textContent = '❓';
-            el.style.background = 'rgba(255,255,255,.04)';
-          });
-        }, 700);
-      }
+    if ((appState.S.coinBalance || 0) < caseData.cost) {
+      toast(t('insufficientCoins'), 'error');
+      return;
     }
-  });
 
-  document.getElementById('memoryRestart')?.addEventListener('click', () => {
-    clearInterval(state._timer);
-    startMemoryGame(area);
+    setLoading(btn, true);
+    try {
+      const prize = rollPrize(caseData);
+      const { ok, data } = await apiFetch(API.miniGames, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'case_open',
+          case_id: caseId,
+          cost: caseData.cost,
+          prize_type: prize.type,
+          prize_amount: prize.amount,
+        })
+      });
+
+      if (!ok) {
+        toast(data?.message || 'Error', 'error');
+        return;
+      }
+
+      // Update local state
+      appState.S.coinBalance = data.coin_balance ?? appState.S.coinBalance;
+      appState.S.xp = data.xp ?? appState.S.xp;
+      appState.S.level = data.level ?? appState.S.level;
+      const { saveState } = await import('../state.js');
+      saveState();
+
+      // Show result animation
+      showCaseResult(area, caseData, prize, data);
+    } finally {
+      setLoading(btn, false);
+    }
   });
 }
 
-async function finishMemoryGame(area, state, duration) {
-  // Score: pairs matched (max 6), penalize excessive moves
-  const efficiency = Math.max(0, state.totalPairs - Math.max(0, state.moves - state.totalPairs));
-  const score = state.totalPairs + efficiency;
-
-  const { ok, data } = await apiFetch(API.miniGames, {
-    method: 'POST',
-    body: JSON.stringify({ action: 'complete', game: 'memory', score, duration })
-  });
-
-  const xpEarned = ok ? (data.xp_earned || 0) : 0;
-  if (ok) {
-    appState.S.xp = data.xp ?? appState.S.xp;
-    appState.S.level = data.level ?? appState.S.level;
-    const { saveState } = await import('../state.js');
-    saveState();
+function rollPrize(caseData) {
+  const totalWeight = caseData.prizes.reduce((s, p) => s + p.weight, 0);
+  let roll = Math.random() * totalWeight;
+  for (const prize of caseData.prizes) {
+    roll -= prize.weight;
+    if (roll <= 0) return prize;
   }
+  return caseData.prizes[caseData.prizes.length - 1];
+}
 
+function showCaseResult(area, caseData, prize, data) {
+  const isCoins = prize.type === 'coins';
   area.innerHTML = `<div class="card card-sm" style="text-align:center;">
-    <div style="font-size:48px;margin-bottom:12px;">🎉</div>
-    <div style="font-size:20px;font-weight:700;margin-bottom:8px;">${t('gameComplete')}</div>
-    <div style="color:var(--muted);margin-bottom:16px;">
-      ${t('moves')}: ${state.moves} · ${t('time')}: ${duration}s
+    <div style="font-size:56px;margin-bottom:12px;">${caseData.emoji}</div>
+    <div style="font-size:20px;font-weight:700;margin-bottom:8px;">${t('caseOpened')}</div>
+    <div style="font-size:36px;font-weight:700;color:var(--accent);margin-bottom:8px;">
+      ${isCoins ? '🪙' : '⭐'} ${prize.amount} ${isCoins ? t('wonCoins') : t('wonXp')}
     </div>
-    <div style="font-size:24px;font-weight:700;color:var(--accent);margin-bottom:16px;">
-      +${xpEarned} XP
+    <div style="color:var(--muted);font-size:13px;margin-bottom:16px;">
+      ${t('caseCost')}: ${caseData.cost} 🪙
     </div>
-    ${!ok ? `<div style="color:var(--danger);font-size:13px;margin-bottom:8px;">${data?.message || ''}</div>` : ''}
-    <button class="btn btn-primary btn-sm" id="memoryPlayAgain">🔄 ${t('playAgain')}</button>
+    <button class="btn btn-primary btn-sm" id="backToCases">🔄 ${t('playAgain')}</button>
   </div>`;
 
-  document.getElementById('memoryPlayAgain')?.addEventListener('click', () => startMemoryGame(area));
+  document.getElementById('backToCases')?.addEventListener('click', () => renderCaseOpening(area));
 
-  if (ok) toast(`+${xpEarned} XP 🧠`, 'success');
+  const coinsEl = document.getElementById('mgCoins');
+  if (coinsEl) coinsEl.textContent = String(appState.S.coinBalance || 0);
+
+  toast(`${isCoins ? '🪙' : '⭐'} +${prize.amount} ${isCoins ? t('wonCoins') : t('wonXp')}`, 'success');
 }
 
 /* ═══════════════════════════════════════════════
-   GAME 2: Color Tap
+   GAME 2: PRICE PREDICTION
+   Simulated LOL coin chart. User predicts UP or DOWN.
+   Payout: 70-90% of bet depending on timeframe.
    ═══════════════════════════════════════════════ */
-const COLORS = [
-  { name: 'red', bg: '#ef4444', label: '🔴' },
-  { name: 'blue', bg: '#3b82f6', label: '🔵' },
-  { name: 'green', bg: '#22c55e', label: '🟢' },
-  { name: 'yellow', bg: '#eab308', label: '🟡' },
-  { name: 'purple', bg: '#a855f7', label: '🟣' },
-];
+function renderPricePrediction(area) {
+  const coins = appState.S.coinBalance || 0;
 
-function startColorTapGame(area) {
-  const state = {
-    score: 0,
-    lives: 3,
-    round: 0,
-    maxRounds: 30,
-    startTime: Date.now(),
-    targetColor: null,
-    options: [],
-    speed: 2500,
-    roundTimer: null,
-    active: true
-  };
+  area.innerHTML = `<div class="card card-sm">
+    <div class="section-title" style="margin-bottom:14px;">📊 ${t('pricePrediction')}</div>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">${t('pricePredictionDesc')}</p>
 
-  nextColorRound(area, state);
+    <!-- Chart area -->
+    <div style="position:relative;height:200px;background:rgba(0,0,0,.15);border-radius:var(--r-sm);margin-bottom:16px;overflow:hidden;" id="predChart">
+      <canvas id="predCanvas" style="width:100%;height:100%;"></canvas>
+      <div id="predOverlay" style="position:absolute;inset:0;display:none;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--accent);"></div>
+    </div>
+
+    <!-- Controls -->
+    <div style="display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin-bottom:14px;">
+      <div style="flex:1;min-width:120px;">
+        <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:4px;">${t('betAmount')}</label>
+        <input type="number" id="predBet" min="${MIN_BET}" max="${MAX_BET}" value="100" class="input" style="width:100%;">
+        <div style="font-size:11px;color:var(--muted);margin-top:2px;">${t('minBet')} · ${t('maxBet')}</div>
+      </div>
+      <div style="flex:1;min-width:140px;">
+        <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:4px;">${t('selectTimeframe')}</label>
+        <select id="predTimeframe" class="input" style="width:100%;">
+          ${TIMEFRAMES.map(tf => `<option value="${tf.id}">${t(tf.labelKey)}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-bottom:14px;">
+      <button class="btn btn-primary" style="flex:1;font-size:16px;" id="predUpBtn">${t('predictUp')}</button>
+      <button class="btn btn-ghost" style="flex:1;font-size:16px;border:2px solid var(--danger);color:var(--danger);" id="predDownBtn">${t('predictDown')}</button>
+    </div>
+
+    <div style="text-align:center;color:var(--muted);font-size:13px;">
+      🪙 ${t('balance')}: <strong id="predBalance">${coins}</strong>
+    </div>
+  </div>`;
+
+  // Start simulated price chart
+  startPriceChart();
+
+  // Button handlers
+  document.getElementById('predUpBtn')?.addEventListener('click', () => startPrediction(area, 'up'));
+  document.getElementById('predDownBtn')?.addEventListener('click', () => startPrediction(area, 'down'));
 }
 
-function nextColorRound(area, state) {
-  if (!state.active) return;
-  if (state.round >= state.maxRounds || state.lives <= 0) {
-    finishColorTapGame(area, state);
+/* ── Simulated Price Chart ── */
+let chartData = [];
+let chartAnimFrame = null;
+let chartBasePrice = 1.0;
+
+function startPriceChart() {
+  if (chartAnimFrame) cancelAnimationFrame(chartAnimFrame);
+  chartData = [];
+  chartBasePrice = 0.8 + Math.random() * 0.4; // random starting price ~0.8-1.2
+
+  // Pre-generate some historical data
+  let price = chartBasePrice;
+  for (let i = 0; i < 60; i++) {
+    price += (Math.random() - 0.5) * 0.02;
+    price = Math.max(0.1, price);
+    chartData.push(price);
+  }
+
+  animateChart();
+}
+
+function animateChart() {
+  const canvas = document.getElementById('predCanvas');
+  if (!canvas) return;
+
+  // Add new data point
+  const lastPrice = chartData[chartData.length - 1] || chartBasePrice;
+  const newPrice = Math.max(0.1, lastPrice + (Math.random() - 0.5) * 0.015);
+  chartData.push(newPrice);
+  if (chartData.length > 120) chartData.shift();
+
+  drawChart(canvas, chartData);
+
+  chartAnimFrame = requestAnimationFrame(() => {
+    setTimeout(() => animateChart(), 200);
+  });
+}
+
+function drawChart(canvas, data) {
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+  const rect = canvas.parentElement?.getBoundingClientRect();
+  if (!rect) return;
+  canvas.width = rect.width * (window.devicePixelRatio || 1);
+  canvas.height = rect.height * (window.devicePixelRatio || 1);
+  ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+  const w = rect.width;
+  const h = rect.height;
+
+  ctx.clearRect(0, 0, w, h);
+
+  if (data.length < 2) return;
+
+  const min = Math.min(...data) * 0.98;
+  const max = Math.max(...data) * 1.02;
+  const range = max - min || 0.01;
+
+  // Draw grid
+  ctx.strokeStyle = 'rgba(255,255,255,.05)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i < 5; i++) {
+    const y = (h / 5) * i;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(w, y);
+    ctx.stroke();
+  }
+
+  // Draw price line
+  const isUp = data[data.length - 1] >= data[0];
+  ctx.strokeStyle = isUp ? '#22c55e' : '#ef4444';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  data.forEach((price, i) => {
+    const x = (i / (data.length - 1)) * w;
+    const y = h - ((price - min) / range) * h * 0.85 - h * 0.075;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  // Fill gradient under line
+  const gradient = ctx.createLinearGradient(0, 0, 0, h);
+  gradient.addColorStop(0, isUp ? 'rgba(34,197,94,.15)' : 'rgba(239,68,68,.15)');
+  gradient.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.lineTo(w, h);
+  ctx.lineTo(0, h);
+  ctx.closePath();
+  ctx.fillStyle = gradient;
+  ctx.fill();
+
+  // Current price label
+  const currentPrice = data[data.length - 1];
+  ctx.fillStyle = isUp ? '#22c55e' : '#ef4444';
+  ctx.font = 'bold 14px Inter,sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText(`$${currentPrice.toFixed(4)}`, w - 8, 20);
+}
+
+/* ── Prediction Logic ── */
+async function startPrediction(area, direction) {
+  const betInput = document.getElementById('predBet');
+  const tfSelect = document.getElementById('predTimeframe');
+  if (!betInput || !tfSelect) return;
+
+  const bet = parseInt(betInput.value, 10);
+  if (!bet || bet < MIN_BET || bet > MAX_BET) {
+    toast(t('invalidBet'), 'error');
     return;
   }
 
-  state.round++;
-  // Pick a target color
-  const targetIdx = Math.floor(Math.random() * COLORS.length);
-  state.targetColor = COLORS[targetIdx];
+  if ((appState.S.coinBalance || 0) < bet) {
+    toast(t('insufficientCoins'), 'error');
+    return;
+  }
 
-  // Shuffle options (show 4 buttons, always include the correct one)
-  const otherColors = COLORS.filter((_, i) => i !== targetIdx);
-  const shuffled = otherColors.sort(() => Math.random() - 0.5).slice(0, 3);
-  const insertAt = Math.floor(Math.random() * 4);
-  shuffled.splice(insertAt, 0, state.targetColor);
-  state.options = shuffled;
+  const tf = TIMEFRAMES.find(tf => tf.id === tfSelect.value) || TIMEFRAMES[0];
+  const startPrice = chartData[chartData.length - 1] || chartBasePrice;
 
-  // Speed increases as rounds progress
-  state.speed = Math.max(1000, 2500 - state.round * 40);
+  // Disable buttons during prediction
+  const upBtn = document.getElementById('predUpBtn');
+  const downBtn = document.getElementById('predDownBtn');
+  if (upBtn) upBtn.disabled = true;
+  if (downBtn) downBtn.disabled = true;
 
-  renderColorRound(area, state);
+  // Show overlay
+  const overlay = document.getElementById('predOverlay');
+  if (overlay) {
+    overlay.style.display = 'flex';
+    overlay.textContent = t('waitingResult');
+  }
 
-  // Auto-miss if time runs out
-  clearTimeout(state.roundTimer);
-  state.roundTimer = setTimeout(() => {
-    if (!state.active) return;
-    state.lives--;
-    if (state.lives <= 0) {
-      finishColorTapGame(area, state);
-    } else {
-      nextColorRound(area, state);
-    }
-  }, state.speed);
-}
+  // Wait for the timeframe
+  await new Promise(resolve => setTimeout(resolve, tf.seconds * 1000));
 
-function renderColorRound(area, state) {
-  const hearts = '❤️'.repeat(state.lives) + '🖤'.repeat(Math.max(0, 3 - state.lives));
+  // Get end price
+  const endPrice = chartData[chartData.length - 1] || startPrice;
+  const priceWentUp = endPrice > startPrice;
+  const isCorrect = (direction === 'up' && priceWentUp) || (direction === 'down' && !priceWentUp);
+  const payout = isCorrect ? Math.floor(bet * tf.payoutPct / 100) : 0;
 
-  area.innerHTML = `<div class="card card-sm">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
-      <div class="section-title" style="margin:0;">🎨 ${t('colorTap')}</div>
-      <div style="display:flex;gap:14px;font-size:13px;color:var(--muted);">
-        <span>🎯 ${state.score}</span>
-        <span>${hearts}</span>
-        <span>${state.round}/${state.maxRounds}</span>
-      </div>
-    </div>
-    <div style="text-align:center;margin-bottom:18px;">
-      <div style="font-size:14px;color:var(--muted);margin-bottom:8px;">${t('tapTheColor')}</div>
-      <div style="font-size:48px;">${state.targetColor.label}</div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:320px;margin:0 auto;">
-      ${state.options.map((c, i) => `
-        <button class="color-btn" data-color="${c.name}"
-          style="height:70px;border-radius:var(--r-sm);border:2px solid rgba(255,255,255,.1);background:${c.bg};cursor:pointer;font-size:24px;transition:all .15s;opacity:0.9;">
-          ${c.label}
-        </button>
-      `).join('')}
-    </div>
-    <div style="text-align:center;margin-top:14px;">
-      <div style="height:4px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;">
-        <div id="colorTimer" style="height:100%;background:var(--accent);width:100%;transition:width ${state.speed}ms linear;"></div>
-      </div>
-    </div>
-    <div style="text-align:center;margin-top:10px;">
-      <button class="btn btn-ghost btn-sm" id="colorRestart">🔄 ${t('playAgain')}</button>
-    </div>
-  </div>`;
-
-  // Animate timer bar
-  requestAnimationFrame(() => {
-    const timerBar = document.getElementById('colorTimer');
-    if (timerBar) timerBar.style.width = '0%';
-  });
-
-  // Hover effects for color buttons
-  area.querySelectorAll('.color-btn').forEach(btn => {
-    btn.addEventListener('mouseenter', () => { btn.style.opacity = '1'; btn.style.transform = 'scale(1.05)'; });
-    btn.addEventListener('mouseleave', () => { btn.style.opacity = '0.9'; btn.style.transform = 'none'; });
-  });
-
-  // Color button clicks
-  delegate(area, 'click', '.color-btn', (e, btn) => {
-    if (!state.active) return;
-    clearTimeout(state.roundTimer);
-    const clicked = btn.dataset.color;
-    if (clicked === state.targetColor.name) {
-      state.score++;
-      btn.style.border = '3px solid var(--accent)';
-    } else {
-      state.lives--;
-      btn.style.border = '3px solid var(--danger)';
-    }
-    setTimeout(() => nextColorRound(area, state), 200);
-  });
-
-  document.getElementById('colorRestart')?.addEventListener('click', () => {
-    clearTimeout(state.roundTimer);
-    state.active = false;
-    startColorTapGame(area);
-  });
-}
-
-async function finishColorTapGame(area, state) {
-  state.active = false;
-  clearTimeout(state.roundTimer);
-
-  const duration = Math.floor((Date.now() - state.startTime) / 1000);
-  const score = state.score;
-
+  // Send to API
   const { ok, data } = await apiFetch(API.miniGames, {
     method: 'POST',
-    body: JSON.stringify({ action: 'complete', game: 'colortap', score, duration })
+    body: JSON.stringify({
+      action: 'price_predict',
+      bet,
+      direction,
+      timeframe: tf.id,
+      is_correct: isCorrect,
+      payout,
+    })
   });
 
-  const xpEarned = ok ? (data.xp_earned || 0) : 0;
   if (ok) {
+    appState.S.coinBalance = data.coin_balance ?? appState.S.coinBalance;
     appState.S.xp = data.xp ?? appState.S.xp;
     appState.S.level = data.level ?? appState.S.level;
     const { saveState } = await import('../state.js');
     saveState();
   }
 
+  // Stop chart animation
+  if (chartAnimFrame) cancelAnimationFrame(chartAnimFrame);
+
+  // Show result
+  showPredictionResult(area, {
+    direction,
+    startPrice,
+    endPrice,
+    priceWentUp,
+    isCorrect,
+    bet,
+    payout,
+    tf,
+    apiOk: ok,
+    apiData: data,
+  });
+}
+
+function showPredictionResult(area, result) {
+  const { direction, startPrice, endPrice, isCorrect, bet, payout, tf } = result;
+
   area.innerHTML = `<div class="card card-sm" style="text-align:center;">
-    <div style="font-size:48px;margin-bottom:12px;">${state.lives > 0 ? '🏆' : '💥'}</div>
-    <div style="font-size:20px;font-weight:700;margin-bottom:8px;">${state.lives > 0 ? t('gameComplete') : t('gameOver')}</div>
-    <div style="color:var(--muted);margin-bottom:16px;">
-      ${t('score')}: ${score}/${state.maxRounds} · ${t('time')}: ${duration}s
+    <div style="font-size:48px;margin-bottom:12px;">${isCorrect ? '🎉' : '📉'}</div>
+    <div style="font-size:20px;font-weight:700;margin-bottom:12px;color:${isCorrect ? 'var(--accent)' : 'var(--danger)'};">
+      ${isCorrect ? t('predictionCorrect') : t('predictionWrong')}
     </div>
-    <div style="font-size:24px;font-weight:700;color:var(--accent);margin-bottom:16px;">
-      +${xpEarned} XP
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:300px;margin:0 auto 16px;font-size:14px;">
+      <div style="color:var(--muted);">${t('yourPrediction')}:</div>
+      <div style="font-weight:600;">${direction === 'up' ? t('predictUp') : t('predictDown')}</div>
+      <div style="color:var(--muted);">${t('result')}:</div>
+      <div style="font-weight:600;color:${endPrice > startPrice ? '#22c55e' : '#ef4444'};">
+        $${startPrice.toFixed(4)} → $${endPrice.toFixed(4)}
+      </div>
+      <div style="color:var(--muted);">${t('yourBet')}:</div>
+      <div style="font-weight:600;">${bet} 🪙</div>
+      ${isCorrect ? `
+        <div style="color:var(--muted);">${t('payout')} (${tf.payoutPct}%):</div>
+        <div style="font-weight:700;color:var(--accent);">+${payout} 🪙</div>
+      ` : `
+        <div style="color:var(--muted);">Lost:</div>
+        <div style="font-weight:700;color:var(--danger);">-${bet} 🪙</div>
+      `}
     </div>
-    ${!ok ? `<div style="color:var(--danger);font-size:13px;margin-bottom:8px;">${data?.message || ''}</div>` : ''}
-    <button class="btn btn-primary btn-sm" id="colorPlayAgain">🔄 ${t('playAgain')}</button>
+    <button class="btn btn-primary btn-sm" id="backToPredict">🔄 ${t('playAgain')}</button>
   </div>`;
 
-  document.getElementById('colorPlayAgain')?.addEventListener('click', () => startColorTapGame(area));
+  document.getElementById('backToPredict')?.addEventListener('click', () => renderPricePrediction(area));
 
-  if (ok) toast(`+${xpEarned} XP 🎨`, 'success');
+  const coinsEl = document.getElementById('mgCoins');
+  if (coinsEl) coinsEl.textContent = String(appState.S.coinBalance || 0);
+
+  if (isCorrect) toast(`+${payout} 🪙 ${t('predictionCorrect')}`, 'success');
+  else toast(`-${bet} 🪙 ${t('predictionWrong')}`, 'error');
 }

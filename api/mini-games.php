@@ -236,8 +236,7 @@ function handlePricePredict(PDO $pdo, int $userId, array $input): never
         }
 
         if ($isCorrect) {
-            // Win: deduct bet then add payout (net = payout - bet could be negative if payout < bet, which is always true since max is 90%)
-            // Actually user gets bet back + payout, so net gain = payout
+            // Win: user keeps their bet and receives additional payout (70-90% of bet)
             $pdo->prepare('UPDATE users SET coin_balance=coin_balance+:payout WHERE id=:uid')
                 ->execute([':payout' => $payout, ':uid' => $userId]);
         } else {

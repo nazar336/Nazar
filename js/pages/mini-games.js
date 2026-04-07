@@ -155,10 +155,13 @@ function renderCaseOpening(area) {
           <div style="font-weight:600;font-size:14px;margin-bottom:4px;">${t(c.nameKey)}</div>
           <div style="color:var(--accent);font-weight:700;font-size:15px;margin-bottom:8px;">${c.cost} 🪙</div>
           <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">
-            ${c.prizes.map(p => {
-              const pct = Math.round(p.weight / c.prizes.reduce((s, x) => s + x.weight, 0) * 100);
-              return `${p.type === 'coins' ? '🪙' : '⭐'} ${p.amount} (${pct}%)`;
-            }).join('<br>')}
+            ${(() => {
+              const totalWeight = c.prizes.reduce((s, x) => s + x.weight, 0);
+              return c.prizes.map(p => {
+                const pct = Math.round(p.weight / totalWeight * 100);
+                return `${p.type === 'coins' ? '🪙' : '⭐'} ${p.amount} (${pct}%)`;
+              }).join('<br>');
+            })()}
           </div>
           <button class="btn btn-primary btn-sm open-case-btn" data-case="${c.id}" ${coins < c.cost ? 'disabled' : ''}>
             ${t('openCase')}

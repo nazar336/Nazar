@@ -30,9 +30,17 @@ export function renderShell() {
   const mobItems = [
     { page: 'dashboard', icon: '◆', label: t('dashboard') },
     { page: 'tasks', icon: '☰', label: t('tasks') },
-    { page: 'profile', icon: '○', label: t('profile') },
     { page: 'feed', icon: '◉', label: t('feed') },
+    { page: 'profile', icon: '○', label: t('profile') },
+  ];
+  const moreItems = [
+    { page: 'wallet', icon: '◇', label: t('wallet') },
+    { page: 'chat', icon: '▸', label: t('chat') },
     { page: 'dm', icon: '✉', label: t('directMessages') },
+    { page: 'createTask', icon: '✚', label: t('createTask') },
+    { page: 'support', icon: '?', label: t('support') },
+    { page: 'leaderboard', icon: '△', label: t('leaderboard') },
+    { page: 'miniGames', icon: '▷', label: t('miniGames') },
   ];
   const unreadCount = (appState.S.notifications || []).filter(n => !n.read).length;
   const app = document.getElementById('app');
@@ -81,9 +89,20 @@ export function renderShell() {
         ${appState.isGuest ? `<div style="background:linear-gradient(90deg,rgba(184,255,92,.05),rgba(125,215,255,.05));border-bottom:1px solid rgba(184,255,92,.1);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px;"><span>${t('guestMode')} — ${t('welcomeGuestDesc')}</span><button class="btn btn-primary btn-xs" id="guestCreateBtn">${t('createAccount')}</button></div>` : ''}
         <main class="main-content" id="mainContent" tabindex="-1"></main>
       </div>
+      <div class="mobile-nav-more-overlay" id="moreMenuOverlay"></div>
+      <div class="mobile-nav-more" id="moreMenu" aria-hidden="true">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div style="font-size:15px;font-weight:800;">${t('more') || 'More'}</div>
+          <button class="btn btn-ghost btn-xs" id="moreMenuClose">✕</button>
+        </div>
+        <div class="mobile-nav-more-grid">
+          ${moreItems.map(n => `<button class="mobile-nav-more-item" data-page="${n.page}"><span class="more-icon">${n.icon}</span><span>${n.label}</span></button>`).join('')}
+        </div>
+      </div>
       <nav class="mobile-nav" aria-label="Mobile navigation">
         <div class="mobile-nav-inner">
           ${mobItems.map(n => `<button class="mob-btn${appState.currentPage === n.page ? ' active' : ''}" data-page="${n.page}" aria-label="${n.label}"><span class="icon" aria-hidden="true">${n.icon}</span><span>${n.label}</span></button>`).join('')}
+          <button class="mob-btn" id="moreMenuToggle" aria-label="${t('more') || 'More'}"><span class="icon" aria-hidden="true">≡</span><span>${t('more') || 'More'}</span></button>
         </div>
       </nav>
     </div>`;
@@ -109,6 +128,33 @@ export function renderShell() {
   document.getElementById('notifToggle')?.addEventListener('click', toggleNotif);
   document.getElementById('markReadBtn')?.addEventListener('click', () => { appState.S.notifications.forEach(n => n.read = true); saveState(); updateNotifBadge(); renderShell(); navigate(appState.currentPage); });
   document.getElementById('clearAllNotifsBtn')?.addEventListener('click', () => { appState.S.notifications = []; saveState(); updateNotifBadge(); renderShell(); navigate(appState.currentPage); });
+
+  // Mobile "More" menu toggle
+  const moreMenuToggle = document.getElementById('moreMenuToggle');
+  const moreMenu = document.getElementById('moreMenu');
+  const moreMenuOverlay = document.getElementById('moreMenuOverlay');
+  const moreMenuClose = document.getElementById('moreMenuClose');
+  
+  function openMoreMenu() {
+    if (moreMenu) { moreMenu.classList.add('open'); moreMenu.setAttribute('aria-hidden', 'false'); }
+    if (moreMenuOverlay) moreMenuOverlay.classList.add('open');
+  }
+  function closeMoreMenu() {
+    if (moreMenu) { moreMenu.classList.remove('open'); moreMenu.setAttribute('aria-hidden', 'true'); }
+    if (moreMenuOverlay) moreMenuOverlay.classList.remove('open');
+  }
+  
+  moreMenuToggle?.addEventListener('click', openMoreMenu);
+  moreMenuClose?.addEventListener('click', closeMoreMenu);
+  moreMenuOverlay?.addEventListener('click', closeMoreMenu);
+  
+  // Navigate from more menu items
+  document.querySelectorAll('.mobile-nav-more-item[data-page]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      closeMoreMenu();
+      navigate(btn.dataset.page);
+    });
+  });
 
   // Close notification panel when clicking outside
   if (_outsideClickHandler) document.removeEventListener('click', _outsideClickHandler, true);

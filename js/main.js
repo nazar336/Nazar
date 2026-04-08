@@ -7,6 +7,7 @@ import { initScroll, initHashRouting } from './router.js';
 import { renderShell } from './shell.js';
 import { renderLanding } from './pages/landing.js';
 import { setLang } from './i18n.js';
+import { startSync, stopSync } from './sync.js';
 
 function showLoadingSpinner() {
   const app = document.getElementById('app');
@@ -55,7 +56,7 @@ async function init() {
     }
   } catch (e) { /* no PHP available, render landing */ }
 
-  if (appState.currentUser && !appState.isGuest) { renderShell(); }
+  if (appState.currentUser && !appState.isGuest) { renderShell(); startSync(); }
   else {
     // Check if user was in the middle of verification (page refresh recovery)
     let verifyState = null;

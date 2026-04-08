@@ -18,6 +18,7 @@ const STATIC_ASSETS = [
   '/js/utils.js',
   '/js/router.js',
   '/js/shell.js',
+  '/js/sync.js',
   '/js/event-delegation.js',
   '/js/virtual-scroll.js',
   '/js/lazy-images.js',

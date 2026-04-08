@@ -78,7 +78,7 @@ export function renderShell() {
           <div class="topbar-right">
             <div id="notifPanel" class="notif-panel" aria-hidden="true"></div>
             <button class="btn btn-ghost btn-sm btn-icon" id="notifToggle" aria-label="${t('notifications')}" aria-haspopup="true" aria-expanded="false" style="position:relative;">
-              ●<span class="nav-badge" id="notifBadge" style="position:absolute;top:2px;right:2px;display:${unreadCount ? 'flex' : 'none'};font-size:9px;min-width:14px;height:14px;">${unreadCount || ''}</span>
+              ●<span class="nav-badge" id="notifBadge" aria-label="${unreadCount ? unreadCount + ' ' + t('notifications') : ''}" style="position:absolute;top:2px;right:2px;display:${unreadCount ? 'flex' : 'none'};font-size:9px;min-width:14px;height:14px;">${unreadCount || ''}</span>
             </button>
             <button class="btn btn-ghost btn-sm btn-fullscreen" id="fullscreenBtn" aria-label="${t('fullscreen')}" title="${t('fullscreen')}">⛶</button>
             <button class="btn btn-ghost btn-sm" id="langToggleBtn" style="padding:7px 12px;font-size:13px;gap:6px;">
@@ -143,6 +143,8 @@ export function renderShell() {
   function closeMoreMenu() {
     if (moreMenu) { moreMenu.classList.remove('open'); moreMenu.setAttribute('aria-hidden', 'true'); }
     if (moreMenuOverlay) moreMenuOverlay.classList.remove('open');
+    // Return focus to the toggle button for keyboard accessibility
+    moreMenuToggle?.focus();
   }
   
   moreMenuToggle?.addEventListener('click', openMoreMenu);

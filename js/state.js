@@ -102,6 +102,11 @@ export async function loadTasks(filter = 'open') {
         createdAt: t.created_at || new Date().toISOString()
       }));
       const map = new Map((appState.S.tasks || []).map(task => [String(task.id), task]));
+      // Replace local state with server data — remove stale tasks not returned by server
+      const serverIds = new Set(apiTasks.map(task => String(task.id)));
+      for (const [key] of map) {
+        if (!serverIds.has(key)) map.delete(key);
+      }
       apiTasks.forEach(task => {
         const key = String(task.id);
         map.set(key, { ...(map.get(key) || {}), ...task });
@@ -238,13 +243,17 @@ export async function loadChatRooms(tier) {
   } catch (e) { console.error('loadChatRooms error:', e); }
 }
 
+let _sendingMessage = false;
 export async function sendRoomMessage() {
+  if (_sendingMessage) return;
   const input = document.getElementById('roomMessageInput');
   if (!input) return;
   const message = input.value.trim();
   if (!message) { toast(t('noMessage'), 'error'); return; }
+  _sendingMessage = true;
   const tier = Number(appState.S.activeRoomTier || 1);
   const { ok, data } = await apiFetch(API.chatRooms, { method: 'POST', body: JSON.stringify({ action: 'send', tier, message }) });
+  _sendingMessage = false;
   if (!ok) { toast(data.message || 'Error', 'error'); return; }
   input.value = '';
   await loadChatRooms(tier);
@@ -314,7 +323,10 @@ export async function loadFeed(page = 1, append = false) {
     const { ok, data } = await apiFetch(`${API.feed}?page=${page}`);
     if (ok) {
       if (append) {
-        appState.S.feedPosts = [...(appState.S.feedPosts || []), ...(data.posts || [])];
+        // Deduplicate: merge by id
+        const existing = new Map((appState.S.feedPosts || []).map(p => [p.id, p]));
+        (data.posts || []).forEach(p => existing.set(p.id, p));
+        appState.S.feedPosts = Array.from(existing.values());
       } else {
         appState.S.feedPosts = data.posts || [];
       }

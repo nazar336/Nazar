@@ -40,6 +40,7 @@ export function renderVerification(userId, email){
             
             <div style="margin-top:20px;padding:20px;background:rgba(184,255,92,.08);border:2px solid rgba(184,255,92,.4);border-radius:12px;text-align:center;">
               <div style="font-size:11px;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">${t('solveCaptcha')}</div>
+              <div id="codeTimer" style="font-size:12px;color:var(--warning);margin-bottom:8px;display:none;"></div>
               
               <div style="font-size:32px;font-weight:900;margin:15px 0;font-family:monospace;color:#b8ff5c;">
                 ${num1} <span style="color:rgba(184,255,92,.6);">${op}</span> ${num2} = <span style="color:rgba(184,255,92,.5);">?</span>
@@ -102,6 +103,25 @@ export function renderVerification(userId, email){
       document.getElementById('verifyCard').style.display = 'block';
       document.getElementById('codeSection').style.display = 'block';
       document.getElementById('verifyCode').focus();
+      // Start 15-minute countdown timer
+      const timerEl = document.getElementById('codeTimer');
+      if (timerEl) {
+        timerEl.style.display = 'block';
+        let remaining = 15 * 60; // 15 minutes in seconds
+        const updateTimer = () => {
+          const mins = Math.floor(remaining / 60);
+          const secs = remaining % 60;
+          timerEl.textContent = `⏱️ ${t('codeExpiresIn') || 'Code expires in'}: ${mins}:${String(secs).padStart(2, '0')}`;
+          if (remaining <= 0) {
+            timerEl.textContent = `⚠️ ${t('codeExpired') || 'Code expired — request a new one'}`;
+            timerEl.style.color = 'var(--danger)';
+            clearInterval(timerInterval);
+          }
+          remaining--;
+        };
+        updateTimer();
+        const timerInterval = setInterval(updateTimer, 1000);
+      }
     } else {
       captchaError.textContent = '❌ ' + t('wrongAnswer');
       captchaError.style.display = 'block';

@@ -30,8 +30,9 @@ export function renderFeed(el){
   }
 
   const _imgUnavail = t('imageUnavailable');
+  const _safeImgUnavail = (_imgUnavail || 'Image unavailable').replace(/['"<>&\\]/g, '');
   function imgErrorHandler(){
-    return `onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'padding:30px;text-align:center;color:var(--muted);background:rgba(255,255,255,.03);border-radius:12px;\\'>🖼️ ${_imgUnavail}</div>')"`;
+    return `onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'padding:30px;text-align:center;color:var(--muted);background:rgba(255,255,255,.03);border-radius:12px;\\'>🖼️ ${_safeImgUnavail}</div>')"`;
   }
 
   function renderPostCards(){
@@ -39,7 +40,7 @@ export function renderFeed(el){
     const c=document.getElementById('feedCards');
     if(!c)return;
     if(!list.length){
-      c.innerHTML=`<div class="empty"><div class="empty-icon">📡</div><h3>${t('noPosts')}</h3></div>`;
+      c.innerHTML=`<div class="empty"><div class="empty-icon">📡</div><h3>${t('noPosts')}</h3><p style="color:var(--muted);font-size:13px;margin-top:6px;">${appState.isGuest ? t('guestFeed') : (t('feedEmptyHint') || t('postPlaceholder'))}</p></div>`;
       return;
     }
     const isMe=id=>appState.currentUser && Number(id)===Number(appState.currentUser.id);
@@ -336,7 +337,7 @@ export function renderFeed(el){
     if(type==='video'){
       prev.innerHTML=`<video src="${esc(url)}" controls preload="metadata" style="width:100%;max-height:200px;border-radius:8px;background:#000;"></video>`;
     } else {
-      prev.innerHTML=`<img src="${esc(url)}" alt="" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'padding:16px;text-align:center;color:var(--muted);\\'>🖼️ ${_imgUnavail}</div>')">`;
+      prev.innerHTML=`<img src="${esc(url)}" alt="" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'padding:16px;text-align:center;color:var(--muted);\\'>🖼️ ${_safeImgUnavail}</div>')">`;
     }
   }
 

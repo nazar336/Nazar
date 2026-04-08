@@ -3,7 +3,14 @@
 import { appState, saveState } from './state.js';
 import { t } from './i18n.js';
 
-export const uid = () => Math.random().toString(36).slice(2, 9);
+export const uid = () => {
+  if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+    const arr = new Uint8Array(7);
+    crypto.getRandomValues(arr);
+    return Array.from(arr, b => b.toString(36).padStart(2, '0')).join('').slice(0, 12);
+  }
+  return Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-4);
+};
 
 export function esc(s) {
   const d = document.createElement('div');
@@ -25,10 +32,10 @@ export function fmtTime(s) {
 
 export function fmtAgo(s) {
   const diff = Math.floor((Date.now() - new Date(s)) / 60000);
-  if (diff < 1) return t('justNow');
-  if (diff < 60) return diff + t('minsAgo');
-  if (diff < 1440) return Math.floor(diff / 60) + t('hoursAgo');
-  return Math.floor(diff / 1440) + t('daysAgo');
+  if (diff < 1) return t('justNow') || 'just now';
+  if (diff < 60) return diff + (t('minsAgo') || 'm ago');
+  if (diff < 1440) return Math.floor(diff / 60) + (t('hoursAgo') || 'h ago');
+  return Math.floor(diff / 1440) + (t('daysAgo') || 'd ago');
 }
 
 export function renderAnimatedBrandLayer(scope = 'default') {
@@ -143,5 +150,9 @@ export function addNotif(text, type = 'info') {
 export function updateNotifBadge() {
   const count = appState.S.notifications.filter(n => !n.read).length;
   const badge = document.getElementById('notifBadge');
-  if (badge) { badge.textContent = count || ''; badge.style.display = count ? 'flex' : 'none'; }
+  if (badge) {
+    badge.textContent = count || '';
+    badge.style.display = count ? 'flex' : 'none';
+    badge.setAttribute('aria-label', count ? count + ' notifications' : '');
+  }
 }

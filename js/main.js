@@ -6,7 +6,7 @@ import { API } from './constants.js';
 import { initScroll, initHashRouting } from './router.js';
 import { renderShell } from './shell.js';
 import { renderLanding } from './pages/landing.js';
-import { setLang } from './i18n.js';
+import { setLang, t } from './i18n.js';
 import { startSync, stopSync } from './sync.js';
 
 function showLoadingSpinner() {
@@ -71,12 +71,8 @@ async function init() {
   }
 
   if (appState.currentUser && !appState.isGuest) {
-    // Load daily_visit and points in parallel
-    await Promise.all([
-      apiFetch(API.xp, { method: 'POST', body: JSON.stringify({ action: 'daily_visit' }) }),
-      loadPoints(),
-    ]);
-    // Refresh points after daily_visit has been recorded
+    // Record daily_visit, then load points once (daily_visit awards XP on server)
+    await apiFetch(API.xp, { method: 'POST', body: JSON.stringify({ action: 'daily_visit' }) });
     await loadPoints();
   }
 
@@ -92,8 +88,13 @@ if ('serviceWorker' in navigator) {
 }
 
 init().catch((err) => {
+  console.error('Init error:', err);
   const app = document.getElementById('app');
   if (app && !app.innerHTML.trim()) {
-    app.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100vh;color:var(--danger,#ff6b6b);font-size:15px;text-align:center;padding:20px;">Something went wrong. Please reload the page.</div>`;
+    const msg = (typeof t === 'function' ? t('initError') : '') || 'Щось пішло не так. Перезавантажте сторінку.';
+    app.innerHTML = `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;color:var(--danger,#ff6b6b);font-size:15px;text-align:center;padding:20px;gap:16px;">
+      <div>${msg}</div>
+      <button onclick="location.reload()" style="padding:8px 20px;border:1px solid currentColor;border-radius:8px;background:transparent;color:inherit;cursor:pointer;font-size:14px;">🔄 ${(typeof t === 'function' ? t('refresh') : '') || 'Оновити'}</button>
+    </div>`;
   }
 });

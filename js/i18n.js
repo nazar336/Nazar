@@ -169,6 +169,7 @@ export const i18n = {
     chooseLanguage:'Choose Language',
     // Error/status messages
     imageUnavailable:'Image unavailable', noTransactions:'No transactions yet', transactionHistoryHint:'Your transaction history will appear here.',
+    initError:'Something went wrong. Please reload the page.', codeExpiresIn:'Code expires in', codeExpired:'Code expired — request a new one', feedEmptyHint:'Create your first post above!',
     totalDeposits:'Total Deposits', totalWithdrawals:'Total Withdrawals', netFlow:'Net Flow', newest:'Newest', showMore:'Show more',
     ticketFailed:'Ticket creation failed.', copyProfileLink:'Copy profile link', profileSaveFailed:'Profile save failed.', copied:'Copied!',
     invalidTaskId:'Invalid task ID.', errorTakingTask:'Error taking task.', errorGeneric:'Error',
@@ -362,6 +363,7 @@ export const i18n = {
     chooseLanguage:'Оберіть мову',
     // Error/status messages
     imageUnavailable:'Зображення недоступне', noTransactions:'Транзакцій поки немає', transactionHistoryHint:'Ваша історія транзакцій з\'явиться тут.',
+    initError:'Щось пішло не так. Перезавантажте сторінку.', codeExpiresIn:'Код діє ще', codeExpired:'Код протух — запросіть новий', feedEmptyHint:'Створіть свій перший пост вище!',
     totalDeposits:'Всього депозитів', totalWithdrawals:'Всього виведень', netFlow:'Чистий потік', newest:'Найновіші', showMore:'Показати більше',
     ticketFailed:'Помилка створення тікета.', copyProfileLink:'Скопіювати посилання', profileSaveFailed:'Помилка збереження профілю.', copied:'Скопійовано!',
     invalidTaskId:'Невірний ID задачі.', errorTakingTask:'Помилка взяття задачі.', errorGeneric:'Помилка',
@@ -542,6 +544,7 @@ export const i18n = {
     chooseLanguage:'Sprache wählen',
     // Error/status messages
     imageUnavailable:'Bild nicht verfügbar', noTransactions:'Noch keine Transaktionen', transactionHistoryHint:'Ihre Transaktionshistorie erscheint hier.',
+    initError:'Etwas ist schiefgelaufen. Bitte laden Sie die Seite neu.', codeExpiresIn:'Code läuft ab in', codeExpired:'Code abgelaufen — neuen anfordern', feedEmptyHint:'Erstellen Sie Ihren ersten Beitrag oben!',
     totalDeposits:'Gesamteinzahlungen', totalWithdrawals:'Gesamtauszahlungen', netFlow:'Nettoumsatz', newest:'Neueste', showMore:'Mehr anzeigen',
     ticketFailed:'Ticket-Erstellung fehlgeschlagen.', copyProfileLink:'Profillink kopieren', profileSaveFailed:'Profil speichern fehlgeschlagen.', copied:'Kopiert!',
     invalidTaskId:'Ungültige Aufgaben-ID.', errorTakingTask:'Fehler beim Annehmen.', errorGeneric:'Fehler',
@@ -721,6 +724,7 @@ export const i18n = {
     chooseLanguage:'Choisir la langue',
     // Error/status messages
     imageUnavailable:'Image indisponible', noTransactions:'Aucune transaction', transactionHistoryHint:'Votre historique de transactions apparaîtra ici.',
+    initError:'Un problème est survenu. Veuillez recharger la page.', codeExpiresIn:'Le code expire dans', codeExpired:'Code expiré — demandez-en un nouveau', feedEmptyHint:'Créez votre premier post ci-dessus !',
     totalDeposits:'Total des dépôts', totalWithdrawals:'Total des retraits', netFlow:'Flux net', newest:'Plus récents', showMore:'Voir plus',
     ticketFailed:'Échec de la création du ticket.', copyProfileLink:'Copier le lien du profil', profileSaveFailed:'Échec de la sauvegarde du profil.', copied:'Copié !',
     invalidTaskId:'ID de tâche invalide.', errorTakingTask:'Erreur lors de la prise de tâche.', errorGeneric:'Erreur',
@@ -900,6 +904,7 @@ export const i18n = {
     chooseLanguage:'Elegir idioma',
     // Error/status messages
     imageUnavailable:'Imagen no disponible', noTransactions:'Sin transacciones aún', transactionHistoryHint:'Tu historial de transacciones aparecerá aquí.',
+    initError:'Algo salió mal. Por favor, recarga la página.', codeExpiresIn:'El código expira en', codeExpired:'Código expirado — solicita uno nuevo', feedEmptyHint:'¡Crea tu primer post arriba!',
     totalDeposits:'Total depósitos', totalWithdrawals:'Total retiros', netFlow:'Flujo neto', newest:'Más recientes', showMore:'Ver más',
     ticketFailed:'Error al crear el ticket.', copyProfileLink:'Copiar enlace del perfil', profileSaveFailed:'Error al guardar el perfil.', copied:'¡Copiado!',
     invalidTaskId:'ID de tarea inválido.', errorTakingTask:'Error al tomar la tarea.', errorGeneric:'Error',
@@ -1079,6 +1084,7 @@ export const i18n = {
     chooseLanguage:'Wybierz język',
     // Error/status messages
     imageUnavailable:'Obraz niedostępny', noTransactions:'Brak transakcji', transactionHistoryHint:'Historia transakcji pojawi się tutaj.',
+    initError:'Coś poszło nie tak. Odśwież stronę.', codeExpiresIn:'Kod wygasa za', codeExpired:'Kod wygasł — poproś o nowy', feedEmptyHint:'Utwórz swój pierwszy post powyżej!',
     totalDeposits:'Łączne wpłaty', totalWithdrawals:'Łączne wypłaty', netFlow:'Przepływ netto', newest:'Najnowsze', showMore:'Pokaż więcej',
     ticketFailed:'Nie udało się utworzyć zgłoszenia.', copyProfileLink:'Kopiuj link do profilu', profileSaveFailed:'Nie udało się zapisać profilu.', copied:'Skopiowano!',
     invalidTaskId:'Nieprawidłowe ID zadania.', errorTakingTask:'Błąd podczas przyjmowania zadania.', errorGeneric:'Błąd',

@@ -3,7 +3,7 @@
 import { appState, saveState, loadTasks } from '../state.js';
 import { t } from '../i18n.js';
 import { apiFetch } from '../api.js';
-import { fmtDate, toast, showAlert, hideAlert, addNotif, setLoading } from '../utils.js';
+import { fmtDate, toast, showAlert, hideAlert, addNotif, setLoading, debounce } from '../utils.js';
 import { navigate } from '../router.js';
 import { CATEGORIES, API, getLvlPriv } from '../constants.js';
 
@@ -130,9 +130,10 @@ export function renderCreateTask(el){
       else { dlWarn.textContent=''; }
     }
 
-    // Auto-save draft
-    saveDraft({title:titleVal,desc:descVal,cat:catVal,diff:document.getElementById('ctDiff').value,reward:rewardVal,slots:slotsVal,deadline:dl});
+    // Auto-save draft (debounced to avoid excessive writes)
+    _debouncedSaveDraft({title:titleVal,desc:descVal,cat:catVal,diff:document.getElementById('ctDiff').value,reward:rewardVal,slots:slotsVal,deadline:dl});
   };
+  const _debouncedSaveDraft = debounce((data) => saveDraft(data), 500);
   document.querySelectorAll('#createTaskForm input,#createTaskForm textarea,#createTaskForm select').forEach(i=>i.addEventListener('input',update));
 
   // Trigger update to set initial counters from draft

@@ -101,6 +101,7 @@ export function navigate(page) {
       mc.style.transform = 'none';
     });
     mc.scrollTop = 0;
+    window.scrollTo(0, 0);
   }, appState.S.animationsOn ? 100 : 10);
   const titles = _pageTitles();
   const tb = document.getElementById('topbarTitle');

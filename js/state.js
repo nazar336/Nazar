@@ -122,16 +122,18 @@ export async function loadTasks(filter = 'open') {
 export async function loadWallet() {
   if (appState.isGuest) return;
   try {
-    // Parallel API calls for better performance
-    const [walletRes, cryptoRes, coinsRes, wdRes] = await Promise.all([
+    // Parallel API calls for better performance — use allSettled for partial failures
+    const results = await Promise.allSettled([
       apiFetch(API.wallet),
       apiFetch(`${API.cryptoDeposit}?action=history`),
       apiFetch(API.coins),
       apiFetch(`${API.cryptoWithdraw}?action=history`),
     ]);
 
-    if (walletRes.ok) {
-      const data = walletRes.data;
+    const [walletResult, cryptoResult, coinsResult, wdResult] = results;
+
+    if (walletResult.status === 'fulfilled' && walletResult.value.ok) {
+      const data = walletResult.value.data;
       appState.S.balance = data.balance || 0;
       appState.S.pendingBalance = data.pending_balance || 0;
       appState.S.pending = data.pending_balance || 0;
@@ -142,24 +144,24 @@ export async function loadWallet() {
       appState.S.pendingCryptoCount = data.crypto_pending_count || 0;
     }
 
-    if (cryptoRes.ok) {
-      const cryptoData = cryptoRes.data;
+    if (cryptoResult.status === 'fulfilled' && cryptoResult.value.ok) {
+      const cryptoData = cryptoResult.value.data;
       appState.S.cryptoDeposits = cryptoData.deposits || [];
       appState.S.coinBalance = cryptoData.coin_balance ?? appState.S.coinBalance ?? 0;
       appState.S.coinsPurchased = cryptoData.total_purchased ?? appState.S.coinsPurchased ?? 0;
       appState.S.coinsSpent = cryptoData.total_spent ?? appState.S.coinsSpent ?? 0;
     }
 
-    if (coinsRes.ok) {
-      const coinsData = coinsRes.data;
+    if (coinsResult.status === 'fulfilled' && coinsResult.value.ok) {
+      const coinsData = coinsResult.value.data;
       appState.S.coinBalance = coinsData.coin_balance ?? appState.S.coinBalance ?? 0;
       appState.S.coinsPurchased = coinsData.total_purchased ?? appState.S.coinsPurchased ?? 0;
       appState.S.coinsSpent = coinsData.total_spent ?? appState.S.coinsSpent ?? 0;
       appState.S.coinHistory = coinsData.spending_history || [];
     }
 
-    if (wdRes.ok) {
-      appState.S.cryptoWithdrawals = wdRes.data.withdrawals || [];
+    if (wdResult.status === 'fulfilled' && wdResult.value.ok) {
+      appState.S.cryptoWithdrawals = wdResult.value.data.withdrawals || [];
     }
 
     saveState();

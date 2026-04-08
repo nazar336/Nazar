@@ -63,6 +63,8 @@ vi.mock('../../../js/utils.js', () => ({
 
 vi.mock('../../../js/router.js', () => ({
   navigate: vi.fn(),
+  setBeforeNavigateHook: vi.fn(),
+  clearBeforeNavigateHook: vi.fn(),
 }));
 
 vi.mock('../../../js/constants.js', () => ({

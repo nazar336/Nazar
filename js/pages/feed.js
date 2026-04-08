@@ -62,7 +62,7 @@ export function renderFeed(el){
                   <div class="feed-time" title="${fullDate(p.created_at)}">${fmtAgo(p.created_at)}</div>
                 </div>
                 ${!isMe(p.user_id)?`<button class="friend-btn${isFriend(p.user_id)?' added':''}" data-friend-toggle="${p.user_id}" data-friend-name="${esc(p.username)}">${isFriend(p.user_id)?'✓ '+t('friends'):'+ '+t('addFriend')}</button>`:''}
-                ${isMe(p.user_id)?`<button class="action-btn" data-delete-post="${p.id}" title="${t('deletePost')}" style="color:var(--danger);font-size:14px;">🗑</button>`:''}
+                ${isMe(p.user_id)?`<button class="action-btn" data-delete-post="${p.id}" title="${t('deletePost')}" aria-label="${t('deletePost')}" style="color:var(--danger);font-size:14px;">🗑</button>`:''}
               </div>
               ${p.media_url?`
                 <div class="feed-media" style="border-radius:12px;overflow:hidden;margin:8px 0;">
@@ -70,7 +70,7 @@ export function renderFeed(el){
                     <video src="${esc(p.media_url)}" controls playsinline preload="metadata"
                       style="width:100%;max-height:500px;object-fit:contain;background:#000;border-radius:12px;"></video>
                   `:`
-                    <img src="${esc(p.media_url)}" alt="" loading="lazy"
+                    <img src="${esc(p.media_url)}" alt="${t('postImage') || 'Post image'}" loading="lazy"
                       style="width:100%;max-height:500px;object-fit:cover;border-radius:12px;" ${imgErrorHandler()}>
                   `}
                 </div>
@@ -117,7 +117,7 @@ export function renderFeed(el){
               <div class="feed-time" title="${fullDate(p.created_at)}">${fmtAgo(p.created_at)}</div>
             </div>
             ${!isMe(p.user_id)&&!appState.isGuest?`<button class="friend-btn${isFriend(p.user_id)?' added':''}" data-friend-toggle="${p.user_id}" data-friend-name="${esc(p.username)}">${isFriend(p.user_id)?'✓ '+t('friends'):'+ '+t('addFriend')}</button>`:''}
-            ${isMe(p.user_id)?`<button class="action-btn" data-delete-post="${p.id}" title="${t('deletePost')}" style="color:var(--danger);font-size:14px;">🗑</button>`:''}
+            ${isMe(p.user_id)?`<button class="action-btn" data-delete-post="${p.id}" title="${t('deletePost')}" aria-label="${t('deletePost')}" style="color:var(--danger);font-size:14px;">🗑</button>`:''}
           </div>
           ${p.media_url?`
             <div class="feed-media" style="border-radius:12px;overflow:hidden;margin:8px 0;">
@@ -125,7 +125,7 @@ export function renderFeed(el){
                 <video src="${esc(p.media_url)}" controls playsinline preload="metadata"
                   style="width:100%;max-height:500px;object-fit:contain;background:#000;border-radius:12px;"></video>
               `:`
-                <img src="${esc(p.media_url)}" alt="" loading="lazy"
+                <img src="${esc(p.media_url)}" alt="${t('postImage') || 'Post image'}" loading="lazy"
                   style="width:100%;max-height:500px;object-fit:cover;border-radius:12px;" ${imgErrorHandler()}>
               `}
             </div>

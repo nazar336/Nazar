@@ -271,18 +271,25 @@ export async function sendRoomMessage() {
   }
 }
 
+let _sendingGlobal = false;
 export async function sendGlobalMessage() {
+  if (_sendingGlobal) return;
   const input = document.getElementById('globalMessageInput');
   if (!input) return;
   const message = input.value.trim();
   if (!message) { toast(t('noMessage'), 'error'); return; }
-  const { ok, data } = await apiFetch(API.chatRooms, { method: 'POST', body: JSON.stringify({ action: 'send', tier: 1, message }) });
-  if (!ok) { toast(data.message || 'Error', 'error'); return; }
-  input.value = '';
-  await loadChatRooms(1);
-  toast(t('globalMsgSent'), 'success');
-  const { navigate } = await import('./router.js');
-  navigate('chat');
+  _sendingGlobal = true;
+  try {
+    const { ok, data } = await apiFetch(API.chatRooms, { method: 'POST', body: JSON.stringify({ action: 'send', tier: 1, message }) });
+    if (!ok) { toast(data.message || 'Error', 'error'); return; }
+    input.value = '';
+    await loadChatRooms(1);
+    toast(t('globalMsgSent'), 'success');
+    const { navigate } = await import('./router.js');
+    navigate('chat');
+  } finally {
+    _sendingGlobal = false;
+  }
 }
 
 export async function buyRoomPass(tier) {

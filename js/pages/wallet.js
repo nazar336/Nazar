@@ -7,6 +7,7 @@ import { esc, fmtDate, fmtTime, fmtAgo, toast, showAlert, hideAlert, setLoading 
 import { navigate } from '../router.js';
 import { API } from '../constants.js';
 import { renderAuth } from './auth.js';
+import { trapFocus, onEscape } from '../focus-trap.js';
 
 export function renderWallet(el){
   if(appState.isGuest){
@@ -336,7 +337,10 @@ export function showWalletModal(type){
   }
   networkSelect?.addEventListener('change',updateCurrencyLabel);
 
-  const close=()=>{modBg.remove();};
+  const close=()=>{releaseTrap();releaseEsc();modBg.remove();};
+  const modal=modBg.querySelector('.modal');
+  const releaseTrap=trapFocus(modal);
+  const releaseEsc=onEscape(close);
   modBg.addEventListener('click',e=>{if(e.target===modBg)close();});
   document.getElementById('modalCloseBtn')?.addEventListener('click',close);
   document.getElementById('wConfirmBtn')?.addEventListener('click',async()=>{
@@ -418,7 +422,10 @@ export function showWithdrawModal(){
   document.getElementById('modalRoot').appendChild(modBg);
   modBg.setAttribute('aria-hidden','false');
 
-  const close=()=>{modBg.remove();};
+  const close=()=>{wdReleaseTrap();wdReleaseEsc();modBg.remove();};
+  const wdModal=modBg.querySelector('.modal');
+  const wdReleaseTrap=trapFocus(wdModal);
+  const wdReleaseEsc=onEscape(close);
   modBg.addEventListener('click',e=>{if(e.target===modBg)close();});
   document.getElementById('wdModalCloseBtn')?.addEventListener('click',close);
 

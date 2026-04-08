@@ -21,6 +21,22 @@ const SKELETON_HTML = `<div class="loading-skeleton" aria-busy="true" style="pad
 </div>`;
 
 let _hashListenerActive = false;
+let _beforeNavigateHook = null;
+
+/**
+ * Register a hook that runs before every SPA navigation.
+ * Return false from the hook to cancel the navigation.
+ */
+export function setBeforeNavigateHook(fn) {
+  _beforeNavigateHook = fn;
+}
+
+/**
+ * Clear the before-navigate hook.
+ */
+export function clearBeforeNavigateHook() {
+  _beforeNavigateHook = null;
+}
 
 function _pageTitles() {
   return { dashboard: t('dashboard'), tasks: t('tasks'), createTask: t('createTask'), feed: t('feed'), wallet: t('wallet'), chat: t('chat'), support: t('support'), profile: t('profile'), leaderboard: t('leaderboard'), miniGames: t('miniGames'), dm: t('directMessages') };
@@ -75,6 +91,11 @@ export function initHashRouting() {
 }
 
 export function navigate(page) {
+  // Check if a beforeNavigate hook wants to cancel navigation
+  if (_beforeNavigateHook && typeof _beforeNavigateHook === 'function') {
+    if (_beforeNavigateHook(page) === false) return;
+  }
+
   appState.currentPage = page;
 
   // Sync URL hash — use pushState so browser back/forward works

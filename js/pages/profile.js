@@ -5,6 +5,7 @@ import { t, setLang } from '../i18n.js';
 import { apiFetch } from '../api.js';
 import { esc, fmtDate, fmtTime, fmtAgo, toast, setLoading, uid } from '../utils.js';
 import { navigate } from '../router.js';
+import { setBeforeNavigateHook, clearBeforeNavigateHook } from '../router.js';
 import { API } from '../constants.js';
 import { renderShell } from '../shell.js';
 import { renderAuth } from './auth.js';
@@ -144,7 +145,7 @@ export function renderProfile(el){
                   <div style="font-size:13px;font-weight:600;">@${esc(appState.currentUser.username)}</div>
                   <div style="font-size:11px;color:var(--muted);">${fmtAgo(p.created_at)}</div>
                 </div>
-                <button class="action-btn" data-delete-profile-post="${p.id}" style="color:var(--danger);font-size:13px;">🗑</button>
+                <button class="action-btn" data-delete-profile-post="${p.id}" style="color:var(--danger);font-size:13px;" aria-label="${t('deletePost') || 'Delete post'}">🗑</button>
               </div>
               <div style="font-size:14px;line-height:1.6;">${esc(p.text)}</div>
             </div>
@@ -196,6 +197,20 @@ export function renderProfile(el){
   // Unsaved changes warning
   if (typeof window !== 'undefined') window.addEventListener('beforeunload', _beforeUnload);
 
+  // SPA navigation guard for unsaved profile changes
+  setBeforeNavigateHook((targetPage) => {
+    if (targetPage === 'profile') return; // navigating to same page is fine
+    if (_profileDirty) {
+      if (!confirm(t('unsavedChanges') || 'You have unsaved changes. Leave anyway?')) {
+        return false;
+      }
+      _profileDirty = false;
+    }
+    // Clean up when leaving profile page
+    window.removeEventListener('beforeunload', _beforeUnload);
+    clearBeforeNavigateHook();
+  });
+
   // Copy profile link
   document.getElementById('copyProfileLinkBtn')?.addEventListener('click', () => {
     const link = `${location.origin}/#profile/${appState.currentUser?.username||''}`;
@@ -212,10 +227,11 @@ export function renderProfile(el){
   document.getElementById('buyPointsBtn')?.addEventListener('click',buyPointsPack);
 
   document.getElementById('exchInitBtn')?.addEventListener('click',async()=>{
-    const amount=parseFloat(document.getElementById('exchAmount')?.value)||0;
+    const amountInput=document.getElementById('exchAmount');
+    const amount=parseFloat(amountInput?.value)||0;
     const network=document.getElementById('exchNetwork')?.value||'TRC20';
     const alertEl=document.getElementById('exchangeAlert');
-    if(amount<1||amount>10000){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=t('exchangerRange');}return;}
+    if(isNaN(amount)||amount<1||amount>10000){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=t('exchangerRange');}return;}
     const {ok,data}=await apiFetch(API.cryptoDeposit,{method:'POST',body:JSON.stringify({action:'initiate',amount,network})});
     if(!ok){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=data.message||t('exchangerError');}return;}
     const step2=document.getElementById('exchangeStep2');

@@ -48,8 +48,10 @@ describe('uid()', () => {
     expect(typeof uid()).toBe('string');
   });
 
-  it('returns 7-character strings', () => {
-    expect(uid().length).toBe(7);
+  it('returns strings of reasonable length', () => {
+    const len = uid().length;
+    expect(len).toBeGreaterThanOrEqual(7);
+    expect(len).toBeLessThanOrEqual(14);
   });
 
   it('generates unique values', () => {

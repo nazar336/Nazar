@@ -28,7 +28,8 @@ $user = $stmt->fetch();
 if (!$user) {
     // Session user no longer valid — reset
     session_destroy();
-    json_response(['success' => true, 'user' => [
+    start_secure_session();
+    json_response(['success' => true, 'csrf_token' => csrf_token(), 'user' => [
         'id' => 0, 'name' => 'Guest', 'username' => 'guest_user',
         'email' => 'guest@lolanceizi.local', 'is_guest' => true,
     ]]);

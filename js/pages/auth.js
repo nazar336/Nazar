@@ -7,6 +7,7 @@ import { renderAnimatedBrandLayer, toast, showAlert, hideAlert, setLoading } fro
 import { API } from '../constants.js';
 import { renderShell } from '../shell.js';
 import { renderVerification } from './verify.js';
+import { startSync, stopSync } from '../sync.js';
 
 function getPasswordStrength(pwd) {
   if (!pwd) return { level: 0, label: 'weak', color: 'var(--danger)' };
@@ -306,7 +307,10 @@ export async function handleLogin(e){
   hideAlert('authAlert');setLoading(btn,true);
   const {ok,data}=await apiFetch(API.login,{method:'POST',body:JSON.stringify({email,password})});
   setLoading(btn,false);
-  if(ok){appState.currentUser=data.user;appState.isGuest=false;loadState();toast(t('loginSuccess'),'success');renderShell();}
+  if(ok){
+    if(data.csrf_token) appState.csrfToken=data.csrf_token;
+    appState.currentUser=data.user;appState.isGuest=false;loadState();toast(t('loginSuccess'),'success');renderShell();startSync();
+  }
   else {
     // If the account needs verification, redirect to verification page
     if(data.needs_verification && data.user_id){
@@ -339,7 +343,8 @@ export async function handleRegister(e){
 }
 
 export async function doLogout(){
+  stopSync();
   await apiFetch(API.logout,{method:'POST'});
-  appState.currentUser=null;toast(t('logoutSuccess'),'info');renderAuth();
+  appState.currentUser=null;appState.isGuest=false;appState.csrfToken=null;toast(t('logoutSuccess'),'info');renderAuth();
 }
 

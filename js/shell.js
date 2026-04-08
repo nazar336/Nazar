@@ -92,7 +92,7 @@ export function renderShell() {
       <div class="mobile-nav-more-overlay" id="moreMenuOverlay"></div>
       <div class="mobile-nav-more" id="moreMenu" aria-hidden="true">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-          <div style="font-size:15px;font-weight:800;">${t('more') || 'More'}</div>
+          <div style="font-size:15px;font-weight:800;">${t('more')}</div>
           <button class="btn btn-ghost btn-xs" id="moreMenuClose">✕</button>
         </div>
         <div class="mobile-nav-more-grid">
@@ -102,7 +102,7 @@ export function renderShell() {
       <nav class="mobile-nav" aria-label="Mobile navigation">
         <div class="mobile-nav-inner">
           ${mobItems.map(n => `<button class="mob-btn${appState.currentPage === n.page ? ' active' : ''}" data-page="${n.page}" aria-label="${n.label}"><span class="icon" aria-hidden="true">${n.icon}</span><span>${n.label}</span></button>`).join('')}
-          <button class="mob-btn" id="moreMenuToggle" aria-label="${t('more') || 'More'}"><span class="icon" aria-hidden="true">≡</span><span>${t('more') || 'More'}</span></button>
+          <button class="mob-btn" id="moreMenuToggle" aria-label="${t('more')}"><span class="icon" aria-hidden="true">≡</span><span>${t('more')}</span></button>
         </div>
       </nav>
     </div>`;
@@ -110,7 +110,7 @@ export function renderShell() {
   const np = document.getElementById('notifPanel');
   if (np) {
     np.innerHTML = `
-      <div class="notif-head"><h4>${t('notifications')}</h4><div class="notif-head-actions"><button class="btn btn-ghost btn-xs" id="clearAllNotifsBtn">${t('clearAll') || 'Clear all'}</button><button class="btn btn-ghost btn-xs" id="markReadBtn">${t('markRead')}</button></div></div>
+      <div class="notif-head"><h4>${t('notifications')}</h4><div class="notif-head-actions"><button class="btn btn-ghost btn-xs" id="clearAllNotifsBtn">${t('clearAll')}</button><button class="btn btn-ghost btn-xs" id="markReadBtn">${t('markRead')}</button></div></div>
       <div class="notif-list">${appState.S.notifications.length ? appState.S.notifications.map(n => `<div class="notif-item${n.read ? '' : ' unread'}"><div>${esc(n.text)}</div><div class="notif-time">${fmtAgo(n.timestamp)}</div></div>`).join('') : `<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">${t('noNotifications')}</div>`}</div>`;
   }
 

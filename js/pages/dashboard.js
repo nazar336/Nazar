@@ -46,7 +46,7 @@ export function renderDashboard(el){
 
       <!-- Refresh -->
       <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
-        <button class="btn btn-ghost btn-sm" id="dashRefreshBtn">${t('refresh') || 'Refresh'}</button>
+        <button class="btn btn-ghost btn-sm" id="dashRefreshBtn">${t('refresh')}</button>
       </div>
 
       <!-- Stats -->
@@ -170,7 +170,7 @@ export function renderDashboard(el){
         <div>
           <div class="section-title">${t('trendingTasks')} <span class="count">${trending.length}</span></div>
           <div style="display:flex;flex-direction:column;gap:10px;">
-            ${!tasksLoaded?`<div class="card card-sm" style="text-align:center;padding:20px;color:var(--muted);"><span class="btn-loading" style="display:inline-block;width:18px;height:18px;vertical-align:middle;margin-right:6px;"></span>${t('loading') || 'Loading…'}</div>`:trending.length===0?`<div class="card card-sm" style="text-align:center;padding:20px;"><div style="font-size:14px;color:var(--muted);">${t('noTrendingTasks') || 'No trending tasks right now'}</div></div>`:trending.map(task=>`
+            ${!tasksLoaded?`<div class="card card-sm" style="text-align:center;padding:20px;color:var(--muted);"><span class="btn-loading" style="display:inline-block;width:18px;height:18px;vertical-align:middle;margin-right:6px;"></span>${t('loading')}</div>`:trending.length===0?`<div class="card card-sm" style="text-align:center;padding:20px;"><div style="font-size:14px;color:var(--muted);">${t('noTrendingTasks')}</div></div>`:trending.map(task=>`
               <div class="card card-sm" style="cursor:pointer;" data-nav="tasks">
                 <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
                   <div>
@@ -189,7 +189,7 @@ export function renderDashboard(el){
         <!-- Mini leaderboard -->
         <div>
           <div class="section-title">${t('miniLeaderboard')}</div>
-          ${!lbLoaded?`<div class="card" style="text-align:center;padding:20px;color:var(--muted);"><span class="btn-loading" style="display:inline-block;width:18px;height:18px;vertical-align:middle;margin-right:6px;"></span>${t('loading') || 'Loading…'}</div>`:mini.length===0?`<div class="card" style="text-align:center;padding:20px;"><div style="font-size:14px;color:var(--muted);">${t('noLeaderboard') || 'Leaderboard is empty'}</div></div>`:`<div class="card" style="padding:0;">
+          ${!lbLoaded?`<div class="card" style="text-align:center;padding:20px;color:var(--muted);"><span class="btn-loading" style="display:inline-block;width:18px;height:18px;vertical-align:middle;margin-right:6px;"></span>${t('loading')}</div>`:mini.length===0?`<div class="card" style="text-align:center;padding:20px;"><div style="font-size:14px;color:var(--muted);">${t('noLeaderboard')}</div></div>`:`<div class="card" style="padding:0;">
             ${mini.map((u,i)=>`
               <div style="display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:${i<mini.length-1?'1px solid var(--line)':'none'};">
                 <div style="font-size:13px;font-weight:800;color:${i===0?'var(--primary)':i===1?'var(--info)':'var(--muted)'};width:16px;">#${i+1}</div>

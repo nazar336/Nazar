@@ -91,4 +91,9 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-init();
+init().catch((err) => {
+  const app = document.getElementById('app');
+  if (app && !app.innerHTML.trim()) {
+    app.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100vh;color:var(--danger,#ff6b6b);font-size:15px;text-align:center;padding:20px;">Something went wrong. Please reload the page.</div>`;
+  }
+});

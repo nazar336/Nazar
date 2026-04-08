@@ -3,6 +3,7 @@
 import { appState, saveState, syncProfile, loadWallet, loadPoints } from './state.js';
 import { apiFetch } from './api.js';
 import { API } from './constants.js';
+import { t } from './i18n.js';
 
 let _syncInterval = null;
 let _visibilityHandler = null;
@@ -22,7 +23,7 @@ function showSyncIndicator() {
     el = document.createElement('div');
     el.id = 'syncIndicator';
     el.className = 'sync-indicator';
-    el.innerHTML = '<span class="spinner" style="width:12px;height:12px;border:2px solid rgba(255,255,255,.1);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite;"></span> Syncing…';
+    el.innerHTML = `<span class="spinner" style="width:12px;height:12px;border:2px solid rgba(255,255,255,.1);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite;"></span> ${t('syncing')}`;
     document.body.appendChild(el);
   }
   el.classList.add('visible');
@@ -38,7 +39,7 @@ function updateOfflineBar(offline) {
     bar = document.createElement('div');
     bar.id = 'offlineBar';
     bar.className = 'offline-bar';
-    bar.textContent = '⚡ Offline — changes will sync when back online';
+    bar.textContent = `⚡ ${t('offlineText')}`;
     document.body.appendChild(bar);
   }
   bar.classList.toggle('visible', offline);

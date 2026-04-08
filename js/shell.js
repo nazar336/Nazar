@@ -48,7 +48,6 @@ export function renderShell() {
   if (!app) return;
 
   app.innerHTML = `
-    <div class="scroll-progress" aria-hidden="true"><span id="scrollProgressBar"></span></div>
     <div class="shell">
       <aside class="sidebar">
         <div class="sidebar-logo">
@@ -178,9 +177,19 @@ export function renderShell() {
     const tag = (e.target.tagName || '').toLowerCase();
     if (tag === 'input' || tag === 'textarea' || e.target.isContentEditable) return;
 
-    if (e.key === 'Escape' && appState.notifOpen) {
-      toggleNotif();
-      e.preventDefault();
+    if (e.key === 'Escape') {
+      // Close notifications
+      if (appState.notifOpen) {
+        toggleNotif();
+        e.preventDefault();
+        return;
+      }
+      // Close mobile "More" menu
+      if (moreMenu && moreMenu.classList.contains('open')) {
+        closeMoreMenu();
+        e.preventDefault();
+        return;
+      }
     }
     if (e.key === '/' && appState.currentPage === 'tasks') {
       const search = document.querySelector('[data-search-tasks], #taskSearch, input[placeholder*="earch"]');

@@ -2406,11 +2406,14 @@ h1,h2,h3,h4,h5,h6 { line-height:1.25; }
 .btn-fullscreen:active { transform:scale(.9); }
 
 /* ── Language selector modal ──────────────────────────────── */
+/* Prevent background scrolling when modal is open */
+body:has(.lang-modal-overlay) { overflow:hidden; }
 .lang-modal-overlay {
   position:fixed; inset:0; background:rgba(0,0,0,.6);
   z-index:9000; display:flex; align-items:center; justify-content:center;
   animation:fadeIn .2s ease;
   -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+  overflow-y:auto;
 }
 .lang-modal {
   background:var(--panel-2); border:1px solid var(--line-2);

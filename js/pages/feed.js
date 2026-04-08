@@ -342,22 +342,29 @@ export function renderFeed(el){
   }
 
   // Publish
+  let _publishing = false;
   document.getElementById('feedPublishBtn')?.addEventListener('click',async()=>{
+    if(_publishing) return;
     const text=(document.getElementById('feedPostText')?.value||'').trim();
     if(!text){toast(t('required'),'error');return;}
     const mediaUrl=(document.getElementById('feedMediaUrl')?.value||'').trim();
     const mediaSec=document.getElementById('feedMediaSection');
     const hasMedia=mediaSec && mediaSec.style.display!=='none' && mediaUrl;
     const btn=document.getElementById('feedPublishBtn');
+    _publishing = true;
     setLoading(btn,true);
-    const body={action:'create',text};
-    if(hasMedia){body.media_url=mediaUrl;body.media_type=mediaType;}
-    const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify(body)});
-    setLoading(btn,false);
-    if(!ok){toast(data.message||'Error','error');return;}
-    // Prepend new post
-    if(data.post) appState.S.feedPosts=[(data.post),...(appState.S.feedPosts||[])];
-    saveState();toast(t('postCreated'),'success');
-    navigate('feed');
+    try {
+      const body={action:'create',text};
+      if(hasMedia){body.media_url=mediaUrl;body.media_type=mediaType;}
+      const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify(body)});
+      if(!ok){toast(data.message||'Error','error');return;}
+      // Prepend new post
+      if(data.post) appState.S.feedPosts=[(data.post),...(appState.S.feedPosts||[])];
+      saveState();toast(t('postCreated'),'success');
+      navigate('feed');
+    } finally {
+      _publishing = false;
+      setLoading(btn,false);
+    }
   });
 }

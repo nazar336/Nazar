@@ -132,5 +132,15 @@ export function renderPage(page, el) {
   if (page === 'dm' && !appState.isGuest) loadMessages();
 
   const renderer = Object.prototype.hasOwnProperty.call(pages, page) ? pages[page] : renderDashboard;
-  renderer(el);
+  try {
+    renderer(el);
+  } catch (err) {
+    console.error('Page render error:', page, err);
+    el.innerHTML = `<div class="card" style="text-align:center;padding:32px;">
+      <div style="font-size:36px;margin-bottom:12px;">⚠️</div>
+      <h3 style="margin-bottom:8px;">${t('errorGeneric') || 'Something went wrong'}</h3>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">${t('pageLoadError') || 'Failed to load this page. Please try again.'}</p>
+      <button class="btn btn-primary btn-sm" onclick="location.reload()">🔄 ${t('refresh') || 'Refresh'}</button>
+    </div>`;
+  }
 }

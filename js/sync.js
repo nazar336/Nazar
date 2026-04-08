@@ -39,7 +39,7 @@ function updateOfflineBar(offline) {
     bar = document.createElement('div');
     bar.id = 'offlineBar';
     bar.className = 'offline-bar';
-    bar.textContent = `⚡ ${t('offlineText')}`;
+    bar.textContent = `⚡ ${t('offlineText')} — ${t('offlineCachedData') || 'showing cached data'}`;
     document.body.appendChild(bar);
   }
   bar.classList.toggle('visible', offline);

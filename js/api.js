@@ -4,7 +4,7 @@ import { appState } from './state.js';
 import { toast } from './utils.js';
 import { t } from './i18n.js';
 
-const DEFAULT_TIMEOUT = 10000; // 10 seconds
+const DEFAULT_TIMEOUT = 15000; // 15 seconds — more tolerant for 3G
 const MAX_RETRIES = 2;
 const RETRY_BASE_MS = 300;
 

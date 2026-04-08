@@ -88,6 +88,9 @@ const MAX_BET = 5000;
    MAIN RENDER
    ═══════════════════════════════════════════════ */
 export function renderMiniGames(el) {
+  // Clean up any previous chart animation
+  if (chartAnimFrame) { cancelAnimationFrame(chartAnimFrame); chartAnimFrame = null; }
+
   const coins = appState.S.coinBalance || 0;
   const xp = appState.S.xp || 0;
   const level = appState.S.level || 1;
@@ -281,7 +284,7 @@ function renderPricePrediction(area) {
     <div style="display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin-bottom:14px;">
       <div style="flex:1;min-width:120px;">
         <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:4px;">${t('betAmount')}</label>
-        <input type="number" id="predBet" min="${MIN_BET}" max="${MAX_BET}" value="100" class="input" style="width:100%;">
+        <input type="number" id="predBet" min="${MIN_BET}" max="${MAX_BET}" value="100" class="input" style="width:100%;" inputmode="numeric" pattern="[0-9]*">
         <div style="font-size:11px;color:var(--muted);margin-top:2px;">${t('minBet')} · ${t('maxBet')}</div>
       </div>
       <div style="flex:1;min-width:140px;">

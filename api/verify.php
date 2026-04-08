@@ -112,7 +112,7 @@ try {
     $_SESSION['user_id'] = $userId;
     unset($_SESSION['is_guest']);
 
-    json_response(['success' => true, 'message' => 'Акаунт активований!', 'user' => public_user($user)]);
+    json_response(['success' => true, 'message' => 'Акаунт активований!', 'csrf_token' => csrf_token(), 'user' => public_user($user)]);
 } catch (\Exception $e) {
     if ($pdo->inTransaction()) $pdo->rollBack();
     error_log('Verify error: ' . $e->getMessage());

@@ -167,6 +167,12 @@ export const i18n = {
     fullscreen:'Fullscreen', exitFullscreen:'Exit Fullscreen',
     // Language modal
     chooseLanguage:'Choose Language',
+    // Error/status messages
+    imageUnavailable:'Image unavailable', noTransactions:'No transactions yet', transactionHistoryHint:'Your transaction history will appear here.',
+    totalDeposits:'Total Deposits', totalWithdrawals:'Total Withdrawals', netFlow:'Net Flow', newest:'Newest', showMore:'Show more',
+    ticketFailed:'Ticket creation failed.', copyProfileLink:'Copy profile link', profileSaveFailed:'Profile save failed.', copied:'Copied!',
+    invalidTaskId:'Invalid task ID.', errorTakingTask:'Error taking task.', errorGeneric:'Error',
+    resendCode:'Resend code', sendingCode:'Sending…', codeSentSuccess:'Code sent!', errorOccurred:'An error occurred.',
     // Feed modes
     classicView:'Classic', tiktokView:'Feed', feedSwipeHint:'Swipe up to see more',
     // Friends
@@ -354,6 +360,12 @@ export const i18n = {
     fullscreen:'Повний екран', exitFullscreen:'Вийти з повного екрану',
     // Language modal
     chooseLanguage:'Оберіть мову',
+    // Error/status messages
+    imageUnavailable:'Зображення недоступне', noTransactions:'Транзакцій поки немає', transactionHistoryHint:'Ваша історія транзакцій з\'явиться тут.',
+    totalDeposits:'Всього депозитів', totalWithdrawals:'Всього виведень', netFlow:'Чистий потік', newest:'Найновіші', showMore:'Показати більше',
+    ticketFailed:'Помилка створення тікета.', copyProfileLink:'Скопіювати посилання', profileSaveFailed:'Помилка збереження профілю.', copied:'Скопійовано!',
+    invalidTaskId:'Невірний ID задачі.', errorTakingTask:'Помилка взяття задачі.', errorGeneric:'Помилка',
+    resendCode:'Відправити код повторно', sendingCode:'Відправляємо…', codeSentSuccess:'Код відправлено!', errorOccurred:'Сталась помилка.',
     // Feed modes
     classicView:'Класичний', tiktokView:'Стрічка', feedSwipeHint:'Гортайте вгору щоб побачити більше',
     // Friends
@@ -528,6 +540,12 @@ export const i18n = {
     fullscreen:'Vollbild', exitFullscreen:'Vollbild beenden',
     // Language modal
     chooseLanguage:'Sprache wählen',
+    // Error/status messages
+    imageUnavailable:'Bild nicht verfügbar', noTransactions:'Noch keine Transaktionen', transactionHistoryHint:'Ihre Transaktionshistorie erscheint hier.',
+    totalDeposits:'Gesamteinzahlungen', totalWithdrawals:'Gesamtauszahlungen', netFlow:'Nettoumsatz', newest:'Neueste', showMore:'Mehr anzeigen',
+    ticketFailed:'Ticket-Erstellung fehlgeschlagen.', copyProfileLink:'Profillink kopieren', profileSaveFailed:'Profil speichern fehlgeschlagen.', copied:'Kopiert!',
+    invalidTaskId:'Ungültige Aufgaben-ID.', errorTakingTask:'Fehler beim Annehmen.', errorGeneric:'Fehler',
+    resendCode:'Code erneut senden', sendingCode:'Senden…', codeSentSuccess:'Code gesendet!', errorOccurred:'Ein Fehler ist aufgetreten.',
     // Feed modes
     classicView:'Klassisch', tiktokView:'Feed', feedSwipeHint:'Nach oben wischen für mehr',
     // Friends
@@ -701,6 +719,12 @@ export const i18n = {
     fullscreen:'Plein écran', exitFullscreen:'Quitter le plein écran',
     // Language modal
     chooseLanguage:'Choisir la langue',
+    // Error/status messages
+    imageUnavailable:'Image indisponible', noTransactions:'Aucune transaction', transactionHistoryHint:'Votre historique de transactions apparaîtra ici.',
+    totalDeposits:'Total des dépôts', totalWithdrawals:'Total des retraits', netFlow:'Flux net', newest:'Plus récents', showMore:'Voir plus',
+    ticketFailed:'Échec de la création du ticket.', copyProfileLink:'Copier le lien du profil', profileSaveFailed:'Échec de la sauvegarde du profil.', copied:'Copié !',
+    invalidTaskId:'ID de tâche invalide.', errorTakingTask:'Erreur lors de la prise de tâche.', errorGeneric:'Erreur',
+    resendCode:'Renvoyer le code', sendingCode:'Envoi en cours…', codeSentSuccess:'Code envoyé !', errorOccurred:'Une erreur est survenue.',
     // Feed modes
     classicView:'Classique', tiktokView:'Fil', feedSwipeHint:'Glissez vers le haut pour voir plus',
     // Friends
@@ -874,6 +898,12 @@ export const i18n = {
     fullscreen:'Pantalla completa', exitFullscreen:'Salir de pantalla completa',
     // Language modal
     chooseLanguage:'Elegir idioma',
+    // Error/status messages
+    imageUnavailable:'Imagen no disponible', noTransactions:'Sin transacciones aún', transactionHistoryHint:'Tu historial de transacciones aparecerá aquí.',
+    totalDeposits:'Total depósitos', totalWithdrawals:'Total retiros', netFlow:'Flujo neto', newest:'Más recientes', showMore:'Ver más',
+    ticketFailed:'Error al crear el ticket.', copyProfileLink:'Copiar enlace del perfil', profileSaveFailed:'Error al guardar el perfil.', copied:'¡Copiado!',
+    invalidTaskId:'ID de tarea inválido.', errorTakingTask:'Error al tomar la tarea.', errorGeneric:'Error',
+    resendCode:'Reenviar código', sendingCode:'Enviando…', codeSentSuccess:'¡Código enviado!', errorOccurred:'Ha ocurrido un error.',
     // Feed modes
     classicView:'Clásico', tiktokView:'Feed', feedSwipeHint:'Desliza hacia arriba para ver más',
     // Friends
@@ -1047,6 +1077,12 @@ export const i18n = {
     fullscreen:'Pełny ekran', exitFullscreen:'Wyjdź z pełnego ekranu',
     // Language modal
     chooseLanguage:'Wybierz język',
+    // Error/status messages
+    imageUnavailable:'Obraz niedostępny', noTransactions:'Brak transakcji', transactionHistoryHint:'Historia transakcji pojawi się tutaj.',
+    totalDeposits:'Łączne wpłaty', totalWithdrawals:'Łączne wypłaty', netFlow:'Przepływ netto', newest:'Najnowsze', showMore:'Pokaż więcej',
+    ticketFailed:'Nie udało się utworzyć zgłoszenia.', copyProfileLink:'Kopiuj link do profilu', profileSaveFailed:'Nie udało się zapisać profilu.', copied:'Skopiowano!',
+    invalidTaskId:'Nieprawidłowe ID zadania.', errorTakingTask:'Błąd podczas przyjmowania zadania.', errorGeneric:'Błąd',
+    resendCode:'Wyślij kod ponownie', sendingCode:'Wysyłanie…', codeSentSuccess:'Kod wysłany!', errorOccurred:'Wystąpił błąd.',
     // Feed modes
     classicView:'Klasyczny', tiktokView:'Feed', feedSwipeHint:'Przesuń w górę, aby zobaczyć więcej',
     // Friends

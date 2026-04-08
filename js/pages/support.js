@@ -161,7 +161,7 @@ export function renderSupport(el){
       description:details||subj
     })});
     setLoading(btn,false);
-    if(!ok){showAlert('tkAlert',data.message||'Ticket creation failed.');return;}
+    if(!ok){showAlert('tkAlert',data.message||t('ticketFailed'));return;}
     await loadSupport();
     e.target.reset();
     toast(t('ticketDone'),'success');

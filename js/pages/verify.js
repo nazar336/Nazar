@@ -76,7 +76,7 @@ export function renderVerification(userId, email){
           </form>
 
           <div class="auth-footer" style="margin-top:24px;text-align:center;">
-            <button type="button" id="resendCodeBtn" class="link-btn" style="margin-bottom:8px;">${t('resendCode') || 'Надіслати код повторно'}</button>
+            <button type="button" id="resendCodeBtn" class="link-btn" style="margin-bottom:8px;">${t('resendCode')}</button>
             <div id="resendStatus" style="font-size:12px;min-height:18px;color:var(--text-soft);"></div>
             <button type="button" id="backToAuth" class="link-btn">${t('backToLogin')}</button>
           </div>
@@ -124,7 +124,7 @@ export function renderVerification(userId, email){
     const resendBtn = document.getElementById('resendCodeBtn');
     const resendStatus = document.getElementById('resendStatus');
     if (resendBtn) { resendBtn.disabled = true; resendBtn.style.opacity = '.5'; }
-    if (resendStatus) resendStatus.textContent = t('sending') || 'Відправляємо...';
+    if (resendStatus) resendStatus.textContent = t('sendingCode');
     
     const {ok, data} = await apiFetch(API.verify, {
       method: 'POST',
@@ -132,7 +132,7 @@ export function renderVerification(userId, email){
     });
     
     if (resendStatus) {
-      resendStatus.textContent = data.message || (ok ? (t('codeSent') || 'Код відправлено!') : (t('resendFailed') || 'Помилка.'));
+      resendStatus.textContent = data.message || (ok ? t('codeSentSuccess') : t('errorOccurred'));
       resendStatus.style.color = ok ? 'var(--success)' : 'var(--danger)';
     }
     

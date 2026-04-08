@@ -47,8 +47,8 @@ export function renderWallet(el){
     if (!allTxs.length) {
       tbody.innerHTML = `<tr><td colspan="4" style="padding:32px;text-align:center;color:var(--muted);">
         <div style="font-size:36px;margin-bottom:8px;">📭</div>
-        <div style="font-size:14px;font-weight:600;">${t('noTransactions') || 'No transactions yet'}</div>
-        <div style="font-size:12px;margin-top:4px;">${t('noTransactionsDesc') || 'Your transaction history will appear here.'}</div>
+        <div style="font-size:14px;font-weight:600;">${t('noTransactions')}</div>
+        <div style="font-size:12px;margin-top:4px;">${t('transactionHistoryHint')}</div>
       </td></tr>`;
       const showMoreWrap = document.getElementById('txShowMoreWrap');
       if (showMoreWrap) showMoreWrap.style.display = 'none';
@@ -75,7 +75,7 @@ export function renderWallet(el){
     if (showMoreWrap) {
       showMoreWrap.style.display = allTxs.length > TX_PAGE_SIZE ? 'block' : 'none';
       const showMoreBtn = document.getElementById('txShowMoreBtn');
-      if (showMoreBtn) showMoreBtn.textContent = txShowAll ? `▲ ${t('showLess') || 'Show less'}` : `▼ ${t('showMore') || 'Show more'} (${allTxs.length - TX_PAGE_SIZE})`;
+      if (showMoreBtn) showMoreBtn.textContent = txShowAll ? `▲ ${t('showLess')}` : `▼ ${t('showMore')} (${allTxs.length - TX_PAGE_SIZE})`;
     }
   }
 
@@ -94,15 +94,15 @@ export function renderWallet(el){
     wrap.innerHTML = `
       <div style="display:flex;gap:16px;flex-wrap:wrap;">
         <div style="flex:1;min-width:120px;padding:12px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:var(--r-sm);text-align:center;">
-          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.06em;">↗ ${t('totalDeposits') || 'Total Deposits'}</div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.06em;">↗ ${t('totalDeposits')}</div>
           <div style="font-size:20px;font-weight:800;color:var(--success);margin-top:4px;">+${totalDeposits.toLocaleString()} 🪙</div>
         </div>
         <div style="flex:1;min-width:120px;padding:12px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:var(--r-sm);text-align:center;">
-          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.06em;">↘ ${t('totalWithdrawals') || 'Total Withdrawals'}</div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.06em;">↘ ${t('totalWithdrawals')}</div>
           <div style="font-size:20px;font-weight:800;color:var(--danger);margin-top:4px;">-${totalWithdrawals.toLocaleString()} 🪙</div>
         </div>
         <div style="flex:1;min-width:120px;padding:12px;background:rgba(184,255,92,.06);border:1px solid rgba(184,255,92,.15);border-radius:var(--r-sm);text-align:center;">
-          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.06em;">⚖ ${t('netFlow') || 'Net Flow'}</div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.06em;">⚖ ${t('netFlow')}</div>
           <div style="font-size:20px;font-weight:800;color:var(--primary);margin-top:4px;">${(totalDeposits - totalWithdrawals) >= 0 ? '+' : ''}${(totalDeposits - totalWithdrawals).toLocaleString()} 🪙</div>
         </div>
       </div>`;
@@ -190,7 +190,7 @@ export function renderWallet(el){
             <h1 class="page-header-title">${t('wallet')}</h1>
             <p class="page-header-desc">${t('walletPageDesc')}</p>
           </div>
-          <div><button class="btn btn-ghost btn-sm" id="walletRefreshBtn">🔄 ${t('refresh') || 'Refresh'}</button></div>
+          <div><button class="btn btn-ghost btn-sm" id="walletRefreshBtn">🔄 ${t('refresh')}</button></div>
         </div>
       </div>
 
@@ -249,7 +249,7 @@ export function renderWallet(el){
       <div class="card" style="padding:0;">
         <div style="padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;">
           <div style="font-size:14px;font-weight:700;">${t('txHistory')}</div>
-          <button class="btn btn-ghost btn-xs" id="txSortToggle" style="font-size:12px;">⇅ ${t('newest') || 'Newest'}</button>
+          <button class="btn btn-ghost btn-xs" id="txSortToggle" style="font-size:12px;">⇅ ${t('newest')}</button>
         </div>
         <div class="table-wrap" style="overflow-x:auto;">
           <table style="width:100%;border-collapse:collapse;font-size:14px;">
@@ -263,7 +263,7 @@ export function renderWallet(el){
           </table>
         </div>
         <div id="txShowMoreWrap" style="padding:12px;text-align:center;border-top:1px solid var(--line);display:none;">
-          <button class="btn btn-ghost btn-sm" id="txShowMoreBtn">▼ ${t('showMore') || 'Show more'}</button>
+          <button class="btn btn-ghost btn-sm" id="txShowMoreBtn">▼ ${t('showMore')}</button>
         </div>
       </div>
     </div>`;

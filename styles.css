@@ -629,6 +629,7 @@ h1,h2,h3,h4,h5,h6 { line-height:1.25; }
 .notif-panel.open { transform:none; opacity:1; pointer-events:all; }
 .notif-head { padding:14px 16px; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; }
 .notif-head h4 { font-size:14px; font-weight:700; }
+.notif-head-actions { display:flex; gap:4px; }
 .notif-list { overflow-y:auto; max-height:320px; }
 .notif-item { padding:12px 16px; border-bottom:1px solid rgba(255,255,255,.04); font-size:13px; line-height:1.5; }
 .notif-item.unread { background:rgba(184,255,92,.04); }

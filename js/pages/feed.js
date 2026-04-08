@@ -29,8 +29,9 @@ export function renderFeed(el){
     try { return new Date(iso).toLocaleString(); } catch(_){ return iso; }
   }
 
+  const _imgUnavail = t('imageUnavailable');
   function imgErrorHandler(){
-    return `onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'padding:30px;text-align:center;color:var(--muted);background:rgba(255,255,255,.03);border-radius:12px;\\'>🖼️ Image unavailable</div>')"`;
+    return `onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'padding:30px;text-align:center;color:var(--muted);background:rgba(255,255,255,.03);border-radius:12px;\\'>🖼️ ${_imgUnavail}</div>')"`;
   }
 
   function renderPostCards(){
@@ -335,7 +336,7 @@ export function renderFeed(el){
     if(type==='video'){
       prev.innerHTML=`<video src="${esc(url)}" controls preload="metadata" style="width:100%;max-height:200px;border-radius:8px;background:#000;"></video>`;
     } else {
-      prev.innerHTML=`<img src="${esc(url)}" alt="" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'padding:16px;text-align:center;color:var(--muted);\\'>🖼️ Image unavailable</div>')">`;
+      prev.innerHTML=`<img src="${esc(url)}" alt="" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'padding:16px;text-align:center;color:var(--muted);\\'>🖼️ ${_imgUnavail}</div>')">`;
     }
   }
 

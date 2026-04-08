@@ -2,18 +2,45 @@
   "name": "Lolanceizi — Premium Micro-Task Platform",
   "short_name": "Lolanceizi",
   "description": "Complete engaging tasks, grow and earn while connecting with a global community.",
-  "start_url": "/",
+  "start_url": "/?source=pwa",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#070b08",
   "theme_color": "#b8ff43",
   "orientation": "any",
   "categories": ["business", "finance", "productivity"],
   "lang": "uk",
+  "dir": "ltr",
   "icons": [
-    { "src": "assets/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any maskable" },
-    { "src": "assets/icon-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any maskable" }
+    { "src": "assets/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "maskable" },
+    { "src": "assets/icon-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/icon-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "maskable" }
   ],
   "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "url": "/#dashboard",
+      "icons": [{ "src": "assets/icon-192.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Tasks",
+      "short_name": "Tasks",
+      "url": "/#tasks",
+      "icons": [{ "src": "assets/icon-192.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Wallet",
+      "short_name": "Wallet",
+      "url": "/#wallet",
+      "icons": [{ "src": "assets/icon-192.svg", "sizes": "192x192" }]
+    }
+  ],
   "related_applications": [],
-  "prefer_related_applications": false
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
 }

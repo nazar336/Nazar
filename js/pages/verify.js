@@ -7,6 +7,7 @@ import { renderAnimatedBrandLayer, toast, showAlert, setLoading } from '../utils
 import { API } from '../constants.js';
 import { renderShell } from '../shell.js';
 import { renderAuth } from './auth.js';
+import { startSync } from '../sync.js';
 
 export function renderVerification(userId, email){
   // Persist verification state in localStorage so it survives page refresh
@@ -197,11 +198,13 @@ export async function handleVerify(e, userId){
   
   if(ok){
     try { localStorage.removeItem('lolanceizi_verify'); } catch(e) {}
+    if(data.csrf_token) appState.csrfToken=data.csrf_token;
     appState.currentUser = data.user;
     appState.isGuest = false;
     loadState();
     toast(t('verifySuccess'), 'success');
     renderShell();
+    startSync();
   } else {
     showAlert('verifyAlert', data.message || t('wrongCode'));
   }

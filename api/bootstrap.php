@@ -55,7 +55,7 @@ function start_secure_session(): void {
         'domain'   => '',
         'secure'   => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
         'httponly' => true,
-        'samesite' => 'Strict',
+        'samesite' => 'Lax',
     ]);
     ini_set('session.gc_maxlifetime', (string)$maxLifetime);
     session_start();

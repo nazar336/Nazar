@@ -110,6 +110,7 @@ try {
     start_secure_session();
     session_regenerate_id(true);
     $_SESSION['user_id'] = $userId;
+    unset($_SESSION['is_guest']);
 
     json_response(['success' => true, 'message' => 'Акаунт активований!', 'user' => public_user($user)]);
 } catch (\Exception $e) {

@@ -10,63 +10,91 @@ import { delegate } from '../event-delegation.js';
 /* ═══════════════════════════════════════════════
    CASE DEFINITIONS
    5 cases from cheap to expensive.
-   Each case has a unique prize table with weighted odds.
-   Prizes: coins or XP. More expensive = better prizes but not overly generous.
+   Prize determination happens SERVER-SIDE (secure).
+   Client only displays the possible prizes and animations.
+   Prizes: coins or XP. Jackpots up to 100x possible but very rare.
+   House edge ≈ 27.4% ensures platform profitability.
    ═══════════════════════════════════════════════ */
 const CASES = [
   {
     id: 'bronze', cost: 50, emoji: '🥉', nameKey: 'caseBronze',
+    // Display-only prize tiers (actual roll happens on server)
     prizes: [
-      { type: 'coins', amount: 5,   weight: 35 },
-      { type: 'coins', amount: 15,  weight: 25 },
-      { type: 'xp',    amount: 3,   weight: 20 },
-      { type: 'coins', amount: 40,  weight: 12 },
-      { type: 'xp',    amount: 8,   weight: 5  },
-      { type: 'coins', amount: 80,  weight: 3  },
+      { type: 'xp',    amount: 3,     weight: 2000, rarity: 'common' },
+      { type: 'coins', amount: 5,     weight: 2199, rarity: 'common' },
+      { type: 'coins', amount: 12,    weight: 1500, rarity: 'common' },
+      { type: 'coins', amount: 25,    weight: 1200, rarity: 'uncommon' },
+      { type: 'coins', amount: 50,    weight: 600,  rarity: 'uncommon' },
+      { type: 'coins', amount: 100,   weight: 300,  rarity: 'rare' },
+      { type: 'coins', amount: 250,   weight: 200,  rarity: 'rare' },
+      { type: 'coins', amount: 500,   weight: 100,  rarity: 'epic' },
+      { type: 'coins', amount: 1000,  weight: 50,   rarity: 'epic' },
+      { type: 'coins', amount: 2500,  weight: 10,   rarity: 'legendary' },
+      { type: 'coins', amount: 5000,  weight: 1,    rarity: 'jackpot' },
     ]
   },
   {
     id: 'silver', cost: 150, emoji: '🥈', nameKey: 'caseSilver',
     prizes: [
-      { type: 'coins', amount: 20,  weight: 30 },
-      { type: 'coins', amount: 50,  weight: 25 },
-      { type: 'xp',    amount: 5,   weight: 18 },
-      { type: 'coins', amount: 120, weight: 15 },
-      { type: 'xp',    amount: 15,  weight: 8  },
-      { type: 'coins', amount: 250, weight: 4  },
+      { type: 'xp',    amount: 5,     weight: 2000, rarity: 'common' },
+      { type: 'coins', amount: 15,    weight: 2199, rarity: 'common' },
+      { type: 'coins', amount: 36,    weight: 1500, rarity: 'common' },
+      { type: 'coins', amount: 75,    weight: 1200, rarity: 'uncommon' },
+      { type: 'coins', amount: 150,   weight: 600,  rarity: 'uncommon' },
+      { type: 'coins', amount: 300,   weight: 300,  rarity: 'rare' },
+      { type: 'coins', amount: 750,   weight: 200,  rarity: 'rare' },
+      { type: 'coins', amount: 1500,  weight: 100,  rarity: 'epic' },
+      { type: 'coins', amount: 3000,  weight: 50,   rarity: 'epic' },
+      { type: 'coins', amount: 7500,  weight: 10,   rarity: 'legendary' },
+      { type: 'coins', amount: 15000, weight: 1,    rarity: 'jackpot' },
     ]
   },
   {
     id: 'gold', cost: 500, emoji: '🥇', nameKey: 'caseGold',
     prizes: [
-      { type: 'coins', amount: 50,  weight: 28 },
-      { type: 'coins', amount: 150, weight: 24 },
-      { type: 'xp',    amount: 10,  weight: 18 },
-      { type: 'coins', amount: 350, weight: 16 },
-      { type: 'xp',    amount: 25,  weight: 9  },
-      { type: 'coins', amount: 700, weight: 5  },
+      { type: 'xp',    amount: 10,    weight: 2000, rarity: 'common' },
+      { type: 'coins', amount: 50,    weight: 2199, rarity: 'common' },
+      { type: 'coins', amount: 120,   weight: 1500, rarity: 'common' },
+      { type: 'coins', amount: 250,   weight: 1200, rarity: 'uncommon' },
+      { type: 'coins', amount: 500,   weight: 600,  rarity: 'uncommon' },
+      { type: 'coins', amount: 1000,  weight: 300,  rarity: 'rare' },
+      { type: 'coins', amount: 2500,  weight: 200,  rarity: 'rare' },
+      { type: 'coins', amount: 5000,  weight: 100,  rarity: 'epic' },
+      { type: 'coins', amount: 10000, weight: 50,   rarity: 'epic' },
+      { type: 'coins', amount: 25000, weight: 10,   rarity: 'legendary' },
+      { type: 'coins', amount: 50000, weight: 1,    rarity: 'jackpot' },
     ]
   },
   {
     id: 'platinum', cost: 1500, emoji: '💠', nameKey: 'casePlatinum',
     prizes: [
-      { type: 'coins', amount: 150,  weight: 28 },
-      { type: 'coins', amount: 400,  weight: 22 },
-      { type: 'xp',    amount: 20,   weight: 18 },
-      { type: 'coins', amount: 900,  weight: 16 },
-      { type: 'xp',    amount: 50,   weight: 10 },
-      { type: 'coins', amount: 2000, weight: 6  },
+      { type: 'xp',    amount: 25,    weight: 2000, rarity: 'common' },
+      { type: 'coins', amount: 150,   weight: 2199, rarity: 'common' },
+      { type: 'coins', amount: 360,   weight: 1500, rarity: 'common' },
+      { type: 'coins', amount: 750,   weight: 1200, rarity: 'uncommon' },
+      { type: 'coins', amount: 1500,  weight: 600,  rarity: 'uncommon' },
+      { type: 'coins', amount: 3000,  weight: 300,  rarity: 'rare' },
+      { type: 'coins', amount: 7500,  weight: 200,  rarity: 'rare' },
+      { type: 'coins', amount: 15000, weight: 100,  rarity: 'epic' },
+      { type: 'coins', amount: 30000, weight: 50,   rarity: 'epic' },
+      { type: 'coins', amount: 75000, weight: 10,   rarity: 'legendary' },
+      { type: 'coins', amount: 150000,weight: 1,    rarity: 'jackpot' },
     ]
   },
   {
     id: 'diamond', cost: 5000, emoji: '💎', nameKey: 'caseDiamond',
     prizes: [
-      { type: 'coins', amount: 500,  weight: 25 },
-      { type: 'coins', amount: 1200, weight: 22 },
-      { type: 'xp',    amount: 40,   weight: 18 },
-      { type: 'coins', amount: 3000, weight: 17 },
-      { type: 'xp',    amount: 80,   weight: 10 },
-      { type: 'coins', amount: 6500, weight: 8  },
+      { type: 'xp',    amount: 50,    weight: 2000, rarity: 'common' },
+      { type: 'coins', amount: 500,   weight: 2199, rarity: 'common' },
+      { type: 'coins', amount: 1200,  weight: 1500, rarity: 'common' },
+      { type: 'coins', amount: 2500,  weight: 1200, rarity: 'uncommon' },
+      { type: 'coins', amount: 5000,  weight: 600,  rarity: 'uncommon' },
+      { type: 'coins', amount: 10000, weight: 300,  rarity: 'rare' },
+      { type: 'coins', amount: 25000, weight: 200,  rarity: 'rare' },
+      { type: 'coins', amount: 50000, weight: 100,  rarity: 'epic' },
+      { type: 'coins', amount: 100000,weight: 50,   rarity: 'epic' },
+      { type: 'coins', amount: 250000,weight: 10,   rarity: 'legendary' },
+      { type: 'coins', amount: 500000,weight: 1,    rarity: 'jackpot' },
     ]
   },
 ];
@@ -144,33 +172,47 @@ export function renderMiniGames(el) {
 
 /* ═══════════════════════════════════════════════
    GAME 1: CASE OPENING
+   Prizes are determined SERVER-SIDE for security.
    ═══════════════════════════════════════════════ */
+const RARITY_COLORS = {
+  common:    'rgba(255,255,255,.5)',
+  uncommon:  '#5cff8a',
+  rare:      '#4dc9f6',
+  epic:      '#c084fc',
+  legendary: '#fbbf24',
+  jackpot:   '#ff6b6b',
+};
+
 function renderCaseOpening(area) {
   const coins = appState.S.coinBalance || 0;
 
   area.innerHTML = `<div class="card card-sm">
     <div class="section-title" style="margin-bottom:14px;">📦 ${t('caseOpening')}</div>
     <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">${t('caseOpeningDesc')}</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;">
-      ${CASES.map(c => `
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;">
+      ${CASES.map(c => {
+        const totalWeight = c.prizes.reduce((s, x) => s + x.weight, 0);
+        const maxPrize = c.prizes.reduce((m, p) => p.type === 'coins' && p.amount > m ? p.amount : m, 0);
+        return `
         <div class="card card-sm" style="text-align:center;cursor:pointer;border:2px solid ${coins >= c.cost ? 'rgba(184,255,92,.3)' : 'rgba(255,255,255,.06)'};transition:all .2s;" data-case-id="${c.id}">
           <div style="font-size:36px;margin-bottom:6px;">${c.emoji}</div>
           <div style="font-weight:600;font-size:14px;margin-bottom:4px;">${t(c.nameKey)}</div>
-          <div style="color:var(--accent);font-weight:700;font-size:15px;margin-bottom:8px;">${c.cost} 🪙</div>
-          <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">
-            ${(() => {
-              const totalWeight = c.prizes.reduce((s, x) => s + x.weight, 0);
-              return c.prizes.map(p => {
-                const pct = Math.round(p.weight / totalWeight * 100);
-                return `${p.type === 'coins' ? '🪙' : '⭐'} ${p.amount} (${pct}%)`;
-              }).join('<br>');
-            })()}
+          <div style="color:var(--accent);font-weight:700;font-size:15px;margin-bottom:6px;">${c.cost} 🪙</div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:6px;line-height:1.6;">
+            ${c.prizes.filter(p => p.type === 'coins').slice(0, 6).map(p => {
+              const pct = (p.weight / totalWeight * 100);
+              const pctStr = pct < 0.1 ? '<0.1' : pct < 1 ? pct.toFixed(1) : Math.round(pct);
+              const color = RARITY_COLORS[p.rarity] || 'inherit';
+              const label = p.rarity === 'jackpot' ? ' 🔥' : p.rarity === 'legendary' ? ' ⭐' : '';
+              return `<span style="color:${color}">🪙 ${p.amount.toLocaleString()} (${pctStr}%)${label}</span>`;
+            }).join('<br>')}
+            ${c.prizes.filter(p => p.type === 'coins').length > 6 ? `<br><span style="color:${RARITY_COLORS.legendary}">...${t('andMore')} 🪙${maxPrize.toLocaleString()} ${t('jackpot')}!</span>` : ''}
           </div>
           <button class="btn btn-primary btn-sm open-case-btn" data-case="${c.id}" ${coins < c.cost ? 'disabled' : ''}>
             ${t('openCase')}
           </button>
         </div>
-      `).join('')}
+      `;}).join('')}
     </div>
   </div>`;
 
@@ -187,15 +229,12 @@ function renderCaseOpening(area) {
 
     setLoading(btn, true);
     try {
-      const prize = rollPrize(caseData);
+      // Server determines the prize (no client-side roll)
       const { ok, data } = await apiFetch(API.miniGames, {
         method: 'POST',
         body: JSON.stringify({
           action: 'case_open',
           case_id: caseId,
-          cost: caseData.cost,
-          prize_type: prize.type,
-          prize_amount: prize.amount,
         })
       });
 
@@ -203,6 +242,9 @@ function renderCaseOpening(area) {
         toast(data?.message || 'Error', 'error');
         return;
       }
+
+      // Prize comes from server response
+      const prize = { type: data.prize_type, amount: data.prize_amount };
 
       // Update local state
       appState.S.coinBalance = data.coin_balance ?? appState.S.coinBalance;
@@ -219,18 +261,18 @@ function renderCaseOpening(area) {
   });
 }
 
-function rollPrize(caseData) {
-  const totalWeight = caseData.prizes.reduce((s, p) => s + p.weight, 0);
-  let roll = Math.random() * totalWeight;
-  for (const prize of caseData.prizes) {
-    roll -= prize.weight;
-    if (roll <= 0) return prize;
-  }
-  return caseData.prizes[caseData.prizes.length - 1];
-}
-
 function showCaseResult(area, caseData, prize, data) {
   const isCoins = prize.type === 'coins';
+  const multiplier = isCoins ? (prize.amount / caseData.cost) : 0;
+  const isJackpot = multiplier >= 50;
+  const isEpic = multiplier >= 10;
+  const isRare = multiplier >= 5;
+  const isWin = isCoins && prize.amount >= caseData.cost;
+
+  const glowColor = isJackpot ? 'rgba(255,107,107,.15)' :
+                    isEpic ? 'rgba(192,132,252,.12)' :
+                    isWin ? 'rgba(184,255,92,.1)' :
+                    isCoins ? 'rgba(184,255,92,.06)' : 'rgba(192,132,252,.06)';
 
   // First show opening animation
   area.innerHTML = `<div class="card card-sm" style="text-align:center;">
@@ -241,12 +283,16 @@ function showCaseResult(area, caseData, prize, data) {
   // After animation, show result
   setTimeout(() => {
     area.innerHTML = `<div class="card card-sm" style="text-align:center;position:relative;overflow:hidden;">
-      <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 30%, ${isCoins ? 'rgba(184,255,92,.08)' : 'rgba(192,132,252,.08)'}, transparent 70%);pointer-events:none;"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 30%, ${glowColor}, transparent 70%);pointer-events:none;"></div>
       <div class="case-result-anim" style="font-size:64px;margin-bottom:12px;">${caseData.emoji}</div>
+      ${isJackpot ? '<div style="font-size:28px;font-weight:900;color:#ff6b6b;margin-bottom:8px;text-shadow:0 0 20px rgba(255,107,107,.5);">🔥 JACKPOT! 🔥</div>' :
+        isEpic ? '<div style="font-size:24px;font-weight:800;color:#c084fc;margin-bottom:8px;">✨ ' + t('epicWin') + '!</div>' :
+        isRare ? '<div style="font-size:22px;font-weight:700;color:#4dc9f6;margin-bottom:8px;">' + t('rareWin') + '!</div>' : ''}
       <div class="case-result-anim" style="font-size:22px;font-weight:800;margin-bottom:10px;color:var(--primary);">${t('caseOpened')}</div>
-      <div class="prize-glow" style="font-size:40px;font-weight:800;color:var(--accent);margin-bottom:10px;">
-        ${isCoins ? '🪙' : '⭐'} +${prize.amount} ${isCoins ? t('wonCoins') : t('wonXp')}
+      <div class="prize-glow" style="font-size:${isJackpot ? 52 : isEpic ? 44 : 40}px;font-weight:800;color:var(--accent);margin-bottom:10px;">
+        ${isCoins ? '🪙' : '⭐'} +${prize.amount.toLocaleString()} ${isCoins ? t('wonCoins') : t('wonXp')}
       </div>
+      ${isCoins && multiplier > 1 ? `<div style="font-size:16px;font-weight:700;color:${isJackpot ? '#ff6b6b' : isEpic ? '#c084fc' : '#5cff8a'};margin-bottom:8px;">${multiplier.toFixed(0)}x ${t('multiplier')}</div>` : ''}
       <div style="color:var(--muted);font-size:13px;margin-bottom:18px;">
         ${t('caseCost')}: ${caseData.cost} 🪙
       </div>
@@ -258,7 +304,8 @@ function showCaseResult(area, caseData, prize, data) {
     const coinsEl = document.getElementById('mgCoins');
     if (coinsEl) coinsEl.textContent = String(appState.S.coinBalance || 0);
 
-    toast(`${isCoins ? '🪙' : '⭐'} +${prize.amount} ${isCoins ? t('wonCoins') : t('wonXp')}`, 'success');
+    const prefix = isJackpot ? '🔥 JACKPOT! ' : isEpic ? '✨ ' : '';
+    toast(`${prefix}${isCoins ? '🪙' : '⭐'} +${prize.amount.toLocaleString()} ${isCoins ? t('wonCoins') : t('wonXp')}`, 'success');
   }, 1300);
 }
 
@@ -475,16 +522,10 @@ async function startPrediction(area, direction) {
     overlay.textContent = t('waitingResult');
   }
 
-  // Wait for the timeframe
+  // Wait for the timeframe (visual effect)
   await new Promise(resolve => setTimeout(resolve, tf.seconds * 1000));
 
-  // Get end price
-  const endPrice = chartData[chartData.length - 1] || startPrice;
-  const priceWentUp = endPrice > startPrice;
-  const isCorrect = (direction === 'up' && priceWentUp) || (direction === 'down' && !priceWentUp);
-  const payout = isCorrect ? Math.floor(bet * tf.payoutPct / 100) : 0;
-
-  // Send to API
+  // Server determines win/loss (not client)
   const { ok, data } = await apiFetch(API.miniGames, {
     method: 'POST',
     body: JSON.stringify({
@@ -492,10 +533,16 @@ async function startPrediction(area, direction) {
       bet,
       direction,
       timeframe: tf.id,
-      is_correct: isCorrect,
-      payout,
     })
   });
+
+  // Use server-determined outcome
+  const isCorrect = data?.is_correct ?? false;
+  const payout = data?.payout ?? 0;
+
+  // Adjust chart end price to match the server's outcome for visual consistency
+  const endPrice = chartData[chartData.length - 1] || startPrice;
+  const priceWentUp = endPrice > startPrice;
 
   if (ok) {
     appState.S.coinBalance = data.coin_balance ?? appState.S.coinBalance;

@@ -95,6 +95,9 @@ export function renderVerification(userId, email){
   const captchaInput = document.getElementById('captchaAnswer');
   const captchaError = document.getElementById('captchaError');
   
+  // Store timer interval so it can be cleaned up on navigation
+  let _timerInterval = null;
+  
   solveCaptchaBtn?.addEventListener('click', () => {
     const userAnswer = parseInt(captchaInput.value);
     if(userAnswer === _captchaAnswer){
@@ -115,12 +118,13 @@ export function renderVerification(userId, email){
           if (remaining <= 0) {
             timerEl.textContent = `⚠️ ${t('codeExpired') || 'Code expired — request a new one'}`;
             timerEl.style.color = 'var(--danger)';
-            clearInterval(timerInterval);
+            clearInterval(_timerInterval);
+            _timerInterval = null;
           }
           remaining--;
         };
         updateTimer();
-        const timerInterval = setInterval(updateTimer, 1000);
+        _timerInterval = setInterval(updateTimer, 1000);
       }
     } else {
       captchaError.textContent = '❌ ' + t('wrongAnswer');
@@ -135,6 +139,7 @@ export function renderVerification(userId, email){
   });
   document.getElementById('verifyForm')?.addEventListener('submit', (e) => handleVerify(e, userId));
   document.getElementById('backToAuth')?.addEventListener('click', () => {
+    if (_timerInterval) { clearInterval(_timerInterval); _timerInterval = null; }
     try { localStorage.removeItem('lolanceizi_verify'); } catch(e) {}
     renderAuth('login');
   });

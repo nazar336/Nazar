@@ -89,7 +89,7 @@ function db(): PDO {
             if (str_contains($errMsg, 'Access denied')) {
                 $hint = 'Перевірте DB_USER та DB_PASS в .env файлі.';
             } elseif (str_contains($errMsg, 'Unknown database')) {
-                $hint = 'База даних не існує. Створіть її в phpMyAdmin.';
+                $hint = 'База даних не існує. Створіть її через панель управління.';
             } elseif (str_contains($errMsg, 'Connection refused') || str_contains($errMsg, 'No such file')) {
                 $hint = 'MySQL не відповідає. Перевірте DB_HOST.';
             }

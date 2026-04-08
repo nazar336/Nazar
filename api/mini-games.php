@@ -145,7 +145,12 @@ const CASE_PRIZE_TABLES = [
    PRICE PREDICTION ALGORITHM
    Win/loss determined server-side with streak-aware probability.
 
-   Base win rate: ~43% (gives ~18-27% house edge depending on timeframe).
+   Base win rate: ~43%.
+   EV per bet = winRate * payoutPct - (1-winRate) * 100
+     5s  (90% payout): 0.43*90 - 0.57*100 = 38.7 - 57.0 = -18.3%  → 18.3% house edge
+     15s (80% payout): 0.43*80 - 0.57*100 = 34.4 - 57.0 = -22.6%  → 22.6% house edge
+     30s (70% payout): 0.43*70 - 0.57*100 = 30.1 - 57.0 = -26.9%  → 26.9% house edge
+
    Streak adjustment creates exciting patterns:
    - After 3+ losses in a row → boost win chance to ~62%
    - After 4+ losses → boost to ~72% (near-guaranteed "comeback")
@@ -233,8 +238,9 @@ function rollCasePrize(string $caseId): array
             return ['type' => $p['type'], 'amount' => $p['amount']];
         }
     }
-    // Fallback (should never reach here)
-    return $prizes[0];
+    // Should never reach here — log error and return smallest prize as safe fallback
+    error_log('rollCasePrize: unexpected fallback for case ' . $caseId . ' roll=' . $roll . ' totalWeight=' . $totalWeight);
+    return ['type' => $prizes[0]['type'], 'amount' => $prizes[0]['amount']];
 }
 
 /* ══ POST case_open: server determines the prize ══ */

@@ -111,6 +111,7 @@ const TIMEFRAMES = [
 
 const MIN_BET = 10;
 const MAX_BET = 5000;
+const MAX_DISPLAYED_PRIZES = 6;
 
 /* ═══════════════════════════════════════════════
    MAIN RENDER
@@ -199,14 +200,14 @@ function renderCaseOpening(area) {
           <div style="font-weight:600;font-size:14px;margin-bottom:4px;">${t(c.nameKey)}</div>
           <div style="color:var(--accent);font-weight:700;font-size:15px;margin-bottom:6px;">${c.cost} 🪙</div>
           <div style="font-size:11px;color:var(--muted);margin-bottom:6px;line-height:1.6;">
-            ${c.prizes.filter(p => p.type === 'coins').slice(0, 6).map(p => {
+            ${c.prizes.filter(p => p.type === 'coins').slice(0, MAX_DISPLAYED_PRIZES).map(p => {
               const pct = (p.weight / totalWeight * 100);
               const pctStr = pct < 0.1 ? '<0.1' : pct < 1 ? pct.toFixed(1) : Math.round(pct);
               const color = RARITY_COLORS[p.rarity] || 'inherit';
               const label = p.rarity === 'jackpot' ? ' 🔥' : p.rarity === 'legendary' ? ' ⭐' : '';
               return `<span style="color:${color}">🪙 ${p.amount.toLocaleString()} (${pctStr}%)${label}</span>`;
             }).join('<br>')}
-            ${c.prizes.filter(p => p.type === 'coins').length > 6 ? `<br><span style="color:${RARITY_COLORS.legendary}">...${t('andMore')} 🪙${maxPrize.toLocaleString()} ${t('jackpot')}!</span>` : ''}
+            ${c.prizes.filter(p => p.type === 'coins').length > MAX_DISPLAYED_PRIZES ? `<br><span style="color:${RARITY_COLORS.legendary}">...${t('andMore')} 🪙${maxPrize.toLocaleString()} ${t('jackpot')}!</span>` : ''}
           </div>
           <button class="btn btn-primary btn-sm open-case-btn" data-case="${c.id}" ${coins < c.cost ? 'disabled' : ''}>
             ${t('openCase')}
@@ -540,7 +541,7 @@ async function startPrediction(area, direction) {
   const isCorrect = data?.is_correct ?? false;
   const payout = data?.payout ?? 0;
 
-  // Adjust chart end price to match the server's outcome for visual consistency
+  // Chart values for visual display only (outcome is determined by server)
   const endPrice = chartData[chartData.length - 1] || startPrice;
   const priceWentUp = endPrice > startPrice;
 

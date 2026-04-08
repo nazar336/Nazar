@@ -7,7 +7,7 @@ export const i18n = {
     appName:'Lolanceizi', appTag:'Premium Micro-Task Platform',
     dashboard:'Dashboard', tasks:'Tasks', createTask:'Create Task',
     feed:'Feed', wallet:'Wallet', chat:'Chat', support:'Support',
-    profile:'Profile', leaderboard:'Leaderboard', logout:'Logout',
+    profile:'Profile', leaderboard:'Leaderboard', more:'More', logout:'Logout',
     login:'Login', register:'Register', welcomeBack:'Welcome back',
     balance:'Balance', earnings:'Earnings', spent:'Spent', pending:'Pending',
     completed:'Completed', active:'Active', level:'Level', streak:'Streak',
@@ -18,7 +18,9 @@ export const i18n = {
     sendMessage:'Send', typeMessage:'Type a message…',
     createTicket:'Create Ticket', faq:'FAQ', tickets:'Tickets',
     saveProfile:'Save Profile', notifications:'Notifications',
-    markRead:'Mark all read', noNotifications:'No notifications yet',
+    markRead:'Mark all read', clearAll:'Clear all', noNotifications:'No notifications yet',
+    syncing:'Syncing…', offlineText:'Offline — changes will sync when back online',
+    refresh:'Refresh', loading:'Loading…', noTrendingTasks:'No trending tasks right now', noLeaderboard:'Leaderboard is empty', confirmClearNotifs:'Clear all notifications?',
     required:'Please fill all required fields.',
     loginSuccess:'Welcome back!', registerSuccess:'Account created. You can log in.',
     logoutSuccess:'Logged out successfully.', profileSaved:'Profile saved!',
@@ -165,6 +167,12 @@ export const i18n = {
     fullscreen:'Fullscreen', exitFullscreen:'Exit Fullscreen',
     // Language modal
     chooseLanguage:'Choose Language',
+    // Error/status messages
+    imageUnavailable:'Image unavailable', noTransactions:'No transactions yet', transactionHistoryHint:'Your transaction history will appear here.',
+    totalDeposits:'Total Deposits', totalWithdrawals:'Total Withdrawals', netFlow:'Net Flow', newest:'Newest', showMore:'Show more',
+    ticketFailed:'Ticket creation failed.', copyProfileLink:'Copy profile link', profileSaveFailed:'Profile save failed.', copied:'Copied!',
+    invalidTaskId:'Invalid task ID.', errorTakingTask:'Error taking task.', errorGeneric:'Error',
+    resendCode:'Resend code', sendingCode:'Sending…', codeSentSuccess:'Code sent!', errorOccurred:'An error occurred.',
     // Feed modes
     classicView:'Classic', tiktokView:'Feed', feedSwipeHint:'Swipe up to see more',
     // Friends
@@ -208,7 +216,7 @@ export const i18n = {
     appName:'Lolanceizi', appTag:'Преміум платформа мікрозадач',
     dashboard:'Дашборд', tasks:'Задачі', createTask:'Нова задача',
     feed:'Стрічка', wallet:'Гаманець', chat:'Чат', support:'Підтримка',
-    profile:'Профіль', leaderboard:'Рейтинг', logout:'Вийти',
+    profile:'Профіль', leaderboard:'Рейтинг', more:'Ще', logout:'Вийти',
     login:'Вхід', register:'Реєстрація', welcomeBack:'З поверненням',
     balance:'Баланс', earnings:'Заробіток', spent:'Витрати', pending:'Очікування',
     completed:'Завершено', active:'Активних', level:'Рівень', streak:'Серія',
@@ -219,7 +227,9 @@ export const i18n = {
     sendMessage:'Надіслати', typeMessage:'Напиши повідомлення…',
     createTicket:'Новий тікет', faq:'FAQ', tickets:'Тікети',
     saveProfile:'Зберегти', notifications:'Сповіщення',
-    markRead:'Прочитати всі', noNotifications:'Сповіщень поки немає.',
+    markRead:'Прочитати всі', clearAll:'Очистити все', noNotifications:'Сповіщень поки немає.',
+    syncing:'Синхронізація…', offlineText:'Офлайн — зміни синхронізуються після підключення',
+    refresh:'Оновити', loading:'Завантаження…', noTrendingTasks:'Трендових задач поки немає', noLeaderboard:'Рейтинг порожній', confirmClearNotifs:'Очистити всі сповіщення?',
     required:'Заповни всі обов\'язкові поля.',
     loginSuccess:'Вітаємо!', registerSuccess:'Акаунт створено. Можна увійти.',
     logoutSuccess:'Вийшов успішно.', profileSaved:'Профіль збережено!',
@@ -350,6 +360,12 @@ export const i18n = {
     fullscreen:'Повний екран', exitFullscreen:'Вийти з повного екрану',
     // Language modal
     chooseLanguage:'Оберіть мову',
+    // Error/status messages
+    imageUnavailable:'Зображення недоступне', noTransactions:'Транзакцій поки немає', transactionHistoryHint:'Ваша історія транзакцій з\'явиться тут.',
+    totalDeposits:'Всього депозитів', totalWithdrawals:'Всього виведень', netFlow:'Чистий потік', newest:'Найновіші', showMore:'Показати більше',
+    ticketFailed:'Помилка створення тікета.', copyProfileLink:'Скопіювати посилання', profileSaveFailed:'Помилка збереження профілю.', copied:'Скопійовано!',
+    invalidTaskId:'Невірний ID задачі.', errorTakingTask:'Помилка взяття задачі.', errorGeneric:'Помилка',
+    resendCode:'Відправити код повторно', sendingCode:'Відправляємо…', codeSentSuccess:'Код відправлено!', errorOccurred:'Сталась помилка.',
     // Feed modes
     classicView:'Класичний', tiktokView:'Стрічка', feedSwipeHint:'Гортайте вгору щоб побачити більше',
     // Friends
@@ -393,7 +409,7 @@ export const i18n = {
     appName:'Lolanceizi', appTag:'Premium Micro-Task Plattform',
     dashboard:'Dashboard', tasks:'Aufgaben', createTask:'Neue Aufgabe',
     feed:'Feed', wallet:'Geldbörse', chat:'Chat', support:'Unterstützung',
-    profile:'Profil', leaderboard:'Rangliste', logout:'Abmelden',
+    profile:'Profil', leaderboard:'Rangliste', more:'Mehr', logout:'Abmelden',
     login:'Anmelden', register:'Registrieren', welcomeBack:'Willkommen zurück',
     balance:'Guthaben', earnings:'Verdienste', spent:'Ausgegeben', pending:'Ausstehend',
     completed:'Abgeschlossen', active:'Aktiv', level:'Level', streak:'Serie',
@@ -404,7 +420,9 @@ export const i18n = {
     sendMessage:'Senden', typeMessage:'Nachricht eingeben…',
     createTicket:'Ticket erstellen', faq:'FAQ', tickets:'Tickets',
     saveProfile:'Profil speichern', notifications:'Benachrichtigungen',
-    markRead:'Alle als gelesen markieren', noNotifications:'Noch keine Benachrichtigungen',
+    markRead:'Alle als gelesen markieren', clearAll:'Alle löschen', noNotifications:'Noch keine Benachrichtigungen',
+    syncing:'Synchronisieren…', offlineText:'Offline — Änderungen werden synchronisiert, sobald Sie wieder online sind',
+    refresh:'Aktualisieren', loading:'Laden…', noTrendingTasks:'Keine angesagten Aufgaben', noLeaderboard:'Rangliste ist leer', confirmClearNotifs:'Alle Benachrichtigungen löschen?',
     required:'Bitte füllen Sie alle erforderlichen Felder aus.',
     loginSuccess:'Willkommen!', registerSuccess:'Konto erstellt. Sie können sich jetzt anmelden.',
     logoutSuccess:'Erfolgreich abgemeldet.', profileSaved:'Profil gespeichert!',
@@ -522,6 +540,12 @@ export const i18n = {
     fullscreen:'Vollbild', exitFullscreen:'Vollbild beenden',
     // Language modal
     chooseLanguage:'Sprache wählen',
+    // Error/status messages
+    imageUnavailable:'Bild nicht verfügbar', noTransactions:'Noch keine Transaktionen', transactionHistoryHint:'Ihre Transaktionshistorie erscheint hier.',
+    totalDeposits:'Gesamteinzahlungen', totalWithdrawals:'Gesamtauszahlungen', netFlow:'Nettoumsatz', newest:'Neueste', showMore:'Mehr anzeigen',
+    ticketFailed:'Ticket-Erstellung fehlgeschlagen.', copyProfileLink:'Profillink kopieren', profileSaveFailed:'Profil speichern fehlgeschlagen.', copied:'Kopiert!',
+    invalidTaskId:'Ungültige Aufgaben-ID.', errorTakingTask:'Fehler beim Annehmen.', errorGeneric:'Fehler',
+    resendCode:'Code erneut senden', sendingCode:'Senden…', codeSentSuccess:'Code gesendet!', errorOccurred:'Ein Fehler ist aufgetreten.',
     // Feed modes
     classicView:'Klassisch', tiktokView:'Feed', feedSwipeHint:'Nach oben wischen für mehr',
     // Friends
@@ -565,7 +589,7 @@ export const i18n = {
     appName:'Lolanceizi', appTag:'Plateforme Premium de Micro-Tâches',
     dashboard:'Tableau de bord', tasks:'Tâches', createTask:'Nouvelle tâche',
     feed:'Flux', wallet:'Portefeuille', chat:'Chat', support:'Support',
-    profile:'Profil', leaderboard:'Classement', logout:'Déconnexion',
+    profile:'Profil', leaderboard:'Classement', more:'Plus', logout:'Déconnexion',
     login:'Connexion', register:'S\'inscrire', welcomeBack:'Bienvenue',
     balance:'Solde', earnings:'Gains', spent:'Dépensé', pending:'En attente',
     completed:'Complété', active:'Actif', level:'Niveau', streak:'Série',
@@ -576,7 +600,9 @@ export const i18n = {
     sendMessage:'Envoyer', typeMessage:'Tapez un message…',
     createTicket:'Créer un ticket', faq:'FAQ', tickets:'Tickets',
     saveProfile:'Enregistrer le profil', notifications:'Notifications',
-    markRead:'Marquer tout comme lu', noNotifications:'Aucune notification pour le moment',
+    markRead:'Marquer tout comme lu', clearAll:'Tout effacer', noNotifications:'Aucune notification pour le moment',
+    syncing:'Synchronisation…', offlineText:'Hors ligne — les modifications seront synchronisées lors de la reconnexion',
+    refresh:'Actualiser', loading:'Chargement…', noTrendingTasks:'Aucune tâche tendance pour le moment', noLeaderboard:'Le classement est vide', confirmClearNotifs:'Effacer toutes les notifications ?',
     required:'Veuillez remplir tous les champs obligatoires.',
     loginSuccess:'Bienvenue!', registerSuccess:'Compte créé. Vous pouvez vous connecter.',
     logoutSuccess:'Déconnexion réussie.', profileSaved:'Profil enregistré!',
@@ -693,6 +719,12 @@ export const i18n = {
     fullscreen:'Plein écran', exitFullscreen:'Quitter le plein écran',
     // Language modal
     chooseLanguage:'Choisir la langue',
+    // Error/status messages
+    imageUnavailable:'Image indisponible', noTransactions:'Aucune transaction', transactionHistoryHint:'Votre historique de transactions apparaîtra ici.',
+    totalDeposits:'Total des dépôts', totalWithdrawals:'Total des retraits', netFlow:'Flux net', newest:'Plus récents', showMore:'Voir plus',
+    ticketFailed:'Échec de la création du ticket.', copyProfileLink:'Copier le lien du profil', profileSaveFailed:'Échec de la sauvegarde du profil.', copied:'Copié !',
+    invalidTaskId:'ID de tâche invalide.', errorTakingTask:'Erreur lors de la prise de tâche.', errorGeneric:'Erreur',
+    resendCode:'Renvoyer le code', sendingCode:'Envoi en cours…', codeSentSuccess:'Code envoyé !', errorOccurred:'Une erreur est survenue.',
     // Feed modes
     classicView:'Classique', tiktokView:'Fil', feedSwipeHint:'Glissez vers le haut pour voir plus',
     // Friends
@@ -736,7 +768,7 @@ export const i18n = {
     appName:'Lolanceizi', appTag:'Plataforma Premium de Micro-Tareas',
     dashboard:'Panel', tasks:'Tareas', createTask:'Nueva tarea',
     feed:'Feed', wallet:'Billetera', chat:'Chat', support:'Soporte',
-    profile:'Perfil', leaderboard:'Clasificación', logout:'Cerrar sesión',
+    profile:'Perfil', leaderboard:'Clasificación', more:'Más', logout:'Cerrar sesión',
     login:'Iniciar sesión', register:'Registrarse', welcomeBack:'Bienvenido',
     balance:'Saldo', earnings:'Ganancias', spent:'Gastado', pending:'Pendiente',
     completed:'Completado', active:'Activo', level:'Nivel', streak:'Racha',
@@ -747,7 +779,9 @@ export const i18n = {
     sendMessage:'Enviar', typeMessage:'Escribir mensaje…',
     createTicket:'Crear ticket', faq:'FAQ', tickets:'Tickets',
     saveProfile:'Guardar perfil', notifications:'Notificaciones',
-    markRead:'Marcar todo como leído', noNotifications:'Sin notificaciones aún',
+    markRead:'Marcar todo como leído', clearAll:'Borrar todo', noNotifications:'Sin notificaciones aún',
+    syncing:'Sincronizando…', offlineText:'Sin conexión — los cambios se sincronizarán al reconectar',
+    refresh:'Actualizar', loading:'Cargando…', noTrendingTasks:'Sin tareas en tendencia', noLeaderboard:'La clasificación está vacía', confirmClearNotifs:'¿Borrar todas las notificaciones?',
     required:'Por favor completa todos los campos requeridos.',
     loginSuccess:'¡Bienvenido!', registerSuccess:'Cuenta creada. Puedes iniciar sesión.',
     logoutSuccess:'Sesión cerrada correctamente.', profileSaved:'¡Perfil guardado!',
@@ -864,6 +898,12 @@ export const i18n = {
     fullscreen:'Pantalla completa', exitFullscreen:'Salir de pantalla completa',
     // Language modal
     chooseLanguage:'Elegir idioma',
+    // Error/status messages
+    imageUnavailable:'Imagen no disponible', noTransactions:'Sin transacciones aún', transactionHistoryHint:'Tu historial de transacciones aparecerá aquí.',
+    totalDeposits:'Total depósitos', totalWithdrawals:'Total retiros', netFlow:'Flujo neto', newest:'Más recientes', showMore:'Ver más',
+    ticketFailed:'Error al crear el ticket.', copyProfileLink:'Copiar enlace del perfil', profileSaveFailed:'Error al guardar el perfil.', copied:'¡Copiado!',
+    invalidTaskId:'ID de tarea inválido.', errorTakingTask:'Error al tomar la tarea.', errorGeneric:'Error',
+    resendCode:'Reenviar código', sendingCode:'Enviando…', codeSentSuccess:'¡Código enviado!', errorOccurred:'Ha ocurrido un error.',
     // Feed modes
     classicView:'Clásico', tiktokView:'Feed', feedSwipeHint:'Desliza hacia arriba para ver más',
     // Friends
@@ -907,7 +947,7 @@ export const i18n = {
     appName:'Lolanceizi', appTag:'Platforma Premium Mikro-Zadań',
     dashboard:'Pulpit', tasks:'Zadania', createTask:'Nowe zadanie',
     feed:'Kanał', wallet:'Portfel', chat:'Chat', support:'Wsparcie',
-    profile:'Profil', leaderboard:'Ranking', logout:'Wyloguj',
+    profile:'Profil', leaderboard:'Ranking', more:'Więcej', logout:'Wyloguj',
     login:'Zaloguj', register:'Zarejestruj', welcomeBack:'Wítaj z powrotem',
     balance:'Saldo', earnings:'Zarobki', spent:'Wydane', pending:'Oczekujące',
     completed:'Ukończone', active:'Aktywne', level:'Poziom', streak:'Seria',
@@ -918,7 +958,9 @@ export const i18n = {
     sendMessage:'Wyślij', typeMessage:'Napisz wiadomość…',
     createTicket:'Utwórz zgłoszenie', faq:'FAQ', tickets:'Zgłoszenia',
     saveProfile:'Zapisz profil', notifications:'Powiadomienia',
-    markRead:'Oznacz wszystkie jako przeczytane', noNotifications:'Brak powiadomień',
+    markRead:'Oznacz wszystkie jako przeczytane', clearAll:'Wyczyść wszystko', noNotifications:'Brak powiadomień',
+    syncing:'Synchronizacja…', offlineText:'Offline — zmiany zostaną zsynchronizowane po połączeniu',
+    refresh:'Odśwież', loading:'Ładowanie…', noTrendingTasks:'Brak popularnych zadań', noLeaderboard:'Ranking jest pusty', confirmClearNotifs:'Wyczyścić wszystkie powiadomienia?',
     required:'Wypełnij wszystkie wymagane pola.',
     loginSuccess:'Witaj!', registerSuccess:'Konto utworzone. Możesz się zalogować.',
     logoutSuccess:'Wylogowano pomyślnie.', profileSaved:'Profil zapisany!',
@@ -1035,6 +1077,12 @@ export const i18n = {
     fullscreen:'Pełny ekran', exitFullscreen:'Wyjdź z pełnego ekranu',
     // Language modal
     chooseLanguage:'Wybierz język',
+    // Error/status messages
+    imageUnavailable:'Obraz niedostępny', noTransactions:'Brak transakcji', transactionHistoryHint:'Historia transakcji pojawi się tutaj.',
+    totalDeposits:'Łączne wpłaty', totalWithdrawals:'Łączne wypłaty', netFlow:'Przepływ netto', newest:'Najnowsze', showMore:'Pokaż więcej',
+    ticketFailed:'Nie udało się utworzyć zgłoszenia.', copyProfileLink:'Kopiuj link do profilu', profileSaveFailed:'Nie udało się zapisać profilu.', copied:'Skopiowano!',
+    invalidTaskId:'Nieprawidłowe ID zadania.', errorTakingTask:'Błąd podczas przyjmowania zadania.', errorGeneric:'Błąd',
+    resendCode:'Wyślij kod ponownie', sendingCode:'Wysyłanie…', codeSentSuccess:'Kod wysłany!', errorOccurred:'Wystąpił błąd.',
     // Feed modes
     classicView:'Klasyczny', tiktokView:'Feed', feedSwipeHint:'Przesuń w górę, aby zobaczyć więcej',
     // Friends

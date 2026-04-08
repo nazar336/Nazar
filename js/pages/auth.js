@@ -41,6 +41,17 @@ function setupRegisterValidation() {
     if (msg) {
       msg.textContent = el.value && !valid ? (el.dataset.errMsg || '') : '';
     }
+    // Highlight input border on error
+    if (el.value && !valid) {
+      el.style.borderColor = 'var(--danger)';
+      el.style.boxShadow = '0 0 0 3px var(--danger-dim)';
+    } else if (el.value && valid) {
+      el.style.borderColor = 'var(--success)';
+      el.style.boxShadow = '0 0 0 3px var(--success-dim)';
+    } else {
+      el.style.borderColor = '';
+      el.style.boxShadow = '';
+    }
   }
 
   function updateSubmitState() {

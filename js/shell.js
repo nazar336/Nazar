@@ -7,6 +7,7 @@ import { navigate } from './router.js';
 import { renderAuth } from './pages/auth.js';
 import { doLogout } from './pages/auth.js';
 import { delegate } from './event-delegation.js';
+import { trapFocus, onEscape } from './focus-trap.js';
 
 let _keyboardHandler = null;
 let _outsideClickHandler = null;
@@ -30,9 +31,17 @@ export function renderShell() {
   const mobItems = [
     { page: 'dashboard', icon: '◆', label: t('dashboard') },
     { page: 'tasks', icon: '☰', label: t('tasks') },
-    { page: 'profile', icon: '○', label: t('profile') },
     { page: 'feed', icon: '◉', label: t('feed') },
+    { page: 'profile', icon: '○', label: t('profile') },
+  ];
+  const moreItems = [
+    { page: 'wallet', icon: '◇', label: t('wallet') },
+    { page: 'chat', icon: '▸', label: t('chat') },
     { page: 'dm', icon: '✉', label: t('directMessages') },
+    { page: 'createTask', icon: '✚', label: t('createTask') },
+    { page: 'support', icon: '?', label: t('support') },
+    { page: 'leaderboard', icon: '△', label: t('leaderboard') },
+    { page: 'miniGames', icon: '▷', label: t('miniGames') },
   ];
   const unreadCount = (appState.S.notifications || []).filter(n => !n.read).length;
   const app = document.getElementById('app');
@@ -81,9 +90,20 @@ export function renderShell() {
         ${appState.isGuest ? `<div style="background:linear-gradient(90deg,rgba(184,255,92,.05),rgba(125,215,255,.05));border-bottom:1px solid rgba(184,255,92,.1);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px;"><span>${t('guestMode')} — ${t('welcomeGuestDesc')}</span><button class="btn btn-primary btn-xs" id="guestCreateBtn">${t('createAccount')}</button></div>` : ''}
         <main class="main-content" id="mainContent" tabindex="-1"></main>
       </div>
+      <div class="mobile-nav-more-overlay" id="moreMenuOverlay"></div>
+      <div class="mobile-nav-more" id="moreMenu" aria-hidden="true">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div style="font-size:15px;font-weight:800;">${t('more')}</div>
+          <button class="btn btn-ghost btn-xs" id="moreMenuClose">✕</button>
+        </div>
+        <div class="mobile-nav-more-grid">
+          ${moreItems.map(n => `<button class="mobile-nav-more-item" data-page="${n.page}"><span class="more-icon">${n.icon}</span><span>${n.label}</span></button>`).join('')}
+        </div>
+      </div>
       <nav class="mobile-nav" aria-label="Mobile navigation">
         <div class="mobile-nav-inner">
           ${mobItems.map(n => `<button class="mob-btn${appState.currentPage === n.page ? ' active' : ''}" data-page="${n.page}" aria-label="${n.label}"><span class="icon" aria-hidden="true">${n.icon}</span><span>${n.label}</span></button>`).join('')}
+          <button class="mob-btn" id="moreMenuToggle" aria-label="${t('more')}"><span class="icon" aria-hidden="true">≡</span><span>${t('more')}</span></button>
         </div>
       </nav>
     </div>`;
@@ -91,7 +111,7 @@ export function renderShell() {
   const np = document.getElementById('notifPanel');
   if (np) {
     np.innerHTML = `
-      <div class="notif-head"><h4>${t('notifications')}</h4><div class="notif-head-actions"><button class="btn btn-ghost btn-xs" id="clearAllNotifsBtn">${t('clearAll') || 'Clear all'}</button><button class="btn btn-ghost btn-xs" id="markReadBtn">${t('markRead')}</button></div></div>
+      <div class="notif-head"><h4>${t('notifications')}</h4><div class="notif-head-actions"><button class="btn btn-ghost btn-xs" id="clearAllNotifsBtn">${t('clearAll')}</button><button class="btn btn-ghost btn-xs" id="markReadBtn">${t('markRead')}</button></div></div>
       <div class="notif-list">${appState.S.notifications.length ? appState.S.notifications.map(n => `<div class="notif-item${n.read ? '' : ' unread'}"><div>${esc(n.text)}</div><div class="notif-time">${fmtAgo(n.timestamp)}</div></div>`).join('') : `<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">${t('noNotifications')}</div>`}</div>`;
   }
 
@@ -109,6 +129,33 @@ export function renderShell() {
   document.getElementById('notifToggle')?.addEventListener('click', toggleNotif);
   document.getElementById('markReadBtn')?.addEventListener('click', () => { appState.S.notifications.forEach(n => n.read = true); saveState(); updateNotifBadge(); renderShell(); navigate(appState.currentPage); });
   document.getElementById('clearAllNotifsBtn')?.addEventListener('click', () => { appState.S.notifications = []; saveState(); updateNotifBadge(); renderShell(); navigate(appState.currentPage); });
+
+  // Mobile "More" menu toggle
+  const moreMenuToggle = document.getElementById('moreMenuToggle');
+  const moreMenu = document.getElementById('moreMenu');
+  const moreMenuOverlay = document.getElementById('moreMenuOverlay');
+  const moreMenuClose = document.getElementById('moreMenuClose');
+  
+  function openMoreMenu() {
+    if (moreMenu) { moreMenu.classList.add('open'); moreMenu.setAttribute('aria-hidden', 'false'); }
+    if (moreMenuOverlay) moreMenuOverlay.classList.add('open');
+  }
+  function closeMoreMenu() {
+    if (moreMenu) { moreMenu.classList.remove('open'); moreMenu.setAttribute('aria-hidden', 'true'); }
+    if (moreMenuOverlay) moreMenuOverlay.classList.remove('open');
+  }
+  
+  moreMenuToggle?.addEventListener('click', openMoreMenu);
+  moreMenuClose?.addEventListener('click', closeMoreMenu);
+  moreMenuOverlay?.addEventListener('click', closeMoreMenu);
+  
+  // Navigate from more menu items
+  document.querySelectorAll('.mobile-nav-more-item[data-page]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      closeMoreMenu();
+      navigate(btn.dataset.page);
+    });
+  });
 
   // Close notification panel when clicking outside
   if (_outsideClickHandler) document.removeEventListener('click', _outsideClickHandler, true);
@@ -170,7 +217,7 @@ export function openLangModal() {
   overlay.id = 'langModalOverlay';
   overlay.className = 'lang-modal-overlay';
   overlay.innerHTML = `
-    <div class="lang-modal">
+    <div class="lang-modal" role="dialog" aria-modal="true" aria-label="${t('chooseLanguage')}">
       <div class="lang-modal-title">🌐 ${t('chooseLanguage')}</div>
       ${LANGS.map(l => `
         <button class="lang-option${appState.S.lang === l.code ? ' active' : ''}" data-lang="${l.code}">
@@ -181,16 +228,29 @@ export function openLangModal() {
       `).join('')}
     </div>`;
   document.body.appendChild(overlay);
+
+  // Focus trap & escape handling
+  const modal = overlay.querySelector('.lang-modal');
+  const releaseTrap = trapFocus(modal);
+  const releaseEsc = onEscape(() => { cleanup(); });
+
+  function cleanup() {
+    releaseTrap();
+    releaseEsc();
+    overlay.remove();
+    document.getElementById('langToggleBtn')?.focus();
+  }
+
   overlay.addEventListener('click', e => {
     const opt = e.target.closest('[data-lang]');
     if (opt) {
       setLang(opt.dataset.lang);
       saveState();
-      overlay.remove();
+      cleanup();
       renderShell();
       navigate(appState.currentPage);
     } else if (e.target === overlay) {
-      overlay.remove();
+      cleanup();
     }
   });
 }

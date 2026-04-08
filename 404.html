@@ -1,28 +1,41 @@
-<!doctype html>
-<html lang="uk">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 — Сторінку не знайдено | Lolanceizi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>404 — Lolanceizi</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <meta name="theme-color" content="#b8ff43">
   <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#070b08;color:#eef4ef;font-family:Inter,Arial,sans-serif;text-align:center;padding:24px}
-    .container{max-width:480px}
-    h1{font-size:6rem;font-weight:900;color:#b8ff43;line-height:1}
-    h2{font-size:1.5rem;margin:12px 0 8px;font-weight:600}
-    p{color:#8fa098;margin-bottom:24px;line-height:1.6}
-    a{display:inline-block;padding:12px 32px;background:#b8ff43;color:#070b08;font-weight:700;text-decoration:none;border-radius:10px;transition:opacity .2s}
-    a:hover{opacity:.85}
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background: #070b08; color: #eef4ef;
+      font-family: 'Inter', system-ui, sans-serif;
+      padding: 20px; text-align: center;
+    }
+    .wrap { max-width: 420px; }
+    .code { font-size: 96px; font-weight: 900; color: #b8ff43; line-height: 1; margin-bottom: 16px; }
+    h1 { font-size: 20px; margin-bottom: 8px; }
+    p { font-size: 14px; color: #8fa098; margin-bottom: 24px; line-height: 1.6; }
+    a {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; border-radius: 12px;
+      background: #b8ff43; color: #070b08;
+      font-size: 14px; font-weight: 700;
+      text-decoration: none; transition: transform .15s, box-shadow .15s;
+    }
+    a:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(184,255,92,.3); }
+    a:focus-visible { outline: 2px solid #b8ff43; outline-offset: 3px; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>404</h1>
-    <h2>Сторінку не знайдено</h2>
-    <p>Такої сторінки не існує або вона була видалена. Перевірте URL або поверніться на головну.</p>
-    <a href="/">На головну</a>
+  <div class="wrap">
+    <div class="code">404</div>
+    <h1>Page not found</h1>
+    <p>The page you're looking for doesn't exist or has been moved. Let's get you back on track.</p>
+    <a href="/">← Back to Lolanceizi</a>
   </div>
 </body>
 </html>

@@ -52,7 +52,7 @@ export function renderDM(el) {
           </div>
           <div class="dm-threads" id="dmThreads">
             ${threads.length ? threads.map(th => `
-              <div class="dm-thread${String(th.id) === String(activeThreadId) ? ' active' : ''}" data-thread-id="${th.id}">
+              <div class="dm-thread${String(th.id) === String(activeThreadId) ? ' active' : ''}${th.unread ? ' unread' : ''}" data-thread-id="${th.id}">
                 <div class="user-av" style="width:36px;height:36px;font-size:13px;flex-shrink:0;">${esc((th.other_username || '?').charAt(0).toUpperCase())}</div>
                 <div class="dm-thread-info">
                   <div class="dm-thread-name">@${esc(th.other_username || 'user')}</div>
@@ -144,7 +144,7 @@ export function renderDM(el) {
           saveState();
         }
       } catch (err) {
-        console.error('loadDmMessages error:', err);
+        // Network error — silently handled
       }
       navigate('dm');
     });
@@ -317,7 +317,7 @@ async function startDmWith(userId, username) {
     try {
       const { ok, data } = await apiFetch(`${API.messages}?thread_id=${existing.id}`);
       if (ok) appState.S.dmMessages = data.messages || [];
-    } catch (err) { console.error(err); }
+    } catch (err) { /* silently handled */ }
     saveState();
     navigate('dm');
     return;

@@ -167,12 +167,12 @@ export async function takeTask(tid){
   const serverTaskId=Number(tid);
 
   if(!Number.isInteger(serverTaskId) || serverTaskId<=0){
-    toast('Invalid task ID','error');
+    toast(t('invalidTaskId'),'error');
     return;
   }
 
   const {ok,data}=await apiFetch(API.takeTask,{method:'POST',body:JSON.stringify({task_id:serverTaskId})});
-  if(!ok){toast(data.message||'Error taking task','error');return;}
+  if(!ok){toast(data.message||t('errorTakingTask'),'error');return;}
   addNotif(`${t('notifTaskTaken')} "${task?.title||'#'+tid}"!`,'success');
   toast(t('taskTaken'),'success');
   await loadTasks('open');
@@ -186,16 +186,16 @@ export async function completeTask(tid,action='submit'){
   const serverTaskId=Number(tid);
 
   if(!Number.isInteger(serverTaskId) || serverTaskId<=0){
-    toast('Invalid task ID','error');
+    toast(t('invalidTaskId'),'error');
     return;
   }
 
   const {ok,data}=await apiFetch(API.completeTask,{method:'POST',body:JSON.stringify({task_id:serverTaskId,action})});
-  if(!ok){toast(data.message||'Error','error');return;}
+  if(!ok){toast(data.message||t('errorGeneric'),'error');return;}
   if(action==='submit'){
     toast(t('taskCompleted'),'success');
   }else{
-    addNotif(`Completed "${task?.title||('#'+tid)}" · +${Number(data.reward||0)} LOL!`,'success');
+    addNotif(`${t('taskCompleted')} "${task?.title||('#'+tid)}" · +${Number(data.reward||0)} LOL!`,'success');
     toast(data.message||t('confirm'),'success');
     await syncProfile();
     await loadWallet();

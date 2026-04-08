@@ -102,6 +102,11 @@ export async function loadTasks(filter = 'open') {
         createdAt: t.created_at || new Date().toISOString()
       }));
       const map = new Map((appState.S.tasks || []).map(task => [String(task.id), task]));
+      // Replace local state with server data — remove stale tasks not returned by server
+      const serverIds = new Set(apiTasks.map(task => String(task.id)));
+      for (const [key] of map) {
+        if (!serverIds.has(key)) map.delete(key);
+      }
       apiTasks.forEach(task => {
         const key = String(task.id);
         map.set(key, { ...(map.get(key) || {}), ...task });
@@ -117,8 +122,18 @@ export async function loadTasks(filter = 'open') {
 export async function loadWallet() {
   if (appState.isGuest) return;
   try {
-    const { ok, data } = await apiFetch(API.wallet);
-    if (ok) {
+    // Parallel API calls for better performance — use allSettled for partial failures
+    const results = await Promise.allSettled([
+      apiFetch(API.wallet),
+      apiFetch(`${API.cryptoDeposit}?action=history`),
+      apiFetch(API.coins),
+      apiFetch(`${API.cryptoWithdraw}?action=history`),
+    ]);
+
+    const [walletResult, cryptoResult, coinsResult, wdResult] = results;
+
+    if (walletResult.status === 'fulfilled' && walletResult.value.ok) {
+      const data = walletResult.value.data;
       appState.S.balance = data.balance || 0;
       appState.S.pendingBalance = data.pending_balance || 0;
       appState.S.pending = data.pending_balance || 0;
@@ -129,25 +144,24 @@ export async function loadWallet() {
       appState.S.pendingCryptoCount = data.crypto_pending_count || 0;
     }
 
-    const { ok: cryptoOk, data: cryptoData } = await apiFetch(`${API.cryptoDeposit}?action=history`);
-    if (cryptoOk) {
+    if (cryptoResult.status === 'fulfilled' && cryptoResult.value.ok) {
+      const cryptoData = cryptoResult.value.data;
       appState.S.cryptoDeposits = cryptoData.deposits || [];
       appState.S.coinBalance = cryptoData.coin_balance ?? appState.S.coinBalance ?? 0;
       appState.S.coinsPurchased = cryptoData.total_purchased ?? appState.S.coinsPurchased ?? 0;
       appState.S.coinsSpent = cryptoData.total_spent ?? appState.S.coinsSpent ?? 0;
     }
 
-    const { ok: coinsOk, data: coinsData } = await apiFetch(API.coins);
-    if (coinsOk) {
+    if (coinsResult.status === 'fulfilled' && coinsResult.value.ok) {
+      const coinsData = coinsResult.value.data;
       appState.S.coinBalance = coinsData.coin_balance ?? appState.S.coinBalance ?? 0;
       appState.S.coinsPurchased = coinsData.total_purchased ?? appState.S.coinsPurchased ?? 0;
       appState.S.coinsSpent = coinsData.total_spent ?? appState.S.coinsSpent ?? 0;
       appState.S.coinHistory = coinsData.spending_history || [];
     }
 
-    const { ok: wdOk, data: wdData } = await apiFetch(`${API.cryptoWithdraw}?action=history`);
-    if (wdOk) {
-      appState.S.cryptoWithdrawals = wdData.withdrawals || [];
+    if (wdResult.status === 'fulfilled' && wdResult.value.ok) {
+      appState.S.cryptoWithdrawals = wdResult.value.data.withdrawals || [];
     }
 
     saveState();
@@ -238,32 +252,46 @@ export async function loadChatRooms(tier) {
   } catch (e) { console.error('loadChatRooms error:', e); }
 }
 
+let _sendingMessage = false;
 export async function sendRoomMessage() {
+  if (_sendingMessage) return;
   const input = document.getElementById('roomMessageInput');
   if (!input) return;
   const message = input.value.trim();
   if (!message) { toast(t('noMessage'), 'error'); return; }
+  _sendingMessage = true;
   const tier = Number(appState.S.activeRoomTier || 1);
-  const { ok, data } = await apiFetch(API.chatRooms, { method: 'POST', body: JSON.stringify({ action: 'send', tier, message }) });
-  if (!ok) { toast(data.message || 'Error', 'error'); return; }
-  input.value = '';
-  await loadChatRooms(tier);
-  const { navigate } = await import('./router.js');
-  navigate('chat');
+  try {
+    const { ok, data } = await apiFetch(API.chatRooms, { method: 'POST', body: JSON.stringify({ action: 'send', tier, message }) });
+    if (!ok) { toast(data.message || 'Error', 'error'); return; }
+    input.value = '';
+    await loadChatRooms(tier);
+    const { navigate } = await import('./router.js');
+    navigate('chat');
+  } finally {
+    _sendingMessage = false;
+  }
 }
 
+let _sendingGlobal = false;
 export async function sendGlobalMessage() {
+  if (_sendingGlobal) return;
   const input = document.getElementById('globalMessageInput');
   if (!input) return;
   const message = input.value.trim();
   if (!message) { toast(t('noMessage'), 'error'); return; }
-  const { ok, data } = await apiFetch(API.chatRooms, { method: 'POST', body: JSON.stringify({ action: 'send', tier: 1, message }) });
-  if (!ok) { toast(data.message || 'Error', 'error'); return; }
-  input.value = '';
-  await loadChatRooms(1);
-  toast(t('globalMsgSent'), 'success');
-  const { navigate } = await import('./router.js');
-  navigate('chat');
+  _sendingGlobal = true;
+  try {
+    const { ok, data } = await apiFetch(API.chatRooms, { method: 'POST', body: JSON.stringify({ action: 'send', tier: 1, message }) });
+    if (!ok) { toast(data.message || 'Error', 'error'); return; }
+    input.value = '';
+    await loadChatRooms(1);
+    toast(t('globalMsgSent'), 'success');
+    const { navigate } = await import('./router.js');
+    navigate('chat');
+  } finally {
+    _sendingGlobal = false;
+  }
 }
 
 export async function buyRoomPass(tier) {
@@ -314,7 +342,10 @@ export async function loadFeed(page = 1, append = false) {
     const { ok, data } = await apiFetch(`${API.feed}?page=${page}`);
     if (ok) {
       if (append) {
-        appState.S.feedPosts = [...(appState.S.feedPosts || []), ...(data.posts || [])];
+        // Deduplicate: merge by id
+        const existing = new Map((appState.S.feedPosts || []).map(p => [p.id, p]));
+        (data.posts || []).forEach(p => existing.set(p.id, p));
+        appState.S.feedPosts = Array.from(existing.values());
       } else {
         appState.S.feedPosts = data.posts || [];
       }

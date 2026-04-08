@@ -7,6 +7,7 @@ export class VirtualScroll {
     this.buffer = buffer;
     this.renderItem = renderItem;
     this.totalItems = totalItems;
+    this._rafId = null;
     this._setup();
   }
   _setup() {
@@ -19,7 +20,14 @@ export class VirtualScroll {
     this.viewport.appendChild(this.spacer);
     this.viewport.appendChild(this.content);
     this.container.appendChild(this.viewport);
-    this.viewport.addEventListener('scroll', () => this._render(), { passive: true });
+    this.viewport.addEventListener('scroll', () => {
+      // Throttle re-renders via requestAnimationFrame
+      if (this._rafId) return;
+      this._rafId = requestAnimationFrame(() => {
+        this._render();
+        this._rafId = null;
+      });
+    }, { passive: true });
     this._render();
   }
   refresh(totalItems) {

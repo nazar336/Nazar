@@ -161,7 +161,9 @@ export function renderTasks(el){
   });
 }
 
+let _takingTask = false;
 export async function takeTask(tid){
+  if(_takingTask) return;
   if(appState.isGuest){toast(t('guestRegTask'),'warning');return;}
   const task=(appState.S.tasks||[]).find(task=>String(task.id)===String(tid));
   const serverTaskId=Number(tid);
@@ -171,17 +173,24 @@ export async function takeTask(tid){
     return;
   }
 
-  const {ok,data}=await apiFetch(API.takeTask,{method:'POST',body:JSON.stringify({task_id:serverTaskId})});
-  if(!ok){toast(data.message||t('errorTakingTask'),'error');return;}
-  addNotif(`${t('notifTaskTaken')} "${task?.title||'#'+tid}"!`,'success');
-  toast(t('taskTaken'),'success');
-  await loadTasks('open');
-  await loadTasks('my');
-  await loadTasks('taken');
-  navigate('tasks');
+  _takingTask = true;
+  try {
+    const {ok,data}=await apiFetch(API.takeTask,{method:'POST',body:JSON.stringify({task_id:serverTaskId})});
+    if(!ok){toast(data.message||t('errorTakingTask'),'error');return;}
+    addNotif(`${t('notifTaskTaken')} "${task?.title||'#'+tid}"!`,'success');
+    toast(t('taskTaken'),'success');
+    await loadTasks('open');
+    await loadTasks('my');
+    await loadTasks('taken');
+    navigate('tasks');
+  } finally {
+    _takingTask = false;
+  }
 }
 
+let _completingTask = false;
 export async function completeTask(tid,action='submit'){
+  if(_completingTask) return;
   const task=(appState.S.tasks||[]).find(task=>String(task.id)===String(tid));
   const serverTaskId=Number(tid);
 
@@ -190,18 +199,23 @@ export async function completeTask(tid,action='submit'){
     return;
   }
 
-  const {ok,data}=await apiFetch(API.completeTask,{method:'POST',body:JSON.stringify({task_id:serverTaskId,action})});
-  if(!ok){toast(data.message||t('errorGeneric'),'error');return;}
-  if(action==='submit'){
-    toast(t('taskCompleted'),'success');
-  }else{
-    addNotif(`${t('taskCompleted')} "${task?.title||('#'+tid)}" · +${Number(data.reward||0)} LOL!`,'success');
-    toast(data.message||t('confirm'),'success');
-    await syncProfile();
-    await loadWallet();
+  _completingTask = true;
+  try {
+    const {ok,data}=await apiFetch(API.completeTask,{method:'POST',body:JSON.stringify({task_id:serverTaskId,action})});
+    if(!ok){toast(data.message||t('errorGeneric'),'error');return;}
+    if(action==='submit'){
+      toast(t('taskCompleted'),'success');
+    }else{
+      addNotif(`${t('taskCompleted')} "${task?.title||('#'+tid)}" · +${Number(data.reward||0)} LOL!`,'success');
+      toast(data.message||t('confirm'),'success');
+      await syncProfile();
+      await loadWallet();
+    }
+    await loadTasks('open');
+    await loadTasks('my');
+    await loadTasks('taken');
+    navigate('tasks');
+  } finally {
+    _completingTask = false;
   }
-  await loadTasks('open');
-  await loadTasks('my');
-  await loadTasks('taken');
-  navigate('tasks');
 }

@@ -72,7 +72,7 @@ export function renderLeaderboard(el){
             </tr></thead>
             <tbody>
               ${board.map((u,i)=>`
-                <tr class="${Number(u.id)===meId?'me':''}">
+                <tr class="${Number(u.id)===meId?'me':''}"${Number(u.id)===meId?' aria-current="true"':''}>
                   <td style="font-weight:800;${i<3?'color:var(--warning);':''}">${u.rank||i+1}</td>
                   <td>
                     <div style="display:flex;align-items:center;gap:10px;">

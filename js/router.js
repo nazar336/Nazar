@@ -21,6 +21,22 @@ const SKELETON_HTML = `<div class="loading-skeleton" aria-busy="true" style="pad
 </div>`;
 
 let _hashListenerActive = false;
+let _beforeNavigateHook = null;
+
+/**
+ * Register a hook that runs before every SPA navigation.
+ * Return false from the hook to cancel the navigation.
+ */
+export function setBeforeNavigateHook(fn) {
+  _beforeNavigateHook = fn;
+}
+
+/**
+ * Clear the before-navigate hook.
+ */
+export function clearBeforeNavigateHook() {
+  _beforeNavigateHook = null;
+}
 
 function _pageTitles() {
   return { dashboard: t('dashboard'), tasks: t('tasks'), createTask: t('createTask'), feed: t('feed'), wallet: t('wallet'), chat: t('chat'), support: t('support'), profile: t('profile'), leaderboard: t('leaderboard'), miniGames: t('miniGames'), dm: t('directMessages') };
@@ -75,6 +91,11 @@ export function initHashRouting() {
 }
 
 export function navigate(page) {
+  // Check if a beforeNavigate hook wants to cancel navigation
+  if (_beforeNavigateHook && typeof _beforeNavigateHook === 'function') {
+    if (_beforeNavigateHook(page) === false) return;
+  }
+
   appState.currentPage = page;
 
   // Sync URL hash — use pushState so browser back/forward works
@@ -101,6 +122,7 @@ export function navigate(page) {
       mc.style.transform = 'none';
     });
     mc.scrollTop = 0;
+    window.scrollTo(0, 0);
   }, appState.S.animationsOn ? 100 : 10);
   const titles = _pageTitles();
   const tb = document.getElementById('topbarTitle');
@@ -131,5 +153,15 @@ export function renderPage(page, el) {
   if (page === 'dm' && !appState.isGuest) loadMessages();
 
   const renderer = Object.prototype.hasOwnProperty.call(pages, page) ? pages[page] : renderDashboard;
-  renderer(el);
+  try {
+    renderer(el);
+  } catch (err) {
+    console.error('Page render error:', page, err);
+    el.innerHTML = `<div class="card" style="text-align:center;padding:32px;">
+      <div style="font-size:36px;margin-bottom:12px;">⚠️</div>
+      <h3 style="margin-bottom:8px;">${t('errorGeneric') || 'Something went wrong'}</h3>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">${t('pageLoadError') || 'Failed to load this page. Please try again.'}</p>
+      <button class="btn btn-primary btn-sm" onclick="location.reload()">🔄 ${t('refresh') || 'Refresh'}</button>
+    </div>`;
+  }
 }

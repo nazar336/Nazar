@@ -31,7 +31,7 @@ function showSyncIndicator() {
 }
 
 /**
- * Show/hide offline bar
+ * Show/hide offline bar and disable/enable action buttons
  */
 function updateOfflineBar(offline) {
   let bar = document.getElementById('offlineBar');
@@ -39,10 +39,20 @@ function updateOfflineBar(offline) {
     bar = document.createElement('div');
     bar.id = 'offlineBar';
     bar.className = 'offline-bar';
-    bar.textContent = `⚡ ${t('offlineText')}`;
+    bar.textContent = `⚡ ${t('offlineText')} — ${t('offlineCachedData') || 'showing cached data'}`;
     document.body.appendChild(bar);
   }
   bar.classList.toggle('visible', offline);
+  // Disable/enable interactive buttons when offline/online
+  document.querySelectorAll('button.btn-primary, button.btn-success, button.btn-info, button[type="submit"]').forEach(btn => {
+    if (offline) {
+      btn.dataset.offlineDisabled = btn.disabled ? '' : '1';
+      btn.disabled = true;
+    } else if (btn.dataset.offlineDisabled === '1') {
+      btn.disabled = false;
+      delete btn.dataset.offlineDisabled;
+    }
+  });
 }
 
 /**
@@ -92,10 +102,18 @@ export function startSync() {
     if (e.key === 'lolanceizi_state' && e.newValue) {
       try {
         const newState = JSON.parse(e.newValue);
-        // Merge incoming state (from another tab/window)
-        const localSync = Number(localStorage.getItem(SYNC_KEY) || 0);
-        Object.assign(appState.S, newState);
-        saveState();
+        // Deep merge: preserve arrays from the newer state, merge scalars
+        for (const key of Object.keys(newState)) {
+          if (Array.isArray(newState[key])) {
+            // For arrays, take the version from the tab that wrote last
+            appState.S[key] = newState[key];
+          } else if (newState[key] !== null && typeof newState[key] === 'object') {
+            appState.S[key] = { ...(appState.S[key] || {}), ...newState[key] };
+          } else {
+            appState.S[key] = newState[key];
+          }
+        }
+        // Don't call saveState() here to avoid loop
       } catch(_) {}
     }
   };

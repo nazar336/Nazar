@@ -36,6 +36,7 @@ function setupRegisterValidation() {
     if (fb) {
       fb.textContent = el.value ? (valid ? '✓' : '✗') : '';
       fb.style.color = valid ? 'var(--success)' : 'var(--danger)';
+      fb.setAttribute('aria-label', el.value ? (valid ? 'Valid' : 'Invalid') : '');
     }
     const msg = document.getElementById(el.id + 'Msg');
     if (msg) {
@@ -45,12 +46,15 @@ function setupRegisterValidation() {
     if (el.value && !valid) {
       el.style.borderColor = 'var(--danger)';
       el.style.boxShadow = '0 0 0 3px var(--danger-dim)';
+      el.setAttribute('aria-invalid', 'true');
     } else if (el.value && valid) {
       el.style.borderColor = 'var(--success)';
       el.style.boxShadow = '0 0 0 3px var(--success-dim)';
+      el.setAttribute('aria-invalid', 'false');
     } else {
       el.style.borderColor = '';
       el.style.boxShadow = '';
+      el.removeAttribute('aria-invalid');
     }
   }
 

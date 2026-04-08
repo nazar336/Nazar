@@ -42,6 +42,7 @@ vi.mock('../../../js/utils.js', () => ({
   esc: vi.fn((s) => s || ''),
   setLoading: vi.fn(),
   renderAnimatedBrandLayer: vi.fn(() => ''),
+  debounce: vi.fn((fn) => fn),
 }));
 
 vi.mock('../../../js/router.js', () => ({

@@ -3,7 +3,7 @@
 import { appState, saveState, loadTasks } from '../state.js';
 import { t } from '../i18n.js';
 import { apiFetch } from '../api.js';
-import { fmtDate, toast, showAlert, hideAlert, addNotif, setLoading } from '../utils.js';
+import { fmtDate, toast, showAlert, hideAlert, addNotif, setLoading, debounce } from '../utils.js';
 import { navigate } from '../router.js';
 import { CATEGORIES, API, getLvlPriv } from '../constants.js';
 
@@ -130,16 +130,19 @@ export function renderCreateTask(el){
       else { dlWarn.textContent=''; }
     }
 
-    // Auto-save draft
-    saveDraft({title:titleVal,desc:descVal,cat:catVal,diff:document.getElementById('ctDiff').value,reward:rewardVal,slots:slotsVal,deadline:dl});
+    // Auto-save draft (debounced to avoid excessive writes)
+    _debouncedSaveDraft({title:titleVal,desc:descVal,cat:catVal,diff:document.getElementById('ctDiff').value,reward:rewardVal,slots:slotsVal,deadline:dl});
   };
+  const _debouncedSaveDraft = debounce((data) => saveDraft(data), 500);
   document.querySelectorAll('#createTaskForm input,#createTaskForm textarea,#createTaskForm select').forEach(i=>i.addEventListener('input',update));
 
   // Trigger update to set initial counters from draft
   update();
 
+  let _creatingTask = false;
   document.getElementById('createTaskForm').addEventListener('submit',async e=>{
     e.preventDefault();
+    if(_creatingTask) return;
     if(appState.isGuest){toast(t('guestRegCreate'),'warning');return;}
     const title=document.getElementById('ctTitle').value.trim();
     const desc=document.getElementById('ctDesc').value.trim();
@@ -160,25 +163,30 @@ export function renderCreateTask(el){
     if(deadline && new Date(deadline) <= new Date()){showAlert('ctAlert',t('deadlinePast')||'Deadline must be in the future');return;}
 
     const btn=document.getElementById('ctSubmitBtn');
+    _creatingTask = true;
     if(typeof setLoading==='function') setLoading(btn, true);
-    const {ok,data}=await apiFetch(API.tasks,{method:'POST',body:JSON.stringify({title,description:desc,category:cat,difficulty:diff,reward,slots,deadline:deadline||null})});
-    if(typeof setLoading==='function') setLoading(btn, false);
-    if(!ok||!data.task_id){showAlert('ctAlert',data.message||'Task creation failed');return;}
+    try {
+      const {ok,data}=await apiFetch(API.tasks,{method:'POST',body:JSON.stringify({title,description:desc,category:cat,difficulty:diff,reward,slots,deadline:deadline||null})});
+      if(!ok||!data.task_id){showAlert('ctAlert',data.message||'Task creation failed');return;}
 
-    const newTask={
-      id:String(data.task_id),title,description:desc,category:cat,reward,difficulty:diff,
-      slots,slotsLeft:slots,status:'open',progress:0,deadline:deadline||null,
-      owner:appState.currentUser.name||appState.currentUser.username,participants:[],createdAt:new Date().toISOString(),
-      creator_id:Number(appState.currentUser.id||0),taken_slots:0,my_assignment_status:null,pending_submissions:0
-    };
+      const newTask={
+        id:String(data.task_id),title,description:desc,category:cat,reward,difficulty:diff,
+        slots,slotsLeft:slots,status:'open',progress:0,deadline:deadline||null,
+        owner:appState.currentUser.name||appState.currentUser.username,participants:[],createdAt:new Date().toISOString(),
+        creator_id:Number(appState.currentUser.id||0),taken_slots:0,my_assignment_status:null,pending_submissions:0
+      };
 
-    appState.S.tasks.unshift(newTask);
-    saveState();
-    clearDraft();
-    addNotif(`${t('taskCreated')} "${title}"!`,'success');
-    toast(t('taskCreated'),'success');
-    loadTasks('my');
-    navigate('tasks');
+      appState.S.tasks.unshift(newTask);
+      saveState();
+      clearDraft();
+      addNotif(`${t('taskCreated')} "${title}"!`,'success');
+      toast(t('taskCreated'),'success');
+      loadTasks('my');
+      navigate('tasks');
+    } finally {
+      _creatingTask = false;
+      if(typeof setLoading==='function') setLoading(btn, false);
+    }
   });
   document.getElementById('goToDashForLvl')?.addEventListener('click',()=>navigate('dashboard'));
 }

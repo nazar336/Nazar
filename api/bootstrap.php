@@ -47,16 +47,25 @@ function cors_headers(array $allowedMethods = ['GET', 'POST', 'OPTIONS']): void 
 
 function start_secure_session(): void {
     if (session_status() === PHP_SESSION_ACTIVE) return;
+    $maxLifetime = defined('SESSION_LIFETIME') ? SESSION_LIFETIME : 86400; // 24 hours
     session_name(SESSION_NAME);
     session_set_cookie_params([
-        'lifetime' => 0,
+        'lifetime' => $maxLifetime,
         'path'     => '/',
         'domain'   => '',
         'secure'   => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
         'httponly' => true,
         'samesite' => 'Strict',
     ]);
+    ini_set('session.gc_maxlifetime', (string)$maxLifetime);
     session_start();
+    // Enforce server-side session timeout
+    if (isset($_SESSION['_last_activity']) && (time() - $_SESSION['_last_activity']) > $maxLifetime) {
+        session_unset();
+        session_destroy();
+        session_start();
+    }
+    $_SESSION['_last_activity'] = time();
 }
 
 function db(): PDO {
@@ -72,19 +81,21 @@ function db(): PDO {
     } catch (PDOException $e) {
         error_log('Lolanceizi DB error: ' . $e->getMessage());
         http_response_code(503);
-        $msg = 'Database unavailable';
-        $hint = '';
-        $errMsg = $e->getMessage();
-        if (str_contains($errMsg, 'Access denied')) {
-            $hint = 'Перевірте DB_USER та DB_PASS в .env файлі.';
-        } elseif (str_contains($errMsg, 'Unknown database')) {
-            $hint = 'База даних "' . DB_NAME . '" не існує. Створіть її в phpMyAdmin.';
-        } elseif (str_contains($errMsg, 'Connection refused') || str_contains($errMsg, 'No such file')) {
-            $hint = 'MySQL не відповідає. На Hostinger DB_HOST має бути "localhost".';
-        }
-        $response = ['success' => false, 'message' => $msg];
-        if ($hint !== '') {
-            $response['hint'] = $hint . ' Відкрий /api/db-check.php для діагностики.';
+        $response = ['success' => false, 'message' => 'Database unavailable'];
+        // Only expose diagnostic hints in non-production environments
+        if (defined('APP_ENV') && APP_ENV !== 'production') {
+            $hint = '';
+            $errMsg = $e->getMessage();
+            if (str_contains($errMsg, 'Access denied')) {
+                $hint = 'Перевірте DB_USER та DB_PASS в .env файлі.';
+            } elseif (str_contains($errMsg, 'Unknown database')) {
+                $hint = 'База даних не існує. Створіть її через панель управління.';
+            } elseif (str_contains($errMsg, 'Connection refused') || str_contains($errMsg, 'No such file')) {
+                $hint = 'MySQL не відповідає. Перевірте DB_HOST.';
+            }
+            if ($hint !== '') {
+                $response['hint'] = $hint . ' Відкрий /api/db-check.php для діагностики.';
+            }
         }
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
         exit;
@@ -107,6 +118,26 @@ function check_rate_limit(PDO $pdo, string $identifier, int $maxAttempts, int $w
 
 function record_rate_limit(PDO $pdo, string $identifier): void {
     $pdo->prepare('INSERT INTO login_attempts (identifier) VALUES (:id)')->execute([':id' => $identifier]);
+}
+
+/**
+ * Get client IP address. Uses REMOTE_ADDR only to prevent X-Forwarded-For spoofing.
+ * If behind a trusted reverse proxy, configure TRUSTED_PROXY_IPS in .env.
+ */
+function get_client_ip(): string {
+    // Only trust X-Forwarded-For if request is from a known trusted proxy
+    if (defined('TRUSTED_PROXY_IPS') && TRUSTED_PROXY_IPS !== '') {
+        $trustedProxies = array_map('trim', explode(',', TRUSTED_PROXY_IPS));
+        $remoteAddr = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+        if (in_array($remoteAddr, $trustedProxies, true)) {
+            $forwarded = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '';
+            if ($forwarded !== '') {
+                // Take the leftmost IP (the original client)
+                return trim(explode(',', $forwarded)[0]);
+            }
+        }
+    }
+    return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 }
 
 function read_json(): array {

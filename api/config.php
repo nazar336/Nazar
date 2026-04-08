@@ -50,6 +50,10 @@ define('DB_PASS', env('DB_PASS'));
 
 // ── Session ───────────────────────────────────────────────────────
 define('SESSION_NAME', env('SESSION_NAME', 'lolanceizi_session'));
+define('SESSION_LIFETIME', (int)env('SESSION_LIFETIME', '86400')); // 24 hours
+
+// ── Trusted Proxy ────────────────────────────────────────────────
+define('TRUSTED_PROXY_IPS', env('TRUSTED_PROXY_IPS', '')); // comma-separated list of trusted proxy IPs
 
 // ── Email / SMTP ──────────────────────────────────────────────────
 define('MAIL_FROM',      env('MAIL_FROM', 'noreply@lolanceizi.online'));

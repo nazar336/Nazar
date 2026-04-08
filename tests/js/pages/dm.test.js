@@ -71,6 +71,11 @@ vi.mock('../../../js/pages/auth.js', () => ({
   renderAuth: vi.fn(),
 }));
 
+vi.mock('../../../js/focus-trap.js', () => ({
+  trapFocus: vi.fn(() => vi.fn()),
+  onEscape: vi.fn(() => vi.fn()),
+}));
+
 /* ── imports (after mocks) ────────────────────────────────────── */
 
 import { renderDM } from '../../../js/pages/dm.js';

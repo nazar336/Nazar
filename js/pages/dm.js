@@ -7,6 +7,7 @@ import { esc, fmtAgo, fmtTime, toast, setLoading } from '../utils.js';
 import { navigate } from '../router.js';
 import { API } from '../constants.js';
 import { delegate } from '../event-delegation.js';
+import { trapFocus, onEscape } from '../focus-trap.js';
 import { renderAuth } from './auth.js';
 
 export function renderDM(el) {
@@ -200,7 +201,9 @@ export function renderDM(el) {
   });
 }
 
+let _sendingDm = false;
 async function sendDmMessage() {
+  if (_sendingDm) return;
   const input = document.getElementById('dmMessageInput');
   if (!input) return;
   const message = input.value.trim();
@@ -208,6 +211,7 @@ async function sendDmMessage() {
   const threadId = appState.S.activeDmThread;
   if (!threadId) return;
   const btn = document.getElementById('dmSendBtn');
+  _sendingDm = true;
   setLoading(btn, true);
   try {
     const { ok, data } = await apiFetch(API.messages, {
@@ -228,6 +232,7 @@ async function sendDmMessage() {
     toast(t('dmSent'), 'success');
     navigate('dm');
   } finally {
+    _sendingDm = false;
     setLoading(btn, false);
   }
 }
@@ -239,7 +244,7 @@ function openNewChatModal() {
   overlay.id = 'newChatModal';
   overlay.className = 'lang-modal-overlay';
   overlay.innerHTML = `
-    <div class="lang-modal" style="max-width:420px;">
+    <div class="lang-modal" style="max-width:420px;" role="dialog" aria-modal="true" aria-label="${t('dmNewChat')}">
       <div class="lang-modal-title">✉️ ${t('dmNewChat')}</div>
       <div style="margin-bottom:14px;">
         <input type="text" id="newChatUsername" class="form-input" placeholder="${t('dmSearch')}" style="width:100%;">
@@ -251,10 +256,22 @@ function openNewChatModal() {
     </div>`;
   document.body.appendChild(overlay);
 
+  // Focus trap & Escape handling
+  const modal = overlay.querySelector('.lang-modal');
+  const releaseTrap = trapFocus(modal);
+  const releaseEsc = onEscape(() => cleanup());
+
+  function cleanup() {
+    releaseTrap();
+    releaseEsc();
+    overlay.remove();
+    document.getElementById('dmNewChatBtn')?.focus();
+  }
+
   overlay.addEventListener('click', e => {
-    if (e.target === overlay) overlay.remove();
+    if (e.target === overlay) cleanup();
   });
-  document.getElementById('newChatClose')?.addEventListener('click', () => overlay.remove());
+  document.getElementById('newChatClose')?.addEventListener('click', () => cleanup());
 
   // Search users
   let searchTimer;
@@ -284,7 +301,7 @@ function openNewChatModal() {
 
       delegate(results, 'click', '[data-new-dm-user]', async (ev, b) => {
         await startDmWith(b.dataset.newDmUser, b.dataset.newDmName);
-        overlay.remove();
+        cleanup();
       });
     }, 300);
   });

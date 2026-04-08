@@ -3,8 +3,9 @@
 import { appState, saveState, calcScore, dailyCheckin, buyPointsPack, loadWallet } from '../state.js';
 import { t, setLang } from '../i18n.js';
 import { apiFetch } from '../api.js';
-import { esc, fmtDate, fmtTime, fmtAgo, toast, setLoading } from '../utils.js';
+import { esc, fmtDate, fmtTime, fmtAgo, toast, setLoading, uid } from '../utils.js';
 import { navigate } from '../router.js';
+import { setBeforeNavigateHook, clearBeforeNavigateHook } from '../router.js';
 import { API } from '../constants.js';
 import { renderShell } from '../shell.js';
 import { renderAuth } from './auth.js';
@@ -144,7 +145,7 @@ export function renderProfile(el){
                   <div style="font-size:13px;font-weight:600;">@${esc(appState.currentUser.username)}</div>
                   <div style="font-size:11px;color:var(--muted);">${fmtAgo(p.created_at)}</div>
                 </div>
-                <button class="action-btn" data-delete-profile-post="${p.id}" style="color:var(--danger);font-size:13px;">🗑</button>
+                <button class="action-btn" data-delete-profile-post="${p.id}" style="color:var(--danger);font-size:13px;" aria-label="${t('deletePost') || 'Delete post'}">🗑</button>
               </div>
               <div style="font-size:14px;line-height:1.6;">${esc(p.text)}</div>
             </div>
@@ -196,6 +197,20 @@ export function renderProfile(el){
   // Unsaved changes warning
   if (typeof window !== 'undefined') window.addEventListener('beforeunload', _beforeUnload);
 
+  // SPA navigation guard for unsaved profile changes
+  setBeforeNavigateHook((targetPage) => {
+    if (targetPage === 'profile') return; // navigating to same page is fine
+    if (_profileDirty) {
+      if (!confirm(t('unsavedChanges') || 'You have unsaved changes. Leave anyway?')) {
+        return false;
+      }
+      _profileDirty = false;
+    }
+    // Clean up when leaving profile page
+    window.removeEventListener('beforeunload', _beforeUnload);
+    clearBeforeNavigateHook();
+  });
+
   // Copy profile link
   document.getElementById('copyProfileLinkBtn')?.addEventListener('click', () => {
     const link = `${location.origin}/#profile/${appState.currentUser?.username||''}`;
@@ -212,10 +227,11 @@ export function renderProfile(el){
   document.getElementById('buyPointsBtn')?.addEventListener('click',buyPointsPack);
 
   document.getElementById('exchInitBtn')?.addEventListener('click',async()=>{
-    const amount=parseFloat(document.getElementById('exchAmount')?.value)||0;
+    const amountInput=document.getElementById('exchAmount');
+    const amount=parseFloat(amountInput?.value)||0;
     const network=document.getElementById('exchNetwork')?.value||'TRC20';
     const alertEl=document.getElementById('exchangeAlert');
-    if(amount<1||amount>10000){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=t('exchangerRange');}return;}
+    if(isNaN(amount)||amount<1||amount>10000){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=t('exchangerRange');}return;}
     const {ok,data}=await apiFetch(API.cryptoDeposit,{method:'POST',body:JSON.stringify({action:'initiate',amount,network})});
     if(!ok){if(alertEl){alertEl.className='alert alert-error show';alertEl.textContent=data.message||t('exchangerError');}return;}
     const step2=document.getElementById('exchangeStep2');
@@ -225,7 +241,7 @@ export function renderProfile(el){
       step2.innerHTML=`<div class="card-flat" style="padding:10px;"><div style="font-size:12px;color:var(--muted);">${t('exchangerSendTo')} ${displayAmount.toLocaleString(undefined,{maximumFractionDigits:8})} ${esc(displayCurrency)} (${esc(data.network||network)}) ${t('exchangerToAddress')}</div><div style="font-size:13px;font-weight:700;color:var(--primary);word-break:break-all;margin:6px 0;">${esc(data.wallet_address||'')}</div><input id="exchTxHash" class="form-input" placeholder="tx hash" style="margin-top:8px;"><button id="exchConfirmBtn" class="btn btn-success btn-block" style="margin-top:8px;">${t('exchangerConfirm')}</button></div>`;
       document.getElementById('exchConfirmBtn')?.addEventListener('click',async()=>{
         const txHash=document.getElementById('exchTxHash')?.value?.trim();
-        if(!txHash)return;
+        if(!txHash){toast(t('required')||'Required','error');return;}
         const res=await apiFetch(API.cryptoDeposit,{method:'POST',body:JSON.stringify({action:'confirm',deposit_id:data.deposit_id,tx_hash:txHash})});
         if(!res.ok){toast(res.data.message||t('exchangerConfirmError'),'error');return;}
         await loadWallet();
@@ -240,7 +256,7 @@ export function renderProfile(el){
     const text=(document.getElementById('profilePostText')?.value||'').trim();
     if(!text){toast(t('required'),'error');return;}
     if(!appState.S.profilePosts) appState.S.profilePosts=[];
-    const newPost={id:Date.now(),text,created_at:new Date().toISOString()};
+    const newPost={id:uid(),text,created_at:new Date().toISOString()};
     appState.S.profilePosts=[newPost,...appState.S.profilePosts];
     saveState();
     toast(t('postCreated'),'success');
@@ -251,8 +267,9 @@ export function renderProfile(el){
   const postsList=document.getElementById('profilePostsList');
   if(postsList){
     delegate(postsList,'click','[data-delete-profile-post]',(e,b)=>{
-      const postId=Number(b.dataset.deleteProfilePost);
-      appState.S.profilePosts=(appState.S.profilePosts||[]).filter(p=>p.id!==postId);
+      if(!confirm(t('confirmDelete') || 'Are you sure?')) return;
+      const postId=b.dataset.deleteProfilePost;
+      appState.S.profilePosts=(appState.S.profilePosts||[]).filter(p=>String(p.id)!==String(postId));
       saveState();
       toast(t('postDeleted'),'success');
       navigate('profile');

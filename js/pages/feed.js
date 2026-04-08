@@ -30,8 +30,9 @@ export function renderFeed(el){
   }
 
   const _imgUnavail = t('imageUnavailable');
+  const _safeImgUnavail = (_imgUnavail || 'Image unavailable').replace(/['"<>&\\]/g, '');
   function imgErrorHandler(){
-    return `onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'padding:30px;text-align:center;color:var(--muted);background:rgba(255,255,255,.03);border-radius:12px;\\'>🖼️ ${_imgUnavail}</div>')"`;
+    return `onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'padding:30px;text-align:center;color:var(--muted);background:rgba(255,255,255,.03);border-radius:12px;\\'>🖼️ ${_safeImgUnavail}</div>')"`;
   }
 
   function renderPostCards(){
@@ -39,7 +40,7 @@ export function renderFeed(el){
     const c=document.getElementById('feedCards');
     if(!c)return;
     if(!list.length){
-      c.innerHTML=`<div class="empty"><div class="empty-icon">📡</div><h3>${t('noPosts')}</h3></div>`;
+      c.innerHTML=`<div class="empty"><div class="empty-icon">📡</div><h3>${t('noPosts')}</h3><p style="color:var(--muted);font-size:13px;margin-top:6px;">${appState.isGuest ? t('guestFeed') : (t('feedEmptyHint') || t('postPlaceholder'))}</p></div>`;
       return;
     }
     const isMe=id=>appState.currentUser && Number(id)===Number(appState.currentUser.id);
@@ -61,7 +62,7 @@ export function renderFeed(el){
                   <div class="feed-time" title="${fullDate(p.created_at)}">${fmtAgo(p.created_at)}</div>
                 </div>
                 ${!isMe(p.user_id)?`<button class="friend-btn${isFriend(p.user_id)?' added':''}" data-friend-toggle="${p.user_id}" data-friend-name="${esc(p.username)}">${isFriend(p.user_id)?'✓ '+t('friends'):'+ '+t('addFriend')}</button>`:''}
-                ${isMe(p.user_id)?`<button class="action-btn" data-delete-post="${p.id}" title="${t('deletePost')}" style="color:var(--danger);font-size:14px;">🗑</button>`:''}
+                ${isMe(p.user_id)?`<button class="action-btn" data-delete-post="${p.id}" title="${t('deletePost')}" aria-label="${t('deletePost')}" style="color:var(--danger);font-size:14px;">🗑</button>`:''}
               </div>
               ${p.media_url?`
                 <div class="feed-media" style="border-radius:12px;overflow:hidden;margin:8px 0;">
@@ -69,7 +70,7 @@ export function renderFeed(el){
                     <video src="${esc(p.media_url)}" controls playsinline preload="metadata"
                       style="width:100%;max-height:500px;object-fit:contain;background:#000;border-radius:12px;"></video>
                   `:`
-                    <img src="${esc(p.media_url)}" alt="" loading="lazy"
+                    <img src="${esc(p.media_url)}" alt="${t('postImage') || 'Post image'}" loading="lazy"
                       style="width:100%;max-height:500px;object-fit:cover;border-radius:12px;" ${imgErrorHandler()}>
                   `}
                 </div>
@@ -116,7 +117,7 @@ export function renderFeed(el){
               <div class="feed-time" title="${fullDate(p.created_at)}">${fmtAgo(p.created_at)}</div>
             </div>
             ${!isMe(p.user_id)&&!appState.isGuest?`<button class="friend-btn${isFriend(p.user_id)?' added':''}" data-friend-toggle="${p.user_id}" data-friend-name="${esc(p.username)}">${isFriend(p.user_id)?'✓ '+t('friends'):'+ '+t('addFriend')}</button>`:''}
-            ${isMe(p.user_id)?`<button class="action-btn" data-delete-post="${p.id}" title="${t('deletePost')}" style="color:var(--danger);font-size:14px;">🗑</button>`:''}
+            ${isMe(p.user_id)?`<button class="action-btn" data-delete-post="${p.id}" title="${t('deletePost')}" aria-label="${t('deletePost')}" style="color:var(--danger);font-size:14px;">🗑</button>`:''}
           </div>
           ${p.media_url?`
             <div class="feed-media" style="border-radius:12px;overflow:hidden;margin:8px 0;">
@@ -124,7 +125,7 @@ export function renderFeed(el){
                 <video src="${esc(p.media_url)}" controls playsinline preload="metadata"
                   style="width:100%;max-height:500px;object-fit:contain;background:#000;border-radius:12px;"></video>
               `:`
-                <img src="${esc(p.media_url)}" alt="" loading="lazy"
+                <img src="${esc(p.media_url)}" alt="${t('postImage') || 'Post image'}" loading="lazy"
                   style="width:100%;max-height:500px;object-fit:cover;border-radius:12px;" ${imgErrorHandler()}>
               `}
             </div>
@@ -336,27 +337,34 @@ export function renderFeed(el){
     if(type==='video'){
       prev.innerHTML=`<video src="${esc(url)}" controls preload="metadata" style="width:100%;max-height:200px;border-radius:8px;background:#000;"></video>`;
     } else {
-      prev.innerHTML=`<img src="${esc(url)}" alt="" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'padding:16px;text-align:center;color:var(--muted);\\'>🖼️ ${_imgUnavail}</div>')">`;
+      prev.innerHTML=`<img src="${esc(url)}" alt="" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=\\'padding:16px;text-align:center;color:var(--muted);\\'>🖼️ ${_safeImgUnavail}</div>')">`;
     }
   }
 
   // Publish
+  let _publishing = false;
   document.getElementById('feedPublishBtn')?.addEventListener('click',async()=>{
+    if(_publishing) return;
     const text=(document.getElementById('feedPostText')?.value||'').trim();
     if(!text){toast(t('required'),'error');return;}
     const mediaUrl=(document.getElementById('feedMediaUrl')?.value||'').trim();
     const mediaSec=document.getElementById('feedMediaSection');
     const hasMedia=mediaSec && mediaSec.style.display!=='none' && mediaUrl;
     const btn=document.getElementById('feedPublishBtn');
+    _publishing = true;
     setLoading(btn,true);
-    const body={action:'create',text};
-    if(hasMedia){body.media_url=mediaUrl;body.media_type=mediaType;}
-    const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify(body)});
-    setLoading(btn,false);
-    if(!ok){toast(data.message||'Error','error');return;}
-    // Prepend new post
-    if(data.post) appState.S.feedPosts=[(data.post),...(appState.S.feedPosts||[])];
-    saveState();toast(t('postCreated'),'success');
-    navigate('feed');
+    try {
+      const body={action:'create',text};
+      if(hasMedia){body.media_url=mediaUrl;body.media_type=mediaType;}
+      const {ok,data}=await apiFetch(API.feed,{method:'POST',body:JSON.stringify(body)});
+      if(!ok){toast(data.message||'Error','error');return;}
+      // Prepend new post
+      if(data.post) appState.S.feedPosts=[(data.post),...(appState.S.feedPosts||[])];
+      saveState();toast(t('postCreated'),'success');
+      navigate('feed');
+    } finally {
+      _publishing = false;
+      setLoading(btn,false);
+    }
   });
 }

@@ -42,6 +42,7 @@ const STATIC_ASSETS = [
   '/assets/icon-512.svg',
   '/manifest.json',
   '/js/focus-trap.js',
+  '/js/sync.js',
 ];
 
 // Install: pre-cache static assets

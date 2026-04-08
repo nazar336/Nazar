@@ -7,6 +7,7 @@ import { navigate } from './router.js';
 import { renderAuth } from './pages/auth.js';
 import { doLogout } from './pages/auth.js';
 import { delegate } from './event-delegation.js';
+import { trapFocus, onEscape } from './focus-trap.js';
 
 let _keyboardHandler = null;
 let _outsideClickHandler = null;
@@ -216,7 +217,7 @@ export function openLangModal() {
   overlay.id = 'langModalOverlay';
   overlay.className = 'lang-modal-overlay';
   overlay.innerHTML = `
-    <div class="lang-modal">
+    <div class="lang-modal" role="dialog" aria-modal="true" aria-label="${t('chooseLanguage')}">
       <div class="lang-modal-title">🌐 ${t('chooseLanguage')}</div>
       ${LANGS.map(l => `
         <button class="lang-option${appState.S.lang === l.code ? ' active' : ''}" data-lang="${l.code}">
@@ -227,16 +228,29 @@ export function openLangModal() {
       `).join('')}
     </div>`;
   document.body.appendChild(overlay);
+
+  // Focus trap & escape handling
+  const modal = overlay.querySelector('.lang-modal');
+  const releaseTrap = trapFocus(modal);
+  const releaseEsc = onEscape(() => { cleanup(); });
+
+  function cleanup() {
+    releaseTrap();
+    releaseEsc();
+    overlay.remove();
+    document.getElementById('langToggleBtn')?.focus();
+  }
+
   overlay.addEventListener('click', e => {
     const opt = e.target.closest('[data-lang]');
     if (opt) {
       setLang(opt.dataset.lang);
       saveState();
-      overlay.remove();
+      cleanup();
       renderShell();
       navigate(appState.currentPage);
     } else if (e.target === overlay) {
-      overlay.remove();
+      cleanup();
     }
   });
 }
